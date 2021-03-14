@@ -1,3 +1,2 @@
-
-AHS/.DS_Store
-AHS/AHS.xcodeproj/project.xcworkspace/xcuserdata/richyvm.xcuserdatad/UserInterfaceState.xcuserstate
+*.DS_Store
+*.xcuserstate
