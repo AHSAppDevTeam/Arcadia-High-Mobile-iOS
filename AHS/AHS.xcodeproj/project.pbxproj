@@ -15,6 +15,12 @@
 		33516ABD25FDD9250048A5A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33516ABB25FDD9250048A5A5 /* LaunchScreen.storyboard */; };
 		33516AC825FDD9250048A5A5 /* AHSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33516AC725FDD9250048A5A5 /* AHSTests.swift */; };
 		33516AD325FDD9250048A5A5 /* AHSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33516AD225FDD9250048A5A5 /* AHSUITests.swift */; };
+		33516AE925FDDAF30048A5A5 /* Icon in Resources */ = {isa = PBXBuildFile; fileRef = 33516AE725FDDAF30048A5A5 /* Icon */; };
+		33516AEA25FDDAF30048A5A5 /* Icon in Resources */ = {isa = PBXBuildFile; fileRef = 33516AE725FDDAF30048A5A5 /* Icon */; };
+		33516AEB25FDDAF30048A5A5 /* Icon in Resources */ = {isa = PBXBuildFile; fileRef = 33516AE725FDDAF30048A5A5 /* Icon */; };
+		33516AEC25FDDAF30048A5A5 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 33516AE825FDDAF30048A5A5 /* Fonts */; };
+		33516AED25FDDAF30048A5A5 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 33516AE825FDDAF30048A5A5 /* Fonts */; };
+		33516AEE25FDDAF30048A5A5 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 33516AE825FDDAF30048A5A5 /* Fonts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +55,8 @@
 		33516ACE25FDD9250048A5A5 /* AHSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AHSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33516AD225FDD9250048A5A5 /* AHSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AHSUITests.swift; sourceTree = "<group>"; };
 		33516AD425FDD9250048A5A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33516AE725FDDAF30048A5A5 /* Icon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Icon; sourceTree = "<group>"; };
+		33516AE825FDDAF30048A5A5 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,9 +111,10 @@
 				33516AB225FDD9240048A5A5 /* SceneDelegate.swift */,
 				33516AB425FDD9240048A5A5 /* ViewController.swift */,
 				33516AB625FDD9240048A5A5 /* Main.storyboard */,
-				33516AB925FDD9250048A5A5 /* Assets.xcassets */,
 				33516ABB25FDD9250048A5A5 /* LaunchScreen.storyboard */,
 				33516ABE25FDD9250048A5A5 /* Info.plist */,
+				33516AB925FDD9250048A5A5 /* Assets.xcassets */,
+				33516AE625FDDA2E0048A5A5 /* Assets */,
 			);
 			path = AHS;
 			sourceTree = "<group>";
@@ -126,6 +135,15 @@
 				33516AD425FDD9250048A5A5 /* Info.plist */,
 			);
 			path = AHSUITests;
+			sourceTree = "<group>";
+		};
+		33516AE625FDDA2E0048A5A5 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				33516AE825FDDAF30048A5A5 /* Fonts */,
+				33516AE725FDDAF30048A5A5 /* Icon */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +249,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33516AEC25FDDAF30048A5A5 /* Fonts in Resources */,
 				33516ABD25FDD9250048A5A5 /* LaunchScreen.storyboard in Resources */,
+				33516AE925FDDAF30048A5A5 /* Icon in Resources */,
 				33516ABA25FDD9250048A5A5 /* Assets.xcassets in Resources */,
 				33516AB825FDD9240048A5A5 /* Main.storyboard in Resources */,
 			);
@@ -241,6 +261,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33516AEA25FDDAF30048A5A5 /* Icon in Resources */,
+				33516AED25FDDAF30048A5A5 /* Fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +270,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33516AEB25FDDAF30048A5A5 /* Icon in Resources */,
+				33516AEE25FDDAF30048A5A5 /* Fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
