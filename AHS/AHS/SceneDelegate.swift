@@ -25,6 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window;
         window.makeKeyAndVisible();
         
+        // APP OPTIONAL SETUP HERE
+        
+        
+        // END OPTIONAL SETUP
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

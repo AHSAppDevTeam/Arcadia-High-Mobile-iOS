@@ -118,8 +118,8 @@
 				33516AFD25FDDE760048A5A5 /* Backend */,
 				33516AFC25FDDE6D0048A5A5 /* UI */,
 				33516AFE25FDDE8E0048A5A5 /* Storyboards */,
-				33516AB925FDD9250048A5A5 /* Assets.xcassets */,
 				33516AE625FDDA2E0048A5A5 /* Assets */,
+				33516AB925FDD9250048A5A5 /* Assets.xcassets */,
 			);
 			path = AHS;
 			sourceTree = "<group>";

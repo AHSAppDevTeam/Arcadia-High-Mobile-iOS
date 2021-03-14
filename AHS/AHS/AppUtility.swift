@@ -11,7 +11,7 @@ struct AppUtility {
 
     static let originalWidth = UIScreen.main.bounds.width;
     static let originalHeight = UIScreen.main.bounds.height;
-    static var topSafeAreaInsetHeight = UIApplication.shared.windows[0].safeAreaInsets.top;
+    static let safeAreaInset = UIApplication.shared.windows[0].safeAreaInsets;
     
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
     
