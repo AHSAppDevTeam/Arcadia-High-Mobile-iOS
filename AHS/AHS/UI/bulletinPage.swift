@@ -11,6 +11,7 @@ import UIKit
 class bulletinPageViewController : UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+        self.view.backgroundColor = .blue;
     }
 }
 

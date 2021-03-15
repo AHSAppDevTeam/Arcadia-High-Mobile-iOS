@@ -11,5 +11,6 @@ import UIKit
 class profilePageViewController : UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+        self.view.backgroundColor = .darkGray;
     }
 }

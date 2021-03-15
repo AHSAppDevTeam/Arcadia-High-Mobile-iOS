@@ -13,6 +13,8 @@ class navigationViewController : UIViewController{
     // Content View
     private var contentView : UIView = UIView();
     
+    private let contentViewControllers : [UIViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
+    
     // Navigation Bar View
     private let buttonArraySize = 4;
     private var buttonViewArray : [UIButton] = Array(repeating: UIButton(), count: 4);
@@ -31,11 +33,22 @@ class navigationViewController : UIViewController{
         renderNavigationBar();
         renderTopBar();
         
-        // setup content view now
+        // setup content view
         contentView = UIView(frame: CGRect(x: 0, y: topBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - topBarView.frame.maxY - navigationBarView.frame.height));
         self.view.addSubview(contentView);
         
-        //contentView.backgroundColor = .systemGreen;
+        // setup top bar
+        
+        selectButton(buttonViewArray[selectedButtonIndex]);
+        updateTopBar(selectedButtonIndex); // should be 0
+       
+        // update content view with default page
+        
+        let vc = contentViewControllers[selectedButtonIndex];
+        addChild(vc);
+        vc.view.frame = contentView.bounds;
+        contentView.addSubview(vc.view);
+        vc.didMove(toParent: self);
         
     }
     
@@ -69,6 +82,8 @@ class navigationViewController : UIViewController{
             
             button.heightAnchor.constraint(equalToConstant: buttonStackView.frame.height * 2/3).isActive = true;
             
+            buttonViewArray[i] = button;
+            
             buttonStackView.addArrangedSubview(button);
         }
 
@@ -82,20 +97,53 @@ class navigationViewController : UIViewController{
         let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: topBarViewHeight);
         topBarView = UIView(frame: topBarViewFrame);
         
-        //topBarView.backgroundColor = .blue;
-        
         self.view.addSubview(topBarView);
         
+    }
+    
+    // After setup functions
+    
+    @objc func changePage(_ sender: UIButton){
+        //print("button press id \(sender.tag)");
+        let prevIndex = selectedButtonIndex;
+        selectedButtonIndex = sender.tag;
+        
+        selectButton(sender);
+        unselectButton(buttonViewArray[prevIndex]);
+        
+        updateTopBar(selectedButtonIndex);
+        updateContentView(selectedButtonIndex, prevIndex);
+        
+    }
+    
+    private func selectButton(_ button: UIButton){
+        button.isSelected = true;
+    }
+    
+    private func unselectButton(_ button: UIButton){
+        button.isSelected = false;
     }
     
     private func updateTopBar(_ pageIndex: Int){
         
     }
     
-    @objc func changePage(_ button: UIButton){
-        print("button press id \(button.tag)");
-        selectedButtonIndex = button.tag;
-        updateTopBar(selectedButtonIndex);
+    private func updateContentView(_ pageIndex: Int, _ prevIndex: Int){
+        
+        // remove prev view controller
+        let prevVC = contentViewControllers[prevIndex];
+        prevVC.willMove(toParent: nil);
+        prevVC.view.removeFromSuperview();
+        prevVC.removeFromParent();
+        
+        // add new view controller
+        let vc = contentViewControllers[selectedButtonIndex];
+        vc.willMove(toParent: self);
+        addChild(vc);
+        vc.view.frame = contentView.bounds;
+        contentView.addSubview(vc.view);
+        vc.didMove(toParent: self);
+        
     }
     
 }
