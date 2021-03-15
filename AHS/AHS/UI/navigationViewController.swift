@@ -82,15 +82,20 @@ class navigationViewController : UIViewController{
         let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: topBarViewHeight);
         topBarView = UIView(frame: topBarViewFrame);
         
-        topBarView.backgroundColor = .blue;
+        //topBarView.backgroundColor = .blue;
         
         self.view.addSubview(topBarView);
+        
+    }
+    
+    private func updateTopBar(_ pageIndex: Int){
         
     }
     
     @objc func changePage(_ button: UIButton){
         print("button press id \(button.tag)");
         selectedButtonIndex = button.tag;
+        updateTopBar(selectedButtonIndex);
     }
     
 }
