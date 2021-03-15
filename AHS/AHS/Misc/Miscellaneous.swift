@@ -16,3 +16,10 @@ let BackgroundColor = UIColor(named: "BackgroundColor")!;
 let dull_mainThemeColor = UIColor(named: "dull_mainThemeColor")!;
 let dull_BackgroundColor = UIColor(named: "dull_BackgroundColor")!;
 //
+
+// Fonts - SFProDisplay-Bold, SFProDisplay-Regular, SFProDisplay-Semibold, SFProDisplay-Black
+let SFProDisplay_Bold = "SFProDisplay-Bold";
+let SFProDisplay_Regular = "SFProDisplay-Regular";
+let SFProDisplay_Semibold = "SFProDisplay-Semibold";
+let SFProDisplay_Black = "SFProDisplay-Black";
+//

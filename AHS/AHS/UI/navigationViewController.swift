@@ -12,7 +12,6 @@ class navigationViewController : UIViewController{
     
     // Content View
     private var contentView : UIView = UIView();
-    
     private let contentViewControllers : [UIViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
     
     // Navigation Bar View
@@ -24,6 +23,9 @@ class navigationViewController : UIViewController{
     
     // Top Bar View
     private var topBarView : UIView = UIView();
+    private var topBarLabel : UILabel = UILabel();
+    private var topBarHomeView : UIView = UIView();
+    
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -99,6 +101,7 @@ class navigationViewController : UIViewController{
         
         self.view.addSubview(topBarView);
         
+        
     }
     
     // After setup functions
@@ -115,6 +118,8 @@ class navigationViewController : UIViewController{
         updateContentView(selectedButtonIndex, prevIndex);
         
     }
+    
+    
     
     private func selectButton(_ button: UIButton){
         button.isSelected = true;
