@@ -25,6 +25,8 @@
 		33516B2425FDE62F0048A5A5 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33516B2325FDE62F0048A5A5 /* AppUtility.swift */; };
 		33516B2525FDE62F0048A5A5 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33516B2325FDE62F0048A5A5 /* AppUtility.swift */; };
 		33516B2625FDE62F0048A5A5 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33516B2325FDE62F0048A5A5 /* AppUtility.swift */; };
+		337701EF25FEED4100DB4A71 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337701EE25FEED4100DB4A71 /* Miscellaneous.swift */; };
+		337701F825FF031100DB4A71 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337701F725FF031100DB4A71 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,8 @@
 		33516AE825FDDAF30048A5A5 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		33516B1C25FDE5820048A5A5 /* navigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigationViewController.swift; sourceTree = "<group>"; };
 		33516B2325FDE62F0048A5A5 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
+		337701EE25FEED4100DB4A71 /* Miscellaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
+		337701F725FF031100DB4A71 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,7 @@
 				33516AB025FDD9240048A5A5 /* AppDelegate.swift */,
 				33516B2325FDE62F0048A5A5 /* AppUtility.swift */,
 				33516AB225FDD9240048A5A5 /* SceneDelegate.swift */,
+				337701F625FF030100DB4A71 /* Misc */,
 				33516AFD25FDDE760048A5A5 /* Backend */,
 				33516AFC25FDDE6D0048A5A5 /* UI */,
 				33516AFE25FDDE8E0048A5A5 /* Storyboards */,
@@ -172,6 +177,15 @@
 				33516ABB25FDD9250048A5A5 /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		337701F625FF030100DB4A71 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				337701EE25FEED4100DB4A71 /* Miscellaneous.swift */,
+				337701F725FF031100DB4A71 /* Extensions.swift */,
+			);
+			path = Misc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,6 +324,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				33516B2425FDE62F0048A5A5 /* AppUtility.swift in Sources */,
+				337701F825FF031100DB4A71 /* Extensions.swift in Sources */,
+				337701EF25FEED4100DB4A71 /* Miscellaneous.swift in Sources */,
 				33516AB125FDD9240048A5A5 /* AppDelegate.swift in Sources */,
 				33516AB325FDD9240048A5A5 /* SceneDelegate.swift in Sources */,
 				33516B1D25FDE5820048A5A5 /* navigationViewController.swift in Sources */,
