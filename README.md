@@ -22,5 +22,5 @@ Founders: Seongwook Jang (Project Manager), Jason Zhao (Lead Programmer), Tiger 
 
 If there are parts you do not understand, please reach out to us. Thank you!
 
---
+---
 For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam/Arcadia-High-Mobile).
