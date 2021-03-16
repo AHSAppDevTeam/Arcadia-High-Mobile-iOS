@@ -44,18 +44,33 @@ extension navigationViewController{
     
     internal func updateTopBar(_ pageIndex: Int){
         if (pageIndex == 0){ // show home
-            topBarHomeView.isHidden = false;
-            topBarTitleLabel.isHidden = true;
+            //topBarHomeView.isHidden = false;
+            //topBarTitleLabel.isHidden = true;
+            
+            let month = "September"; // placeholder rn
+            let date = "88"; // placeholder rn
+            
+            // set content
+            
+            let attributedText = NSMutableAttributedString(string: "Arcadia", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarView.frame.height * 0.39)]);
+            
+            attributedText.append(NSAttributedString(string: "\n\(month)", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Medium, size: topBarView.frame.height * 0.3)]));
+            
+            attributedText.append(NSAttributedString(string: " \(date)", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: topBarView.frame.height * 0.3)]));
+            
+            topBarTitleLabel.attributedText = attributedText;
             
         }
         else{
-            topBarHomeView.isHidden = true;
-            topBarTitleLabel.isHidden = false;
+            //topBarHomeView.isHidden = true;
+            //topBarTitleLabel.isHidden = false;
             
             topBarTitleLabel.attributedText = createAttributedTitleString(pageIndex);
-            topBarTitleLabel.textColor = mainThemeColor;
             topBarTitleLabel.centerTextVertically();
         }
+        
+        topBarTitleLabel.textColor = mainThemeColor;
+        
     }
     
     private func createAttributedTitleString(_ pageIndex: Int) -> NSMutableAttributedString{
@@ -64,9 +79,9 @@ extension navigationViewController{
         
         // ignore warnings
         
-        let attributedText = NSMutableAttributedString(string: contentViewControllers[pageIndex].pageName, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarView.frame.height * 0.6)]);
+        let attributedText = NSMutableAttributedString(string: contentViewControllers[pageIndex].pageName, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarView.frame.height * 0.5)]);
         
-        attributedText.append(NSAttributedString(string: " " + contentViewControllers[pageIndex].secondaryPageName, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarView.frame.height * 0.6)]));
+        attributedText.append(NSAttributedString(string: " " + contentViewControllers[pageIndex].secondaryPageName, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarView.frame.height * 0.5)]));
         
         return attributedText;
     }

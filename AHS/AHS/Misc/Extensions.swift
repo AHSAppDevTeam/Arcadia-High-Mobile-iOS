@@ -27,4 +27,5 @@ extension UITextView { // https://stackoverflow.com/a/41387780
 class pageViewController: UIViewController{ // UIViewController for main pages
     public var pageName : String = "";
     public var secondaryPageName : String = "";
+    public var viewControllerIconName : String = "";
 }

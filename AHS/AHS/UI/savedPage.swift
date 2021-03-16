@@ -14,6 +14,7 @@ class savedPageViewController : pageViewController{
         super.init(nibName: nil, bundle: nil);
         self.pageName = "Your";
         self.secondaryPageName = "Saved";
+        self.viewControllerIconName = "bookmark.fill";
     }
     
     required init?(coder: NSCoder) { // required uiviewcontroller init

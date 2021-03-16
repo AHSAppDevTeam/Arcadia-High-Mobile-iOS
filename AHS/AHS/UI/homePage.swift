@@ -13,6 +13,7 @@ class homePageViewController : pageViewController{
     init(){
         super.init(nibName: nil, bundle: nil);
         self.pageName = "Home";
+        self.viewControllerIconName = "house.fill";
     }
     
     required init?(coder: NSCoder) { // required uiviewcontroller init

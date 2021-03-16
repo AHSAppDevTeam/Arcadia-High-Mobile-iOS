@@ -14,6 +14,7 @@ class profilePageViewController : pageViewController{
         super.init(nibName: nil, bundle: nil);
         self.pageName = "Your";
         self.secondaryPageName = "Profile";
+        self.viewControllerIconName = "person.circle.fill";
     }
     
     required init?(coder: NSCoder) { // required uiviewcontroller init

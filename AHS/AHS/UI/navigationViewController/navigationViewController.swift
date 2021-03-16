@@ -23,7 +23,8 @@ class navigationViewController : UIViewController{
     
     // Top Bar View
     internal var topBarView : UIView = UIView();
-    internal var topBarHomeView : UIView = UIView();
+    //internal var topBarHomeView : UIView = UIView();
+    internal var topBarHomeImageView : UIImageView = UIImageView();
     internal var topBarTitleLabel : UITextView = UITextView();
     
     
@@ -72,10 +73,10 @@ class navigationViewController : UIViewController{
         buttonStackView.axis = .horizontal;
         buttonStackView.distribution = .fillEqually;
         
-        for i in 0..<4{
+        for i in 0..<contentViewControllers.count{
             let button = UIButton();
             
-            button.setImage(UIImage(systemName: navigationBarButtonSystemIconNames[i]), for: .normal);
+            button.setImage(UIImage(systemName: contentViewControllers[i].viewControllerIconName), for: .normal);
             button.addTarget(self, action: #selector(changePage), for: .touchUpInside);
             button.imageView?.contentMode = .scaleAspectFit;
             button.contentVerticalAlignment = .fill;
@@ -99,6 +100,8 @@ class navigationViewController : UIViewController{
         let topBarViewHeight = CGFloat(1/15 * self.view.frame.height);
         let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: topBarViewHeight);
         topBarView = UIView(frame: topBarViewFrame);
+        
+        //topBarView.backgroundColor = .systemTeal;
         
         self.view.addSubview(topBarView);
         
@@ -125,14 +128,13 @@ class navigationViewController : UIViewController{
         let titleLabelFrame = CGRect(x: titleLabelPadding, y: 0, width: topBarView.frame.width - (topBarView.frame.width - notificationButton.frame.minX) - 2*titleLabelPadding, height: topBarView.frame.height);
         topBarTitleLabel = UITextView(frame: titleLabelFrame); // We need a container in order to account for multiple labels
         
-        topBarTitleLabel.backgroundColor = .systemOrange;
+        //topBarTitleLabel.backgroundColor = .systemOrange;
         topBarTitleLabel.isUserInteractionEnabled = false;
         topBarTitleLabel.isEditable = false;
         topBarTitleLabel.isSelectable = false;
         topBarTitleLabel.textAlignment = .left;
         //topBarTitleLabel.textColor = mainThemeColor;
-        
-        topBarTitleLabel.backgroundColor = .systemOrange;
+
         /*topBarTitleLabel.text = "Test Title";
         topBarTitleLabel.font = UIFont(name: "SFProDisplay-Semibold", size: topBarView.frame.height * 0.7);*/
         
@@ -142,11 +144,13 @@ class navigationViewController : UIViewController{
         
         //
         
-        topBarHomeView = UIView(frame: titleLabelFrame);
+        /*topBarHomeView = UIView(frame: titleLabelFrame);
         
-        topBarHomeView.backgroundColor = .systemBlue;
+        //topBarHomeView.backgroundColor = .systemBlue;
         
-        topBarView.addSubview(topBarHomeView);
+        
+        
+        topBarView.addSubview(topBarHomeView);*/
         
     }
     

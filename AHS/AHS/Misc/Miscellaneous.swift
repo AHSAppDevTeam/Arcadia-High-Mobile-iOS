@@ -28,14 +28,12 @@ let NavigationButtonSelectedColor = UIColor(named: "NavigationButtonSelectedColo
 
 //
 
-// Fonts - SFProDisplay-Bold, SFProDisplay-Regular, SFProDisplay-Semibold, SFProDisplay-Black
+// Fonts
 let SFProDisplay_Bold = "SFProDisplay-Bold";
 let SFProDisplay_Regular = "SFProDisplay-Regular";
 let SFProDisplay_Semibold = "SFProDisplay-Semibold";
 let SFProDisplay_Black = "SFProDisplay-Black";
 let SFProDisplay_Light = "SFProDisplay-Light";
+let SFProDisplay_Medium = "SFProDisplay-Medium";
 //
 
-// Navigation Bar Button System Image names
-let navigationBarButtonSystemIconNames = ["house.fill", "doc.plaintext.fill", "bookmark.fill", "person.circle.fill"];
-//

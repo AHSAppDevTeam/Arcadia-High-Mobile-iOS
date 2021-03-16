@@ -14,6 +14,7 @@ class bulletinPageViewController : pageViewController{
         super.init(nibName: nil, bundle: nil);
         self.pageName = "Student";
         self.secondaryPageName = "Bulletin";
+        self.viewControllerIconName = "doc.plaintext.fill";
     }
     
     required init?(coder: NSCoder) { // required uiviewcontroller init
