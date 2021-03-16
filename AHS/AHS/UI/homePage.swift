@@ -8,9 +8,12 @@
 import Foundation
 import UIKit
 
-class homePageViewController : UIViewController{
+class homePageViewController : pageViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        self.pageName = "Home";
         self.view.backgroundColor = .cyan;
+        
     }
 }

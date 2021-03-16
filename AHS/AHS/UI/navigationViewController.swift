@@ -12,7 +12,7 @@ class navigationViewController : UIViewController{
     
     // Content View
     private var contentView : UIView = UIView();
-    private let contentViewControllers : [UIViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
+    private let contentViewControllers : [pageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
     
     // Navigation Bar View
     private let buttonArraySize = 4;
@@ -25,6 +25,7 @@ class navigationViewController : UIViewController{
     private var topBarView : UIView = UIView();
     private var topBarLabel : UILabel = UILabel();
     private var topBarHomeView : UIView = UIView();
+    private var topBarNotificationButton : UIButton = UIButton();
     
     
     override func viewDidLoad() {
@@ -39,10 +40,7 @@ class navigationViewController : UIViewController{
         contentView = UIView(frame: CGRect(x: 0, y: topBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - topBarView.frame.maxY - navigationBarView.frame.height));
         self.view.addSubview(contentView);
         
-        // setup top bar
-        
         selectButton(buttonViewArray[selectedButtonIndex]);
-        updateTopBar(selectedButtonIndex); // should be 0
        
         // update content view with default page
         
@@ -52,6 +50,8 @@ class navigationViewController : UIViewController{
         contentView.addSubview(vc.view);
         vc.didMove(toParent: self);
         
+        updateTopBar(selectedButtonIndex); // should be 0
+        
     }
     
     private func renderNavigationBar(){
@@ -60,7 +60,7 @@ class navigationViewController : UIViewController{
         let navigationBarViewFrame = CGRect(x: 0, y: self.view.frame.height - navigationBarViewHeight, width: self.view.frame.width, height: navigationBarViewHeight);
         navigationBarView = UIView(frame: navigationBarViewFrame);
         
-        navigationBarView.backgroundColor = dull_BackgroundColor;
+        navigationBarView.backgroundColor = NavigationBarColor;
         
         self.view.addSubview(navigationBarView);
         
@@ -76,13 +76,15 @@ class navigationViewController : UIViewController{
         for i in 0..<4{
             let button = UIButton();
             
-            button.setImage(UIImage(named: "icon_no_bg"), for: .normal);
-            button.imageView?.contentMode = .scaleAspectFit;
+            button.setImage(UIImage(systemName: navigationBarButtonSystemIconNames[i]), for: .normal);
             button.addTarget(self, action: #selector(changePage), for: .touchUpInside);
-            button.contentVerticalAlignment = .center;
+            button.imageView?.contentMode = .scaleAspectFit;
+            button.contentVerticalAlignment = .fill;
+            button.contentHorizontalAlignment = .fill;
+            button.tintColor = NavigationButtonUnselectedColor;
             button.tag = i;
             
-            button.heightAnchor.constraint(equalToConstant: buttonStackView.frame.height * 2/3).isActive = true;
+            button.heightAnchor.constraint(equalToConstant: buttonStackView.frame.height * 0.6).isActive = true;
             
             buttonViewArray[i] = button;
             
@@ -95,12 +97,28 @@ class navigationViewController : UIViewController{
     
     private func renderTopBar(){
         
-        let topBarViewHeight = CGFloat(1/13 * self.view.frame.height);
+        let topBarViewHeight = CGFloat(1/15 * self.view.frame.height);
         let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: topBarViewHeight);
         topBarView = UIView(frame: topBarViewFrame);
         
         self.view.addSubview(topBarView);
         
+        //
+        
+        let notificationButtonPadding = CGFloat(10);
+        let notificationButtonSize = CGFloat(topBarView.frame.height - 2*notificationButtonPadding);
+        let notificationButtonFrame =  CGRect(x: topBarView.frame.width - notificationButtonPadding - notificationButtonSize, y: notificationButtonPadding, width: notificationButtonSize, height: notificationButtonSize);
+        let notificationButton = UIButton(frame: notificationButtonFrame);
+        
+        //notificationButton.backgroundColor = .blue;
+        notificationButton.setImage(UIImage(systemName: "bell.fill"), for: .normal);
+        notificationButton.contentVerticalAlignment = .fill;
+        notificationButton.contentHorizontalAlignment = .fill;
+        notificationButton.imageView?.contentMode = .scaleAspectFit;
+        notificationButton.tintColor = InverseBackgroundGrayColor;
+        notificationButton.addTarget(self, action: #selector(self.openNotificationPage), for: .touchUpInside);
+        
+        topBarView.addSubview(notificationButton);
         
     }
     
@@ -119,14 +137,18 @@ class navigationViewController : UIViewController{
         
     }
     
-    
+    @objc func openNotificationPage(_ sender: UIButton){
+        print("open notifications page");
+    }
     
     private func selectButton(_ button: UIButton){
         button.isSelected = true;
+        button.tintColor = NavigationButtonSelectedColor;
     }
     
     private func unselectButton(_ button: UIButton){
         button.isSelected = false;
+        button.tintColor = NavigationButtonUnselectedColor;
     }
     
     private func updateTopBar(_ pageIndex: Int){

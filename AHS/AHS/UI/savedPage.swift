@@ -8,9 +8,12 @@
 import Foundation
 import UIKit
 
-class savedPageViewController : UIViewController{
+class savedPageViewController : pageViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        self.pageName = "Your";
+        self.secondaryPageName = "Saved";
         self.view.backgroundColor = .systemPink;
     }
 }

@@ -8,9 +8,12 @@
 import Foundation
 import UIKit
 
-class bulletinPageViewController : UIViewController{
+class bulletinPageViewController : pageViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        self.pageName = "Student";
+        self.secondaryPageName = "Bulletin";
         self.view.backgroundColor = .blue;
     }
 }

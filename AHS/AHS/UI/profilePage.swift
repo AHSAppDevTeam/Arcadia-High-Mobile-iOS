@@ -8,9 +8,12 @@
 import Foundation
 import UIKit
 
-class profilePageViewController : UIViewController{
+class profilePageViewController : pageViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        self.pageName = "Your";
+        self.secondaryPageName = "Profile";
         self.view.backgroundColor = .darkGray;
     }
 }
