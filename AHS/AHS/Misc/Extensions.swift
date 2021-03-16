@@ -14,6 +14,16 @@ extension UIColor{
     }
 }
 
+extension UITextView { // https://stackoverflow.com/a/41387780
+    func centerTextVertically() {
+        let fittingSize = CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)
+        let size = sizeThatFits(fittingSize)
+        let topOffset = (bounds.size.height - size.height * zoomScale) / 2
+        let positiveTopOffset = max(1, topOffset)
+        contentOffset.y = -positiveTopOffset
+    }
+}
+
 class pageViewController: UIViewController{ // UIViewController for main pages
     public var pageName : String = "";
     public var secondaryPageName : String = "";

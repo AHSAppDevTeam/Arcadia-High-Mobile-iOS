@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		333D4B9E26004CB8000EC057 /* SFProDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4B9726004CB8000EC057 /* SFProDisplay-Bold.ttf */; };
+		333D4B9F26004CB8000EC057 /* SFProDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4B9826004CB8000EC057 /* SFProDisplay-Regular.ttf */; };
+		333D4BA026004CB8000EC057 /* SFProDisplay-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4B9926004CB8000EC057 /* SFProDisplay-Semibold.ttf */; };
+		333D4BA126004CB8000EC057 /* SFProDisplay-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4B9A26004CB8000EC057 /* SFProDisplay-Black.ttf */; };
+		333D4BA226004CB8000EC057 /* NewYorkSmall-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4B9B26004CB8000EC057 /* NewYorkSmall-MediumItalic.otf */; };
+		333D4BA326004CB8000EC057 /* NewYorkMedium-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4B9C26004CB8000EC057 /* NewYorkMedium-Bold.otf */; };
+		333D4BA426004CB8000EC057 /* SFProDisplay-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4B9D26004CB8000EC057 /* SFProDisplay-Light.ttf */; };
+		333D4BAE26005362000EC057 /* navigationViewControllerActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */; };
 		33516AB125FDD9240048A5A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33516AB025FDD9240048A5A5 /* AppDelegate.swift */; };
 		33516AB325FDD9240048A5A5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33516AB225FDD9240048A5A5 /* SceneDelegate.swift */; };
 		33516ABA25FDD9250048A5A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33516AB925FDD9250048A5A5 /* Assets.xcassets */; };
@@ -51,6 +59,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		333D4B9726004CB8000EC057 /* SFProDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Bold.ttf"; sourceTree = "<group>"; };
+		333D4B9826004CB8000EC057 /* SFProDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		333D4B9926004CB8000EC057 /* SFProDisplay-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Semibold.ttf"; sourceTree = "<group>"; };
+		333D4B9A26004CB8000EC057 /* SFProDisplay-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Black.ttf"; sourceTree = "<group>"; };
+		333D4B9B26004CB8000EC057 /* NewYorkSmall-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkSmall-MediumItalic.otf"; sourceTree = "<group>"; };
+		333D4B9C26004CB8000EC057 /* NewYorkMedium-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NewYorkMedium-Bold.otf"; sourceTree = "<group>"; };
+		333D4B9D26004CB8000EC057 /* SFProDisplay-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Light.ttf"; sourceTree = "<group>"; };
+		333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigationViewControllerActions.swift; sourceTree = "<group>"; };
 		33516AAD25FDD9240048A5A5 /* AHS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AHS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33516AB025FDD9240048A5A5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33516AB225FDD9240048A5A5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +116,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		333D4BA826004CC8000EC057 /* Fonts_ */ = {
+			isa = PBXGroup;
+			children = (
+				333D4B9C26004CB8000EC057 /* NewYorkMedium-Bold.otf */,
+				333D4B9B26004CB8000EC057 /* NewYorkSmall-MediumItalic.otf */,
+				333D4B9A26004CB8000EC057 /* SFProDisplay-Black.ttf */,
+				333D4B9726004CB8000EC057 /* SFProDisplay-Bold.ttf */,
+				333D4B9D26004CB8000EC057 /* SFProDisplay-Light.ttf */,
+				333D4B9826004CB8000EC057 /* SFProDisplay-Regular.ttf */,
+				333D4B9926004CB8000EC057 /* SFProDisplay-Semibold.ttf */,
+			);
+			path = Fonts_;
+			sourceTree = "<group>";
+		};
+		333D4BAC26005343000EC057 /* navigationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				33516B1C25FDE5820048A5A5 /* navigationViewController.swift */,
+				333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */,
+			);
+			path = navigationViewController;
+			sourceTree = "<group>";
+		};
 		33516AA425FDD9240048A5A5 = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +197,7 @@
 		33516AE625FDDA2E0048A5A5 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				333D4BA826004CC8000EC057 /* Fonts_ */,
 				33516AE825FDDAF30048A5A5 /* Fonts */,
 				33516AE725FDDAF30048A5A5 /* Icon */,
 			);
@@ -167,7 +207,7 @@
 		33516AFC25FDDE6D0048A5A5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				33516B1C25FDE5820048A5A5 /* navigationViewController.swift */,
+				333D4BAC26005343000EC057 /* navigationViewController */,
 				337701FF25FF08FB00DB4A71 /* homePage.swift */,
 				3377020425FF090500DB4A71 /* bulletinPage.swift */,
 				3377020925FF090E00DB4A71 /* savedPage.swift */,
@@ -304,7 +344,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				33516AEC25FDDAF30048A5A5 /* Fonts in Resources */,
+				333D4BA426004CB8000EC057 /* SFProDisplay-Light.ttf in Resources */,
 				33516ABD25FDD9250048A5A5 /* LaunchScreen.storyboard in Resources */,
+				333D4BA026004CB8000EC057 /* SFProDisplay-Semibold.ttf in Resources */,
+				333D4BA226004CB8000EC057 /* NewYorkSmall-MediumItalic.otf in Resources */,
+				333D4B9E26004CB8000EC057 /* SFProDisplay-Bold.ttf in Resources */,
+				333D4BA326004CB8000EC057 /* NewYorkMedium-Bold.otf in Resources */,
+				333D4BA126004CB8000EC057 /* SFProDisplay-Black.ttf in Resources */,
+				333D4B9F26004CB8000EC057 /* SFProDisplay-Regular.ttf in Resources */,
 				33516AE925FDDAF30048A5A5 /* Icon in Resources */,
 				33516ABA25FDD9250048A5A5 /* Assets.xcassets in Resources */,
 			);
@@ -338,6 +385,7 @@
 				33516B2425FDE62F0048A5A5 /* AppUtility.swift in Sources */,
 				3377020525FF090500DB4A71 /* bulletinPage.swift in Sources */,
 				3377020F25FF091600DB4A71 /* profilePage.swift in Sources */,
+				333D4BAE26005362000EC057 /* navigationViewControllerActions.swift in Sources */,
 				337701F825FF031100DB4A71 /* Extensions.swift in Sources */,
 				337701EF25FEED4100DB4A71 /* Miscellaneous.swift in Sources */,
 				3377020A25FF090E00DB4A71 /* savedPage.swift in Sources */,

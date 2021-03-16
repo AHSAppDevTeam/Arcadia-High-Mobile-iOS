@@ -33,6 +33,7 @@ let SFProDisplay_Bold = "SFProDisplay-Bold";
 let SFProDisplay_Regular = "SFProDisplay-Regular";
 let SFProDisplay_Semibold = "SFProDisplay-Semibold";
 let SFProDisplay_Black = "SFProDisplay-Black";
+let SFProDisplay_Light = "SFProDisplay-Light";
 //
 
 // Navigation Bar Button System Image names

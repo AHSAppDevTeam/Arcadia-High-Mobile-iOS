@@ -9,11 +9,22 @@ import Foundation
 import UIKit
 
 class profilePageViewController : pageViewController{
+    
+    init(){
+        super.init(nibName: nil, bundle: nil);
+        self.pageName = "Your";
+        self.secondaryPageName = "Profile";
+    }
+    
+    required init?(coder: NSCoder) { // required uiviewcontroller init
+        super.init(coder: coder);
+    }
+    
+    //
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        self.pageName = "Your";
-        self.secondaryPageName = "Profile";
         self.view.backgroundColor = .darkGray;
     }
 }

@@ -11,21 +11,20 @@ import UIKit
 class navigationViewController : UIViewController{
     
     // Content View
-    private var contentView : UIView = UIView();
-    private let contentViewControllers : [pageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
+    internal var contentView : UIView = UIView();
+    internal let contentViewControllers : [pageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
     
     // Navigation Bar View
-    private let buttonArraySize = 4;
-    private var buttonViewArray : [UIButton] = Array(repeating: UIButton(), count: 4);
-    private var navigationBarView : UIView = UIView();
+    internal let buttonArraySize = 4;
+    internal var buttonViewArray : [UIButton] = Array(repeating: UIButton(), count: 4);
+    internal var navigationBarView : UIView = UIView();
     
-    private var selectedButtonIndex : Int = 0;
+    internal var selectedButtonIndex : Int = 0;
     
     // Top Bar View
-    private var topBarView : UIView = UIView();
-    private var topBarLabel : UILabel = UILabel();
-    private var topBarHomeView : UIView = UIView();
-    private var topBarNotificationButton : UIButton = UIButton();
+    internal var topBarView : UIView = UIView();
+    internal var topBarHomeView : UIView = UIView();
+    internal var topBarTitleLabel : UITextView = UITextView();
     
     
     override func viewDidLoad() {
@@ -120,56 +119,34 @@ class navigationViewController : UIViewController{
         
         topBarView.addSubview(notificationButton);
         
-    }
-    
-    // After setup functions
-    
-    @objc func changePage(_ sender: UIButton){
-        //print("button press id \(sender.tag)");
-        let prevIndex = selectedButtonIndex;
-        selectedButtonIndex = sender.tag;
+        //
         
-        selectButton(sender);
-        unselectButton(buttonViewArray[prevIndex]);
+        let titleLabelPadding = CGFloat(10);
+        let titleLabelFrame = CGRect(x: titleLabelPadding, y: 0, width: topBarView.frame.width - (topBarView.frame.width - notificationButton.frame.minX) - 2*titleLabelPadding, height: topBarView.frame.height);
+        topBarTitleLabel = UITextView(frame: titleLabelFrame); // We need a container in order to account for multiple labels
+        
+        topBarTitleLabel.backgroundColor = .systemOrange;
+        topBarTitleLabel.isUserInteractionEnabled = false;
+        topBarTitleLabel.isEditable = false;
+        topBarTitleLabel.isSelectable = false;
+        topBarTitleLabel.textAlignment = .left;
+        //topBarTitleLabel.textColor = mainThemeColor;
+        
+        topBarTitleLabel.backgroundColor = .systemOrange;
+        /*topBarTitleLabel.text = "Test Title";
+        topBarTitleLabel.font = UIFont(name: "SFProDisplay-Semibold", size: topBarView.frame.height * 0.7);*/
         
         updateTopBar(selectedButtonIndex);
-        updateContentView(selectedButtonIndex, prevIndex);
         
-    }
-    
-    @objc func openNotificationPage(_ sender: UIButton){
-        print("open notifications page");
-    }
-    
-    private func selectButton(_ button: UIButton){
-        button.isSelected = true;
-        button.tintColor = NavigationButtonSelectedColor;
-    }
-    
-    private func unselectButton(_ button: UIButton){
-        button.isSelected = false;
-        button.tintColor = NavigationButtonUnselectedColor;
-    }
-    
-    private func updateTopBar(_ pageIndex: Int){
+        topBarView.addSubview(topBarTitleLabel);
         
-    }
-    
-    private func updateContentView(_ pageIndex: Int, _ prevIndex: Int){
+        //
         
-        // remove prev view controller
-        let prevVC = contentViewControllers[prevIndex];
-        prevVC.willMove(toParent: nil);
-        prevVC.view.removeFromSuperview();
-        prevVC.removeFromParent();
+        topBarHomeView = UIView(frame: titleLabelFrame);
         
-        // add new view controller
-        let vc = contentViewControllers[selectedButtonIndex];
-        vc.willMove(toParent: self);
-        addChild(vc);
-        vc.view.frame = contentView.bounds;
-        contentView.addSubview(vc.view);
-        vc.didMove(toParent: self);
+        topBarHomeView.backgroundColor = .systemBlue;
+        
+        topBarView.addSubview(topBarHomeView);
         
     }
     
