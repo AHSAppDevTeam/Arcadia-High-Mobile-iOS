@@ -23,7 +23,7 @@ class navigationViewController : UIViewController{
     
     // Top Bar View
     internal var topBarView : UIView = UIView();
-    //internal var topBarHomeView : UIView = UIView();
+    internal var topBarHomeView : UIView = UIView();
     internal var topBarHomeImageView : UIImageView = UIImageView();
     internal var topBarTitleLabel : UITextView = UITextView();
     
@@ -144,14 +144,64 @@ class navigationViewController : UIViewController{
         
         //
         
-        /*topBarHomeView = UIView(frame: titleLabelFrame);
+        topBarHomeView = UIView(frame: titleLabelFrame);
         
+        topBarView.addSubview(topBarHomeView);
+
         //topBarHomeView.backgroundColor = .systemBlue;
         
+        //
         
+        let topBarHomeTitleLabelText = "Arcadia";
+        let topBarHomeTitleLabelFont = UIFont(name: SFProDisplay_Bold, size: topBarHomeView.frame.height * 0.5)!;
+        let topBarHomeTitleLabelHeight = topBarHomeView.frame.height / 2;
+        let topBarHomeTitleLabelWidth = topBarHomeTitleLabelText.width(withConstrainedHeight: topBarHomeTitleLabelHeight, font: topBarHomeTitleLabelFont);
+        let topBarHomeTitleLabelFrame = CGRect(x: 0, y: 0, width: topBarHomeView.frame.width, height: topBarHomeTitleLabelHeight);
+        let topBarHomeTitleLabel = UILabel(frame: topBarHomeTitleLabelFrame);
         
-        topBarView.addSubview(topBarHomeView);*/
+        topBarHomeTitleLabel.text = topBarHomeTitleLabelText;
+        topBarHomeTitleLabel.textColor = mainThemeColor;
+        topBarHomeTitleLabel.font = topBarHomeTitleLabelFont;
+        topBarHomeTitleLabel.textAlignment = .left;
+        //topBarHomeTitleLabel.backgroundColor = .systemOrange;
         
+        topBarHomeView.addSubview(topBarHomeTitleLabel);
+        
+        //
+        
+        let topBarHomeDateLabelFrame = CGRect(x: 0, y: topBarHomeView.frame.height / 2, width: topBarHomeView.frame.width, height: topBarHomeView.frame.height / 2);
+        let topBarHomeDateLabel = UITextView(frame: topBarHomeDateLabelFrame);
+        
+        topBarHomeDateLabel.isUserInteractionEnabled = false;
+        topBarHomeDateLabel.isEditable = false;
+        topBarHomeDateLabel.isSelectable = false;
+        topBarHomeDateLabel.textAlignment = .left;
+        
+        let topBarHomeDateText = NSMutableAttributedString(string: timeManager.getMonthString(), attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Medium, size: topBarHomeDateLabel.frame.height * 0.7)]);
+        
+        topBarHomeDateText.append(NSAttributedString(string: " " + timeManager.getDateString(), attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: topBarHomeDateLabel.frame.height * 0.7)]));
+        
+        topBarHomeDateLabel.attributedText = topBarHomeDateText;
+        topBarHomeDateLabel.textColor = mainThemeColor;
+        topBarHomeDateLabel.textContainerInset = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: 0);
+        topBarHomeDateLabel.textContainer.lineFragmentPadding = .zero;
+        //topBarHomeDateLabel.centerTextVertically();
+
+        //topBarHomeDateLabel.backgroundColor = .systemBlue;
+        
+        topBarHomeView.addSubview(topBarHomeDateLabel);
+        
+        //
+        
+        let topBarHomeImageViewFrame = CGRect(x: 0, y: 0, width: topBarHomeTitleLabelWidth, height: topBarHomeView.frame.height);
+        topBarHomeImageView = UIImageView(frame: topBarHomeImageViewFrame);
+        
+        topBarHomeImageView.image = UIImage(named: "icon_no_bg");
+        topBarHomeImageView.contentMode = .scaleAspectFit;
+        topBarHomeImageView.alpha = 0.5;
+        
+        topBarHomeView.addSubview(topBarHomeImageView);
+
     }
     
 }
