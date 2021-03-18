@@ -7,9 +7,13 @@ target 'AHS' do
 
   # Pods for AHS
 
+  pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
-  pod 'Firebase/Analytics'
+  pod 'Firebase/Database'
+  pod 'Firebase/Messaging'
+  pod 'SDWebImage'
+  pod "youtube-ios-player-helper", "~> 1.0.2"
 
   target 'AHSTests' do
     inherit! :search_paths
