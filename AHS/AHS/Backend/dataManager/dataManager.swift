@@ -7,8 +7,23 @@
 
 import Foundation
 import Firebase
-import Firebase
+import FirebaseDatabase
 
 class dataManager{
-    //static internal var firRef : DatabaseReference!;
+    static internal var dataRef : DatabaseReference!;
+    static public var internetConnected = false;
+    
+    static public func setupConnection(){
+        if (Reachability.isConnectedToNetwork()){
+            internetConnected = true;
+            Database.database().goOnline();
+            dataRef = Database.database().reference();
+        }
+        else{
+            internetConnected = false;
+            Database.database().goOffline();
+        }
+    }
+    
+    
 }

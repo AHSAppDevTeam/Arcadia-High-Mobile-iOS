@@ -41,8 +41,3 @@ extension String {
     }
 }
 
-class pageViewController: UIViewController{ // UIViewController for main pages
-    public var pageName : String = "";
-    public var secondaryPageName : String = "";
-    public var viewControllerIconName : String = "";
-}
