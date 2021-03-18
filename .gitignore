@@ -1,3 +1,4 @@
 *.DS_Store
 *.xcuserstate
 AHS/AHS/GoogleService-Info.plist
+*.xcworkspacedata
