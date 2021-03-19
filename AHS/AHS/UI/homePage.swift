@@ -27,5 +27,7 @@ class homePageViewController : pageViewController{
     
         self.view.backgroundColor = .cyan;
         
+        dataManager.getLayout();
+        
     }
 }

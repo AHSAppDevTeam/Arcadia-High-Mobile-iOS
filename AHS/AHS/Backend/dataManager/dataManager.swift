@@ -24,6 +24,4 @@ class dataManager{
             Database.database().goOffline();
         }
     }
-    
-    
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		15D068484C8BCB390DAA3174 /* Pods_AHS_AHSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B961B128591CCD48AD8BD64 /* Pods_AHS_AHSUITests.framework */; };
+		331B583E260460C200DD0B20 /* dataManager_layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B583D260460C200DD0B20 /* dataManager_layout.swift */; };
 		333D4BAE26005362000EC057 /* navigationViewControllerActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */; };
 		333D4BC326006101000EC057 /* SFProDisplay-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4BBC26006100000EC057 /* SFProDisplay-Light.ttf */; };
 		333D4BC426006101000EC057 /* SFProDisplay-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4BBC26006100000EC057 /* SFProDisplay-Light.ttf */; };
@@ -79,6 +80,7 @@
 
 /* Begin PBXFileReference section */
 		044C24FFEFE1B8F83F1A023D /* Pods_AHS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		331B583D260460C200DD0B20 /* dataManager_layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_layout.swift; sourceTree = "<group>"; };
 		333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigationViewControllerActions.swift; sourceTree = "<group>"; };
 		333D4BBC26006100000EC057 /* SFProDisplay-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SFProDisplay-Light.ttf"; path = "AHS/Assets/SFProDisplay-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		333D4BBD26006100000EC057 /* NewYorkMedium-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NewYorkMedium-Bold.otf"; path = "AHS/Assets/NewYorkMedium-Bold.otf"; sourceTree = SOURCE_ROOT; };
@@ -151,6 +153,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		331B583B260460A700DD0B20 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				331B583D260460C200DD0B20 /* dataManager_layout.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		333D4BAC26005343000EC057 /* navigationViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,6 +294,7 @@
 		338F0D9726031BA400D49800 /* dataManager */ = {
 			isa = PBXGroup;
 			children = (
+				331B583B260460A700DD0B20 /* Firebase */,
 				338F0D9826031BB100D49800 /* dataManager.swift */,
 			);
 			path = dataManager;
@@ -577,6 +588,7 @@
 			files = (
 				33516B2425FDE62F0048A5A5 /* AppUtility.swift in Sources */,
 				3377020525FF090500DB4A71 /* bulletinPage.swift in Sources */,
+				331B583E260460C200DD0B20 /* dataManager_layout.swift in Sources */,
 				3377020F25FF091600DB4A71 /* profilePage.swift in Sources */,
 				333D4BAE26005362000EC057 /* navigationViewControllerActions.swift in Sources */,
 				337701F825FF031100DB4A71 /* Extensions.swift in Sources */,
