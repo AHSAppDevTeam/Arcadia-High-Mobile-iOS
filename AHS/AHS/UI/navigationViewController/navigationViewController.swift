@@ -45,6 +45,7 @@ class navigationViewController : UIViewController{
         // update content view with default page
         
         let vc = contentViewControllers[selectedButtonIndex];
+        vc.willMove(toParent: self);
         addChild(vc);
         vc.view.frame = contentView.bounds;
         contentView.addSubview(vc.view);

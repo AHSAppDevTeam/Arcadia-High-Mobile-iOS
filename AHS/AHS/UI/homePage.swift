@@ -22,12 +22,27 @@ class homePageViewController : pageViewController{
     
     //
     
+    internal var mainScrollView : UIScrollView = UIScrollView();
+    
     override func viewDidLoad() {
         super.viewDidLoad();
+    }
     
-        self.view.backgroundColor = .cyan;
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
         
-        dataManager.getLayout();
+        if (!self.hasBeenSetup){
+            self.view.backgroundColor = BackgroundColor;
+            
+            mainScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height));
+            mainScrollView.backgroundColor = .systemBlue;
+            
+            self.view.addSubview(mainScrollView);
+            
+            self.hasBeenSetup = true;
+        }
         
     }
+    
+    
 }

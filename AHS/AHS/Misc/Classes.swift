@@ -14,6 +14,8 @@ class pageViewController: UIViewController{ // UIViewController for main pages
     public var pageName : String = "";
     public var secondaryPageName : String = "";
     public var viewControllerIconName : String = "";
+    
+    internal var hasBeenSetup : Bool = false;
 }
 
 final public class Reachability {

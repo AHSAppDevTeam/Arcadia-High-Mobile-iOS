@@ -25,7 +25,17 @@ class savedPageViewController : pageViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad();
+    }
     
-        self.view.backgroundColor = .systemPink;
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
+        
+        if (!self.hasBeenSetup){
+            
+            self.view.backgroundColor = .systemRed;
+            
+            self.hasBeenSetup = true;
+        }
+        
     }
 }

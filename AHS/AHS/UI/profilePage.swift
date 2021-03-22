@@ -25,7 +25,17 @@ class profilePageViewController : pageViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad();
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
         
-        self.view.backgroundColor = .darkGray;
+        if (!self.hasBeenSetup){
+            
+            self.view.backgroundColor = .systemGray;
+            
+            self.hasBeenSetup = true;
+        }
+        
     }
 }
