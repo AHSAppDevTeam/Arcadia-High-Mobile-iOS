@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class savedPageViewController : pageViewController{
+class savedPageViewController : mainPageViewController{
     
     init(){
         super.init(nibName: nil, bundle: nil);

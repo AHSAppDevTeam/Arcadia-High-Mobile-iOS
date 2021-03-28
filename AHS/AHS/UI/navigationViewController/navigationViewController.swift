@@ -12,7 +12,7 @@ class navigationViewController : UIViewController{
     
     // Content View
     internal var contentView : UIView = UIView();
-    internal let contentViewControllers : [pageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
+    internal let contentViewControllers : [mainPageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
     
     // Navigation Bar View
     internal let buttonArraySize = 4;

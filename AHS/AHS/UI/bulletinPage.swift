@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class bulletinPageViewController : pageViewController{
+class bulletinPageViewController : mainPageViewController{
     
     init(){
         super.init(nibName: nil, bundle: nil);

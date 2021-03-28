@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class profilePageViewController : pageViewController{
+class profilePageViewController : mainPageViewController{
     
     init(){
         super.init(nibName: nil, bundle: nil);

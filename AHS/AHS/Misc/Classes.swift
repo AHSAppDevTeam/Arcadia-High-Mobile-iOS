@@ -10,12 +10,24 @@ import Network
 import SystemConfiguration
 import UIKit
 
-class pageViewController: UIViewController{ // UIViewController for main pages
+class mainPageViewController : UIViewController{ // UIViewController for main pages
     public var pageName : String = "";
     public var secondaryPageName : String = "";
     public var viewControllerIconName : String = "";
     
     internal var hasBeenSetup : Bool = false;
+}
+
+class homeContentPageViewController : UIViewController{ // UIViewController for homepage content pages
+    
+    public func getSubviewsMaxY() -> CGFloat{
+        var mx : CGFloat = 0;
+        for view in self.view.subviews{
+            mx = max(mx, view.frame.maxY);
+        }
+        return mx;
+    }
+    
 }
 
 final public class Reachability {
