@@ -25,6 +25,7 @@ class homePageViewController : mainPageViewController{
     internal var mainScrollView : UIScrollView = UIScrollView();
     
     // main scrollview views
+    
     internal var topCatagoryPickerView : UIView = UIView();
     internal var topCatagoryPickerViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
     
@@ -33,6 +34,13 @@ class homePageViewController : mainPageViewController{
     
     internal var contentView : UIView = UIView();
     internal var contentViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
+    
+    //
+    
+    internal var newsButton : UIButton = UIButton();
+    internal let newsButtonColor = UIColor.rgb(199, 67, 53);
+    internal var communityButton : UIButton = UIButton();
+    internal let communityButtonColor = UIColor.rgb(72, 153, 146);
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -45,23 +53,22 @@ class homePageViewController : mainPageViewController{
             self.view.backgroundColor = BackgroundColor;
             
             mainScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height));
-            mainScrollView.backgroundColor = .systemBlue;
+            //mainScrollView.backgroundColor = .systemBlue;
             
             self.view.addSubview(mainScrollView);
             
-            setupTopCatagoryPickerView();
-            
+            setupLayout();
+            setupTopCategory();
             
             self.hasBeenSetup = true;
         }
         
     }
     
-    private func setupTopCatagoryPickerView(){
+    private func setupLayout(){
         
         //top category
         mainScrollView.addSubview(topCatagoryPickerView);
-        topCatagoryPickerView.backgroundColor = .systemRed;
         
         // constraints
         topCatagoryPickerView.translatesAutoresizingMaskIntoConstraints = false;
@@ -70,7 +77,7 @@ class homePageViewController : mainPageViewController{
         topCatagoryPickerView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true;
         //topCatagoryPickerView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
         
-        topCatagoryPickerViewHeightAnchor = topCatagoryPickerView.heightAnchor.constraint(equalToConstant: 100);
+        topCatagoryPickerViewHeightAnchor = topCatagoryPickerView.heightAnchor.constraint(equalToConstant: 0);
         topCatagoryPickerViewHeightAnchor.isActive = true;
         
         //
@@ -83,7 +90,7 @@ class homePageViewController : mainPageViewController{
         featuredCategoryView.topAnchor.constraint(equalTo: topCatagoryPickerView.bottomAnchor).isActive = true;
         featuredCategoryView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true;
         
-        featuredCategoryViewHeightAnchor = featuredCategoryView.heightAnchor.constraint(equalToConstant: 100);
+        featuredCategoryViewHeightAnchor = featuredCategoryView.heightAnchor.constraint(equalToConstant: 0);
         featuredCategoryViewHeightAnchor.isActive = true;
         
         //
@@ -97,9 +104,59 @@ class homePageViewController : mainPageViewController{
         contentView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true;
         contentView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
         
-        contentViewHeightAnchor = contentView.heightAnchor.constraint(equalToConstant: 500);
+        contentViewHeightAnchor = contentView.heightAnchor.constraint(equalToConstant: 0);
         contentViewHeightAnchor.isActive = true;
     }
     
+    private func setupTopCategory(){
+        let topCategoryHeight = self.view.frame.height / 12;
+        topCatagoryPickerViewHeightAnchor.constant = topCategoryHeight;
+        
+        let horizontalPadding = self.view.frame.width / 8;
+        let verticalPadding = topCatagoryPickerViewHeightAnchor.constant / 10;
+        let buttonWidth = (self.view.frame.width - 3 * horizontalPadding) / 2;
+        
+        //
+        
+        let newsButtonFrame = CGRect(x: horizontalPadding, y: verticalPadding, width: buttonWidth, height: topCatagoryPickerViewHeightAnchor.constant - 2*verticalPadding);
+        newsButton.frame = newsButtonFrame;
+        
+        newsButton.backgroundColor = .clear;
+        newsButton.layer.cornerRadius = newsButton.frame.height / 2;
+        newsButton.layer.borderWidth = 2;
+        newsButton.layer.borderColor = newsButtonColor.cgColor;
+        
+        newsButton.setTitle("AUSD News", for: .normal);
+        newsButton.titleLabel?.font = UIFont(name: SFCompactDisplay_Light, size: newsButton.frame.height * 0.4);
+        newsButton.setTitleColor(newsButtonColor, for: .normal);
+        
+        newsButton.addTarget(self, action: #selector(self.selectCategoryButton), for: .touchUpInside);
+        
+        newsButton.tag = 1;
+        topCatagoryPickerView.addSubview(newsButton);
+        
+        //
+        
+        let communityButtonFrame = CGRect(x: newsButton.frame.maxX + horizontalPadding, y: verticalPadding, width: buttonWidth, height: topCatagoryPickerViewHeightAnchor.constant - 2*verticalPadding);
+        communityButton.frame = communityButtonFrame;
+        
+        communityButton.backgroundColor = .clear;
+        communityButton.layer.cornerRadius = communityButton.frame.height / 2;
+        communityButton.layer.borderWidth = 2;
+        communityButton.layer.borderColor = communityButtonColor.cgColor;
+        
+        communityButton.setTitle("Community", for: .normal);
+        communityButton.titleLabel?.font = UIFont(name: SFCompactDisplay_Light, size: communityButton.frame.height * 0.4);
+        communityButton.setTitleColor(communityButtonColor, for: .normal);
+        
+        communityButton.addTarget(self, action: #selector(self.selectCategoryButton), for: .touchUpInside);
+        
+        communityButton.tag = 2;
+        topCatagoryPickerView.addSubview(communityButton);
+        
+        selectCategoryButton(newsButton);
+        
+    }
+
     
 }
