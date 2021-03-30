@@ -10,9 +10,12 @@ import UIKit
 
 class communityPageController : UIViewController{
     
+    public var testAtt = 0;
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         self.view.backgroundColor = .systemRed;
+        print("loaded community");
     }
     
     

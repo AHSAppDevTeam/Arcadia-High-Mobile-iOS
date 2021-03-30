@@ -19,6 +19,8 @@ extension homePageViewController{
             
             communityButton.backgroundColor = BackgroundColor;
             communityButton.setTitleColor(communityButtonColor, for: .normal);
+        
+            setContentView(0);
         }
         else if (tag == 2){
             newsButton.backgroundColor = BackgroundColor;
@@ -26,7 +28,19 @@ extension homePageViewController{
             
             communityButton.backgroundColor = communityButtonColor;
             communityButton.setTitleColor(BackgroundColor, for: .normal);
+            
+            setContentView(1);
         }
+        
+    }
+    
+    internal func setContentView(_ index: Int){
+        
+        //for view in contentView
+        let newscontent : newsPageController = contentViewControllers[0] as! newsPageController;
+        let communitycontent : communityPageController = contentViewControllers[1] as! communityPageController;
+        
+        //print(newscontent.testAtt + communitycontent.testAtt);
         
     }
     

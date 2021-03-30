@@ -34,6 +34,7 @@ class homePageViewController : mainPageViewController{
     
     internal var contentView : UIView = UIView();
     internal var contentViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
+    internal let contentViewControllers : [UIViewController] = [newsPageController(), communityPageController()];
     
     //
     
@@ -109,11 +110,11 @@ class homePageViewController : mainPageViewController{
     }
     
     private func setupTopCategory(){
-        let topCategoryHeight = self.view.frame.height / 12;
+        let topCategoryHeight = self.view.frame.height / 10;
         topCatagoryPickerViewHeightAnchor.constant = topCategoryHeight;
         
         let horizontalPadding = self.view.frame.width / 8;
-        let verticalPadding = topCatagoryPickerViewHeightAnchor.constant / 10;
+        let verticalPadding = topCatagoryPickerViewHeightAnchor.constant / 6;
         let buttonWidth = (self.view.frame.width - 3 * horizontalPadding) / 2;
         
         //

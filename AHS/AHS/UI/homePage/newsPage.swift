@@ -10,9 +10,12 @@ import UIKit
 
 class newsPageController : UIViewController{
     
+    public var testAtt = 0;
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         self.view.backgroundColor = .systemBlue;
+        print("loaded news");
     }
     
     
