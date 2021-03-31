@@ -34,7 +34,8 @@ class homePageViewController : mainPageViewController{
     
     internal var contentView : UIView = UIView();
     internal var contentViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
-    internal let contentViewControllers : [UIViewController] = [newsPageController(), communityPageController()];
+    internal let contentViewControllers : [homeContentPageViewController] = [newsPageController(), communityPageController()];
+    internal var contentViewControllerIndex : Int = -1;
     
     //
     

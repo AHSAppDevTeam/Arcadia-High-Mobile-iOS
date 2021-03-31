@@ -37,11 +37,35 @@ extension homePageViewController{
     internal func setContentView(_ index: Int){
         
         //for view in contentView
-        let newscontent : newsPageController = contentViewControllers[0] as! newsPageController;
-        let communitycontent : communityPageController = contentViewControllers[1] as! communityPageController;
+        //let newscontent : newsPageController = contentViewControllers[0] as! newsPageController;
+        //let communitycontent : communityPageController = contentViewControllers[1] as! communityPageController;
         
-        //print(newscontent.testAtt + communitycontent.testAtt);
+        if (contentViewControllerIndex != -1){ // we must remove the prev view controller
+            
+            for view in contentView.subviews{
+                view.removeFromSuperview();
+            }
+            
+            let vc = contentViewControllers[contentViewControllerIndex];
+            
+            vc.willMove(toParent: nil);
+            vc.view.removeFromSuperview();
+            vc.removeFromParent();
+            
+        }
         
+        let vc = contentViewControllers[index];
+    
+        vc.willMove(toParent: self);
+        vc.view.frame = contentView.bounds;
+        contentView.addSubview(vc.view);
+        self.addChild(vc);
+        vc.didMove(toParent: self);
+        
+        contentViewHeightAnchor.constant = vc.getSubviewsMaxY();
+        
+        contentViewControllerIndex = index;
+                
     }
     
 }
