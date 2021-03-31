@@ -40,32 +40,35 @@ extension homePageViewController{
         //let newscontent : newsPageController = contentViewControllers[0] as! newsPageController;
         //let communitycontent : communityPageController = contentViewControllers[1] as! communityPageController;
         
-        if (contentViewControllerIndex != -1){ // we must remove the prev view controller
+        if (index != contentViewControllerIndex){
             
-            for view in contentView.subviews{
-                view.removeFromSuperview();
+            if (contentViewControllerIndex != -1){ // we must remove the prev view controller
+                
+                for view in contentView.subviews{
+                    view.removeFromSuperview();
+                }
+                
+                let vc = contentViewControllers[contentViewControllerIndex];
+                
+                vc.willMove(toParent: nil);
+                vc.view.removeFromSuperview();
+                vc.removeFromParent();
+                
             }
             
-            let vc = contentViewControllers[contentViewControllerIndex];
+            let vc = contentViewControllers[index];
             
-            vc.willMove(toParent: nil);
-            vc.view.removeFromSuperview();
-            vc.removeFromParent();
+            vc.willMove(toParent: self);
+            vc.view.frame = contentView.bounds;
+            contentView.addSubview(vc.view);
+            self.addChild(vc);
+            vc.didMove(toParent: self);
+            
+            contentViewHeightAnchor.constant = vc.getSubviewsMaxY();
+            
+            contentViewControllerIndex = index;
             
         }
-        
-        let vc = contentViewControllers[index];
-    
-        vc.willMove(toParent: self);
-        vc.view.frame = contentView.bounds;
-        contentView.addSubview(vc.view);
-        self.addChild(vc);
-        vc.didMove(toParent: self);
-        
-        contentViewHeightAnchor.constant = vc.getSubviewsMaxY();
-        
-        contentViewControllerIndex = index;
-                
     }
     
 }

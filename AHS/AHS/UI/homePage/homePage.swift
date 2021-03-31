@@ -31,6 +31,7 @@ class homePageViewController : mainPageViewController{
     
     internal var featuredCategoryView : UIView = UIView();
     internal var featuredCategoryViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
+    internal let featuredCategoryController : homeContentPageViewController = featuredCategoryViewController();
     
     internal var contentView : UIView = UIView();
     internal var contentViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
@@ -61,6 +62,7 @@ class homePageViewController : mainPageViewController{
             
             setupLayout();
             setupTopCategory();
+            setupFeaturedCategory();
             
             self.hasBeenSetup = true;
         }
@@ -85,7 +87,6 @@ class homePageViewController : mainPageViewController{
         //
         
         mainScrollView.addSubview(featuredCategoryView);
-        featuredCategoryView.backgroundColor = .systemGreen;
         
         featuredCategoryView.translatesAutoresizingMaskIntoConstraints = false;
         featuredCategoryView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true;
@@ -98,7 +99,6 @@ class homePageViewController : mainPageViewController{
         //
         
         mainScrollView.addSubview(contentView);
-        contentView.backgroundColor = .systemOrange;
         
         contentView.translatesAutoresizingMaskIntoConstraints = false;
         contentView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true;
@@ -160,5 +160,16 @@ class homePageViewController : mainPageViewController{
         
     }
 
+    private func setupFeaturedCategory(){
+        
+        featuredCategoryController.willMove(toParent: self);
+        featuredCategoryController.view.frame = featuredCategoryView.bounds;
+        featuredCategoryView.addSubview(featuredCategoryController.view);
+        self.addChild(featuredCategoryController);
+        featuredCategoryController.didMove(toParent: self);
+        
+        featuredCategoryViewHeightAnchor.constant = featuredCategoryController.getSubviewsMaxY();
+        
+    }
     
 }
