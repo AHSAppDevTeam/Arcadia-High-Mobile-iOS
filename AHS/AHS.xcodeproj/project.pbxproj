@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		330FBBE826158E000086A205 /* dataManager_featuredCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FBBE726158E000086A205 /* dataManager_featuredCategory.swift */; };
 		3315DDC82612F07100A0790C /* SFCompactDisplay-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3315DDC72612F07100A0790C /* SFCompactDisplay-Light.otf */; };
 		331B583E260460C200DD0B20 /* dataManager_locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B583D260460C200DD0B20 /* dataManager_locations.swift */; };
 		333D4BAE26005362000EC057 /* navigationViewControllerActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */; };
@@ -88,6 +89,7 @@
 		11D70FDC904CC1412F84CE9B /* Pods_AHS_AHSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHS_AHSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		182F8D673B9EBFAF69E66FA3 /* Pods-AHS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHS.debug.xcconfig"; path = "Target Support Files/Pods-AHS/Pods-AHS.debug.xcconfig"; sourceTree = "<group>"; };
 		29C647A5FB72F535FA89A625 /* Pods_AHSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		330FBBE726158E000086A205 /* dataManager_featuredCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_featuredCategory.swift; sourceTree = "<group>"; };
 		3315DDC72612F07100A0790C /* SFCompactDisplay-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Light.otf"; sourceTree = "<group>"; };
 		331B583D260460C200DD0B20 /* dataManager_locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_locations.swift; sourceTree = "<group>"; };
 		333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigationViewControllerActions.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				331B583D260460C200DD0B20 /* dataManager_locations.swift */,
 				33DBA86226102AC400CA9DCD /* dataManager_catagories.swift */,
+				330FBBE726158E000086A205 /* dataManager_featuredCategory.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -610,6 +613,7 @@
 				331B583E260460C200DD0B20 /* dataManager_locations.swift in Sources */,
 				3377020F25FF091600DB4A71 /* profilePage.swift in Sources */,
 				338DBCB6261438DC00D5233F /* featuredCategoryView.swift in Sources */,
+				330FBBE826158E000086A205 /* dataManager_featuredCategory.swift in Sources */,
 				333D4BAE26005362000EC057 /* navigationViewControllerActions.swift in Sources */,
 				337701F825FF031100DB4A71 /* Extensions.swift in Sources */,
 				338F0D9926031BB100D49800 /* dataManager.swift in Sources */,

@@ -23,6 +23,12 @@ class featuredCategoryViewController : homeContentPageViewController{
         
         self.view.addSubview(mainView);
         
+        dataManager.getFeaturedCategoryData(completion: { (title, blurb) in
+            
+            print("title - \(title) + \(blurb)")
+            
+        });
+        
     }
     
     @objc func handlePress(_ sender: UIButton){
