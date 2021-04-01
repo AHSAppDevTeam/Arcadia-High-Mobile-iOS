@@ -30,7 +30,7 @@ class homePageViewController : mainPageViewController{
     internal var topCatagoryPickerViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
     
     internal var featuredCategoryView : UIView = UIView();
-    internal var featuredCategoryViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
+    public var featuredCategoryViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
     internal let featuredCategoryController : homeContentPageViewController = featuredCategoryViewController();
     
     internal var contentView : UIView = UIView();

@@ -11,23 +11,72 @@ import UIKit
 class featuredCategoryViewController : homeContentPageViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+    
+        dataManager.getFeaturedCategoryData(completion: { (title, blurb) in
+            self.renderView(title: title, blurb: blurb);
+        });
         
-        let horizontalPadding = AppUtility.getCurrentScreenSize().width / 12;
-        let mainViewFrame = CGRect(x: horizontalPadding, y: 0, width: AppUtility.getCurrentScreenSize().width - 2*horizontalPadding, height: AppUtility.getCurrentScreenSize().height / 12);
+    }
+    
+    internal func renderView(title: String, blurb: String){
+        
+        let outerHorizontalPadding = AppUtility.getCurrentScreenSize().width / 12;
+        let mainViewWidth = AppUtility.getCurrentScreenSize().width - 2*outerHorizontalPadding;
+        
+        let horizontalPadding = CGFloat(25);
+        let verticalPadding = CGFloat(5);
+        
+        let titleLabelText = title;
+        let titleLabelFont = UIFont(name: SFProDisplay_Black, size: 20)!;
+        let titleLabelWidth = mainViewWidth - 2*horizontalPadding;
+        let titleLabelHeight = titleLabelText.height(withConstrainedWidth: titleLabelWidth, font: titleLabelFont);
+        
+        let bodyLabelText = blurb;
+        let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: 15)!;
+        let bodyLabelWidth = mainViewWidth - 2*horizontalPadding;
+        let bodyLabelHeight = bodyLabelText.height(withConstrainedWidth: bodyLabelWidth, font: bodyLabelFont);
+        
+        let mainViewHeight = titleLabelHeight + bodyLabelHeight + 2*verticalPadding;
+        
+        let mainViewFrame = CGRect(x: outerHorizontalPadding, y: 0, width: mainViewWidth, height: mainViewHeight);
         let mainView = UIButton(frame: mainViewFrame);
         
-        mainView.layer.cornerRadius = mainView.frame.height / 2;
+        mainView.layer.cornerRadius = 25;
         mainView.backgroundColor = UIColor.rgb(216, 150, 61);
         
         mainView.addTarget(self, action: #selector(self.handlePress), for: .touchUpInside);
         
         self.view.addSubview(mainView);
         
-        dataManager.getFeaturedCategoryData(completion: { (title, blurb) in
-            
-            print("title - \(title) + \(blurb)")
-            
-        });
+        let titleLabel = UILabel(frame: CGRect(x: horizontalPadding, y: verticalPadding, width: titleLabelWidth, height: titleLabelHeight));
+        titleLabel.text = titleLabelText;
+        titleLabel.font = titleLabelFont;
+        titleLabel.textColor = BackgroundColor;
+        titleLabel.numberOfLines = 0;
+        
+        mainView.addSubview(titleLabel);
+        
+        let bodyLabel = UILabel(frame: CGRect(x: horizontalPadding, y: titleLabel.frame.maxY, width: bodyLabelWidth, height: bodyLabelHeight));
+        bodyLabel.text = bodyLabelText;
+        bodyLabel.font = bodyLabelFont;
+        bodyLabel.textColor = BackgroundColor;
+        bodyLabel.numberOfLines = 0;
+        
+        mainView.addSubview(bodyLabel);
+        
+        // chevron.right
+        
+        let chevronImageViewFrame = CGRect(x: mainView.frame.width - horizontalPadding - 5, y: 0, width: horizontalPadding, height: mainView.frame.height);
+        let chevronImageView = UIImageView(frame: chevronImageViewFrame);
+        
+        chevronImageView.image = UIImage(systemName: "chevron.right");
+        chevronImageView.contentMode = .scaleAspectFit;
+        chevronImageView.tintColor = BackgroundColor;
+        
+        mainView.addSubview(chevronImageView);
+        
+        let parentVC = self.parent as! homePageViewController;
+        parentVC.featuredCategoryViewHeightAnchor.constant = self.getSubviewsMaxY();
         
     }
     
