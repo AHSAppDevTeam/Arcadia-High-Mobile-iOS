@@ -12,7 +12,7 @@ class featuredCategoryViewController : homeContentPageViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        let horizontalPadding = AppUtility.getCurrentScreenSize().width / 8;
+        let horizontalPadding = AppUtility.getCurrentScreenSize().width / 12;
         let mainViewFrame = CGRect(x: horizontalPadding, y: 0, width: AppUtility.getCurrentScreenSize().width - 2*horizontalPadding, height: AppUtility.getCurrentScreenSize().height / 12);
         let mainView = UIButton(frame: mainViewFrame);
         

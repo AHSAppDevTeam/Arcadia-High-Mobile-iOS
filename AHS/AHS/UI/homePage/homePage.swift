@@ -71,14 +71,18 @@ class homePageViewController : mainPageViewController{
     
     private func setupLayout(){
         
+        let verticalPadding = CGFloat(8);
+        
         //top category
         mainScrollView.addSubview(topCatagoryPickerView);
         
         // constraints
         topCatagoryPickerView.translatesAutoresizingMaskIntoConstraints = false;
         topCatagoryPickerView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true;
-        topCatagoryPickerView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true;
         topCatagoryPickerView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true;
+        let topCategoryConstraint = topCatagoryPickerView.topAnchor.constraint(equalTo: mainScrollView.topAnchor);
+        topCategoryConstraint.isActive = true;
+        topCategoryConstraint.constant = verticalPadding;
         //topCatagoryPickerView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
         
         topCatagoryPickerViewHeightAnchor = topCatagoryPickerView.heightAnchor.constraint(equalToConstant: 0);
@@ -90,8 +94,10 @@ class homePageViewController : mainPageViewController{
         
         featuredCategoryView.translatesAutoresizingMaskIntoConstraints = false;
         featuredCategoryView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true;
-        featuredCategoryView.topAnchor.constraint(equalTo: topCatagoryPickerView.bottomAnchor).isActive = true;
         featuredCategoryView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true;
+        let featuredCategoryConstraint = featuredCategoryView.topAnchor.constraint(equalTo: topCatagoryPickerView.bottomAnchor);
+        featuredCategoryConstraint.isActive = true;
+        featuredCategoryConstraint.constant = verticalPadding;
         
         featuredCategoryViewHeightAnchor = featuredCategoryView.heightAnchor.constraint(equalToConstant: 0);
         featuredCategoryViewHeightAnchor.isActive = true;
@@ -102,25 +108,26 @@ class homePageViewController : mainPageViewController{
         
         contentView.translatesAutoresizingMaskIntoConstraints = false;
         contentView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true;
-        contentView.topAnchor.constraint(equalTo: featuredCategoryView.bottomAnchor).isActive = true;
         contentView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor).isActive = true;
         contentView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
+        let contentViewConstraint = contentView.topAnchor.constraint(equalTo: featuredCategoryView.bottomAnchor);
+        contentViewConstraint.isActive = true;
+        contentViewConstraint.constant = verticalPadding;
         
         contentViewHeightAnchor = contentView.heightAnchor.constraint(equalToConstant: 0);
         contentViewHeightAnchor.isActive = true;
     }
     
     private func setupTopCategory(){
-        let topCategoryHeight = self.view.frame.height / 10;
+        let topCategoryHeight = self.view.frame.height / 15;
         topCatagoryPickerViewHeightAnchor.constant = topCategoryHeight;
         
-        let horizontalPadding = self.view.frame.width / 8;
-        let verticalPadding = topCatagoryPickerViewHeightAnchor.constant / 6;
+        let horizontalPadding = self.view.frame.width / 12;
         let buttonWidth = (self.view.frame.width - 3 * horizontalPadding) / 2;
         
         //
         
-        let newsButtonFrame = CGRect(x: horizontalPadding, y: verticalPadding, width: buttonWidth, height: topCatagoryPickerViewHeightAnchor.constant - 2*verticalPadding);
+        let newsButtonFrame = CGRect(x: horizontalPadding, y: 0, width: buttonWidth, height: topCatagoryPickerViewHeightAnchor.constant);
         newsButton.frame = newsButtonFrame;
         
         newsButton.backgroundColor = .clear;
@@ -139,7 +146,7 @@ class homePageViewController : mainPageViewController{
         
         //
         
-        let communityButtonFrame = CGRect(x: newsButton.frame.maxX + horizontalPadding, y: verticalPadding, width: buttonWidth, height: topCatagoryPickerViewHeightAnchor.constant - 2*verticalPadding);
+        let communityButtonFrame = CGRect(x: newsButton.frame.maxX + horizontalPadding, y: 0, width: buttonWidth, height: topCatagoryPickerViewHeightAnchor.constant);
         communityButton.frame = communityButtonFrame;
         
         communityButton.backgroundColor = .clear;
