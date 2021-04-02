@@ -10,6 +10,11 @@ import UIKit
 
 extension homePageViewController{
     
+    @objc func refresh(_ sender: UIRefreshControl){
+        print("refresh");
+        refreshControl.endRefreshing();
+    }
+    
     @objc func selectCategoryButton(_ sender: UIButton){
         let tag = sender.tag;
         

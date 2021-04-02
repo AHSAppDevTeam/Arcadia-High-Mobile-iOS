@@ -45,6 +45,10 @@ class homePageViewController : mainPageViewController{
     internal var communityButton : UIButton = UIButton();
     internal let communityButtonColor = UIColor.rgb(72, 153, 146);
     
+    //
+    
+    internal let refreshControl = UIRefreshControl();
+    
     override func viewDidLoad() {
         super.viewDidLoad();
     }
@@ -63,6 +67,9 @@ class homePageViewController : mainPageViewController{
             setupLayout();
             setupTopCategory();
             setupFeaturedCategory();
+            
+            mainScrollView.addSubview(refreshControl);
+            refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged);
             
             self.hasBeenSetup = true;
         }
