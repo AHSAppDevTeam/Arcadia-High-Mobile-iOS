@@ -12,6 +12,48 @@ extension UIColor{
     static func rgb(_ r: Double, _ g: Double, _ b: Double) -> UIColor{
         return UIColor.init(red: CGFloat(r/255.0), green: CGFloat(g/255.0), blue: CGFloat(b/255.0), alpha: CGFloat(1.0));
     }
+    
+    convenience init(hex: String, alpha: CGFloat = 1.0){
+        
+        var hex_copy = hex;
+        let count = hex.count;
+        
+        if (count != 6 && count != 7){
+            self.init();
+            return;
+        }
+        
+        if (count == 7){
+            hex_copy.removeFirst();
+        }
+        
+        // FFFFFF - FF FF FF
+        
+        let r_s : String = "\(hex_copy[0])\(hex_copy[1])";
+        let g_s : String = "\(hex_copy[2])\(hex_copy[3])";
+        let b_s : String = "\(hex_copy[4])\(hex_copy[5])";
+        
+        //print("hex - \(r_s)\(g_s)\(b_s)")
+        
+        guard let r = UInt8(r_s, radix: 16) else{
+            self.init();
+            return;
+        }
+        
+        guard let g = UInt8(g_s, radix: 16) else{
+            self.init();
+            return;
+        }
+        
+        guard let b = UInt8(b_s, radix: 16) else{
+            self.init();
+            return;
+        }
+        
+        self.init(red: CGFloat(Double(r)/255.0), green: CGFloat(Double(g)/255.0), blue: CGFloat(Double(b)/255.0), alpha: alpha);
+        
+    }
+    
 }
 
 extension UITextView { // https://stackoverflow.com/a/41387780
@@ -38,6 +80,10 @@ extension String {
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
 
         return ceil(boundingBox.width)
+    }
+    
+    subscript(offset: Int) -> Character {
+        self[index(startIndex, offsetBy: offset)]
     }
 }
 
