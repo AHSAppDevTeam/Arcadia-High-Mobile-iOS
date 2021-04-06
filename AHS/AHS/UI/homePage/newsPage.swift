@@ -22,6 +22,18 @@ class newsPageController : homeContentPageViewController{
         
         print("loaded news");
         
+        renderFeatured();
+        
+    }
+    
+    private func renderFeatured(){
+        
+        dataManager.getHomepageLocationData(completion: { (data) in
+            
+            print(data);
+            
+        });
+        
     }
     
     
