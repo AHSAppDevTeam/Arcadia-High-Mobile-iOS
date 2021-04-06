@@ -34,6 +34,12 @@ class newsPageController : homeContentPageViewController{
             
         });
         
+        dataManager.getCategoryData("Quill", completion: { (data) in
+            
+            print(data);
+            
+        });
+        
     }
     
     
