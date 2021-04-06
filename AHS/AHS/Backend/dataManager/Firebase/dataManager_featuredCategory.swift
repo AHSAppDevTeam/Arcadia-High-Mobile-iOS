@@ -9,9 +9,16 @@ import Foundation
 import UIKit
 import Firebase
 
+struct featuredCategoryData{
+    var title : String = "";
+    var blurb : String = "";
+    var colorDarkMode : UIColor = UIColor();
+    var colorLightMode : UIColor = UIColor();
+}
+
 extension dataManager{
 
-    static public func getFeaturedCategoryData(completion: @escaping (String, String) -> Void){ // title, blurb
+    static public func getFeaturedCategoryData(completion: @escaping (featuredCategoryData) -> Void){ // title, blurb
         
         setupConnection();
         
@@ -21,9 +28,9 @@ extension dataManager{
                 
                 if (id != ""){
                     
-                    getFeaturedCategoryTitleBlurb(id: id, completion: { (title, blurb) in
+                    getFeaturedCategoryTitleBlurb(id: id, completion: { (data) in
                         
-                        completion(title, blurb);
+                        completion(data);
                         
                     });
                     
@@ -47,28 +54,32 @@ extension dataManager{
         
     }
     
-    static private func getFeaturedCategoryTitleBlurb(id: String, completion: @escaping (String, String) -> Void){
+    static private func getFeaturedCategoryTitleBlurb(id: String, completion: @escaping (featuredCategoryData) -> Void){
         
         dataRef.child("categories").child(id).observeSingleEvent(of: .value){ (snapshot) in
             
-            var title = "", blurb = "";
+            var data : featuredCategoryData = featuredCategoryData();
             
             let enumerator = snapshot.children;
             
             while let categoryContent = enumerator.nextObject() as? DataSnapshot{
                 
                 if (categoryContent.key == "title"){
-                    title = categoryContent.value as? String ?? "";
+                    data.title = categoryContent.value as? String ?? "";
                 }
                 else if (categoryContent.key == "blurb"){
-                    blurb = categoryContent.value as? String ?? "";
+                    data.blurb = categoryContent.value as? String ?? "";
+                }
+                else if (categoryContent.key == "colorDarkMode"){
+                    data.colorDarkMode = UIColor.init(hex: categoryContent.value as? String ?? "");
+                }
+                else if (categoryContent.key == "colorLightMode"){
+                    data.colorLightMode = UIColor.init(hex: categoryContent.value as? String ?? "");
                 }
                 
             }
             
-            if (title != "" && blurb != ""){
-                completion(title, blurb);
-            }
+            completion(data);
             
         }
         

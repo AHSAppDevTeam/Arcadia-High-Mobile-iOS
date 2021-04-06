@@ -12,13 +12,13 @@ class featuredCategoryViewController : homeContentPageViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
     
-        dataManager.getFeaturedCategoryData(completion: { (title, blurb) in
-            self.renderView(title: title, blurb: blurb);
+        dataManager.getFeaturedCategoryData(completion: { (data) in
+            self.renderView(data: data);
         });
         
     }
     
-    internal func renderView(title: String, blurb: String){
+    internal func renderView(data: featuredCategoryData){
         
         let outerHorizontalPadding = AppUtility.getCurrentScreenSize().width / 12;
         let mainViewWidth = AppUtility.getCurrentScreenSize().width - 2*outerHorizontalPadding;
@@ -26,12 +26,12 @@ class featuredCategoryViewController : homeContentPageViewController{
         let horizontalPadding = CGFloat(25);
         let verticalPadding = CGFloat(5);
         
-        let titleLabelText = title;
+        let titleLabelText = data.title;
         let titleLabelFont = UIFont(name: SFProDisplay_Black, size: 20)!;
         let titleLabelWidth = mainViewWidth - 2*horizontalPadding;
         let titleLabelHeight = titleLabelText.height(withConstrainedWidth: titleLabelWidth, font: titleLabelFont);
         
-        let bodyLabelText = blurb;
+        let bodyLabelText = data.blurb;
         let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: 15)!;
         let bodyLabelWidth = mainViewWidth - 2*horizontalPadding;
         let bodyLabelHeight = bodyLabelText.height(withConstrainedWidth: bodyLabelWidth, font: bodyLabelFont);
@@ -42,7 +42,9 @@ class featuredCategoryViewController : homeContentPageViewController{
         let mainView = UIButton(frame: mainViewFrame);
         
         mainView.layer.cornerRadius = 25;
-        mainView.backgroundColor = UIColor.rgb(216, 150, 61);
+        mainView.backgroundColor = UIColor {_ in
+            return UIColor.dynamicColor(light: data.colorLightMode, dark: data.colorDarkMode);
+        }
         
         mainView.addTarget(self, action: #selector(self.handlePress), for: .touchUpInside);
         
