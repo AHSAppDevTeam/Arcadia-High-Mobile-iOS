@@ -42,6 +42,12 @@ class newsPageController : homeContentPageViewController{
             
         });
         
+        dataManager.getFullArticleData("crisp-weepy-monkey", completion: { (data) in
+            
+            print(data);
+            
+        });
+        
     }
     
     
