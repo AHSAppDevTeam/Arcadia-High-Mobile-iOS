@@ -10,6 +10,8 @@ import UIKit
 
 class newsPageController : homeContentPageViewController{
     
+    internal var nextY : CGFloat = 0;
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         
