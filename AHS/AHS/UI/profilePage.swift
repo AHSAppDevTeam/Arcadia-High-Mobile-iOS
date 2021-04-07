@@ -27,8 +27,8 @@ class profilePageViewController : mainPageViewController{
         let button = UIButton(type: .system)
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         button.setTitle("About US                                                          >", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont(name: SFProDisplay_Semibold, size: 18)
+        button.setTitleColor(BackgroundGrayColor, for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         button.layer.shadowRadius = 15
@@ -43,8 +43,8 @@ class profilePageViewController : mainPageViewController{
         let button = UIButton(type: .system)
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         button.setTitle("App Version                                                     >", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont(name: SFProDisplay_Semibold, size: 18)
+        button.setTitleColor(BackgroundGrayColor, for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         button.layer.shadowRadius = 15
@@ -58,8 +58,8 @@ class profilePageViewController : mainPageViewController{
         let button = UIButton(type: .system)
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         button.setTitle("Terms and Agreements                               >", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont(name: SFProDisplay_Semibold, size: 18)
+        button.setTitleColor(BackgroundGrayColor, for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         button.layer.shadowRadius = 15
@@ -73,8 +73,8 @@ class profilePageViewController : mainPageViewController{
         let button = UIButton(type: .system)
         button.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         button.setTitle("Notifications                                                    >", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.gray, for: .normal)
+        button.titleLabel?.font = UIFont(name: SFProDisplay_Semibold, size: 18)
+        button.setTitleColor(BackgroundGrayColor, for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         button.layer.shadowRadius = 15
@@ -89,8 +89,8 @@ class profilePageViewController : mainPageViewController{
         let button = UIButton(type: .system)
         button.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
         button.setTitle("Schedule", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: SFProDisplay_Bold, size: 18)
+        button.setTitleColor(InverseBackgroundColor, for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         button.layer.shadowRadius = 15
@@ -106,8 +106,8 @@ class profilePageViewController : mainPageViewController{
         let button = UIButton(type: .system)
         button.backgroundColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
         button.setTitle("Payment", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: SFProDisplay_Bold, size: 18)
+        button.setTitleColor(InverseBackgroundColor, for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         button.layer.shadowRadius = 15
@@ -134,21 +134,17 @@ class profilePageViewController : mainPageViewController{
         button.clipsToBounds = true
         return button
     }()
-
+    
     let scrollView: UIScrollView = {
-            let v = UIScrollView()
-            v.translatesAutoresizingMaskIntoConstraints = false
-            v.backgroundColor = .white
-            return v
-        }()
-
+        let v = UIScrollView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = BackgroundColor;
+        return v
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad();
-        
-        
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -157,26 +153,20 @@ class profilePageViewController : mainPageViewController{
         if (!self.hasBeenSetup){
             
             self.view.addSubview(scrollView)
-
-                    // constrain the scroll view to 8-pts on each side
-                scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-                scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-                scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-                scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-                    // add labelOne to the scroll view
-                    
             
+            // constrain the scroll view to 8-pts on each side
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            
+            // add labelOne to the scroll view
             CreateItemsInScrollView()
-     //       infoTextField()
-    //        optionsButtonAndSwitch()
-     //       makeButtons()
-
-          
+            
         }
         
     }
- 
+    
     
     
     func CreateItemsInScrollView() {
@@ -190,14 +180,12 @@ class profilePageViewController : mainPageViewController{
         optionsTextLabel2.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 1000).isActive = true
         optionsTextLabel2.textAlignment = NSTextAlignment.justified
         optionsTextLabel2.textColor = UIColor.white
-     // optionsTextLabel2.backgroundColor = UIColor.white
         optionsTextLabel2.text = " Name\nLast Name"
         optionsTextLabel2.backgroundColor = .red
         optionsTextLabel2.font = UIFont.boldSystemFont(ofSize: 30)
         optionsTextLabel2.layer.cornerRadius = 15
         
         
-        Schedule.frame = CGRect(x: 30, y: 250, width: 150, height: 35)
         scrollView.addSubview(Schedule)
         Schedule.translatesAutoresizingMaskIntoConstraints = false
         Schedule.heightAnchor.constraint(equalToConstant: 55).isActive = true
@@ -207,16 +195,14 @@ class profilePageViewController : mainPageViewController{
         
         
         
-        Payment.frame = CGRect(x: 30, y: 250, width: 150, height: 35)
         scrollView.addSubview(Payment)
         Payment.translatesAutoresizingMaskIntoConstraints = false
         Payment.heightAnchor.constraint(equalToConstant: 55).isActive = true
         Payment.widthAnchor.constraint(equalToConstant: 140).isActive = true
         Payment.topAnchor.constraint(equalTo: optionsTextLabel2.bottomAnchor, constant: 10).isActive = true
         Payment.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 80).isActive = true
-   
         
-        PeriodTime.frame = CGRect(x: 30, y: 250, width: 250, height: 60)
+        
         scrollView.addSubview(PeriodTime)
         PeriodTime.translatesAutoresizingMaskIntoConstraints = false
         PeriodTime.heightAnchor.constraint(equalToConstant: 80).isActive = true
@@ -227,19 +213,16 @@ class profilePageViewController : mainPageViewController{
         
         
         let optionsTextLabel = UILabel()
-        optionsTextLabel.frame = CGRect(x: 30, y: 250, width: 150, height: 35)
         scrollView.addSubview(optionsTextLabel)
         optionsTextLabel.translatesAutoresizingMaskIntoConstraints = false
         optionsTextLabel.topAnchor.constraint(equalTo: PeriodTime.bottomAnchor, constant: 10).isActive = true
         optionsTextLabel.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 60).isActive = true
-     // optionsTextLabel.bottomAnchor.constraint(equalTo: AboutUS.topAnchor).isActive = true
         optionsTextLabel.textAlignment = NSTextAlignment.justified
         optionsTextLabel.textColor = UIColor.black
-     // optionsTextLabel.backgroundColor = UIColor.white
         optionsTextLabel.text = "Options"
         optionsTextLabel.font = UIFont.boldSystemFont(ofSize: 30)
         
-       
+        
         scrollView.addSubview(Notifications)
         Notifications.translatesAutoresizingMaskIntoConstraints = false
         Notifications.heightAnchor.constraint(equalToConstant: 45).isActive = true
@@ -256,13 +239,12 @@ class profilePageViewController : mainPageViewController{
         ThemeModeTextLabel.centerXAnchor.constraint(equalTo: Notifications.centerXAnchor, constant: -121).isActive = true
         ThemeModeTextLabel.textAlignment = NSTextAlignment.justified
         ThemeModeTextLabel.textColor = UIColor.gray
-     // ThemeModeTextLabel.backgroundColor = UIColor.white
         ThemeModeTextLabel.text = "Theme mode"
         ThemeModeTextLabel.font = UIFont.boldSystemFont(ofSize: 18)
         
         
         let myswitch = UISwitch()
-        myswitch.frame = CGRect(x: 30, y: 250, width: 150, height: 35)
+        //myswitch.frame = CGRect(x: 30, y: 250, width: 150, height: 35)
         myswitch.isOn = false
         myswitch.thumbTintColor = UIColor.white
         myswitch.tintColor = UIColor.blue
@@ -271,18 +253,17 @@ class profilePageViewController : mainPageViewController{
         myswitch.translatesAutoresizingMaskIntoConstraints = false
         myswitch.centerYAnchor.constraint(equalTo: ThemeModeTextLabel.centerYAnchor).isActive = true
         myswitch.centerXAnchor.constraint(equalTo: ThemeModeTextLabel.centerXAnchor, constant: 265).isActive = true
-
-       
+        
+        
         
         let infoTextLabel = UILabel()
-        infoTextLabel.frame = CGRect(x: 30, y: 360, width: 90, height: 35)
+        //infoTextLabel.frame = CGRect(x: 30, y: 360, width: 90, height: 35)
         scrollView.addSubview(infoTextLabel)
         infoTextLabel.translatesAutoresizingMaskIntoConstraints = false
         infoTextLabel.topAnchor.constraint(equalTo: ThemeModeTextLabel.bottomAnchor, constant: 10).isActive = true
         infoTextLabel.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 35).isActive = true
         infoTextLabel.textAlignment = NSTextAlignment.justified
         infoTextLabel.textColor = UIColor.black
-     // textView.backgroundColor = UIColor.white
         infoTextLabel.text = "Info"
         infoTextLabel.font = UIFont.boldSystemFont(ofSize: 30)
         
@@ -315,17 +296,6 @@ class profilePageViewController : mainPageViewController{
         TermsandAgreements.topAnchor.constraint(equalTo: AppVersion.bottomAnchor).isActive = true
         //TermsandAgreements.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16.0).isActive = true
         TermsandAgreements.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-
-        
-        
-        
-        
-
-        
-   
-       
-        
-
         
     }
 }
