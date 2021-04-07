@@ -24,3 +24,19 @@ If there are parts you do not understand, please reach out to us. Thank you!
 
 ---
 For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam/Arcadia-High-Mobile).
+
+---
+
+# XCode setup 
+
+After cloning, you must reinstall CocoaPods due to location issues across different systems.
+
+Run these commands in order:
+1. `cd .../AHS/AHS/`
+2. `pod deintegrate`
+3. `pod clean`
+4. `pod install`
+
+This should regenerate the project file to suit your specific system.
+
+Now, you might be asking, why not add the file to `.gitignore` if it's different across systems? Well, you need the project file in the first place in order to install CocoaPods at all. Just make sure to not recommit **your** new project file to the repo as that would require everyone else to reinstall CocoaPods.
