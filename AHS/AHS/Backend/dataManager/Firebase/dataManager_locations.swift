@@ -20,9 +20,11 @@ extension dataManager{
         
         setupConnection();
         
-        getLocationData(locationName: "homepage", completion: { (data) in
-            completion(data);
-        });
+        if (internetConnected){
+            getLocationData(locationName: "homepage", completion: { (data) in
+                completion(data);
+            });
+        }
         
     }
     
@@ -30,20 +32,22 @@ extension dataManager{
         
         setupConnection();
         
-        getLocationData(locationName: "community", completion: { (data) in
-            completion(data);
-        });
-        
+        if (internetConnected){
+            getLocationData(locationName: "community", completion: { (data) in
+                completion(data);
+            });
+        }
     }
     
     static public func getBulletinLocationData(completion: @escaping (locationData) -> Void){
         
         setupConnection();
         
-        getLocationData(locationName: "bulletin", completion: { (data) in
-            completion(data);
-        });
-        
+        if (internetConnected){
+            getLocationData(locationName: "bulletin", completion: { (data) in
+                completion(data);
+            });
+        }
     }
     
     static internal func getLocationData(locationName: String, completion: @escaping (locationData) -> Void){
