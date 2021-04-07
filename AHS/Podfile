@@ -14,6 +14,7 @@ target 'AHS' do
   pod 'Firebase/Messaging'
   pod 'SDWebImage'
   pod "youtube-ios-player-helper", "~> 1.0.2"
+  pod "UPCarouselFlowLayout"
 
   target 'AHSTests' do
     inherit! :search_paths

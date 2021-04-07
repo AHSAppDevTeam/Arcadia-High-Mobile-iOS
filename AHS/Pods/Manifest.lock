@@ -356,6 +356,7 @@ PODS:
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
+  - UPCarouselFlowLayout (1.1.2)
   - youtube-ios-player-helper (1.0.3)
 
 DEPENDENCIES:
@@ -365,6 +366,7 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Messaging
   - SDWebImage
+  - UPCarouselFlowLayout
   - youtube-ios-player-helper (~> 1.0.2)
 
 SPEC REPOS:
@@ -391,6 +393,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - SDWebImage
+    - UPCarouselFlowLayout
     - youtube-ios-player-helper
 
 SPEC CHECKSUMS:
@@ -416,8 +419,9 @@ SPEC CHECKSUMS:
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
+  UPCarouselFlowLayout: 4c7d2c43a10ebb1597bde502a53699d378341dad
   youtube-ios-player-helper: 0185c57db23c80d63d6ca11251d110abb8a4ca61
 
-PODFILE CHECKSUM: a6d1b008558df4dd6fc9936f7b1ecfaaf09fc685
+PODFILE CHECKSUM: a3a83ff4ae1e223bab3c929d35fd95058b28dbda
 
 COCOAPODS: 1.10.1
