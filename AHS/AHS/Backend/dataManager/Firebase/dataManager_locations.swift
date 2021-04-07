@@ -10,7 +10,7 @@ import Firebase
 import FirebaseDatabase
 
 struct locationData{
-    var catagoryIDs : [String] = [];
+    var categoryIDs : [String] = [];
     var locationTitle : String = "";
 }
 
@@ -50,28 +50,13 @@ extension dataManager{
         
         dataRef.child("locations").child(locationName).observeSingleEvent(of: .value, with: { (snapshot) in
             
+            let locationDict = snapshot.value as? NSDictionary;
+            
             var data : locationData = locationData();
             
-            let enumerator = snapshot.children;
-            
-            while let content = enumerator.nextObject() as? DataSnapshot{
-                
-                if (content.key == "categoryIDs"){
-                    
-                    let idIt = content.children;
-                    while let id = idIt.nextObject() as? DataSnapshot{
-                        data.catagoryIDs.append(id.value as? String ?? "");
-                    }
-                    
-                }
-                else if (content.key == "title"){
-                    
-                    data.locationTitle = content.value as? String ?? "";
-                    
-                }
-                
-            }
-            
+            data.categoryIDs = locationDict?["categoryIDs"] as? [String] ?? [];
+            data.locationTitle = locationDict?["title"] as? String ?? "";
+        
             completion(data);
             
         });

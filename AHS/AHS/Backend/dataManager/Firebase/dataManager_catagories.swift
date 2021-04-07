@@ -23,35 +23,16 @@ extension dataManager{
         
         dataRef.child("categories").child(categoryID).observeSingleEvent(of: .value, with: { (snapshot) in
             
+            let categoryDict = snapshot.value as? NSDictionary;
+            
             var data : categoryData = categoryData();
             
-            let enumerator = snapshot.children;
-            
-            while let attributes = enumerator.nextObject() as? DataSnapshot{
-                
-                if (attributes.key == "articleIDs"){
-                    let articleIDsIT = attributes.children;
-                    while let articleID = articleIDsIT.nextObject() as? DataSnapshot{
-                        data.articleIDs.append(articleID.value as? String ?? "");
-                    }
-                }
-                else if (attributes.key == "blurb"){
-                    data.blurb = attributes.value as? String ?? "";
-                }
-                else if (attributes.key == "colorDarkMode"){
-                    data.colorDarkMode = UIColor.init(hex: attributes.value as? String ?? "");
-                }
-                else if (attributes.key == "colorLightMode"){
-                    data.colorLightMode = UIColor.init(hex: attributes.value as? String ?? "");
-                }
-                else if (attributes.key == "featured"){
-                    data.featured = attributes.value as? Bool ?? false;
-                }
-                else if (attributes.key == "title"){
-                    data.title = attributes.value as? String ?? "NULL title";
-                }
-                
-            }
+            data.articleIDs = categoryDict?["articleIDs"] as? [String] ?? [];
+            data.blurb = categoryDict?["blurb"] as? String ?? "";
+            data.colorDarkMode = UIColor.init(hex: categoryDict?["colorDarkMode"] as? String ?? "");
+            data.colorLightMode = UIColor.init(hex: categoryDict?["colorLightMode"] as? String ?? "");
+            data.featured = categoryDict?["featured"] as? Bool ?? false;
+            data.title = categoryDict?["title"] as? String ?? "";
             
             completion(data);
             

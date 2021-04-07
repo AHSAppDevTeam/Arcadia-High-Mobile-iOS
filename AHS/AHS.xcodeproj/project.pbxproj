@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		330DDFA3261D6DFD00747625 /* dataManager_article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330DDFA2261D6DFD00747625 /* dataManager_article.swift */; };
 		330FBBE826158E000086A205 /* dataManager_featuredCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FBBE726158E000086A205 /* dataManager_featuredCategory.swift */; };
 		3315DDC82612F07100A0790C /* SFCompactDisplay-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3315DDC72612F07100A0790C /* SFCompactDisplay-Light.otf */; };
 		331B583E260460C200DD0B20 /* dataManager_locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B583D260460C200DD0B20 /* dataManager_locations.swift */; };
@@ -89,6 +90,7 @@
 		11D70FDC904CC1412F84CE9B /* Pods_AHS_AHSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHS_AHSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		182F8D673B9EBFAF69E66FA3 /* Pods-AHS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHS.debug.xcconfig"; path = "Target Support Files/Pods-AHS/Pods-AHS.debug.xcconfig"; sourceTree = "<group>"; };
 		29C647A5FB72F535FA89A625 /* Pods_AHSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		330DDFA2261D6DFD00747625 /* dataManager_article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_article.swift; sourceTree = "<group>"; };
 		330FBBE726158E000086A205 /* dataManager_featuredCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_featuredCategory.swift; sourceTree = "<group>"; };
 		3315DDC72612F07100A0790C /* SFCompactDisplay-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Light.otf"; sourceTree = "<group>"; };
 		331B583D260460C200DD0B20 /* dataManager_locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_locations.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				331B583D260460C200DD0B20 /* dataManager_locations.swift */,
 				33DBA86226102AC400CA9DCD /* dataManager_catagories.swift */,
 				330FBBE726158E000086A205 /* dataManager_featuredCategory.swift */,
+				330DDFA2261D6DFD00747625 /* dataManager_article.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -622,6 +625,7 @@
 				338F0DBF26031F0900D49800 /* Classes.swift in Sources */,
 				3377020A25FF090E00DB4A71 /* savedPage.swift in Sources */,
 				33516AB125FDD9240048A5A5 /* AppDelegate.swift in Sources */,
+				330DDFA3261D6DFD00747625 /* dataManager_article.swift in Sources */,
 				33516AB325FDD9240048A5A5 /* SceneDelegate.swift in Sources */,
 				33DBA86326102AC400CA9DCD /* dataManager_catagories.swift in Sources */,
 				33DBA87026102BD500CA9DCD /* communityPage.swift in Sources */,
