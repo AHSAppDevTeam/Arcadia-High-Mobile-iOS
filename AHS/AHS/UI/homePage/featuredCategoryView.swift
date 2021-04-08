@@ -20,7 +20,7 @@ class featuredCategoryViewController : homeContentPageViewController{
     
     internal func renderView(data: featuredCategoryData){
         
-        let outerHorizontalPadding = AppUtility.getCurrentScreenSize().width / 12;
+        let outerHorizontalPadding = homePageHorizontalPadding;
         let mainViewWidth = AppUtility.getCurrentScreenSize().width - 2*outerHorizontalPadding;
         
         let horizontalPadding = CGFloat(25);

@@ -38,3 +38,6 @@ let SFProDisplay_Medium = "SFProDisplay-Medium";
 let SFCompactDisplay_Light = "SFCompactDisplay-Light";
 //
 
+// Global constants
+let homePageHorizontalPadding = AppUtility.getCurrentScreenSize().width / 20;
+//

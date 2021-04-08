@@ -129,7 +129,7 @@ class homePageViewController : mainPageViewController{
         let topCategoryHeight = self.view.frame.height / 15;
         topCatagoryPickerViewHeightAnchor.constant = topCategoryHeight;
         
-        let horizontalPadding = self.view.frame.width / 12;
+        let horizontalPadding = homePageHorizontalPadding;
         let buttonWidth = (self.view.frame.width - 3 * horizontalPadding) / 2;
         
         //
