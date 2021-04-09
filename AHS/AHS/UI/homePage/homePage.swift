@@ -78,7 +78,7 @@ class homePageViewController : mainPageViewController{
     
     private func setupLayout(){
         
-        let verticalPadding = CGFloat(8);
+        let verticalPadding = CGFloat(10);
         
         //top category
         mainScrollView.addSubview(topCatagoryPickerView);

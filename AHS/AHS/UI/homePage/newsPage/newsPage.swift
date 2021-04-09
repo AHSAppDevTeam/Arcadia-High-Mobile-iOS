@@ -17,6 +17,7 @@ class newsPageController : homeContentPageViewController{
     // Featured vars
     internal var featuredCollectionView : UICollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UPCarouselFlowLayout());
     internal var featuredArticleArray : [baseArticleData] = [];
+    internal var featuredArticleArrayCount = 1;
     
     override func viewDidLoad() {
         super.viewDidLoad();

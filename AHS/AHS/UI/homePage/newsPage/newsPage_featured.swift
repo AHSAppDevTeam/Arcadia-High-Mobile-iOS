@@ -52,9 +52,10 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredCollectionView.dataSource = self;
         featuredCollectionView.register(featuredCollectionViewCell.self, forCellWithReuseIdentifier: featuredCollectionViewCell.identifier);
         
-        nextY += featuredCollectionView.frame.height + verticalPadding;
+        nextY += featuredCollectionView.frame.height;
         
         self.view.addSubview(featuredCollectionView);
+        
         
     }
     
@@ -65,7 +66,8 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10;
+        print("called numberOfItems - \(featuredArticleArrayCount)");
+        return featuredArticleArrayCount;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -76,6 +78,12 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("selected item at \(indexPath.row)");
+        
+        if (featuredArticleArrayCount <= 9){
+            print("setting article count - \(featuredArticleArrayCount + 1)");
+            featuredArticleArrayCount += 1;
+            featuredCollectionView.reloadData();
+        }
     }
     
 }
