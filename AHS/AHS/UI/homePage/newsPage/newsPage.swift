@@ -17,7 +17,11 @@ class newsPageController : homeContentPageViewController{
     // Featured vars
     internal var featuredCollectionView : UICollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UPCarouselFlowLayout());
     internal var featuredArticleArray : [baseArticleData] = [];
-    internal var featuredArticleArrayCount = 1;
+    
+    internal let featuredArticleLabel : UILabel = UILabel();
+    internal let featuredArticleCategoryView : UIView = UIView();
+    internal let featuredArticleCategoryLabel : UILabel = UILabel();
+    internal let featuredArticleTimestampLabel : UILabel = UILabel();
     
     override func viewDidLoad() {
         super.viewDidLoad();

@@ -56,6 +56,22 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         
         self.view.addSubview(featuredCollectionView);
         
+        //
+        
+        featuredArticleLabel.frame = CGRect(x: homePageHorizontalPadding, y: nextY, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: AppUtility.getCurrentScreenSize().width / 5);
+        
+        featuredArticleLabel.backgroundColor = .systemRed;
+        featuredArticleLabel.numberOfLines = 2;
+        featuredArticleLabel.font = UIFont(name: SFProDisplay_Bold, size: featuredArticleLabel.frame.height / 2);
+        featuredArticleLabel.textColor = InverseBackgroundColor;
+        
+        nextY += featuredArticleLabel.frame.height + verticalPadding;
+        
+        self.view.addSubview(featuredArticleLabel);
+        
+        //
+        
+        
         
     }
     
@@ -66,8 +82,8 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("called numberOfItems - \(featuredArticleArrayCount)");
-        return featuredArticleArrayCount;
+        //return featuredArticleArray.count;
+        return 2;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -78,12 +94,6 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("selected item at \(indexPath.row)");
-        
-        if (featuredArticleArrayCount <= 9){
-            print("setting article count - \(featuredArticleArrayCount + 1)");
-            featuredArticleArrayCount += 1;
-            featuredCollectionView.reloadData();
-        }
     }
     
 }
