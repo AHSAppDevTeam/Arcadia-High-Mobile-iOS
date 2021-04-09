@@ -12,6 +12,7 @@
 		3313B979261EDDEB00B13346 /* newsPage_featured.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3313B978261EDDEB00B13346 /* newsPage_featured.swift */; };
 		3315DDC82612F07100A0790C /* SFCompactDisplay-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3315DDC72612F07100A0790C /* SFCompactDisplay-Light.otf */; };
 		331B583E260460C200DD0B20 /* dataManager_locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331B583D260460C200DD0B20 /* dataManager_locations.swift */; };
+		33226DA12620002600551094 /* newsPage_featuredCellClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33226DA02620002600551094 /* newsPage_featuredCellClass.swift */; };
 		333D4BAE26005362000EC057 /* navigationViewControllerActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */; };
 		333D4BC326006101000EC057 /* SFProDisplay-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4BBC26006100000EC057 /* SFProDisplay-Light.ttf */; };
 		333D4BC426006101000EC057 /* SFProDisplay-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333D4BBC26006100000EC057 /* SFProDisplay-Light.ttf */; };
@@ -97,6 +98,7 @@
 		3313B978261EDDEB00B13346 /* newsPage_featured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsPage_featured.swift; sourceTree = "<group>"; };
 		3315DDC72612F07100A0790C /* SFCompactDisplay-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Light.otf"; sourceTree = "<group>"; };
 		331B583D260460C200DD0B20 /* dataManager_locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_locations.swift; sourceTree = "<group>"; };
+		33226DA02620002600551094 /* newsPage_featuredCellClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsPage_featuredCellClass.swift; sourceTree = "<group>"; };
 		333D4BAD26005362000EC057 /* navigationViewControllerActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigationViewControllerActions.swift; sourceTree = "<group>"; };
 		333D4BBC26006100000EC057 /* SFProDisplay-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SFProDisplay-Light.ttf"; path = "AHS/Assets/SFProDisplay-Light.ttf"; sourceTree = SOURCE_ROOT; };
 		333D4BBD26006100000EC057 /* NewYorkMedium-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NewYorkMedium-Bold.otf"; path = "AHS/Assets/NewYorkMedium-Bold.otf"; sourceTree = SOURCE_ROOT; };
@@ -176,6 +178,7 @@
 			children = (
 				33DBA86726102BC800CA9DCD /* newsPage.swift */,
 				3313B978261EDDEB00B13346 /* newsPage_featured.swift */,
+				33226DA02620002600551094 /* newsPage_featuredCellClass.swift */,
 			);
 			path = newsPage;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				337701EF25FEED4100DB4A71 /* Miscellaneous.swift in Sources */,
 				338F0D6A26030D9200D49800 /* timeManager.swift in Sources */,
 				338F0DBF26031F0900D49800 /* Classes.swift in Sources */,
+				33226DA12620002600551094 /* newsPage_featuredCellClass.swift in Sources */,
 				3377020A25FF090E00DB4A71 /* savedPage.swift in Sources */,
 				33516AB125FDD9240048A5A5 /* AppDelegate.swift in Sources */,
 				330DDFA3261D6DFD00747625 /* dataManager_article.swift in Sources */,

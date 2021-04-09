@@ -34,7 +34,7 @@ class homePageViewController : mainPageViewController{
     internal let featuredCategoryController : homeContentPageViewController = featuredCategoryViewController();
     
     internal var contentView : UIView = UIView();
-    internal var contentViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
+    public var contentViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
     internal let contentViewControllers : [homeContentPageViewController] = [newsPageController(), communityPageController()];
     internal var contentViewControllerIndex : Int = -1;
     

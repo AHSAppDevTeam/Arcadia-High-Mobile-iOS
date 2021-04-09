@@ -14,6 +14,10 @@ class newsPageController : homeContentPageViewController{
     internal var nextY : CGFloat = 0;
     internal let verticalPadding : CGFloat = 5;
     
+    // Featured vars
+    internal var featuredCollectionView : UICollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UPCarouselFlowLayout());
+    internal var featuredArticleArray : [baseArticleData] = [];
+    
     override func viewDidLoad() {
         super.viewDidLoad();
 

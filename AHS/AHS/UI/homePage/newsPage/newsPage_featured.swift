@@ -7,8 +7,9 @@
 
 import Foundation
 import UIKit
+import UPCarouselFlowLayout
 
-extension newsPageController{
+extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSource{
     
     internal func renderFeatured(){
         
@@ -25,15 +26,56 @@ extension newsPageController{
         
         featuredLabel.attributedText = featuredLabelText;
         featuredLabel.textColor = UIColor.init(hex: "#c22b2b");
-        featuredLabel.textContainerInset = UIEdgeInsets(top: -1, left: homePageHorizontalPadding, bottom: 0, right: homePageHorizontalPadding);
+        featuredLabel.textContainerInset = UIEdgeInsets(top: 2, left: homePageHorizontalPadding, bottom: 0, right: homePageHorizontalPadding);
         featuredLabel.textContainer.lineFragmentPadding = .zero;
         
-        //featuredLabel.backgroundColor = .systemRed;
-        
-        nextY += featuredLabel.frame.height + verticalPadding;
+        nextY += featuredLabel.frame.height;
         
         self.view.addSubview(featuredLabel);
         
+        //
+        
+        let featuredCollectionViewHeight = AppUtility.getCurrentScreenSize().width * 0.65;
+        let featuredCollectionViewWidth = AppUtility.getCurrentScreenSize().width;
+        
+        let featuredCollectionViewLayout = UPCarouselFlowLayout();
+        let featuredCollectionViewLayoutItemSizeVerticalPadding = featuredCollectionViewHeight / 12;
+        featuredCollectionViewLayout.itemSize = CGSize(width: featuredCollectionViewWidth - 2*homePageHorizontalPadding, height: featuredCollectionViewHeight - featuredCollectionViewLayoutItemSizeVerticalPadding);
+        featuredCollectionViewLayout.scrollDirection = .horizontal;
+        featuredCollectionViewLayout.spacingMode = .overlap(visibleOffset: homePageHorizontalPadding / 2);
+        
+        featuredCollectionView = UICollectionView(frame: CGRect(x: 0, y: nextY, width: featuredCollectionViewWidth, height: featuredCollectionViewHeight), collectionViewLayout: featuredCollectionViewLayout);
+        
+        featuredCollectionView.showsVerticalScrollIndicator = false;
+        featuredCollectionView.showsHorizontalScrollIndicator = false;
+        featuredCollectionView.delegate = self;
+        featuredCollectionView.dataSource = self;
+        featuredCollectionView.register(featuredCollectionViewCell.self, forCellWithReuseIdentifier: featuredCollectionViewCell.identifier);
+        
+        nextY += featuredCollectionView.frame.height + verticalPadding;
+        
+        self.view.addSubview(featuredCollectionView);
+        
+    }
+    
+    // UICollectionView Functions
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1;
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10;
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: featuredCollectionViewCell.identifier, for: indexPath) as! featuredCollectionViewCell;
+        cell.update(indexPath.row);
+        return cell;
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("selected item at \(indexPath.row)");
     }
     
 }
