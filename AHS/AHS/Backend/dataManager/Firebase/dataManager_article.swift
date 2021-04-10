@@ -25,6 +25,7 @@ struct fullArticleData{
 }
 
 struct baseArticleData{
+    var articleID : String = "";
     var categoryID : String = "";
     var title : String = "";
     
@@ -78,6 +79,7 @@ extension dataManager{
                 
                 var data : baseArticleData = baseArticleData();
                 
+                data.articleID = id;
                 data.categoryID = dataDict?["categoryID"] as? String ?? "";
                 data.title = dataDict?["title"] as? String ?? "";
                 data.timestamp = dataDict?["timestamp"] as? Int64 ?? 0;

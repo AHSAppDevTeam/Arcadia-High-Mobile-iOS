@@ -194,13 +194,6 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
-    internal func updateParentHeightConstraint(){
-        guard let parentVC = self.parent as? homePageViewController else{
-            return;
-        }
-        parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
-    }
-    
     // UICollectionView Functions
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

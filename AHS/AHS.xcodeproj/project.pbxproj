@@ -66,6 +66,7 @@
 		33DBA86826102BC800CA9DCD /* newsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DBA86726102BC800CA9DCD /* newsPage.swift */; };
 		33DBA87026102BD500CA9DCD /* communityPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DBA86F26102BD500CA9DCD /* communityPage.swift */; };
 		33DBA87C261038B800CA9DCD /* homePageActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DBA87B261038B800CA9DCD /* homePageActions.swift */; };
+		33EBA2B32621763900AD1FC6 /* newsPage_categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EBA2B22621763900AD1FC6 /* newsPage_categories.swift */; };
 		8B300700B9B4144CCDEC76C6 /* Pods_AHS_AHSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F565C726273667C8A14AF1B /* Pods_AHS_AHSUITests.framework */; };
 		ADE6514ABE7153F8741E5E95 /* Pods_AHSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F52EFE79FB857C2B6F78BE5 /* Pods_AHSTests.framework */; };
 		BD3ABE5ADD79AA975E513280 /* Pods_AHS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02A67D3CDA16FE86C74D0202 /* Pods_AHS.framework */; };
@@ -138,6 +139,7 @@
 		33DBA86726102BC800CA9DCD /* newsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsPage.swift; sourceTree = "<group>"; };
 		33DBA86F26102BD500CA9DCD /* communityPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = communityPage.swift; sourceTree = "<group>"; };
 		33DBA87B261038B800CA9DCD /* homePageActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homePageActions.swift; sourceTree = "<group>"; };
+		33EBA2B22621763900AD1FC6 /* newsPage_categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsPage_categories.swift; sourceTree = "<group>"; };
 		4EB620D819E4EA04528D1BA5 /* Pods-AHSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHSTests.debug.xcconfig"; path = "Target Support Files/Pods-AHSTests/Pods-AHSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F565C726273667C8A14AF1B /* Pods_AHS_AHSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHS_AHSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0CDB7005FA4CDFCDE2C3953 /* Pods-AHSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHSTests.release.xcconfig"; path = "Target Support Files/Pods-AHSTests/Pods-AHSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				33DBA86726102BC800CA9DCD /* newsPage.swift */,
 				3313B978261EDDEB00B13346 /* newsPage_featured.swift */,
 				33226DA02620002600551094 /* newsPage_featuredCellClass.swift */,
+				33EBA2B22621763900AD1FC6 /* newsPage_categories.swift */,
 			);
 			path = newsPage;
 			sourceTree = "<group>";
@@ -637,6 +640,7 @@
 				337701EF25FEED4100DB4A71 /* Miscellaneous.swift in Sources */,
 				338F0D6A26030D9200D49800 /* timeManager.swift in Sources */,
 				338F0DBF26031F0900D49800 /* Classes.swift in Sources */,
+				33EBA2B32621763900AD1FC6 /* newsPage_categories.swift in Sources */,
 				33226DA12620002600551094 /* newsPage_featuredCellClass.swift in Sources */,
 				3377020A25FF090E00DB4A71 /* savedPage.swift in Sources */,
 				33516AB125FDD9240048A5A5 /* AppDelegate.swift in Sources */,

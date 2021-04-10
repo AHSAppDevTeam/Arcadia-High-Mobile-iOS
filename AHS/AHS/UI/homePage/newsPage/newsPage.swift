@@ -26,6 +26,9 @@ class newsPageController : homeContentPageViewController{
     internal let featuredArticleTimestampLabel : UILabel = UILabel();
     internal let featuredArticleTimestampLabelTextPrefix = " ∙ ";
     
+    // Category views
+    internal var categoryParentViews : [UIView] = [];
+    
     override func viewDidLoad() {
         super.viewDidLoad();
 
@@ -33,6 +36,8 @@ class newsPageController : homeContentPageViewController{
         
         renderFeatured();
         loadFeaturedArticles();
+        
+        loadCategories();
     }
     
     override func viewDidLayoutSubviews() {
@@ -40,6 +45,13 @@ class newsPageController : homeContentPageViewController{
         
         updateParentHeightConstraint();
         
+    }
+    
+    internal func updateParentHeightConstraint(){
+        guard let parentVC = self.parent as? homePageViewController else{
+            return;
+        }
+        parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
     }
     
 }
