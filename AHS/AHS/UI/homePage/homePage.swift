@@ -143,7 +143,7 @@ class homePageViewController : mainPageViewController{
         newsButton.layer.borderColor = newsButtonColor.cgColor;
         
         newsButton.setTitle("AUSD News", for: .normal);
-        newsButton.titleLabel?.font = UIFont(name: SFCompactDisplay_Light, size: newsButton.frame.height * 0.4);
+        newsButton.titleLabel?.font = UIFont(name: SFProDisplay_Semibold, size: newsButton.frame.height * 0.4);
         newsButton.setTitleColor(newsButtonColor, for: .normal);
         
         newsButton.addTarget(self, action: #selector(self.selectCategoryButton), for: .touchUpInside);
@@ -162,7 +162,7 @@ class homePageViewController : mainPageViewController{
         communityButton.layer.borderColor = communityButtonColor.cgColor;
         
         communityButton.setTitle("Community", for: .normal);
-        communityButton.titleLabel?.font = UIFont(name: SFCompactDisplay_Light, size: communityButton.frame.height * 0.4);
+        communityButton.titleLabel?.font = UIFont(name: SFProDisplay_Semibold, size: communityButton.frame.height * 0.4);
         communityButton.setTitleColor(communityButtonColor, for: .normal);
         
         communityButton.addTarget(self, action: #selector(self.selectCategoryButton), for: .touchUpInside);

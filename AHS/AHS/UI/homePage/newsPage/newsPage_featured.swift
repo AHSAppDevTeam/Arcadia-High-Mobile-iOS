@@ -50,6 +50,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredCollectionView.delegate = self;
         featuredCollectionView.dataSource = self;
         featuredCollectionView.register(featuredCollectionViewCell.self, forCellWithReuseIdentifier: featuredCollectionViewCell.identifier);
+        featuredCollectionView.backgroundColor = BackgroundColor;
         
         nextY += featuredCollectionView.frame.height;
         

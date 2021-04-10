@@ -27,7 +27,7 @@ class featuredCategoryViewController : homeContentPageViewController{
         let verticalPadding = CGFloat(5);
         
         let titleLabelText = data.title;
-        let titleLabelFont = UIFont(name: SFProDisplay_Black, size: 20)!;
+        let titleLabelFont = UIFont(name: SFProDisplay_Bold, size: 20)!;
         let titleLabelWidth = mainViewWidth - 2*horizontalPadding;
         let titleLabelHeight = titleLabelText.height(withConstrainedWidth: titleLabelWidth, font: titleLabelFont);
         
