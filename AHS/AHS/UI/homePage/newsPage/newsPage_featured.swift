@@ -86,8 +86,8 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredArticleCategoryView.topAnchor.constraint(equalTo: featuredArticleLabel.bottomAnchor, constant: verticalPadding).isActive = true;
         featuredArticleCategoryView.widthAnchor.constraint(equalToConstant: featuredArticleCategoryViewWidth).isActive = true;
         featuredArticleCategoryView.heightAnchor.constraint(equalToConstant: featuredArticleCategoryViewHeight).isActive = true;
-        
-        //featuredArticleCategoryView.backgroundColor = .systemRed;
+
+        featuredArticleCategoryView.backgroundColor = .systemRed;
         featuredArticleCategoryView.isHidden = true;
         
         //
@@ -125,13 +125,48 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredArticleTimestampLabel.textAlignment = .left;
         featuredArticleTimestampLabel.textColor = InverseBackgroundGrayColor;
         
+        //
+        
+        featuredArticleArray = [];
+        dataManager.getCategoryData("Featured", completion: { (category) in
+            for articleID in category.articleIDs{
+                dataManager.getBaseArticleData(articleID, completion: { (article) in
+                    self.featuredArticleArray.append(article);
+                    self.featuredArticleCallback(self.featuredArticleArray.count - 1);
+                });
+            }
+        });
+        
+    }
+    
+    internal func featuredArticleCallback(_ index: Int){
+        //print("article callback - \(featuredArticleArray[index])")
+        featuredCollectionView.reloadData();
+        if (featuredArticleArray.count == 1){ // first time being called
+            updateFeaturedArticleInfo(index);
+        }
     }
     
     internal func updateFeaturedArticleInfo(_ index: Int){
         let articleData = featuredArticleArray[index];
-        /*
+        
         featuredArticleCategoryView.isHidden = false;
-        featuredArticleCategoryView.backgroundColor;*/
+        
+        featuredArticleLabel.text = articleData.title;
+        
+        featuredArticleTimestampLabel.text = featuredArticleTimestampLabelTextPrefix + timeManager.epochToDiffString(articleData.timestamp);
+        
+        dataManager.getCategoryData(articleData.categoryID, completion: { (data) in
+            
+            self.featuredArticleCategoryView.backgroundColor = UIColor{ _ in
+                return UIColor.dynamicColor(light: data.colorLightMode, dark: data.colorDarkMode);
+            }
+            
+            self.featuredArticleCategoryLabel.text = data.title;
+            
+        });
+        
+        updateParentHeightConstraint();
     }
     
     internal func updateParentHeightConstraint(){
@@ -146,8 +181,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //return featuredArticleArray.count;
-        return 10;
+        return featuredArticleArray.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -172,6 +206,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
        // print("page - \(indexPath.row)");
+        updateFeaturedArticleInfo(indexPath.row);
     }
     
 }

@@ -18,7 +18,7 @@ class featuredCollectionViewCell : UICollectionViewCell{
         super.init(frame: frame);
         
         //self.contentView.backgroundColor = .systemRed;
-        self.contentView.layer.cornerRadius = self.contentView.frame.height / 12;
+        //self.contentView.layer.cornerRadius = self.contentView.frame.height / 12;
     }
     
     required init?(coder: NSCoder) {
