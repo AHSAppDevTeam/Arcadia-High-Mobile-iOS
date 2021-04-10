@@ -13,6 +13,8 @@ class dataManager{
     static internal var dataRef : DatabaseReference!;
     static public var internetConnected = false;
     
+    static internal var categoryLookupMap : [String : categoryData] = [];
+    
     static public func setupConnection(){
         if (Reachability.isConnectedToNetwork()){
             internetConnected = true;

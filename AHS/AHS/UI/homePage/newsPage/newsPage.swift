@@ -15,6 +15,7 @@ class newsPageController : homeContentPageViewController{
     internal let verticalPadding : CGFloat = 5;
     
     // Featured vars
+    internal let featuredCollectionViewLayout = UPCarouselFlowLayout();
     internal var featuredCollectionView : UICollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UPCarouselFlowLayout());
     internal var featuredArticleArray : [baseArticleData] = [];
     
@@ -22,6 +23,7 @@ class newsPageController : homeContentPageViewController{
     internal let featuredArticleCategoryView : UIView = UIView();
     internal let featuredArticleCategoryLabel : UILabel = UILabel();
     internal let featuredArticleTimestampLabel : UILabel = UILabel();
+    internal let featuredArticleTimestampLabelTextPrefix = " ∙ ";
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -29,6 +31,13 @@ class newsPageController : homeContentPageViewController{
         print("loaded news");
         
         renderFeatured();
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews();
+        
+        updateParentHeightConstraint();
+        
     }
     
 }

@@ -21,6 +21,18 @@ struct categoryData{
 extension dataManager{
     static public func getCategoryData(_ categoryID: String , completion: @escaping (categoryData) -> Void){
         
+        guard let categoryLookupData = categoryLookupMap[categoryID] else {
+            loadCategoryData(categoryID, completion: { (data) in
+                categoryLookupMap[categoryID] = data;
+                completion(data);
+            });
+            return;
+        }
+        
+        completion(categoryLookupData);
+    }
+    
+    static private func loadCategoryData(_ categoryID: String, completion : @escaping (categoryData) -> Void){
         setupConnection();
         
         if (internetConnected){
@@ -43,6 +55,5 @@ extension dataManager{
             });
             
         }
-        
     }
 }

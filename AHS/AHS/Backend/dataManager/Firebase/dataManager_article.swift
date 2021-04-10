@@ -12,17 +12,13 @@ import FirebaseDatabase
 struct fullArticleData{
     var author : String = "";
     var body : String = "";
-    //var categoryID : String = "";
-    //var title : String = "";
     
     var views : Int64 = 0;
-    //var timestamp : Int64 = 0;
     
     var featured : Bool = false;
     var notified : Bool = false;
     
     var imageURLs : [String] = [];
-    //var thumbURLs : [String] = [];
     var videoIDs : [String] = [];
 
     var baseData : baseArticleData = baseArticleData();
@@ -33,7 +29,6 @@ struct baseArticleData{
     var title : String = "";
     
     var timestamp : Int64 = 0;
-    //var views : Int64 = 0; // might not be needed
     
     var thumbURLs : [String] = [];
 }
