@@ -60,7 +60,7 @@ class homePageViewController : mainPageViewController{
             self.view.backgroundColor = BackgroundColor;
             
             mainScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height));
-            //mainScrollView.backgroundColor = .systemBlue;
+            mainScrollView.alwaysBounceVertical = true;
             
             self.view.addSubview(mainScrollView);
             

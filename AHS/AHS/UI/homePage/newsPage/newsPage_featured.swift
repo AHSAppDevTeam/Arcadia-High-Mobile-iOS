@@ -186,7 +186,11 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: featuredCollectionViewCell.identifier, for: indexPath) as! featuredCollectionViewCell;
-        cell.update(indexPath.row);
+        //cell.update(indexPath.row);
+        let thumbURLs = featuredArticleArray[indexPath.row].thumbURLs;
+        if (thumbURLs.count > 0){
+            cell.updateImage(thumbURLs[0]);
+        }
         return cell;
     }
     

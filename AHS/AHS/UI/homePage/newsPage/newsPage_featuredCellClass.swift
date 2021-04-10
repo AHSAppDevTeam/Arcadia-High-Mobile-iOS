@@ -8,17 +8,24 @@
 import Foundation
 import UIKit
 import UPCarouselFlowLayout
+import SDWebImage
 
 class featuredCollectionViewCell : UICollectionViewCell{
     
     static let identifier : String = "featuredCollectionCell";
-    static let colors : [UIColor] = [.systemRed, .systemBlue, .systemPink, .systemTeal, .systemGray, .systemGreen, .systemOrange, .systemYellow, .systemIndigo, .systemIndigo];
+   
+    let imageView = UIImageView();
     
     override init(frame: CGRect){
         super.init(frame: frame);
         
-        //self.contentView.backgroundColor = .systemRed;
-        //self.contentView.layer.cornerRadius = self.contentView.frame.height / 12;
+        imageView.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height);
+        imageView.backgroundColor = .systemRed;
+        imageView.contentMode = .scaleAspectFill;
+        
+        self.contentView.addSubview(imageView);
+        self.contentView.clipsToBounds = true;
+        self.contentView.layer.cornerRadius = self.contentView.frame.height / 12;
     }
     
     required init?(coder: NSCoder) {
@@ -31,21 +38,17 @@ class featuredCollectionViewCell : UICollectionViewCell{
     }
     //
     
-    public func update(_ index: Int){
-        self.contentView.backgroundColor = featuredCollectionViewCell.colors[index];
-    }
-    
-    public func updateWithData(_ data: baseArticleData){
+    public func updateImage(_ imageURL: String){
         reset();
-        render(data);
+        render(imageURL);
     }
     
-    private func render(_ data: baseArticleData){
-        
+    private func render(_ imageURL: String){
+        imageView.sd_setImage(with: URL(string: imageURL));
     }
     
     private func reset(){
-        
+        imageView.image = UIImage();
     }
     
 }
