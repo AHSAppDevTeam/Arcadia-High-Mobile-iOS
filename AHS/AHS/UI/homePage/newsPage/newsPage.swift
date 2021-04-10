@@ -31,6 +31,7 @@ class newsPageController : homeContentPageViewController{
         print("loaded news");
         
         renderFeatured();
+        loadFeaturedArticles();
     }
     
     override func viewDidLayoutSubviews() {

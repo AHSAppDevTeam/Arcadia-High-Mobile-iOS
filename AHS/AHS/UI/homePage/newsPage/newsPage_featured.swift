@@ -123,11 +123,19 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         //featuredArticleTimestampLabel.text = featuredArticleTimestampLabelTextPrefix + "00m ago";
         featuredArticleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: featuredArticleTimestampLabelHeightAnchor.constant * 0.8);
         featuredArticleTimestampLabel.textAlignment = .left;
-        featuredArticleTimestampLabel.textColor = InverseBackgroundGrayColor;
+        featuredArticleTimestampLabel.textColor = BackgroundGrayColor;
         
         //
         
+    }
+    
+    internal func loadFeaturedArticles(){
         featuredArticleArray = [];
+        featuredCollectionView.reloadData();
+        updateFeaturedArticleInfo(-1);
+        
+        //
+        
         dataManager.getCategoryData("Featured", completion: { (category) in
             for articleID in category.articleIDs{
                 dataManager.getBaseArticleData(articleID, completion: { (article) in
@@ -136,7 +144,6 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
                 });
             }
         });
-        
     }
     
     internal func featuredArticleCallback(_ index: Int){
@@ -148,29 +155,40 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     internal func updateFeaturedArticleInfo(_ index: Int){
-        let articleData = featuredArticleArray[index];
-        
-        featuredArticleCategoryView.isHidden = false;
-        
-        featuredArticleLabel.text = articleData.title;
-        
-        featuredArticleTimestampLabel.text = featuredArticleTimestampLabelTextPrefix + timeManager.epochToDiffString(articleData.timestamp);
-        
-        dataManager.getCategoryData(articleData.categoryID, completion: { (data) in
+        if (index < featuredArticleArray.count && index != -1){
+            let articleData = featuredArticleArray[index];
             
-            self.featuredArticleCategoryView.backgroundColor = UIColor{ _ in
-                return UIColor.dynamicColor(light: data.colorLightMode, dark: data.colorDarkMode);
-            }
+            featuredArticleCategoryView.isHidden = false;
             
-            self.featuredArticleCategoryLabel.text = data.title;
+            featuredArticleLabel.text = articleData.title;
             
-        });
-        
-        updateParentHeightConstraint();
+            featuredArticleTimestampLabel.text = featuredArticleTimestampLabelTextPrefix + timeManager.epochToDiffString(articleData.timestamp);
+            
+            dataManager.getCategoryData(articleData.categoryID, completion: { (data) in
+                
+                self.featuredArticleCategoryView.backgroundColor = UIColor{ _ in
+                    return UIColor.dynamicColor(light: data.colorLightMode, dark: data.colorDarkMode);
+                }
+                
+                self.featuredArticleCategoryLabel.text = data.title;
+                
+            });
+            
+            updateParentHeightConstraint();
+        }
+        else{
+            featuredArticleCategoryView.isHidden = true;
+            featuredArticleLabel.text = "";
+            featuredArticleTimestampLabel.text = "";
+            featuredArticleCategoryLabel.text = "";
+            //updateParentHeightConstraint();
+        }
     }
     
     internal func updateParentHeightConstraint(){
-        let parentVC = self.parent as! homePageViewController;
+        guard let parentVC = self.parent as? homePageViewController else{
+            return;
+        }
         parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
     }
     
@@ -186,10 +204,12 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: featuredCollectionViewCell.identifier, for: indexPath) as! featuredCollectionViewCell;
-        //cell.update(indexPath.row);
-        let thumbURLs = featuredArticleArray[indexPath.row].thumbURLs;
-        if (thumbURLs.count > 0){
-            cell.updateImage(thumbURLs[0]);
+        let index = indexPath.row;
+        if (index < featuredArticleArray.count){
+            let thumbURLs = featuredArticleArray[index].thumbURLs;
+            if (thumbURLs.count > 0){
+                cell.updateImage(thumbURLs[0]);
+            }
         }
         return cell;
     }
