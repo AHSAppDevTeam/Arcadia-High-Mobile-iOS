@@ -13,13 +13,24 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     
     internal func renderFeatured(){
         
-        let featuredLabelFrame = CGRect(x: 0, y: nextY, width: AppUtility.getCurrentScreenSize().width, height: AppUtility.getCurrentScreenSize().width / 10);
+        self.view.addSubview(featuredParentView);
+        
+        featuredParentView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        featuredParentView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true;
+        featuredParentView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true;
+        featuredParentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true;
+        
+        //
+        
+        let featuredLabelFrame = CGRect(x: 0, y: 0, width: AppUtility.getCurrentScreenSize().width, height: AppUtility.getCurrentScreenSize().width / 10);
         let featuredLabel = UITextView(frame: featuredLabelFrame);
         
         featuredLabel.isUserInteractionEnabled = false;
         featuredLabel.isEditable = false;
         featuredLabel.isSelectable = false;
         featuredLabel.textAlignment = .left;
+        featuredLabel.backgroundColor = .clear;
         
         let featuredLabelText = NSMutableAttributedString(string: "Featured", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: featuredLabel.frame.height * 0.7)!]);
         featuredLabelText.append(NSAttributedString(string: " Articles", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: featuredLabel.frame.height * 0.7)!]));
@@ -29,9 +40,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredLabel.textContainerInset = UIEdgeInsets(top: 2, left: homePageHorizontalPadding, bottom: 0, right: homePageHorizontalPadding);
         featuredLabel.textContainer.lineFragmentPadding = .zero;
         
-        nextY += featuredLabel.frame.height;
-        
-        self.view.addSubview(featuredLabel);
+        featuredParentView.addSubview(featuredLabel);
         
         //
         
@@ -43,28 +52,26 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredCollectionViewLayout.scrollDirection = .horizontal;
         featuredCollectionViewLayout.spacingMode = .overlap(visibleOffset: homePageHorizontalPadding / 2);
         
-        featuredCollectionView = UICollectionView(frame: CGRect(x: 0, y: nextY, width: featuredCollectionViewWidth, height: featuredCollectionViewHeight), collectionViewLayout: featuredCollectionViewLayout);
+        featuredCollectionView = UICollectionView(frame: CGRect(x: 0, y: featuredLabel.frame.height, width: featuredCollectionViewWidth, height: featuredCollectionViewHeight), collectionViewLayout: featuredCollectionViewLayout);
         
         featuredCollectionView.showsVerticalScrollIndicator = false;
         featuredCollectionView.showsHorizontalScrollIndicator = false;
         featuredCollectionView.delegate = self;
         featuredCollectionView.dataSource = self;
         featuredCollectionView.register(featuredCollectionViewCell.self, forCellWithReuseIdentifier: featuredCollectionViewCell.identifier);
-        featuredCollectionView.backgroundColor = BackgroundColor;
+        featuredCollectionView.backgroundColor = .clear;
         
-        nextY += featuredCollectionView.frame.height;
-        
-        self.view.addSubview(featuredCollectionView);
+        featuredParentView.addSubview(featuredCollectionView);
         
         //
         
         //featuredArticleLabel.frame = CGRect(x: homePageHorizontalPadding, y: nextY, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: AppUtility.getCurrentScreenSize().width / 5);
         
-        self.view.addSubview(featuredArticleLabel);
+        featuredParentView.addSubview(featuredArticleLabel);
         
         featuredArticleLabel.translatesAutoresizingMaskIntoConstraints = false;
         
-        featuredArticleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: homePageHorizontalPadding).isActive = true;
+        featuredArticleLabel.leadingAnchor.constraint(equalTo: featuredParentView.leadingAnchor, constant: homePageHorizontalPadding).isActive = true;
         featuredArticleLabel.topAnchor.constraint(equalTo: featuredCollectionView.bottomAnchor).isActive = true;
         featuredArticleLabel.widthAnchor.constraint(equalToConstant: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding).isActive = true;
         
@@ -76,24 +83,25 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredArticleLabel.numberOfLines = 3;
         //
         
-        self.view.addSubview(featuredArticleCategoryView);
+        featuredParentView.addSubview(featuredArticleCategoryView);
         
         featuredArticleCategoryView.translatesAutoresizingMaskIntoConstraints = false;
         
         let featuredArticleCategoryViewHeight = AppUtility.getCurrentScreenSize().width / 20;
         let featuredArticleCategoryViewWidth = featuredArticleCategoryViewHeight * 0.4;
         
-        featuredArticleCategoryView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: homePageHorizontalPadding).isActive = true;
+        featuredArticleCategoryView.leadingAnchor.constraint(equalTo: featuredParentView.leadingAnchor, constant: homePageHorizontalPadding).isActive = true;
         featuredArticleCategoryView.topAnchor.constraint(equalTo: featuredArticleLabel.bottomAnchor, constant: verticalPadding).isActive = true;
         featuredArticleCategoryView.widthAnchor.constraint(equalToConstant: featuredArticleCategoryViewWidth).isActive = true;
         featuredArticleCategoryView.heightAnchor.constraint(equalToConstant: featuredArticleCategoryViewHeight).isActive = true;
+        featuredArticleCategoryView.bottomAnchor.constraint(equalTo: featuredParentView.bottomAnchor).isActive = true;
 
         featuredArticleCategoryView.backgroundColor = .systemRed;
         featuredArticleCategoryView.isHidden = true;
         
         //
         
-        self.view.addSubview(featuredArticleCategoryLabel);
+        featuredParentView.addSubview(featuredArticleCategoryLabel);
         
         featuredArticleCategoryLabel.translatesAutoresizingMaskIntoConstraints = false;
         
@@ -111,7 +119,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         
         //
         
-        self.view.addSubview(featuredArticleTimestampLabel);
+        featuredParentView.addSubview(featuredArticleTimestampLabel);
         
         featuredArticleTimestampLabel.translatesAutoresizingMaskIntoConstraints = false;
         
