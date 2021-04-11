@@ -11,7 +11,12 @@ import UIKit
 extension homePageViewController{
     
     @objc func refresh(_ sender: UIRefreshControl){
-        print("refresh");
+        //print("refresh");
+        //refreshControl.endRefreshing();
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+    }
+    
+    @objc func endRefreshing(_ notification: NSNotification){
         refreshControl.endRefreshing();
     }
     

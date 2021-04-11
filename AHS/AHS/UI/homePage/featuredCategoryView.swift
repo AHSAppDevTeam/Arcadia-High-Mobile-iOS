@@ -11,11 +11,27 @@ import UIKit
 class featuredCategoryViewController : homeContentPageViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+        load();
+    }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+    }
+    
+    internal func load(){
         dataManager.getFeaturedCategoryData(completion: { (data) in
             self.renderView(data: data);
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
         });
-        
+    }
+    
+    @objc func reload(_ notification: NSNotification){
+        for view in self.view.subviews{
+            view.removeFromSuperview();
+        }
+        updateParentHeightConstraint();
+        load();
     }
     
     internal func renderView(data: featuredCategoryData){
@@ -77,12 +93,16 @@ class featuredCategoryViewController : homeContentPageViewController{
         
         mainView.addSubview(chevronImageView);
         
+        updateParentHeightConstraint();
+    }
+    
+    private func updateParentHeightConstraint(){
         let parentVC = self.parent as! homePageViewController;
         parentVC.featuredCategoryViewHeightAnchor.constant = self.getSubviewsMaxY();
-        
     }
     
     @objc func handlePress(_ sender: UIButton){
         print("featured category press");
+        //self.reload();
     }
 }

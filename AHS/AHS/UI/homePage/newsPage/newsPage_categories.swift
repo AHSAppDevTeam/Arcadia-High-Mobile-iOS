@@ -19,12 +19,28 @@ extension newsPageController{
         });
     }
     
+    internal func reloadCategories(){
+        for view in self.view.subviews{
+            if (view.tag == 1){
+                view.removeFromSuperview();
+            }
+        }
+        
+        categoryParentViews = [];
+        categoryScrollViewPageControlViews = [];
+        
+        updateParentHeightConstraint();
+        
+        loadCategories();
+    }
+    
     internal func renderCategory(_ categorydata: categoryData){
         
         let categoryView = UIView();
         
         self.view.addSubview(categoryView);
         
+        categoryView.tag = 1;
         categoryView.translatesAutoresizingMaskIntoConstraints = false;
         
         (categoryParentViews.count == 0 ? categoryView.topAnchor.constraint(equalTo: featuredParentView.bottomAnchor, constant: 2*verticalPadding) : categoryView.topAnchor.constraint(equalTo: categoryParentViews[categoryParentViews.count - 1].bottomAnchor, constant: verticalPadding)).isActive = true;

@@ -64,16 +64,24 @@ class homePageViewController : mainPageViewController{
             
             self.view.addSubview(mainScrollView);
             
+            mainScrollView.addSubview(refreshControl);
+            refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged);
+            
+            refreshControl.beginRefreshing();
+            
             setupLayout();
             setupTopCategory();
             setupFeaturedCategory();
             
-            mainScrollView.addSubview(refreshControl);
-            refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged);
-            
             self.hasBeenSetup = true;
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.endRefreshing) ,name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
     }
     
     private func setupLayout(){

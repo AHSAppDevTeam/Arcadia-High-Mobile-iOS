@@ -34,7 +34,7 @@ class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad();
 
-        print("loaded news");
+        //print("loaded news");
         
         renderFeatured();
         loadFeaturedArticles();
@@ -49,11 +49,26 @@ class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+    }
+    
     internal func updateParentHeightConstraint(){
         guard let parentVC = self.parent as? homePageViewController else{
             return;
         }
         parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
+    }
+    
+    @objc func reload(_ notification: NSNotification){
+        self.loadFeaturedArticles();
+        self.reloadCategories();
     }
     
     // UIScrollView Delegate

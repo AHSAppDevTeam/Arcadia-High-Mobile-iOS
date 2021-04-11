@@ -25,7 +25,6 @@ let NavigationBarColor = UIColor(named: "NavigationBarColor")!;
 // Navigation Button
 let NavigationButtonUnselectedColor = UIColor(named: "NavigationButtonUnselectedColor")!;
 let NavigationButtonSelectedColor = UIColor(named: "NavigationButtonSelectedColor")!;
-
 //
 
 // Fonts
@@ -40,4 +39,9 @@ let SFCompactDisplay_Light = "SFCompactDisplay-Light";
 
 // Global constants
 let homePageHorizontalPadding = AppUtility.getCurrentScreenSize().width / 20;
+//
+
+// Notification Center Macros
+let homePageRefreshNotification = "homePageRefreshNotification";
+let homePageEndRefreshing = "homePageEndRefreshing";
 //

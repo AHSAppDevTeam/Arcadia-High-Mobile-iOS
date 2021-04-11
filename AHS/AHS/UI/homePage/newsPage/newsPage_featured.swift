@@ -146,6 +146,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         //
         
         dataManager.getCategoryData("Featured", completion: { (category) in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
             for articleID in category.articleIDs{
                 dataManager.getBaseArticleData(articleID, completion: { (article) in
                     self.featuredArticleArray.append(article);
