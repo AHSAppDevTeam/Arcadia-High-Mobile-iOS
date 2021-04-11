@@ -222,14 +222,17 @@ extension newsPageController{
             
             articleScrollView.translatesAutoresizingMaskIntoConstraints = false;
             
+            let articleScrollViewHeight = CGFloat(Int(categoryViewWidth * 0.6));
             articleScrollView.topAnchor.constraint(equalTo: carouselView.topAnchor).isActive = true;
             articleScrollView.leadingAnchor.constraint(equalTo: carouselView.leadingAnchor).isActive = true;
             articleScrollView.widthAnchor.constraint(equalToConstant: categoryViewWidth).isActive = true;
-            articleScrollView.heightAnchor.constraint(equalToConstant: categoryViewWidth * 0.5).isActive = true;
+            articleScrollView.heightAnchor.constraint(equalToConstant: articleScrollViewHeight).isActive = true;
             
+            articleScrollView.isPagingEnabled = true;
+            articleScrollView.showsVerticalScrollIndicator = false;
+            articleScrollView.showsHorizontalScrollIndicator = false;
             articleScrollView.delegate = self;
             
-            articleScrollView.backgroundColor = .systemRed;
             articleScrollView.tag = categoryIndex + 1;
             
             //
@@ -243,11 +246,13 @@ extension newsPageController{
             articleScrollViewPageControl.topAnchor.constraint(equalTo: articleScrollView.bottomAnchor, constant: 2*verticalPadding).isActive = true;
             articleScrollViewPageControl.leadingAnchor.constraint(equalTo: carouselView.leadingAnchor).isActive = true;
             articleScrollViewPageControl.trailingAnchor.constraint(equalTo: carouselView.trailingAnchor).isActive = true;
-            articleScrollViewPageControl.bottomAnchor.constraint(equalTo: carouselView.bottomAnchor).isActive = true;
+            articleScrollViewPageControl.bottomAnchor.constraint(equalTo: carouselView.bottomAnchor, constant: -verticalPadding).isActive = true;
             
             articleScrollViewPageControl.numberOfPages = 1;
             
             //
+            
+            renderScrollView(articleScrollView, categoryIndex, articleIDs, CGSize(width: categoryViewWidth, height: articleScrollViewHeight));
             
             previousTopView = carouselView;
             
@@ -330,8 +335,48 @@ extension newsPageController{
         
     }
     
-    private func renderScrollView(_ scrollView: UIScrollView, _ categoryIndex: Int){
+    private func arrayToPairs(_ a: [String]) -> [(String, String?)]{
+        var out : [(String, String?)] = [];
+        var t : String? = nil;
         
+        for i in a{
+            guard let str = t as? String else{
+                t = i;
+                continue;
+            }
+            out.append((str, i));
+            t = nil;
+        }
+        
+        if (t != nil){
+            out.append((t!, nil));
+        }
+        
+        return out;
+    }
+    
+    private func renderScrollView(_ scrollView: UIScrollView, _ categoryIndex: Int, _ articleIDs: [String], _ scrollViewSize: CGSize){
+        //print(arrayToPairs(articleIDs));
+        
+        let articleIDPArray = arrayToPairs(articleIDs);
+        
+        for i in 0..<articleIDPArray.count{
+            
+            let articleIDPair = articleIDPArray[i];
+            
+            //
+            
+            let contentStackViewFrame = CGRect(x: scrollViewSize.width * CGFloat(i), y: 0, width: scrollViewSize.width, height: scrollViewSize.height);
+            let contentStackView = UIView(frame: contentStackViewFrame);
+            
+            contentStackView.backgroundColor = .systemRed;
+            
+            scrollView.addSubview(contentStackView);
+ 
+        }
+        
+        scrollView.contentSize = CGSize(width: scrollViewSize.width * CGFloat(articleIDPArray.count), height: scrollViewSize.height);
+        categoryScrollViewPageControlViews[categoryIndex].numberOfPages = articleIDPArray.count;
     }
     //
     

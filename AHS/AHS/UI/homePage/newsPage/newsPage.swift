@@ -68,13 +68,13 @@ class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
                 return;
             }
             
-            // print("page - \(indexPath.row)");
+            print("page in collectionview - \(indexPath.row)");
             updateFeaturedArticleInfo(indexPath.row);
         }
         else{
             let index = scrollView.tag - 1;
             
-            
+            print("page in category scrollview with index - \(index) with height \(scrollView.frame.height)");
             
         }
         

@@ -33,7 +33,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredLabel.backgroundColor = .clear;
         
         let featuredLabelText = NSMutableAttributedString(string: "Featured", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: featuredLabel.frame.height * 0.7)!]);
-        featuredLabelText.append(NSAttributedString(string: " Articles", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: featuredLabel.frame.height * 0.7)!]));
+        featuredLabelText.append(NSAttributedString(string: " Articles", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: featuredLabel.frame.height * 0.7)!]));
         
         featuredLabel.attributedText = featuredLabelText;
         featuredLabel.textColor = UIColor.init(hex: "#c22b2b");

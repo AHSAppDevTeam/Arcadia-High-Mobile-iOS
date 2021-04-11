@@ -142,7 +142,7 @@ class homePageViewController : mainPageViewController{
         newsButton.layer.borderWidth = 2;
         newsButton.layer.borderColor = newsButtonColor.cgColor;
         
-        newsButton.setTitle("AUSD News", for: .normal);
+        newsButton.setTitle("News", for: .normal);
         newsButton.titleLabel?.font = UIFont(name: SFProDisplay_Semibold, size: newsButton.frame.height * 0.4);
         newsButton.setTitleColor(newsButtonColor, for: .normal);
         
