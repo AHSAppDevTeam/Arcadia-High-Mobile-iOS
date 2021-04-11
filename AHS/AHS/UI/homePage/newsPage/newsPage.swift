@@ -29,6 +29,7 @@ class newsPageController : homeContentPageViewController{
     
     // Category views
     internal var categoryParentViews : [UIView] = [];
+    internal var categoryScrollViewPageControlViews : [UIPageControl] = [];
     
     override func viewDidLoad() {
         super.viewDidLoad();
