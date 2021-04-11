@@ -11,7 +11,8 @@ import UPCarouselFlowLayout
 
 class newsPageController : homeContentPageViewController{
     
-    internal let verticalPadding : CGFloat = 5;
+    internal let verticalPadding : CGFloat = 10;
+    internal let featuredVerticalPadding : CGFloat = 5;
     
     // Featured vars
     internal let featuredParentView : UIView = UIView();

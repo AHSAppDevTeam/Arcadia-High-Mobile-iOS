@@ -30,6 +30,10 @@ class homeContentPageViewController : UIViewController{ // UIViewController for 
     
 }
 
+class ArticleButton : UIButton{
+    var articleID : String = "";
+}
+
 final public class Reachability {
 
     class func isConnectedToNetwork() -> Bool {

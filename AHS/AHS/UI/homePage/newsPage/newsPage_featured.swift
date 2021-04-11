@@ -91,12 +91,12 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         let featuredArticleCategoryViewWidth = featuredArticleCategoryViewHeight * 0.4;
         
         featuredArticleCategoryView.leadingAnchor.constraint(equalTo: featuredParentView.leadingAnchor, constant: homePageHorizontalPadding).isActive = true;
-        featuredArticleCategoryView.topAnchor.constraint(equalTo: featuredArticleLabel.bottomAnchor, constant: verticalPadding).isActive = true;
+        featuredArticleCategoryView.topAnchor.constraint(equalTo: featuredArticleLabel.bottomAnchor, constant: featuredVerticalPadding).isActive = true;
         featuredArticleCategoryView.widthAnchor.constraint(equalToConstant: featuredArticleCategoryViewWidth).isActive = true;
         featuredArticleCategoryView.heightAnchor.constraint(equalToConstant: featuredArticleCategoryViewHeight).isActive = true;
         featuredArticleCategoryView.bottomAnchor.constraint(equalTo: featuredParentView.bottomAnchor).isActive = true;
 
-        featuredArticleCategoryView.backgroundColor = .systemRed;
+        featuredArticleCategoryView.backgroundColor = mainThemeColor;
         featuredArticleCategoryView.isHidden = true;
         
         //
@@ -108,7 +108,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         let featuredArticleCategoryLabelHorizontalPadding = CGFloat(5);
         
         featuredArticleCategoryLabel.leadingAnchor.constraint(equalTo: featuredArticleCategoryView.trailingAnchor, constant: featuredArticleCategoryLabelHorizontalPadding).isActive = true;
-        featuredArticleCategoryLabel.topAnchor.constraint(equalTo: featuredArticleLabel.bottomAnchor, constant: verticalPadding).isActive = true;
+        featuredArticleCategoryLabel.topAnchor.constraint(equalTo: featuredArticleLabel.bottomAnchor, constant: featuredVerticalPadding).isActive = true;
         let featuredArticleCategoryLabelHeightAnchor = featuredArticleCategoryLabel.heightAnchor.constraint(equalToConstant: featuredArticleCategoryViewHeight);
         featuredArticleCategoryLabelHeightAnchor.isActive = true;
         
@@ -124,7 +124,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredArticleTimestampLabel.translatesAutoresizingMaskIntoConstraints = false;
         
         featuredArticleTimestampLabel.leadingAnchor.constraint(equalTo: featuredArticleCategoryLabel.trailingAnchor).isActive = true;
-        featuredArticleTimestampLabel.topAnchor.constraint(equalTo: featuredArticleLabel.bottomAnchor, constant: verticalPadding).isActive = true;
+        featuredArticleTimestampLabel.topAnchor.constraint(equalTo: featuredArticleLabel.bottomAnchor, constant: featuredVerticalPadding).isActive = true;
         let featuredArticleTimestampLabelHeightAnchor = featuredArticleTimestampLabel.heightAnchor.constraint(equalToConstant: featuredArticleCategoryViewHeight);
         featuredArticleTimestampLabelHeightAnchor.isActive = true;
         featuredArticleTimestampLabel.widthAnchor.constraint(equalToConstant: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding).isActive = true;
