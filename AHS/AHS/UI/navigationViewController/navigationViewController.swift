@@ -57,7 +57,7 @@ class navigationViewController : UIViewController{
     
     private func renderNavigationBar(){
         
-        let navigationBarViewHeight = CGFloat(1/10 * self.view.frame.height);
+        let navigationBarViewHeight = CGFloat(AppUtility.getCurrentScreenSize().width * (25/207)) + AppUtility.safeAreaInset.bottom;
         let navigationBarViewFrame = CGRect(x: 0, y: self.view.frame.height - navigationBarViewHeight, width: self.view.frame.width, height: navigationBarViewHeight);
         navigationBarView = UIView(frame: navigationBarViewFrame);
         
