@@ -267,6 +267,8 @@ extension newsPageController{
             
             articleScrollViewPageControl.numberOfPages = 1;
             articleScrollViewPageControl.isUserInteractionEnabled = false;
+            articleScrollViewPageControl.currentPageIndicatorTintColor = InverseBackgroundColor;
+            articleScrollViewPageControl.pageIndicatorTintColor = BackgroundGrayColor;
             
             //
             
