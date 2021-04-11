@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import UPCarouselFlowLayout
 
-class newsPageController : homeContentPageViewController{
+class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
     
     internal let verticalPadding : CGFloat = 10;
     internal let featuredVerticalPadding : CGFloat = 5;
@@ -54,6 +54,30 @@ class newsPageController : homeContentPageViewController{
             return;
         }
         parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
+    }
+    
+    // UIScrollView Delegate
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if (scrollView.tag == 0){ // must be from the featuredCollectionView
+            // https://stackoverflow.com/a/38312063/
+            
+            let centerPoint = CGPoint(x: scrollView.contentOffset.x + (scrollView.frame.width / 2), y: (scrollView.frame.height / 2));
+            guard let indexPath = featuredCollectionView.indexPathForItem(at: centerPoint) else {
+                return;
+            }
+            
+            // print("page - \(indexPath.row)");
+            updateFeaturedArticleInfo(indexPath.row);
+        }
+        else{
+            let index = scrollView.tag - 1;
+            
+            
+            
+        }
+        
     }
     
 }

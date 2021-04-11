@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import UPCarouselFlowLayout
 
-extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate{
+extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSource{
     
     internal func renderFeatured(){
         
@@ -218,21 +218,6 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("selected item at \(indexPath.row)");
-    }
-    
-    // UIScrollView Delegate
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        // https://stackoverflow.com/a/38312063/
-        
-        let centerPoint = CGPoint(x: scrollView.contentOffset.x + (scrollView.frame.width / 2), y: (scrollView.frame.height / 2));
-        guard let indexPath = featuredCollectionView.indexPathForItem(at: centerPoint) else {
-            return;
-        }
-        
-       // print("page - \(indexPath.row)");
-        updateFeaturedArticleInfo(indexPath.row);
     }
     
 }

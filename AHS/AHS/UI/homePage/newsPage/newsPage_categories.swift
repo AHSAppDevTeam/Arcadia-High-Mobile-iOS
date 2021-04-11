@@ -20,7 +20,6 @@ extension newsPageController{
     }
     
     internal func renderCategory(_ categorydata: categoryData){
-        print(categorydata.title);
         
         let categoryView = UIView();
         
@@ -226,9 +225,12 @@ extension newsPageController{
             articleScrollView.topAnchor.constraint(equalTo: carouselView.topAnchor).isActive = true;
             articleScrollView.leadingAnchor.constraint(equalTo: carouselView.leadingAnchor).isActive = true;
             articleScrollView.widthAnchor.constraint(equalToConstant: categoryViewWidth).isActive = true;
-            articleScrollView.heightAnchor.constraint(equalToConstant: categoryViewWidth * 0.6).isActive = true;
+            articleScrollView.heightAnchor.constraint(equalToConstant: categoryViewWidth * 0.5).isActive = true;
+            
+            articleScrollView.delegate = self;
             
             articleScrollView.backgroundColor = .systemRed;
+            articleScrollView.tag = categoryIndex + 1;
             
             //
         
@@ -238,7 +240,7 @@ extension newsPageController{
             
             articleScrollViewPageControl.translatesAutoresizingMaskIntoConstraints = false;
             
-            articleScrollViewPageControl.topAnchor.constraint(equalTo: articleScrollView.bottomAnchor, constant: 5).isActive = true;
+            articleScrollViewPageControl.topAnchor.constraint(equalTo: articleScrollView.bottomAnchor, constant: 2*verticalPadding).isActive = true;
             articleScrollViewPageControl.leadingAnchor.constraint(equalTo: carouselView.leadingAnchor).isActive = true;
             articleScrollViewPageControl.trailingAnchor.constraint(equalTo: carouselView.trailingAnchor).isActive = true;
             articleScrollViewPageControl.bottomAnchor.constraint(equalTo: carouselView.bottomAnchor).isActive = true;
@@ -250,11 +252,6 @@ extension newsPageController{
             previousTopView = carouselView;
             
         }
-        
-        /*carouselView.topAnchor.constraint(greaterThanOrEqualTo: previousTopView.bottomAnchor, constant: verticalPadding).isActive = true;
-         let carouselViewSecondaryTopAnchor = carouselView.topAnchor.constraint(equalTo: previousSecondaryTopView.bottomAnchor, constant: verticalPadding);
-         carouselViewSecondaryTopAnchor.isActive = true;
-         carouselViewSecondaryTopAnchor.priority = UILayoutPriority(rawValue: 999);*/
         
         categoryView.bottomAnchor.constraint(greaterThanOrEqualTo: previousTopView.bottomAnchor, constant: verticalPadding).isActive = true;
         let categoryViewSecondaryBottomAnchor = categoryView.bottomAnchor.constraint(equalTo: previousSecondaryTopView.bottomAnchor, constant: verticalPadding);
@@ -332,6 +329,11 @@ extension newsPageController{
         });
         
     }
+    
+    private func renderScrollView(_ scrollView: UIScrollView, _ categoryIndex: Int){
+        
+    }
+    //
     
     @objc func handleArticleClick(_ sender: ArticleButton){
         print(sender.articleID);
