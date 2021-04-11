@@ -11,6 +11,7 @@ import UIKit
 extension newsPageController{
     internal func loadCategories(){
         dataManager.getHomepageLocationData(completion: { (location) in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
             for categoryID in location.categoryIDs{
                 dataManager.getCategoryData(categoryID, completion: { (category) in
                     self.renderCategory(category);
