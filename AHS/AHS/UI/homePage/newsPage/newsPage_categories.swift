@@ -249,10 +249,11 @@ extension newsPageController{
             articleScrollViewPageControl.bottomAnchor.constraint(equalTo: carouselView.bottomAnchor, constant: -verticalPadding).isActive = true;
             
             articleScrollViewPageControl.numberOfPages = 1;
+            articleScrollViewPageControl.isUserInteractionEnabled = false;
             
             //
             
-            renderScrollView(articleScrollView, categoryIndex, articleIDs, CGSize(width: categoryViewWidth, height: articleScrollViewHeight));
+            renderScrollView(articleScrollView, categoryIndex, articleIDs, CGSize(width: categoryViewWidth, height: articleScrollViewHeight), categorydata);
             
             previousTopView = carouselView;
             
@@ -355,28 +356,145 @@ extension newsPageController{
         return out;
     }
     
-    private func renderScrollView(_ scrollView: UIScrollView, _ categoryIndex: Int, _ articleIDs: [String], _ scrollViewSize: CGSize){
+    private func renderScrollView(_ scrollView: UIScrollView, _ categoryIndex: Int, _ articleIDs: [String], _ scrollViewSize: CGSize, _ categorydata: categoryData){
         //print(arrayToPairs(articleIDs));
         
         let articleIDPArray = arrayToPairs(articleIDs);
         
+        var nextX = CGFloat(0);
         for i in 0..<articleIDPArray.count{
             
             let articleIDPair = articleIDPArray[i];
             
             //
             
-            let contentStackViewFrame = CGRect(x: scrollViewSize.width * CGFloat(i), y: 0, width: scrollViewSize.width, height: scrollViewSize.height);
-            let contentStackView = UIView(frame: contentStackViewFrame);
+            let outerStackViewFrame = CGRect(x: nextX, y: 0, width: scrollViewSize.width, height: scrollViewSize.height);
+            let outerStackView = UIView(frame: outerStackViewFrame);
             
-            contentStackView.backgroundColor = .systemRed;
+            let stackViewVerticalPadding = CGFloat(outerStackView.frame.height / 10);
+            let stackViewHeight = (outerStackView.frame.height - stackViewVerticalPadding) / 2;
             
-            scrollView.addSubview(contentStackView);
+            //
+            let topStackViewFrame = CGRect(x: 0, y: 0, width: outerStackView.frame.width, height: stackViewHeight);
+            let topStackView = ArticleButton(frame: topStackViewFrame);
+            
+            renderStackView(topStackView, articleIDPair.0, categorydata);
+            
+            topStackView.articleID = articleIDPair.0;
+            topStackView.addTarget(self, action: #selector(self.handleArticleClick), for: .touchUpInside);
+            
+            outerStackView.addSubview(topStackView);
+            //
+            if (articleIDPair.1 != nil){
+                let articleID = articleIDPair.1!;
+                
+                let bottomStackViewFrame = CGRect(x: 0, y: stackViewHeight + stackViewVerticalPadding, width: outerStackView.frame.width, height: stackViewHeight);
+                let bottomStackView = ArticleButton(frame: bottomStackViewFrame);
+                
+                renderStackView(bottomStackView, articleID, categorydata);
+                
+                bottomStackView.articleID = articleID;
+                bottomStackView.addTarget(self, action: #selector(self.handleArticleClick), for: .touchUpInside);
+                
+                outerStackView.addSubview(bottomStackView);
+            }
+            
+            scrollView.addSubview(outerStackView);
+            
+            nextX += outerStackView.frame.width;
  
         }
         
-        scrollView.contentSize = CGSize(width: scrollViewSize.width * CGFloat(articleIDPArray.count), height: scrollViewSize.height);
+        scrollView.contentSize = CGSize(width: nextX, height: scrollViewSize.height);
         categoryScrollViewPageControlViews[categoryIndex].numberOfPages = articleIDPArray.count;
+    }
+    
+    private func renderStackView(_ stackView: UIView, _ articleID: String, _ categorydata: categoryData){
+        
+        let stackViewHorizontalPadding = CGFloat(stackView.frame.width / 25);
+        let stackViewVerticalPadding = CGFloat(stackView.frame.height / 30);
+        
+        //
+        let imageViewFrame = CGRect(x: 0, y: 0, width: stackView.frame.width * 0.45, height: stackView.frame.height);
+        let imageView = UIImageView(frame: imageViewFrame);
+        
+        imageView.backgroundColor = mainThemeColor;
+        imageView.contentMode = .scaleAspectFill;
+        imageView.clipsToBounds = true;
+        imageView.layer.cornerRadius = imageView.frame.height / 12;
+        
+        stackView.addSubview(imageView);
+        
+        //
+        let titleLabelFrame = CGRect(x: imageView.frame.width + stackViewHorizontalPadding, y: 0, width: stackView.frame.width - imageView.frame.width - stackViewHorizontalPadding, height: stackView.frame.height * 0.8);
+        let titleLabel = UILabel(frame: titleLabelFrame);
+        
+        titleLabel.textAlignment = .left;
+        titleLabel.textColor = InverseBackgroundColor;
+        titleLabel.font = UIFont(name: SFProDisplay_Bold, size: titleLabel.frame.height * 0.25);
+        titleLabel.numberOfLines = 0;
+        
+        stackView.addSubview(titleLabel);
+        //
+        
+        let articleAttributesViewFrame = CGRect(x: imageView.frame.width + stackViewHorizontalPadding, y: titleLabel.frame.height + stackViewVerticalPadding, width: titleLabel.frame.width, height: stackView.frame.height - titleLabel.frame.height - stackViewVerticalPadding);
+        let articleAttributesView = UIView(frame: articleAttributesViewFrame);
+        
+        //articleAttributesView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        //
+        
+        let articleCategoryColorView = UIView();
+        
+        articleAttributesView.addSubview(articleCategoryColorView);
+        
+        articleCategoryColorView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        articleCategoryColorView.leadingAnchor.constraint(equalTo: articleAttributesView.leadingAnchor).isActive = true;
+        articleCategoryColorView.topAnchor.constraint(equalTo: articleAttributesView.topAnchor).isActive = true;
+        articleCategoryColorView.widthAnchor.constraint(equalToConstant: articleAttributesView.frame.width / 30).isActive = true;
+        articleCategoryColorView.heightAnchor.constraint(equalToConstant: articleAttributesView.frame.height).isActive = true;
+        
+        articleCategoryColorView.backgroundColor = mainThemeColor;
+        articleCategoryColorView.isHidden = true;
+        
+        //
+        
+        let articleTimeStampLabel = UILabel();
+        
+        articleAttributesView.addSubview(articleTimeStampLabel);
+        
+        articleTimeStampLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        articleTimeStampLabel.leadingAnchor.constraint(equalTo: articleCategoryColorView.trailingAnchor, constant: 5).isActive = true;
+        articleTimeStampLabel.topAnchor.constraint(equalTo: articleAttributesView.topAnchor).isActive = true;
+        articleTimeStampLabel.heightAnchor.constraint(equalToConstant: articleAttributesView.frame.height).isActive = true;
+        articleTimeStampLabel.trailingAnchor.constraint(equalTo: articleAttributesView.trailingAnchor).isActive = true;
+        
+        articleTimeStampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleAttributesView.frame.height * 0.8);
+        articleTimeStampLabel.textAlignment = .left;
+        articleTimeStampLabel.textColor = BackgroundGrayColor;
+        
+        //
+        
+        stackView.addSubview(articleAttributesView);
+        //
+    
+        dataManager.getBaseArticleData(articleID, completion: { (articledata) in
+            if (articledata.thumbURLs.count > 0){
+                imageView.sd_setImage(with: URL(string: articledata.thumbURLs[0]));
+            }
+            
+            titleLabel.text = articledata.title;
+            
+            articleCategoryColorView.isHidden = false;
+            articleCategoryColorView.backgroundColor = UIColor{ _ in
+                return UIColor.dynamicColor(light: categorydata.colorLightMode, dark: categorydata.colorDarkMode);
+            }
+            
+            articleTimeStampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
+        });
+        
     }
     //
     

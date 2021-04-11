@@ -12,9 +12,9 @@ import UPCarouselFlowLayout
 class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
     
     internal let verticalPadding : CGFloat = 10;
-    internal let featuredVerticalPadding : CGFloat = 5;
     
     // Featured vars
+    internal let featuredVerticalPadding : CGFloat = 5;
     internal let featuredParentView : UIView = UIView();
     
     internal let featuredCollectionViewLayout = UPCarouselFlowLayout();
@@ -68,13 +68,14 @@ class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
                 return;
             }
             
-            print("page in collectionview - \(indexPath.row)");
             updateFeaturedArticleInfo(indexPath.row);
         }
         else{
-            let index = scrollView.tag - 1;
+            let scrollViewIndex = scrollView.tag - 1;
             
-            print("page in category scrollview with index - \(index) with height \(scrollView.frame.height)");
+            let pageControl = categoryScrollViewPageControlViews[scrollViewIndex];
+            
+            pageControl.currentPage = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width));
             
         }
         
