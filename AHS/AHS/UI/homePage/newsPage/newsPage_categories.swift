@@ -401,8 +401,7 @@ extension newsPageController{
             
             scrollView.addSubview(outerStackView);
             
-            nextX += outerStackView.frame.width;
- 
+            nextX += outerStackView.frame.width + (outerStackView.frame.width - CGFloat(Int(outerStackView.frame.width))); // second part is due to a bug with constraints ignoring floating point decimals causing a bit of a content offset
         }
         
         scrollView.contentSize = CGSize(width: nextX, height: scrollViewSize.height);
