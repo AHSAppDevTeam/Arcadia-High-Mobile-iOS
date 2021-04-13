@@ -59,13 +59,6 @@ class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
     }
     
-    internal func updateParentHeightConstraint(){
-        guard let parentVC = self.parent as? homePageViewController else{
-            return;
-        }
-        parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
-    }
-    
     @objc func reload(_ notification: NSNotification){
         self.loadFeaturedArticles();
         self.reloadCategories();

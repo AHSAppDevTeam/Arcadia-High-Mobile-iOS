@@ -96,7 +96,7 @@ class featuredCategoryViewController : homeContentPageViewController{
         updateParentHeightConstraint();
     }
     
-    private func updateParentHeightConstraint(){
+    override func updateParentHeightConstraint(){
         let parentVC = self.parent as! homePageViewController;
         parentVC.featuredCategoryViewHeightAnchor.constant = self.getSubviewsMaxY();
     }

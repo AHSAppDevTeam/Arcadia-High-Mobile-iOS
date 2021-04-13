@@ -28,6 +28,12 @@ class homeContentPageViewController : UIViewController{ // UIViewController for 
         return mx;
     }
     
+    internal func updateParentHeightConstraint(){
+        guard let parentVC = self.parent as? homePageViewController else{
+            return;
+        }
+        parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
+    }
 }
 
 class ArticleButton : UIButton{
