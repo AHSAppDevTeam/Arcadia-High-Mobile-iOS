@@ -27,6 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // APP OPTIONAL SETUP HERE
         
+        AppUtility.lockOrientation(.portrait);
         
         // END OPTIONAL SETUP
         
