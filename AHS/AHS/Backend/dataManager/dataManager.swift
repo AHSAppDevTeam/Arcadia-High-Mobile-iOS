@@ -15,6 +15,8 @@ class dataManager{
     
     static internal var categoryLookupMap : [String : categoryData] = [:];
     
+    static internal var isPresentingPopup = false;
+    
     static public func setupConnection(){
         if (Reachability.isConnectedToNetwork()){
             internetConnected = true;
@@ -24,6 +26,20 @@ class dataManager{
         else{
             internetConnected = false;
             Database.database().goOffline();
+            noInternetPopup();
+        }
+    }
+    
+    static private func noInternetPopup(){
+        if (!isPresentingPopup){
+            isPresentingPopup = true;
+            let popup = UIAlertController(title: "No Internet Connection", message: "No content was loaded", preferredStyle: .alert);
+            popup.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
+                popup.removeFromParent();
+                isPresentingPopup = false;
+            }));
+            SceneDelegate.window?.rootViewController?.present(popup, animated: true, completion: nil);
         }
     }
 }

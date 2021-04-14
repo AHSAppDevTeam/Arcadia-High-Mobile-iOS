@@ -13,8 +13,8 @@ struct AppUtility {
     static let originalHeight = UIScreen.main.bounds.height;
     static let safeAreaInset = UIApplication.shared.windows[0].safeAreaInsets;
     
-    static var isOrientationLocked = false;
-    static var isLockedOrientationLandscape = false;
+    static private var isOrientationLocked = false;
+    static private var isLockedOrientationLandscape = false;
     
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
     
