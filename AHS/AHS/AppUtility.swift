@@ -22,7 +22,7 @@ struct AppUtility {
             delegate.orientationLock = orientation;
         }
         
-        isOrientationLocked = true;
+        isOrientationLocked = orientation != .all;
         isLockedOrientationLandscape = UIDevice.current.orientation.isLandscape;
     }
 
