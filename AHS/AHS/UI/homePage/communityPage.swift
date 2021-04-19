@@ -37,7 +37,7 @@ class communityPageController : homeContentPageViewController{
         let categoryViewFrame = CGRect(x: homePageHorizontalPadding, y: nextY, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: AppUtility.getCurrentScreenSize().width * 1.4);
         let categoryView = UIView(frame: categoryViewFrame);
         
-        categoryView.backgroundColor = .systemRed;
+        //categoryView.backgroundColor = .systemRed;
         
         let categoryViewHorizontalPadding = homePageHorizontalPadding;
         
@@ -46,7 +46,12 @@ class communityPageController : homeContentPageViewController{
         let categoryTitleLabelFrame = CGRect(x: categoryViewHorizontalPadding, y: 0, width: categoryView.frame.width - 2*categoryViewHorizontalPadding, height: categoryView.frame.height * 0.1);
         let categoryTitleLabel = UILabel(frame: categoryTitleLabelFrame);
         
-        
+        categoryTitleLabel.text = categorydata.title;
+        categoryTitleLabel.textColor = UIColor{ _ in
+            return UIColor.dynamicColor(light: categorydata.colorLightMode, dark: categorydata.colorDarkMode);
+        };
+        categoryTitleLabel.font = UIFont(name: SFProDisplay_Black, size: categoryTitleLabel.frame.height * 0.5);
+        categoryTitleLabel.textAlignment = .left;
         
         categoryView.addSubview(categoryTitleLabel);
         
@@ -56,5 +61,5 @@ class communityPageController : homeContentPageViewController{
         self.view.addSubview(categoryView);
         updateParentHeightConstraint();
     }
-    
+
 }

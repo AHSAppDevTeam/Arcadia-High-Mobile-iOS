@@ -44,22 +44,24 @@ extension dataManager{
             
             dataRef.child("articles").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                let dataDict = snapshot.value as? NSDictionary;
-                
-                var data : fullArticleData = fullArticleData();
-                
-                data.author = dataDict?["author"] as? String ?? "";
-                data.body = dataDict?["body"] as? String ?? "";
-                data.views = dataDict?["views"] as? Int64 ?? 0;
-                data.featured = dataDict?["featured"] as? Bool ?? false;
-                data.notified = dataDict?["notified"] as? Bool ?? false;
-                data.imageURLs = dataDict?["imageURLs"] as? [String] ?? [];
-                data.videoIDs = dataDict?["videoIDs"] as? [String] ?? [];
-                
-                getBaseArticleData(id, completion: { (base) in
-                    data.baseData = base;
-                    completion(data);
-                });
+                if (snapshot.exists()){
+                    let dataDict = snapshot.value as? NSDictionary;
+                    
+                    var data : fullArticleData = fullArticleData();
+                    
+                    data.author = dataDict?["author"] as? String ?? "";
+                    data.body = dataDict?["body"] as? String ?? "";
+                    data.views = dataDict?["views"] as? Int64 ?? 0;
+                    data.featured = dataDict?["featured"] as? Bool ?? false;
+                    data.notified = dataDict?["notified"] as? Bool ?? false;
+                    data.imageURLs = dataDict?["imageURLs"] as? [String] ?? [];
+                    data.videoIDs = dataDict?["videoIDs"] as? [String] ?? [];
+                    
+                    getBaseArticleData(id, completion: { (base) in
+                        data.baseData = base;
+                        completion(data);
+                    });
+                }
                 
             });
             
@@ -75,18 +77,21 @@ extension dataManager{
             
             dataRef.child("articles").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                let dataDict = snapshot.value as? NSDictionary;
-                
-                var data : baseArticleData = baseArticleData();
-                
-                data.articleID = id;
-                data.categoryID = dataDict?["categoryID"] as? String ?? "";
-                data.title = dataDict?["title"] as? String ?? "";
-                data.timestamp = dataDict?["timestamp"] as? Int64 ?? 0;
-                data.thumbURLs = dataDict?["thumbURLs"] as? [String] ?? [];
-                
-                completion(data);
-                
+                if (snapshot.exists()){
+                    
+                    let dataDict = snapshot.value as? NSDictionary;
+                    
+                    var data : baseArticleData = baseArticleData();
+                    
+                    data.articleID = id;
+                    data.categoryID = dataDict?["categoryID"] as? String ?? "";
+                    data.title = dataDict?["title"] as? String ?? "";
+                    data.timestamp = dataDict?["timestamp"] as? Int64 ?? 0;
+                    data.thumbURLs = dataDict?["thumbURLs"] as? [String] ?? [];
+                    
+                    completion(data);
+                    
+                }
             });
             
         }

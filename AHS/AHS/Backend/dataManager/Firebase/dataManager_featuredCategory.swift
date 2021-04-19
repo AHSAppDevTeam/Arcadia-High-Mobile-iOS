@@ -47,8 +47,11 @@ extension dataManager{
         dataRef.child("featuredCategoryID").observeSingleEvent(of: .value){ (snapshot) in
             
             //print("snapshot - \(snapshot.key) = \(snapshot.value)")
-            
-            completion(snapshot.value as? String ?? "");
+            if (snapshot.exists()){
+                
+                completion(snapshot.value as? String ?? "");
+                
+            }
             
         }
         
@@ -58,16 +61,20 @@ extension dataManager{
         
         dataRef.child("categories").child(id).observeSingleEvent(of: .value){ (snapshot) in
             
-            let categoryDict = snapshot.value as? NSDictionary;
+            if (snapshot.exists()){
             
-            var data : featuredCategoryData = featuredCategoryData();
-            
-            data.title = categoryDict?["title"] as? String ?? "";
-            data.blurb = categoryDict?["blurb"] as? String ?? "";
-            data.colorDarkMode = UIColor.init(hex: categoryDict?["colorDarkMode"] as? String ?? "");
-            data.colorLightMode = UIColor.init(hex: categoryDict?["colorLightMode"] as? String ?? "");
-            
-            completion(data);
+                let categoryDict = snapshot.value as? NSDictionary;
+                
+                var data : featuredCategoryData = featuredCategoryData();
+                
+                data.title = categoryDict?["title"] as? String ?? "";
+                data.blurb = categoryDict?["blurb"] as? String ?? "";
+                data.colorDarkMode = UIColor.init(hex: categoryDict?["colorDarkMode"] as? String ?? "");
+                data.colorLightMode = UIColor.init(hex: categoryDict?["colorLightMode"] as? String ?? "");
+                
+                completion(data);
+                
+            }
             
         }
         

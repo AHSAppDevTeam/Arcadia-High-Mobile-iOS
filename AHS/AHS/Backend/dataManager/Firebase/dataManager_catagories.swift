@@ -39,19 +39,22 @@ extension dataManager{
             
             dataRef.child("categories").child(categoryID).observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                let categoryDict = snapshot.value as? NSDictionary;
-                
-                var data : categoryData = categoryData();
-                
-                data.articleIDs = categoryDict?["articleIDs"] as? [String] ?? [];
-                data.blurb = categoryDict?["blurb"] as? String ?? "";
-                data.colorDarkMode = UIColor.init(hex: categoryDict?["colorDarkMode"] as? String ?? "");
-                data.colorLightMode = UIColor.init(hex: categoryDict?["colorLightMode"] as? String ?? "");
-                data.featured = categoryDict?["featured"] as? Bool ?? false;
-                data.title = categoryDict?["title"] as? String ?? "";
-                
-                completion(data);
-                
+                if (snapshot.exists()){
+                    
+                    let categoryDict = snapshot.value as? NSDictionary;
+                    
+                    var data : categoryData = categoryData();
+                    
+                    data.articleIDs = categoryDict?["articleIDs"] as? [String] ?? [];
+                    data.blurb = categoryDict?["blurb"] as? String ?? "";
+                    data.colorDarkMode = UIColor.init(hex: categoryDict?["colorDarkMode"] as? String ?? "");
+                    data.colorLightMode = UIColor.init(hex: categoryDict?["colorLightMode"] as? String ?? "");
+                    data.featured = categoryDict?["featured"] as? Bool ?? false;
+                    data.title = categoryDict?["title"] as? String ?? "";
+                    
+                    completion(data);
+                    
+                }
             });
             
         }

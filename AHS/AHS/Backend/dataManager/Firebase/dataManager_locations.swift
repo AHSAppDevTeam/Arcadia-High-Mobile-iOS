@@ -54,15 +54,19 @@ extension dataManager{
         
         dataRef.child("locations").child(locationName).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            let locationDict = snapshot.value as? NSDictionary;
-            
-            var data : locationData = locationData();
-            
-            data.categoryIDs = locationDict?["categoryIDs"] as? [String] ?? [];
-            data.locationTitle = locationDict?["title"] as? String ?? "";
-        
-            completion(data);
-            
+            if (snapshot.exists()){
+                
+                let locationDict = snapshot.value as? NSDictionary;
+                
+                var data : locationData = locationData();
+                
+                data.categoryIDs = locationDict?["categoryIDs"] as? [String] ?? [];
+                data.locationTitle = locationDict?["title"] as? String ?? "";
+                
+                completion(data);
+                
+            }
+                
         });
         
     }
