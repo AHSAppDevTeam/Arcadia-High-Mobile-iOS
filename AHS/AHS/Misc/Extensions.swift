@@ -19,7 +19,7 @@ extension UIColor{
         let count = hex.count;
         
         if (count != 6 && count != 7){
-            self.init();
+            self.init(red: 0, green: 0, blue: 0, alpha: 0);
             return;
         }
         
@@ -36,17 +36,17 @@ extension UIColor{
         //print("hex - \(r_s)\(g_s)\(b_s)")
         
         guard let r = UInt8(r_s, radix: 16) else{
-            self.init();
+            self.init(red: 0, green: 0, blue: 0, alpha: 0);
             return;
         }
         
         guard let g = UInt8(g_s, radix: 16) else{
-            self.init();
+            self.init(red: 0, green: 0, blue: 0, alpha: 0);
             return;
         }
         
         guard let b = UInt8(b_s, radix: 16) else{
-            self.init();
+            self.init(red: 0, green: 0, blue: 0, alpha: 0);
             return;
         }
         
