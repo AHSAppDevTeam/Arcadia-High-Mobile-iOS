@@ -12,8 +12,7 @@ import Firebase
 struct featuredCategoryData{
     var title : String = "";
     var blurb : String = "";
-    var colorDarkMode : UIColor = UIColor();
-    var colorLightMode : UIColor = UIColor();
+    var color : UIColor = UIColor();
 }
 
 extension dataManager{
@@ -69,8 +68,7 @@ extension dataManager{
                 
                 data.title = categoryDict?["title"] as? String ?? "";
                 data.blurb = categoryDict?["blurb"] as? String ?? "";
-                data.colorDarkMode = UIColor.init(hex: categoryDict?["colorDarkMode"] as? String ?? "");
-                data.colorLightMode = UIColor.init(hex: categoryDict?["colorLightMode"] as? String ?? "");
+                data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
                 
                 completion(data);
                 

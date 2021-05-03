@@ -12,8 +12,7 @@ import FirebaseDatabase
 struct categoryData{
     var articleIDs = [String]();
     var blurb : String = "";
-    var colorDarkMode : UIColor = UIColor();  // needs hex string to be parsed
-    var colorLightMode : UIColor = UIColor(); // needs hex string to be parsed
+    var color : UIColor = UIColor();
     var featured : Bool = false;
     var title : String = "";
 }
@@ -47,8 +46,7 @@ extension dataManager{
                     
                     data.articleIDs = categoryDict?["articleIDs"] as? [String] ?? [];
                     data.blurb = categoryDict?["blurb"] as? String ?? "";
-                    data.colorDarkMode = UIColor.init(hex: categoryDict?["colorDarkMode"] as? String ?? "");
-                    data.colorLightMode = UIColor.init(hex: categoryDict?["colorLightMode"] as? String ?? "");
+                    data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
                     data.featured = categoryDict?["featured"] as? Bool ?? false;
                     data.title = categoryDict?["title"] as? String ?? "";
                     

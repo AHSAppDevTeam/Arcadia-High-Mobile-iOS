@@ -176,9 +176,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
             
             dataManager.getCategoryData(articleData.categoryID, completion: { (data) in
                 
-                self.featuredArticleCategoryView.backgroundColor = UIColor{ _ in
-                    return UIColor.dynamicColor(light: data.colorLightMode, dark: data.colorDarkMode);
-                }
+                self.featuredArticleCategoryView.backgroundColor = data.color;
                 
                 self.featuredArticleCategoryLabel.text = data.title;
                 

@@ -71,9 +71,7 @@ extension newsPageController{
         let categoryTitleLabel = UILabel(frame: categoryTitleLabelFrame);
         
         categoryTitleLabel.attributedText = categoryTitleLabelAttributedString;
-        categoryTitleLabel.textColor = UIColor{ _ in
-            return UIColor.dynamicColor(light: categorydata.colorLightMode, dark: categorydata.colorDarkMode);
-        }
+        categoryTitleLabel.textColor = categorydata.color;
         categoryTitleLabel.textAlignment = .left;
         
         categoryView.addSubview(categoryTitleLabel);
@@ -508,9 +506,7 @@ extension newsPageController{
             titleLabel.text = articledata.title;
             
             articleCategoryColorView.isHidden = false;
-            articleCategoryColorView.backgroundColor = UIColor{ _ in
-                return UIColor.dynamicColor(light: categorydata.colorLightMode, dark: categorydata.colorDarkMode);
-            }
+            articleCategoryColorView.backgroundColor = categorydata.color;
             
             articleTimeStampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
         });

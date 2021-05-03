@@ -47,9 +47,7 @@ class communityPageController : homeContentPageViewController{
         let categoryTitleLabel = UILabel(frame: categoryTitleLabelFrame);
         
         categoryTitleLabel.text = categorydata.title;
-        categoryTitleLabel.textColor = UIColor{ _ in
-            return UIColor.dynamicColor(light: categorydata.colorLightMode, dark: categorydata.colorDarkMode);
-        };
+        categoryTitleLabel.textColor = categorydata.color;
         categoryTitleLabel.font = UIFont(name: SFProDisplay_Black, size: categoryTitleLabel.frame.height * 0.5);
         categoryTitleLabel.textAlignment = .left;
         

@@ -58,9 +58,7 @@ class featuredCategoryViewController : homeContentPageViewController{
         let mainView = UIButton(frame: mainViewFrame);
         
         mainView.layer.cornerRadius = 25;
-        mainView.backgroundColor = UIColor {_ in
-            return UIColor.dynamicColor(light: data.colorLightMode, dark: data.colorDarkMode);
-        }
+        mainView.backgroundColor = data.color;
         
         mainView.addTarget(self, action: #selector(self.handlePress), for: .touchUpInside);
         
