@@ -22,6 +22,7 @@ class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
     internal var featuredArticleArray : [baseArticleData] = [];
     
     internal let featuredArticleLabel : UILabel = UILabel();
+    internal let featuredCategoryLabel : UITextView = UITextView();
     internal let featuredArticleCategoryView : UIView = UIView();
     internal let featuredArticleCategoryLabel : UILabel = UILabel();
     internal let featuredArticleTimestampLabel : UILabel = UILabel();

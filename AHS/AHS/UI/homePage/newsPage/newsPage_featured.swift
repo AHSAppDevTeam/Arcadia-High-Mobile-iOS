@@ -23,24 +23,24 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         
         //
         
-        let featuredLabelFrame = CGRect(x: 0, y: 0, width: AppUtility.getCurrentScreenSize().width, height: AppUtility.getCurrentScreenSize().width / 10);
-        let featuredLabel = UITextView(frame: featuredLabelFrame);
+        let featuredCategoryLabelFrame = CGRect(x: 0, y: 0, width: AppUtility.getCurrentScreenSize().width, height: AppUtility.getCurrentScreenSize().width / 10);
+        featuredCategoryLabel.frame = featuredCategoryLabelFrame;
         
-        featuredLabel.isUserInteractionEnabled = false;
-        featuredLabel.isEditable = false;
-        featuredLabel.isSelectable = false;
-        featuredLabel.textAlignment = .left;
-        featuredLabel.backgroundColor = .clear;
+        featuredCategoryLabel.isUserInteractionEnabled = false;
+        featuredCategoryLabel.isEditable = false;
+        featuredCategoryLabel.isSelectable = false;
+        featuredCategoryLabel.textAlignment = .left;
+        featuredCategoryLabel.backgroundColor = .clear;
         
-        let featuredLabelText = NSMutableAttributedString(string: "Featured", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: featuredLabel.frame.height * 0.7)!]);
-        featuredLabelText.append(NSAttributedString(string: " Articles", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: featuredLabel.frame.height * 0.7)!]));
+        let featuredLabelText = NSMutableAttributedString(string: "Featured", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: featuredCategoryLabel.frame.height * 0.7)!]);
+        featuredLabelText.append(NSAttributedString(string: " Articles", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: featuredCategoryLabel.frame.height * 0.7)!]));
         
-        featuredLabel.attributedText = featuredLabelText;
-        featuredLabel.textColor = UIColor.init(hex: "#c22b2b");
-        featuredLabel.textContainerInset = UIEdgeInsets(top: 2, left: homePageHorizontalPadding, bottom: 0, right: homePageHorizontalPadding);
-        featuredLabel.textContainer.lineFragmentPadding = .zero;
+        featuredCategoryLabel.attributedText = featuredLabelText;
+        featuredCategoryLabel.textColor = UIColor.init(hex: "#c22b2b");
+        featuredCategoryLabel.textContainerInset = UIEdgeInsets(top: 2, left: homePageHorizontalPadding, bottom: 0, right: homePageHorizontalPadding);
+        featuredCategoryLabel.textContainer.lineFragmentPadding = .zero;
         
-        featuredParentView.addSubview(featuredLabel);
+        featuredParentView.addSubview(featuredCategoryLabel);
         
         //
         
@@ -52,7 +52,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredCollectionViewLayout.scrollDirection = .horizontal;
         featuredCollectionViewLayout.spacingMode = .overlap(visibleOffset: homePageHorizontalPadding / 2);
         
-        featuredCollectionView = UICollectionView(frame: CGRect(x: 0, y: featuredLabel.frame.height, width: featuredCollectionViewWidth, height: featuredCollectionViewHeight), collectionViewLayout: featuredCollectionViewLayout);
+        featuredCollectionView = UICollectionView(frame: CGRect(x: 0, y: featuredCategoryLabel.frame.height, width: featuredCollectionViewWidth, height: featuredCollectionViewHeight), collectionViewLayout: featuredCollectionViewLayout);
         
         featuredCollectionView.showsVerticalScrollIndicator = false;
         featuredCollectionView.showsHorizontalScrollIndicator = false;
@@ -147,6 +147,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         
         dataManager.getCategoryData("Featured", completion: { (category) in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
+            self.featuredCategoryLabel.textColor = category.color;
             for articleID in category.articleIDs{
                 dataManager.getBaseArticleData(articleID, completion: { (article) in
                     self.featuredArticleArray.append(article);
