@@ -23,14 +23,14 @@ extension homePageViewController{
     @objc func selectCategoryButton(_ sender: UIButton){
         let tag = sender.tag;
         
+        /*
         if (tag == 1){
             newsButton.backgroundColor = newsButtonColor;
             newsButton.setTitleColor(BackgroundColor, for: .normal);
             
             communityButton.backgroundColor = BackgroundColor;
             communityButton.setTitleColor(communityButtonColor, for: .normal);
-        
-            setContentView(0);
+    
         }
         else if (tag == 2){
             newsButton.backgroundColor = BackgroundColor;
@@ -39,8 +39,42 @@ extension homePageViewController{
             communityButton.backgroundColor = communityButtonColor;
             communityButton.setTitleColor(BackgroundColor, for: .normal);
             
-            setContentView(1);
         }
+        */
+        
+        for i in 0..<topCategoryPickerButtons.count{
+            
+            let button = topCategoryPickerButtons[i];
+            let buttonColor = topCategoryPickerButtonColors[i];
+            
+            if (i != tag){ // non selected
+                
+                button.backgroundColor = BackgroundColor;
+                
+                if (i == 2){ // is search button
+                    button.tintColor = buttonColor;
+                }
+                else{
+                    button.setTitleColor(buttonColor, for: .normal);
+                }
+                
+            }
+            else{ // selected button
+                button.backgroundColor = buttonColor;
+                
+                if (i == 2){ // is search button
+                    button.tintColor = BackgroundColor;
+                }
+                else{
+                    button.setTitleColor(BackgroundColor, for: .normal);
+                }
+                
+            }
+            
+        }
+        
+        
+        setContentView(tag);
         
     }
     
