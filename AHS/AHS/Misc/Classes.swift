@@ -20,6 +20,8 @@ class mainPageViewController : UIViewController{ // UIViewController for main pa
 
 class homeContentPageViewController : UIViewController{ // UIViewController for homepage content pages
     
+    internal var nextContentY : CGFloat = 0;
+    
     public func getSubviewsMaxY() -> CGFloat{
         var mx : CGFloat = 0;
         for view in self.view.subviews{
@@ -32,7 +34,7 @@ class homeContentPageViewController : UIViewController{ // UIViewController for 
         guard let parentVC = self.parent as? homePageViewController else{
             return;
         }
-        parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
+        parentVC.contentViewHeightAnchor.constant = max(self.getSubviewsMaxY(), nextContentY);
     }
 }
 

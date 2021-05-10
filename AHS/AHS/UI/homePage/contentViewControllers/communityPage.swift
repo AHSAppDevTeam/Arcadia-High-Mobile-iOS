@@ -10,13 +10,10 @@ import UIKit
 
 class communityPageController : homeContentPageViewController{
 
-    internal let verticalPadding : CGFloat = 20;
-    internal var nextY : CGFloat = 0;
+    internal let verticalPadding : CGFloat = 10;
     
     override func viewDidLoad() {
         super.viewDidLoad();
-        
-        print("loaded community");
         
         loadCategories();
         
@@ -34,16 +31,12 @@ class communityPageController : homeContentPageViewController{
     
     internal func renderCategory(_ categorydata: categoryData){
         
-        let categoryViewFrame = CGRect(x: homePageHorizontalPadding, y: nextY, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: AppUtility.getCurrentScreenSize().width * 1.4);
+        let categoryViewFrame = CGRect(x: homePageHorizontalPadding, y: nextContentY, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: AppUtility.getCurrentScreenSize().width);
         let categoryView = UIView(frame: categoryViewFrame);
+    
+        // content inside each category
         
-        //categoryView.backgroundColor = .systemRed;
-        
-        let categoryViewHorizontalPadding = homePageHorizontalPadding;
-        
-        //
-        
-        let categoryTitleLabelFrame = CGRect(x: categoryViewHorizontalPadding, y: 0, width: categoryView.frame.width - 2*categoryViewHorizontalPadding, height: categoryView.frame.height * 0.1);
+        let categoryTitleLabelFrame = CGRect(x: 0, y: 0, width: categoryView.frame.width, height: categoryView.frame.height * 0.15);
         let categoryTitleLabel = UILabel(frame: categoryTitleLabelFrame);
         
         categoryTitleLabel.text = categorydata.title;
@@ -54,8 +47,22 @@ class communityPageController : homeContentPageViewController{
         categoryView.addSubview(categoryTitleLabel);
         
         //
+
+        let categoryContentViewFrame = CGRect(x: 0, y: categoryTitleLabel.frame.height, width: categoryView.frame.width, height: categoryView.frame.height - categoryTitleLabel.frame.height);
+        let categoryContentView = UIView(frame: categoryContentViewFrame);
         
-        nextY += categoryView.frame.height + verticalPadding;
+        categoryContentView.layer.cornerRadius = categoryContentView.frame.height / 20;
+        categoryContentView.backgroundColor = BackgroundColor;
+        categoryContentView.layer.shadowOffset = CGSize(width: 0, height: 1);
+        categoryContentView.layer.shadowColor = BackgroundGrayColor.cgColor;
+        categoryContentView.layer.shadowOpacity = 0.5;
+        categoryContentView.layer.shadowRadius = 0.8;
+        
+        categoryView.addSubview(categoryContentView);
+        
+        //
+        
+        nextContentY += categoryView.frame.height + verticalPadding;
         self.view.addSubview(categoryView);
         updateParentHeightConstraint();
     }
