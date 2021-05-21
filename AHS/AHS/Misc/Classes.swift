@@ -27,14 +27,14 @@ class homeContentPageViewController : UIViewController{ // UIViewController for 
         for view in self.view.subviews{
             mx = max(mx, view.frame.maxY);
         }
-        return mx;
+        return max(mx, nextContentY);
     }
     
     internal func updateParentHeightConstraint(){
         guard let parentVC = self.parent as? homePageViewController else{
             return;
         }
-        parentVC.contentViewHeightAnchor.constant = max(self.getSubviewsMaxY(), nextContentY);
+        parentVC.contentViewHeightAnchor.constant = self.getSubviewsMaxY();
     }
 }
 
