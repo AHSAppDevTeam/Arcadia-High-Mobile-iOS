@@ -51,7 +51,37 @@ class communityPageController : homeContentPageViewController{
         let categoryContentViewFrame = CGRect(x: 0, y: categoryTitleLabel.frame.height, width: categoryView.frame.width, height: categoryView.frame.height - categoryTitleLabel.frame.height);
         let categoryContentView = UIView(frame: categoryContentViewFrame);
         
+        // content inside content view ----
+        
+        let categoryImagesViewFrame = CGRect(x: 0, y: 0, width: categoryContentView.frame.width, height: categoryView.frame.height * 0.67);
+        let categoryImagesView = UIView(frame: categoryImagesViewFrame);
+        
+        categoryImagesView.layer.cornerRadius = categoryContentView.frame.height / 20;
+        categoryImagesView.clipsToBounds = true;
+        
+        categoryImagesView.backgroundColor = .systemRed;
+        
+        categoryContentView.addSubview(categoryImagesView);
+        
+        //
+        
+        let categoryDescriptionLabelHorizontalPadding = categoryContentView.frame.width / 20;
+        let categoryDescriptionLabelVerticalPadding = categoryContentView.frame.height / 30;
+        let categoryDescriptionLabelFrame = CGRect(x: categoryDescriptionLabelHorizontalPadding, y: categoryImagesView.frame.height + categoryDescriptionLabelVerticalPadding, width: categoryContentView.frame.width - 2*categoryDescriptionLabelHorizontalPadding, height: categoryContentView.frame.height - categoryImagesView.frame.height - 2*categoryDescriptionLabelVerticalPadding);
+        let categoryDescriptionLabel = UILabel(frame: categoryDescriptionLabelFrame);
+        
+        categoryDescriptionLabel.textAlignment = .left;
+        categoryDescriptionLabel.textColor = InverseBackgroundColor;
+        categoryDescriptionLabel.text = categorydata.blurb;
+        categoryDescriptionLabel.numberOfLines = 2;
+        categoryDescriptionLabel.font = UIFont(name: SFProDisplay_Semibold, size: categoryDescriptionLabel.frame.height * 0.4);
+        
+        categoryContentView.addSubview(categoryDescriptionLabel);
+        
+        // ---
+        
         categoryContentView.layer.cornerRadius = categoryContentView.frame.height / 20;
+        //categoryContentView.clipsToBounds = true;
         categoryContentView.backgroundColor = BackgroundColor;
         categoryContentView.layer.shadowOffset = CGSize(width: 0, height: 1);
         categoryContentView.layer.shadowColor = BackgroundGrayColor.cgColor;
