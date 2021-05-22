@@ -44,7 +44,7 @@ class communityPageController : homeContentPageViewController{
     internal func renderCategory(_ categorydata: categoryData){
         
         let categoryViewFrame = CGRect(x: homePageHorizontalPadding, y: nextContentY, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: AppUtility.getCurrentScreenSize().width);
-        let categoryView = UIView(frame: categoryViewFrame);
+        let categoryView = CategoryButton(frame: categoryViewFrame);
         categoryView.tag = 1;
         
         // content inside each category
@@ -56,6 +56,7 @@ class communityPageController : homeContentPageViewController{
         categoryTitleLabel.textColor = categorydata.color;
         categoryTitleLabel.font = UIFont(name: SFProDisplay_Black, size: categoryTitleLabel.frame.height * 0.5);
         categoryTitleLabel.textAlignment = .left;
+        categoryTitleLabel.isUserInteractionEnabled = false;
         
         categoryView.addSubview(categoryTitleLabel);
         
@@ -63,6 +64,7 @@ class communityPageController : homeContentPageViewController{
 
         let categoryContentViewFrame = CGRect(x: 0, y: categoryTitleLabel.frame.height, width: categoryView.frame.width, height: categoryView.frame.height - categoryTitleLabel.frame.height);
         let categoryContentView = UIView(frame: categoryContentViewFrame);
+        categoryContentView.isUserInteractionEnabled = false;
         
         // content inside content view ----
         
@@ -71,6 +73,7 @@ class communityPageController : homeContentPageViewController{
         
         categoryImagesView.layer.cornerRadius = categoryContentView.frame.height / 20;
         categoryImagesView.clipsToBounds = true;
+        categoryImagesView.isUserInteractionEnabled = false;
         
         categoryImagesView.backgroundColor = .systemRed;
         
@@ -88,6 +91,7 @@ class communityPageController : homeContentPageViewController{
         categoryDescriptionLabel.text = categorydata.blurb;
         categoryDescriptionLabel.numberOfLines = 2;
         categoryDescriptionLabel.font = UIFont(name: SFProDisplay_Semibold, size: categoryDescriptionLabel.frame.height * 0.4);
+        categoryDescriptionLabel.isUserInteractionEnabled = false;
         
         categoryContentView.addSubview(categoryDescriptionLabel);
         
@@ -106,6 +110,8 @@ class communityPageController : homeContentPageViewController{
         //
         
         nextContentY += categoryView.frame.height + verticalPadding;
+        categoryView.CategoryData = categorydata;
+        categoryView.addTarget(self, action: #selector(self.openCategoryPage), for: .touchUpInside);
         self.view.addSubview(categoryView);
         updateParentHeightConstraint();
     }
@@ -124,6 +130,10 @@ class communityPageController : homeContentPageViewController{
         
         self.loadCategories();
         
+    }
+    
+    @objc func openCategoryPage(_ sender: CategoryButton){
+        print("category page - \(sender.CategoryData.title)");
     }
 
 }

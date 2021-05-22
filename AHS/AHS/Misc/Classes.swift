@@ -42,6 +42,10 @@ class ArticleButton : UIButton{
     var articleID : String = "";
 }
 
+class CategoryButton : UIButton{
+    var CategoryData : categoryData = categoryData();
+}
+
 final public class Reachability {
 
     class func isConnectedToNetwork() -> Bool {
