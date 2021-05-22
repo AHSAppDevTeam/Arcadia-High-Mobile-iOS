@@ -20,7 +20,9 @@ class communityPageController : homeContentPageViewController{
     }
     
     internal func loadCategories(){
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
         dataManager.getCommunityLocationData(completion: { (locationdata) in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
             for categoryID in locationdata.categoryIDs{
                 dataManager.getCategoryData(categoryID, completion: { (categorydata) in
                     self.renderCategory(categorydata);

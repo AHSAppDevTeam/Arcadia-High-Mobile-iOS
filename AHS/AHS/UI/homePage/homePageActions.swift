@@ -20,6 +20,10 @@ extension homePageViewController{
         refreshControl.endRefreshing();
     }
     
+    @objc func beginRefreshing(_ notification: NSNotification){
+        refreshControl.beginRefreshing();
+    }
+    
     @objc func selectCategoryButton(_ sender: UIButton){
         let tag = sender.tag;
         

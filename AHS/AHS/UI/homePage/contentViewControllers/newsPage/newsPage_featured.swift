@@ -144,7 +144,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         updateFeaturedArticleInfo(-1);
         
         //
-        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
         dataManager.getCategoryData("Featured", completion: { (category) in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
             self.featuredCategoryLabel.textColor = category.color;
