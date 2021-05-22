@@ -19,6 +19,16 @@ class communityPageController : homeContentPageViewController{
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadCategories), name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+    }
+    
     internal func loadCategories(){
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
         dataManager.getCommunityLocationData(completion: { (locationdata) in
@@ -35,7 +45,8 @@ class communityPageController : homeContentPageViewController{
         
         let categoryViewFrame = CGRect(x: homePageHorizontalPadding, y: nextContentY, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: AppUtility.getCurrentScreenSize().width);
         let categoryView = UIView(frame: categoryViewFrame);
-    
+        categoryView.tag = 1;
+        
         // content inside each category
         
         let categoryTitleLabelFrame = CGRect(x: 0, y: 0, width: categoryView.frame.width, height: categoryView.frame.height * 0.15);
@@ -97,6 +108,22 @@ class communityPageController : homeContentPageViewController{
         nextContentY += categoryView.frame.height + verticalPadding;
         self.view.addSubview(categoryView);
         updateParentHeightConstraint();
+    }
+    
+    //
+    
+    @objc func reloadCategories(){
+        for subview in self.view.subviews{
+            if (subview.tag == 1){
+                subview.removeFromSuperview();
+            }
+        }
+        
+        nextContentY = 0;
+        self.updateParentHeightConstraint();
+        
+        self.loadCategories();
+        
     }
 
 }
