@@ -43,18 +43,41 @@ class communityPageController : homeContentPageViewController{
     
     internal func renderCategory(_ categorydata: categoryData){
         
-        let categoryViewFrame = CGRect(x: homePageHorizontalPadding, y: nextContentY, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: AppUtility.getCurrentScreenSize().width * 1.2);
+        // pre height calculations
+        
+        let categoryViewWidth = AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding;
+        
+        let categoryContentViewHorizontalPadding = categoryViewWidth / 25;
+        let categoryContentViewVerticalPadding : CGFloat = 8;
+        
+        let categoryImagesViewHeight = categoryViewWidth * 0.75;
+        
+        let categoryDescriptionLabelText = categorydata.blurb;
+        let categoryDescriptionLabelWidth = categoryViewWidth - 2*categoryContentViewHorizontalPadding;
+        let categoryDescriptionLabelFont = UIFont(name: SFProDisplay_Semibold, size: UIScreen.main.scale * 8)!;
+        let categoryDescriptionLabelHeight = categoryDescriptionLabelText.height(withConstrainedWidth: categoryDescriptionLabelWidth, font: categoryDescriptionLabelFont);
+        
+        let categoryFindViewWidth = (categoryViewWidth * 0.45) - 2*categoryContentViewHorizontalPadding;
+        let categoryFindViewHeight = categoryFindViewWidth * 0.2;
+        
+        let categoryTitleLabelText = categorydata.title;
+        let categoryTitleLabelFont = UIFont(name: SFProDisplay_Black, size: UIScreen.main.scale * 10)!;
+        let categoryTitleLabelHeight = categoryTitleLabelText.height(withConstrainedWidth: categoryViewWidth, font: categoryTitleLabelFont) + categoryContentViewVerticalPadding;
+        
+        //
+        
+        let categoryViewFrame = CGRect(x: homePageHorizontalPadding, y: nextContentY, width: categoryViewWidth, height: categoryTitleLabelHeight + categoryImagesViewHeight + categoryDescriptionLabelHeight + categoryFindViewHeight + 3*categoryContentViewVerticalPadding);
         let categoryView = CategoryButton(frame: categoryViewFrame);
         categoryView.tag = 1;
         
         // content inside each category
         
-        let categoryTitleLabelFrame = CGRect(x: 0, y: 0, width: categoryView.frame.width, height: categoryView.frame.height * 0.15);
+        let categoryTitleLabelFrame = CGRect(x: 0, y: 0, width: categoryView.frame.width, height: categoryTitleLabelHeight);
         let categoryTitleLabel = UILabel(frame: categoryTitleLabelFrame);
         
-        categoryTitleLabel.text = categorydata.title;
+        categoryTitleLabel.text = categoryTitleLabelText;
         categoryTitleLabel.textColor = categorydata.color;
-        categoryTitleLabel.font = UIFont(name: SFProDisplay_Black, size: categoryTitleLabel.frame.height * 0.5);
+        categoryTitleLabel.font = categoryTitleLabelFont;
         categoryTitleLabel.textAlignment = .left;
         categoryTitleLabel.isUserInteractionEnabled = false;
         
@@ -66,16 +89,10 @@ class communityPageController : homeContentPageViewController{
         let categoryContentView = UIView(frame: categoryContentViewFrame);
         categoryContentView.isUserInteractionEnabled = false;
         
-        let categoryContentViewHorizontalPadding = categoryContentView.frame.width / 25;
-        let categoryContentViewVerticalPadding = categoryContentView.frame.height / 35;
-        
         // content inside content view ----
         
-        let categoryFindViewWidth = (categoryContentView.frame.width * 0.45) - 2*categoryContentViewHorizontalPadding;
-        let categoryFindViewHeight = categoryFindViewWidth * 0.2;
         let categoryFindViewFrame = CGRect(x: categoryContentViewHorizontalPadding, y: categoryContentView.frame.height - categoryFindViewHeight - categoryContentViewVerticalPadding, width: categoryFindViewWidth, height: categoryFindViewHeight);
         let categoryFindView = UIView(frame: categoryFindViewFrame);
-        
         
         // ----
         
@@ -115,11 +132,6 @@ class communityPageController : homeContentPageViewController{
         
         //
         
-        let categoryDescriptionLabelText = categorydata.blurb;
-        let categoryDescriptionLabelWidth = categoryContentView.frame.width - 2*categoryContentViewHorizontalPadding;
-        let categoryDescriptionLabelFont = UIFont(name: SFProDisplay_Semibold, size: UIScreen.main.scale * 8)!;
-        let categoryDescriptionLabelHeight = categoryDescriptionLabelText.height(withConstrainedWidth: categoryDescriptionLabelWidth, font: categoryDescriptionLabelFont)
-        
         let categoryDescriptionLabelFrame = CGRect(x: categoryContentViewHorizontalPadding, y: categoryContentView.frame.height - categoryFindView.frame.height - categoryDescriptionLabelHeight - 2*categoryContentViewVerticalPadding, width: categoryDescriptionLabelWidth, height: categoryDescriptionLabelHeight);
         let categoryDescriptionLabel = UILabel(frame: categoryDescriptionLabelFrame);
         
@@ -134,7 +146,7 @@ class communityPageController : homeContentPageViewController{
         
         //
         
-        let categoryImagesViewFrame = CGRect(x: 0, y: 0, width: categoryContentView.frame.width, height: categoryContentView.frame.height - categoryFindView.frame.height - categoryDescriptionLabel.frame.height - 3*categoryContentViewVerticalPadding);
+        let categoryImagesViewFrame = CGRect(x: 0, y: 0, width: categoryContentView.frame.width, height: categoryImagesViewHeight);
         let categoryImagesView = UIView(frame: categoryImagesViewFrame);
         
         categoryImagesView.layer.cornerRadius = categoryContentView.frame.height / 20;
