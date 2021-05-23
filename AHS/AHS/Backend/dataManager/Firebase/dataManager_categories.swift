@@ -15,6 +15,7 @@ struct categoryData{
     var color : UIColor = UIColor();
     var featured : Bool = false;
     var title : String = "";
+    var thumbURLs : [String] = [];
 }
 
 extension dataManager{
@@ -49,6 +50,7 @@ extension dataManager{
                     data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
                     data.featured = categoryDict?["featured"] as? Bool ?? false;
                     data.title = categoryDict?["title"] as? String ?? "";
+                    data.thumbURLs = categoryDict?["thumbURLs"] as? [String] ?? [];
                     
                     completion(data);
                     
