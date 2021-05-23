@@ -63,9 +63,6 @@ extension dataManager{
                     data.views = dataDict?["views"] as? Int ?? 0;
                     
                     articleSnippetArray.append(data);
-                    
-                    print("article found - \(data.title)")
-                    
                 }
                 
                 completion();

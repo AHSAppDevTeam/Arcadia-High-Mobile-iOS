@@ -53,6 +53,8 @@ class navigationViewController : UIViewController{
         
         updateTopBar(selectedButtonIndex); // should be 0
         
+        self.hideKeyboardWhenTappedAround();
+        
     }
     
     private func renderNavigationBar(){

@@ -122,3 +122,16 @@ extension NSAttributedString {
         return ceil(rect.size.width)
     }
 }
+
+extension UIViewController{
+    // https://stackoverflow.com/a/27079103
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+}
