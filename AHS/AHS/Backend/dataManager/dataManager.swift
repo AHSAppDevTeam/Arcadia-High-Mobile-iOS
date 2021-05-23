@@ -14,6 +14,7 @@ class dataManager{
     static public var internetConnected = false;
     
     static internal var categoryLookupMap : [String : categoryData] = [:];
+    static internal var articleSnippetArray : [articleSnippetData] = [];
     
     static internal var isPresentingPopup = false;
     

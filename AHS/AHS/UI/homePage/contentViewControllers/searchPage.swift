@@ -19,6 +19,12 @@ class searchPageController : homeContentPageViewController{
         
         self.view.addSubview(testView);
         
+        dataManager.getAllArticleSnippets(completion: { (snippetArray) in
+            
+            print("snippet count - \(snippetArray.count)")
+            
+        });
+        
     }
     
     
