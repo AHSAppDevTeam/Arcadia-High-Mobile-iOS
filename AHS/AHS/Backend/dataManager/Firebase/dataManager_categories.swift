@@ -12,7 +12,7 @@ import FirebaseDatabase
 struct categoryData{
     var articleIDs = [String]();
     var blurb : String = "";
-    var color : UIColor = UIColor();
+    var color : UIColor = UIColor.rgb(0, 0, 0);
     var featured : Bool = false;
     var title : String = "";
     var thumbURLs : [String] = [];
