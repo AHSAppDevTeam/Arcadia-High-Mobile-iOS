@@ -66,9 +66,12 @@ class communityPageController : homeContentPageViewController{
         let categoryContentView = UIView(frame: categoryContentViewFrame);
         categoryContentView.isUserInteractionEnabled = false;
         
+        let categoryContentViewHorizontalPadding = categoryContentView.frame.width / 25;
+        let categoryContentViewVerticalPadding = categoryContentView.frame.height / 35;
+        
         // content inside content view ----
         
-        let categoryImagesViewFrame = CGRect(x: 0, y: 0, width: categoryContentView.frame.width, height: categoryView.frame.height * 0.67);
+        let categoryImagesViewFrame = CGRect(x: 0, y: 0, width: categoryContentView.frame.width, height: categoryView.frame.height * 0.6);
         let categoryImagesView = UIView(frame: categoryImagesViewFrame);
         
         categoryImagesView.layer.cornerRadius = categoryContentView.frame.height / 20;
@@ -81,9 +84,51 @@ class communityPageController : homeContentPageViewController{
         
         //
         
-        let categoryDescriptionLabelHorizontalPadding = categoryContentView.frame.width / 20;
-        let categoryDescriptionLabelVerticalPadding = categoryContentView.frame.height / 30;
-        let categoryDescriptionLabelFrame = CGRect(x: categoryDescriptionLabelHorizontalPadding, y: categoryImagesView.frame.height + categoryDescriptionLabelVerticalPadding, width: categoryContentView.frame.width - 2*categoryDescriptionLabelHorizontalPadding, height: categoryContentView.frame.height - categoryImagesView.frame.height - 2*categoryDescriptionLabelVerticalPadding);
+        let categoryFindViewHeight = categoryContentView.frame.height * 0.08;
+        let categoryFindViewFrame = CGRect(x: categoryContentViewHorizontalPadding, y: categoryContentView.frame.height - categoryFindViewHeight - categoryContentViewVerticalPadding, width: (categoryContentView.frame.width * 0.45) - 2*categoryContentViewHorizontalPadding, height: categoryFindViewHeight);
+        let categoryFindView = UIView(frame: categoryFindViewFrame);
+        
+        
+        // ----
+        
+        let categoryFindImageViewHorizontalPadding = categoryFindView.frame.width / 30;
+        let categoryFindImageViewHeight = categoryFindView.frame.height;
+        let categoryFindImageViewWidth = categoryFindView.frame.height / 2;
+        let categoryFindImageViewFrame = CGRect(x: categoryFindView.frame.width - categoryFindImageViewWidth - categoryFindImageViewHorizontalPadding, y: 0, width: categoryFindImageViewWidth, height: categoryFindImageViewHeight);
+        let categoryFindImageView = UIImageView(frame: categoryFindImageViewFrame);
+        
+        categoryFindImageView.contentMode = .scaleAspectFit;
+        categoryFindImageView.image = UIImage(systemName: "chevron.right");
+        categoryFindImageView.tintColor = InverseBackgroundColor;
+        
+        categoryFindView.addSubview(categoryFindImageView);
+        
+        //
+        
+        let categoryFindLabelHorizontalPadding = categoryFindView.frame.width / 15;
+        let categoryFindLabelFrame = CGRect(x: categoryFindLabelHorizontalPadding, y: 0, width: categoryFindView.frame.width - 2*categoryFindLabelHorizontalPadding - categoryFindImageViewWidth - categoryFindImageViewHorizontalPadding, height: categoryFindView.frame.height);
+        let categoryFindLabel = UILabel(frame: categoryFindLabelFrame);
+        
+        categoryFindLabel.text = "Find out more";
+        categoryFindLabel.font = UIFont(name: SFProDisplay_Semibold, size: categoryFindLabel.font.pointSize);
+        categoryFindLabel.numberOfLines = 1;
+        categoryFindLabel.adjustsFontSizeToFitWidth = true;
+        categoryFindLabel.textColor = InverseBackgroundColor;
+        
+        categoryFindView.addSubview(categoryFindLabel);
+        
+        // ----
+        
+        categoryFindView.layer.cornerRadius = categoryFindViewHeight / 4;
+        categoryFindView.backgroundColor = UIColor{ _ in
+            return UIColor.dynamicColor(light: UIColor.rgb(214, 214, 214), dark: UIColor.rgb(130, 130, 130))
+        };
+        
+        categoryContentView.addSubview(categoryFindView);
+        
+        //
+        
+        let categoryDescriptionLabelFrame = CGRect(x: categoryContentViewHorizontalPadding, y: categoryImagesView.frame.height + categoryContentViewVerticalPadding, width: categoryContentView.frame.width - 2*categoryContentViewHorizontalPadding, height: categoryContentView.frame.height - categoryImagesView.frame.height - 3*categoryContentViewVerticalPadding - categoryFindView.frame.height);
         let categoryDescriptionLabel = UILabel(frame: categoryDescriptionLabelFrame);
         
         categoryDescriptionLabel.textAlignment = .left;
@@ -94,6 +139,7 @@ class communityPageController : homeContentPageViewController{
         categoryDescriptionLabel.isUserInteractionEnabled = false;
         
         categoryContentView.addSubview(categoryDescriptionLabel);
+        
         
         // ---
         
