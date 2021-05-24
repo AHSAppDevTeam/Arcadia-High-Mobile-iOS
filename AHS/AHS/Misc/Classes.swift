@@ -29,8 +29,6 @@ class homeContentPageViewController : UIViewController{ // UIViewController for 
         }
         return max(mx, nextContentY);
     }
-
-    
     
     internal func updateParentHeightConstraint(){
         guard let parentVC = self.parent as? homePageViewController else{
