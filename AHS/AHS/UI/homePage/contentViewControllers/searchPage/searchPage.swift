@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class searchPageController : homeContentPageViewController, UITableViewDataSource, UISearchBarDelegate{
+class searchPageController : homeContentPageViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
     
     internal let searchBar = UISearchBar();
     internal let resultsTableView = UITableView();
@@ -32,6 +32,7 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         let resultsTableViewFrame = CGRect(x: homePageHorizontalPadding, y: searchBar.frame.height, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: 0);
         resultsTableView.frame = resultsTableViewFrame;
         
+        resultsTableView.delegate = self;
         resultsTableView.dataSource = self;
         resultsTableView.isScrollEnabled = false;
         resultsTableView.register(searchPageCollectionViewCell.self, forCellReuseIdentifier: searchPageCollectionViewCell.identifier);
@@ -106,6 +107,16 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         }
         
         return cell;
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index = indexPath.row;
+        if (index < searchResultsArray.count){
+            let articleData = searchResultsArray[index];
+            
+            print("selected article - \(articleData.title)");
+            
+        }
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
