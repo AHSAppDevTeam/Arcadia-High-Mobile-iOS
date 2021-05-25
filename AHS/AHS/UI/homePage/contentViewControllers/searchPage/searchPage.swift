@@ -34,6 +34,7 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         
         resultsTableView.dataSource = self;
         resultsTableView.isScrollEnabled = false;
+        resultsTableView.register(searchPageCollectionViewCell.self, forCellReuseIdentifier: searchPageCollectionViewCell.identifier);
         
         self.view.addSubview(resultsTableView);
         
@@ -96,9 +97,15 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: searchPageCollectionViewCell.identifier, for: indexPath) as! searchPageCollectionViewCell;
+        cell.selectionStyle = .none;
+        
         let index = indexPath.row;
-        //print("index - \(index)")
-        return UITableViewCell();
+        if (index < searchResultsArray.count){
+            cell.updateContent(searchResultsArray[index]);
+        }
+        
+        return cell;
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
