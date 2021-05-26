@@ -27,6 +27,8 @@ class navigationViewController : UIViewController{
     internal var topBarHomeImageView : UIImageView = UIImageView();
     internal var topBarTitleLabel : UITextView = UITextView();
     
+    //
+    internal var transitionDelegateVar : transitionDelegate!;
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -55,6 +57,12 @@ class navigationViewController : UIViewController{
         
         self.hideKeyboardWhenTappedAround();
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openArticlePage), name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
+        
+    }
+    
+    deinit{
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
     }
     
     private func renderNavigationBar(){

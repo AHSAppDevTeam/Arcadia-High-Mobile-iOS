@@ -217,7 +217,10 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("selected item at \(indexPath.row)");
+        if (indexPath.row < featuredArticleArray.count){
+            let articleDataDict : [String : String] = ["articleID" : featuredArticleArray[indexPath.row].articleID];
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: articlePageNotification), object: nil, userInfo: articleDataDict);
+        }
     }
     
 }

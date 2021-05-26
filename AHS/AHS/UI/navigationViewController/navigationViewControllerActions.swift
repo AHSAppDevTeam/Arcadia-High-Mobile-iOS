@@ -24,12 +24,32 @@ extension navigationViewController{
             updateContentView(selectedButtonIndex, prevIndex);
         }
         else{ // same button was pressed multiple times so send out notification to viewcontrollers to update scrollviews
-            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
         }
     }
     
     @objc func openNotificationPage(_ sender: UIButton){
         print("open notifications page");
+    }
+    
+    @objc func openArticlePage(_ notification: NSNotification){
+        guard let dict = notification.userInfo as NSDictionary? else{
+            return;
+        }
+        guard let articleID = dict["articleID"] as? String else{
+            return;
+        }
+        
+        let vc = articlePageViewController();
+        transitionDelegateVar = transitionDelegate();
+        vc.transitioningDelegate = transitionDelegateVar;
+        vc.modalPresentationStyle = .custom;
+        
+        vc.articleID = articleID;
+        
+        self.present(vc, animated: true);
+        
+        print(articleID);
     }
     
     internal func selectButton(_ button: UIButton){

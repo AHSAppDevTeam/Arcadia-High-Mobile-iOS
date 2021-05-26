@@ -516,6 +516,7 @@ extension newsPageController{
     //
     
     @objc func handleArticleClick(_ sender: ArticleButton){
-        print(sender.articleID);
+        let articleDataDict : [String : String] = ["articleID" : sender.articleID];
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: articlePageNotification), object: nil, userInfo: articleDataDict);
     }
 }

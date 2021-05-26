@@ -100,4 +100,7 @@ extension homePageViewController{
         }
     }
     
+    @objc internal func resetContentOffset(){
+        mainScrollView.setContentOffset(.zero, animated: true);
+    }
 }

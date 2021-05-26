@@ -114,7 +114,8 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         if (index < searchResultsArray.count){
             let articleData = searchResultsArray[index];
             
-            print("selected article - \(articleData.title)");
+            let articleDataDict : [String : String] = ["articleID" : articleData.articleID];
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: articlePageNotification), object: nil, userInfo: articleDataDict);
             
         }
     }
