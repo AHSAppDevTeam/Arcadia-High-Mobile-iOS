@@ -14,10 +14,6 @@ class navigationViewController : UIViewController{
     internal var contentView : UIView = UIView();
     internal let contentViewControllers : [mainPageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
     
-    
-    let profilePageNavigationController = UINavigationController(rootViewController: profilePageViewController())
-    
-    
     // Navigation Bar View
     internal let buttonArraySize = 4;
     internal var buttonViewArray : [UIButton] = Array(repeating: UIButton(), count: 4);
@@ -50,28 +46,13 @@ class navigationViewController : UIViewController{
        
         // update content view with default page
         
-        if selectedButtonIndex == 4
-        {
-            let vc = profilePageNavigationController;
-            vc.willMove(toParent: self);
-            addChild(vc);
-            vc.view.frame = contentView.bounds;
-            contentView.addSubview(vc.view);
-            vc.didMove(toParent: self);
-            profilePageNavigationController.navigationBar.backgroundColor = .clear
-            profilePageNavigationController.navigationBar.isTranslucent = false
-            profilePageNavigationController.navigationBar.shadowImage = UIImage()
-        }
-        else {
-            let vc = contentViewControllers[selectedButtonIndex];
-            vc.willMove(toParent: self);
-            addChild(vc);
-            vc.view.frame = contentView.bounds;
-            contentView.addSubview(vc.view);
-            vc.didMove(toParent: self);
-            print("okok")
-            print(selectedButtonIndex)
-        }
+        
+        let vc = contentViewControllers[selectedButtonIndex];
+        vc.willMove(toParent: self);
+        addChild(vc);
+        vc.view.frame = contentView.bounds;
+        contentView.addSubview(vc.view);
+        vc.didMove(toParent: self);
         
         updateTopBar(selectedButtonIndex); // should be 0
         

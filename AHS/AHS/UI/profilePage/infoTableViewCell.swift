@@ -9,8 +9,10 @@ import UIKit
 
 
 //This class is used to crete the attributes for the Info 
-class InfoTableViewCell: UITableViewCell {
+class infoTableViewCell: UITableViewCell {
 
+    static public let identifier = "infoTableViewCell";
+    
     lazy var backView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 380, height: 50))
         view.backgroundColor = UIColor.white

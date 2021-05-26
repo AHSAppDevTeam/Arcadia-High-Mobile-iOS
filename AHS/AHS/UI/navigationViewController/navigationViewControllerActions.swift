@@ -101,30 +101,14 @@ extension navigationViewController{
         prevVC.removeFromParent();
         
         // add new view controller
-        if selectedButtonIndex == 3
-        {
-            let vc = profilePageNavigationController;
-            vc.willMove(toParent: self);
-            addChild(vc);
-            vc.view.frame = contentView.bounds;
-            contentView.addSubview(vc.view);
-            vc.didMove(toParent: self);
-            profilePageNavigationController.navigationBar.backgroundColor = .clear
-            profilePageNavigationController.navigationBar.isTranslucent = false
-            profilePageNavigationController.navigationBar.shadowImage = UIImage()
-
-
-
-        }
-        else {
-            let vc = contentViewControllers[selectedButtonIndex];
-            vc.willMove(toParent: self);
-            addChild(vc);
-            vc.view.frame = contentView.bounds;
-            contentView.addSubview(vc.view);
-            vc.didMove(toParent: self);
-            print("okok")
-            print(selectedButtonIndex)
-        }
+        
+        let vc = contentViewControllers[selectedButtonIndex];
+        vc.willMove(toParent: self);
+        addChild(vc);
+        vc.view.frame = contentView.bounds;
+        contentView.addSubview(vc.view);
+        vc.didMove(toParent: self);
+        
+        
     }
 }

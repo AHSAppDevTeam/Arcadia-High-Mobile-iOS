@@ -303,15 +303,16 @@
          //TermsandAgreements.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: -16.0).isActive = true
          tableView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
 
-         tableView.register(InfoTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(infoTableViewCell.self, forCellReuseIdentifier: infoTableViewCell.identifier);
      }
 
      //Open Schedule Page
      
      @objc private func didTapSchedule(){
 
-        self.navigationController?.pushViewController(SchedulePage(), animated: true)
-
+        //self.navigationController?.pushViewController(schedulePage(), animated: true)
+        print("tap schedule")
+        
      }
 
  }
@@ -321,13 +322,13 @@
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return infoButtonTitlesArray.count
      }
-
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? InfoTableViewCell else {fatalError("Unable to create cell")}
-         cell.buttonTitle.text = infoButtonTitlesArray[indexPath.row]
-         cell.textLabel?.text = "\(indexPath.row)"
-         return cell
-     }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: infoTableViewCell.identifier, for: indexPath) as! infoTableViewCell;
+        cell.buttonTitle.text = infoButtonTitlesArray[indexPath.row]
+        cell.textLabel?.text = "\(indexPath.row)"
+        return cell
+    }
 
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
          return 50
