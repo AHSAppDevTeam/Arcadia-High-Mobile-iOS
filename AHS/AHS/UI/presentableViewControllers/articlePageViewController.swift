@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class articlePageViewController : UIViewController{
+class articlePageViewController : presentableViewController{
     
     public var articleID : String = "";
     
@@ -18,14 +18,9 @@ class articlePageViewController : UIViewController{
         
         self.view.backgroundColor = .systemBlue;
         
-        let panGestureRecognizer = UIPanGestureRecognizer();
-        panGestureRecognizer.addTarget(self, action: #selector(self.handlePan))
-        
-        self.view.addGestureRecognizer(panGestureRecognizer);
+        setupPanGesture();
     }
     
-    @objc func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer){
-        popTransition.handlePan(panGestureRecognizer, fromViewController: self);
-    }
+    
     
 }

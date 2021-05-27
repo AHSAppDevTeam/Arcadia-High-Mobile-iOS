@@ -38,6 +38,20 @@ class homeContentPageViewController : UIViewController{ // UIViewController for 
     }
 }
 
+class presentableViewController : UIViewController{
+    
+    internal var panGestureRecognizer = UIPanGestureRecognizer();
+    
+    internal func setupPanGesture(){
+        panGestureRecognizer.addTarget(self, action: #selector(self.handlePan));
+        self.view.addGestureRecognizer(panGestureRecognizer);
+    }
+    
+    @objc private func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer){
+        popTransition.handlePan(panGestureRecognizer, fromViewController: self);
+    }
+}
+
 class ArticleButton : UIButton{
     var articleID : String = "";
 }
