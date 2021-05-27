@@ -78,7 +78,7 @@
 		33FFEE92265E154900E679F5 /* transitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FFEE91265E154900E679F5 /* transitionDelegate.swift */; };
 		33FFEE94265E15F800E679F5 /* articlePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33FFEE93265E15F800E679F5 /* articlePageViewController.swift */; };
 		B18360B5265E32D40061CD32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B18360B4265E32D40061CD32 /* GoogleService-Info.plist */; };
-		B18360BD265E33030061CD32 /* schedulePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18360BC265E33030061CD32 /* schedulePage.swift */; };
+		B18360BD265E33030061CD32 /* schedulePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18360BC265E33030061CD32 /* schedulePageViewController.swift */; };
 		B5DE36B3A7EE8B651AF55202 /* Pods_AHSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49847BD6863A71C822E8CC84 /* Pods_AHSTests.framework */; };
 		C284E8D0E651AF023D1ACEAD /* Pods_AHS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC9B5414909A788151B2F2A /* Pods_AHS.framework */; };
 /* End PBXBuildFile section */
@@ -163,7 +163,7 @@
 		49847BD6863A71C822E8CC84 /* Pods_AHSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAC9B5414909A788151B2F2A /* Pods_AHS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AHS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B18360B4265E32D40061CD32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B18360BC265E33030061CD32 /* schedulePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schedulePage.swift; sourceTree = "<group>"; };
+		B18360BC265E33030061CD32 /* schedulePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schedulePageViewController.swift; sourceTree = "<group>"; };
 		DE93C92CDDBD74878DD44379 /* Pods-AHS-AHSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHS-AHSUITests.release.xcconfig"; path = "Target Support Files/Pods-AHS-AHSUITests/Pods-AHS-AHSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E91F8D44C01B1DBD074EBBC2 /* Pods-AHS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHS.debug.xcconfig"; path = "Target Support Files/Pods-AHS/Pods-AHS.debug.xcconfig"; sourceTree = "<group>"; };
 		F03F80D511FC539F5377F64F /* Pods-AHSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHSTests.debug.xcconfig"; path = "Target Support Files/Pods-AHSTests/Pods-AHSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -417,7 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				33FFEE93265E15F800E679F5 /* articlePageViewController.swift */,
-				B18360BC265E33030061CD32 /* schedulePage.swift */,
+				B18360BC265E33030061CD32 /* schedulePageViewController.swift */,
 			);
 			path = presentableViewControllers;
 			sourceTree = "<group>";
@@ -720,7 +720,7 @@
 				333D4BAE26005362000EC057 /* navigationViewControllerActions.swift in Sources */,
 				33FFEE92265E154900E679F5 /* transitionDelegate.swift in Sources */,
 				33FFEE8E265E147A00E679F5 /* popTransition.swift in Sources */,
-				B18360BD265E33030061CD32 /* schedulePage.swift in Sources */,
+				B18360BD265E33030061CD32 /* schedulePageViewController.swift in Sources */,
 				33FFEE94265E15F800E679F5 /* articlePageViewController.swift in Sources */,
 				337701F825FF031100DB4A71 /* Extensions.swift in Sources */,
 				338F0D9926031BB100D49800 /* dataManager.swift in Sources */,

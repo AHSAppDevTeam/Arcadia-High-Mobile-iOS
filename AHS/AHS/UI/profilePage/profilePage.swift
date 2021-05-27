@@ -311,7 +311,7 @@
      @objc private func didTapSchedule(){
 
         //self.navigationController?.pushViewController(schedulePage(), animated: true)
-        print("tap schedule")
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: schedulePageNotification), object: nil);
         
      }
 

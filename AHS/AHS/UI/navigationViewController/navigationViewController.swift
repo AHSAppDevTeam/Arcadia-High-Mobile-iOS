@@ -59,11 +59,12 @@ class navigationViewController : UIViewController{
         self.hideKeyboardWhenTappedAround();
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.openArticlePage), name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openSchedulePage), name: NSNotification.Name(rawValue: schedulePageNotification), object: nil);
     }
     
     deinit{
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: schedulePageNotification), object: nil);
     }
     
     private func renderNavigationBar(){
