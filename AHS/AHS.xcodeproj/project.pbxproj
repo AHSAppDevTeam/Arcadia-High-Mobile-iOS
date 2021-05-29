@@ -10,6 +10,7 @@
 		116256C604A356EE99B47D0F /* Pods_AHS_AHSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34706DB2E8CAFA1C7E965B43 /* Pods_AHS_AHSUITests.framework */; };
 		3304B9A6265D7AA700F27033 /* searchPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3304B9A5265D7AA700F27033 /* searchPageCollectionViewCell.swift */; };
 		330DDFA3261D6DFD00747625 /* dataManager_article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330DDFA2261D6DFD00747625 /* dataManager_article.swift */; };
+		330F274D26620890000C2B2C /* articlePageViewControllerActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F274C26620890000C2B2C /* articlePageViewControllerActions.swift */; };
 		330FBBE826158E000086A205 /* dataManager_featuredCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FBBE726158E000086A205 /* dataManager_featuredCategory.swift */; };
 		3313B979261EDDEB00B13346 /* newsPage_featured.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3313B978261EDDEB00B13346 /* newsPage_featured.swift */; };
 		3315DDC82612F07100A0790C /* SFCompactDisplay-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3315DDC72612F07100A0790C /* SFCompactDisplay-Light.otf */; };
@@ -106,6 +107,7 @@
 		306106106A96780A079F744D /* Pods-AHS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHS.release.xcconfig"; path = "Target Support Files/Pods-AHS/Pods-AHS.release.xcconfig"; sourceTree = "<group>"; };
 		3304B9A5265D7AA700F27033 /* searchPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		330DDFA2261D6DFD00747625 /* dataManager_article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_article.swift; sourceTree = "<group>"; };
+		330F274C26620890000C2B2C /* articlePageViewControllerActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = articlePageViewControllerActions.swift; sourceTree = "<group>"; };
 		330FBBE726158E000086A205 /* dataManager_featuredCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_featuredCategory.swift; sourceTree = "<group>"; };
 		3313B978261EDDEB00B13346 /* newsPage_featured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsPage_featured.swift; sourceTree = "<group>"; };
 		3315DDC72612F07100A0790C /* SFCompactDisplay-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFCompactDisplay-Light.otf"; sourceTree = "<group>"; };
@@ -204,6 +206,15 @@
 				3304B9A5265D7AA700F27033 /* searchPageCollectionViewCell.swift */,
 			);
 			path = searchPage;
+			sourceTree = "<group>";
+		};
+		330F274B2662087C000C2B2C /* articlePageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				33FFEE93265E15F800E679F5 /* articlePageViewController.swift */,
+				330F274C26620890000C2B2C /* articlePageViewControllerActions.swift */,
+			);
+			path = articlePageViewController;
 			sourceTree = "<group>";
 		};
 		3313B974261EDDCC00B13346 /* newsPage */ = {
@@ -416,7 +427,7 @@
 		33FFEE95265E161200E679F5 /* presentableViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				33FFEE93265E15F800E679F5 /* articlePageViewController.swift */,
+				330F274B2662087C000C2B2C /* articlePageViewController */,
 				B18360BC265E33030061CD32 /* schedulePageViewController.swift */,
 			);
 			path = presentableViewControllers;
@@ -728,6 +739,7 @@
 				338F0D6A26030D9200D49800 /* timeManager.swift in Sources */,
 				338F0DBF26031F0900D49800 /* Classes.swift in Sources */,
 				33EBA2B32621763900AD1FC6 /* newsPage_categories.swift in Sources */,
+				330F274D26620890000C2B2C /* articlePageViewControllerActions.swift in Sources */,
 				333B2BFD26465A5300732436 /* searchPage.swift in Sources */,
 				33226DA12620002600551094 /* newsPage_featuredCellClass.swift in Sources */,
 				3377020A25FF090E00DB4A71 /* savedPage.swift in Sources */,

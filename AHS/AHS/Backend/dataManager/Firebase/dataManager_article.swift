@@ -27,6 +27,7 @@ struct fullArticleData{
 struct baseArticleData{
     var articleID : String = "";
     var categoryID : String = "";
+    
     var title : String = "";
     
     var timestamp : Int64 = 0;
