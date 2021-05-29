@@ -20,6 +20,10 @@ extension articlePageViewController{
         loadArticleData();
     }
     
+    @objc internal func handleBackButton(_ button: UIButton){
+        self.dismiss(animated: true);
+    }
+    
     @objc internal func toggleUserInterface(_ button: UIButton){
         
         if (userInterfaceStyle == .unspecified){
@@ -40,6 +44,17 @@ extension articlePageViewController{
         
     }
     
-    
+    @objc internal func toggleBookmark(_ button: UIButton){
+        
+        button.isSelected = !button.isSelected;
+        
+        if (button.isSelected){
+            button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal);
+        }
+        else{
+            button.setImage(UIImage(systemName: "bookmark"), for: .normal);
+        }
+        
+    }
     
 }

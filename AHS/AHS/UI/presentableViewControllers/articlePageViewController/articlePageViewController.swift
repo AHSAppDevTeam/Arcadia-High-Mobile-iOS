@@ -63,6 +63,8 @@ class articlePageViewController : presentableViewController{
         topBarBackButton.imageEdgeInsets = topBarButtonEdgeInsets;
         topBarBackButton.tintColor = BackgroundGrayColor;
         
+        topBarBackButton.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
+        
         topBarView.addSubview(topBarBackButton);
         
         //
@@ -76,6 +78,8 @@ class articlePageViewController : presentableViewController{
         topBarBookmarkButton.contentHorizontalAlignment = .fill;
         topBarBookmarkButton.imageEdgeInsets = topBarButtonEdgeInsets;
         topBarBookmarkButton.tintColor = BackgroundGrayColor;
+        
+        topBarBookmarkButton.addTarget(self, action: #selector(self.toggleBookmark), for: .touchUpInside);
         
         topBarView.addSubview(topBarBookmarkButton);
         
