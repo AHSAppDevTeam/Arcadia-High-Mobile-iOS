@@ -10,6 +10,26 @@ import UIKit
 
 class navigationViewController : UIViewController{
     
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+
+        var userInterfaceStyle : UIUserInterfaceStyle = AppUtility.currentUserInterfaceStyle;
+        if (userInterfaceStyle == .unspecified){
+            userInterfaceStyle = UIScreen.main.traitCollection.userInterfaceStyle;
+        }
+        
+        if (userInterfaceStyle == .dark){
+            return .lightContent;
+        }
+        else if (userInterfaceStyle == .light){
+            return .darkContent;
+        }
+        else{
+            // shouldn't ever reach here
+            print("invalid user interface style");
+            return .default;
+        }
+    }
+    
     // Content View
     internal var contentView : UIView = UIView();
     internal let contentViewControllers : [mainPageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
@@ -29,6 +49,7 @@ class navigationViewController : UIViewController{
     
     //
     internal var transitionDelegateVar : transitionDelegate!;
+
     
     override func viewDidLoad() {
         super.viewDidLoad();

@@ -16,6 +16,8 @@ struct AppUtility {
     static private var isOrientationLocked = false;
     static private var isLockedOrientationLandscape = false;
     
+    static public var currentUserInterfaceStyle : UIUserInterfaceStyle = .unspecified; // used for overriding system user interface style, use system style when .unspecified
+    
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
     
         if let delegate = UIApplication.shared.delegate as? AppDelegate {

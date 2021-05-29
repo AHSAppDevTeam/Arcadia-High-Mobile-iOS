@@ -20,5 +20,26 @@ extension articlePageViewController{
         loadArticleData();
     }
     
+    @objc internal func toggleUserInterface(_ button: UIButton){
+        
+        if (userInterfaceStyle == .unspecified){
+            userInterfaceStyle = UIScreen.main.traitCollection.userInterfaceStyle;
+        }
+        
+        if (userInterfaceStyle == .light){
+            userInterfaceStyle = .dark;
+        }
+        else{
+            userInterfaceStyle = .light;
+        }
+        
+        self.overrideUserInterfaceStyle = userInterfaceStyle;
+        AppUtility.currentUserInterfaceStyle = userInterfaceStyle;
+        
+        self.setNeedsStatusBarAppearanceUpdate();
+        
+    }
+    
+    
     
 }

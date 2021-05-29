@@ -13,17 +13,25 @@ class articlePageViewController : presentableViewController{
     
     public var articleID : String = "";
     internal var nextContentY : CGFloat = 0;
+    internal var userInterfaceStyle : UIUserInterfaceStyle = .unspecified;
     
-    let scrollView : UIScrollView = UIScrollView();
-    let refreshControl : UIRefreshControl = UIRefreshControl();
+    internal let scrollView : UIScrollView = UIScrollView();
+    internal let refreshControl : UIRefreshControl = UIRefreshControl();
     
-    let topBarCategoryLabel : UILabel = UILabel();
+    internal let topBarCategoryLabel : UILabel = UILabel();
     
     override func viewDidLoad() {
         super.viewDidLoad();
     
         renderUI();
         loadArticleData();
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated);
+        
+        AppUtility.currentUserInterfaceStyle = .unspecified;
+        setNeedsStatusBarAppearanceUpdate();
     }
     
     internal func renderUI(){
@@ -82,6 +90,8 @@ class articlePageViewController : presentableViewController{
         topBarColorButton.contentHorizontalAlignment = .fill;
         topBarColorButton.imageEdgeInsets = topBarButtonEdgeInsets;
         topBarColorButton.tintColor = BackgroundGrayColor;
+        
+        topBarColorButton.addTarget(self, action: #selector(self.toggleUserInterface), for: .touchUpInside);
         
         topBarView.addSubview(topBarColorButton);
         
@@ -148,5 +158,7 @@ class articlePageViewController : presentableViewController{
         });
         
     }
+    
+    
     
 }
