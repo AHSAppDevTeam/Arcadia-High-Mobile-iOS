@@ -12,9 +12,9 @@ import SDWebImage
 
 class featuredCollectionViewCell : UICollectionViewCell{
     
-    static let identifier : String = "featuredCollectionCell";
+    static let identifier : String = "featuredCollectionViewCell";
    
-    let imageView = UIImageView();
+    internal let imageView = UIImageView();
     
     override init(frame: CGRect){
         super.init(frame: frame);
