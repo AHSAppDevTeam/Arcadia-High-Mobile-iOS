@@ -46,19 +46,22 @@ class articlePageViewController : presentableViewController{
         
         //
         
-        let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: self.view.frame.width * 0.085);
+        let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: self.view.frame.width * 0.11);
         let topBarView = UIView(frame: topBarViewFrame);
         
+        //topBarView.backgroundColor = .systemBlue;
+        
+        let topBarVerticalPadding : CGFloat = topBarView.frame.height / 8;
         let topBarHorizontalPadding : CGFloat = 5;
         
-        let topBarButtonSize = topBarView.frame.height;
+        let topBarButtonSize = topBarView.frame.height - 2*topBarVerticalPadding;
         let topBarButtonInset = topBarButtonSize / 8;
         let topBarButtonEdgeInsets = UIEdgeInsets(top: topBarButtonInset, left: topBarButtonInset, bottom: topBarButtonInset, right: topBarButtonInset);
         
         
         //
     
-        let topBarBackButtonFrame = CGRect(x: 0, y: 0, width: topBarButtonSize, height: topBarButtonSize);
+        let topBarBackButtonFrame = CGRect(x: 0, y: topBarVerticalPadding, width: topBarButtonSize, height: topBarButtonSize);
         let topBarBackButton = UIButton(frame: topBarBackButtonFrame);
         
         topBarBackButton.setImage(UIImage(systemName: "chevron.left"), for: .normal);
@@ -74,7 +77,7 @@ class articlePageViewController : presentableViewController{
         
         //
         
-        let topBarBookmarkButtonFrame = CGRect(x: topBarView.frame.width - topBarButtonSize, y: 0, width: topBarButtonSize, height: topBarButtonSize);
+        let topBarBookmarkButtonFrame = CGRect(x: topBarView.frame.width - topBarButtonSize, y: topBarVerticalPadding, width: topBarButtonSize, height: topBarButtonSize);
         let topBarBookmarkButton = UIButton(frame: topBarBookmarkButtonFrame);
         
         topBarBookmarkButton.setImage(UIImage(systemName: "bookmark"), for: .normal);
@@ -90,7 +93,7 @@ class articlePageViewController : presentableViewController{
         
         //
         
-        let topBarColorButtonFrame = CGRect(x: topBarView.frame.width - 2*topBarButtonSize - topBarHorizontalPadding, y: 0, width: topBarButtonSize, height: topBarButtonSize);
+        let topBarColorButtonFrame = CGRect(x: topBarView.frame.width - 2*topBarButtonSize - topBarHorizontalPadding, y: topBarVerticalPadding, width: topBarButtonSize, height: topBarButtonSize);
         let topBarColorButton = UIButton(frame: topBarColorButtonFrame);
         
         topBarColorButton.setImage(UIImage(systemName: "moon.fill"), for: .normal);
@@ -106,7 +109,7 @@ class articlePageViewController : presentableViewController{
         
         // textformat
         
-        let topBarFontButtonFrame = CGRect(x: topBarView.frame.width - 3*topBarButtonSize - 2*topBarHorizontalPadding - topBarButtonInset, y: 0, width: topBarButtonSize, height: topBarButtonSize);
+        let topBarFontButtonFrame = CGRect(x: topBarView.frame.width - 3*topBarButtonSize - 2*topBarHorizontalPadding - topBarButtonInset, y: topBarVerticalPadding, width: topBarButtonSize, height: topBarButtonSize);
         let topBarFontButton = UIButton(frame: topBarFontButtonFrame);
         
         topBarFontButton.setImage(UIImage(systemName: "textformat"), for: .normal);
@@ -120,7 +123,7 @@ class articlePageViewController : presentableViewController{
         
         //
         
-        let topBarCategoryLabelFrame = CGRect(x: topBarBackButton.frame	.width + topBarHorizontalPadding, y: 0, width: topBarView.frame.width - (topBarBackButton.frame.width + 2*topBarHorizontalPadding + (topBarView.frame.width - topBarFontButton.frame.minX)), height: topBarView.frame.height);
+        let topBarCategoryLabelFrame = CGRect(x: topBarBackButton.frame	.width + topBarHorizontalPadding, y: topBarVerticalPadding, width: topBarView.frame.width - (topBarBackButton.frame.width + 2*topBarHorizontalPadding + (topBarView.frame.width - topBarFontButton.frame.minX)), height: topBarView.frame.height - 2*topBarVerticalPadding);
         topBarCategoryLabel.frame = topBarCategoryLabelFrame;
         
         topBarCategoryLabel.isUserInteractionEnabled = false;
@@ -171,8 +174,6 @@ class articlePageViewController : presentableViewController{
         let horizontalPadding = self.view.frame.width / 20;
         let verticalPadding : CGFloat = 10;
         let contentWidth = self.view.frame.width - 2*horizontalPadding;
-        
-        nextContentY = verticalPadding;
         
         //
         
@@ -244,7 +245,7 @@ class articlePageViewController : presentableViewController{
         bodyLabel.attributedText = bodyLabelText;
         bodyLabel.font = bodyLabelFont;
         bodyLabel.textAlignment = .left;
-        bodyLabel.textColor = BackgroundGrayColor;
+        bodyLabel.textColor = InverseBackgroundColor;
         bodyLabel.isEditable = false;
         bodyLabel.isScrollEnabled = false;
         bodyLabel.tintColor = .systemBlue;

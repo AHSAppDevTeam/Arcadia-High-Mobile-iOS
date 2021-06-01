@@ -17,6 +17,8 @@ extension articlePageViewController{
             }
         }
         
+        nextContentY = 0;
+        
         loadArticleData();
     }
     
