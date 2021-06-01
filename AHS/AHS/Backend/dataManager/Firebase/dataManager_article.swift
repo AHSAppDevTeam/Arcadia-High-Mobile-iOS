@@ -76,7 +76,7 @@ extension dataManager{
         
         if (internetConnected){
             
-            dataRef.child("articles").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+            dataRef.child("snippets").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 if (snapshot.exists()){
                     
