@@ -12,6 +12,7 @@ import FirebaseDatabase
 struct articleSnippetData{
     var articleID : String = "";
     var author : String = "";
+    var categoryID : String = "";
     var featured : Bool = false;
     var notified : Bool = false;
     var thumbURLs : [String] = [];
@@ -55,6 +56,7 @@ extension dataManager{
                     
                     data.articleID = article.key;
                     data.author = dataDict?["author"] as? String ?? "";
+                    data.categoryID = dataDict?["categoryID"] as? String ?? "";
                     data.featured = dataDict?["featured"] as? Bool ?? false;
                     data.notified = dataDict?["notified"] as? Bool ?? false;
                     data.thumbURLs = dataDict?["thumbURLs"] as? [String] ?? [];
@@ -65,9 +67,12 @@ extension dataManager{
                     articleSnippetArray.append(data);
                 }
                 
-                completion();
-                
             }
+            else{
+                print("snippets branch does not exist");
+            }
+            
+            completion();
             
         });
     }

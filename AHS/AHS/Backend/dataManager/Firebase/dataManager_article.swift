@@ -45,10 +45,10 @@ extension dataManager{
             
             dataRef.child("articles").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                 
+                var data : fullArticleData = fullArticleData();
+                
                 if (snapshot.exists()){
                     let dataDict = snapshot.value as? NSDictionary;
-                    
-                    var data : fullArticleData = fullArticleData();
                     
                     data.author = dataDict?["author"] as? String ?? "";
                     data.body = dataDict?["body"] as? String ?? "";
@@ -62,6 +62,10 @@ extension dataManager{
                         data.baseData = base;
                         completion(data);
                     });
+                }
+                else{
+                    print("article '\(id)' does not exist");
+                    completion(data);
                 }
                 
             });
@@ -78,11 +82,11 @@ extension dataManager{
             
             dataRef.child("snippets").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                 
+                var data : baseArticleData = baseArticleData();
+                
                 if (snapshot.exists()){
                     
                     let dataDict = snapshot.value as? NSDictionary;
-                    
-                    var data : baseArticleData = baseArticleData();
                     
                     data.articleID = id;
                     data.categoryID = dataDict?["categoryID"] as? String ?? "";
@@ -90,9 +94,12 @@ extension dataManager{
                     data.timestamp = dataDict?["timestamp"] as? Int64 ?? 0;
                     data.thumbURLs = dataDict?["thumbURLs"] as? [String] ?? [];
                     
-                    completion(data);
-                    
                 }
+                else{
+                    print("article '\(id)' does not exist");
+                }
+                
+                completion(data);
             });
             
         }

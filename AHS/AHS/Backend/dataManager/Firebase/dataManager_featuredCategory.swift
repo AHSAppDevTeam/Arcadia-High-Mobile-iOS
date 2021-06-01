@@ -60,19 +60,22 @@ extension dataManager{
         
         dataRef.child("categories").child(id).observeSingleEvent(of: .value){ (snapshot) in
             
+            var data : featuredCategoryData = featuredCategoryData();
+            
             if (snapshot.exists()){
             
                 let categoryDict = snapshot.value as? NSDictionary;
-                
-                var data : featuredCategoryData = featuredCategoryData();
                 
                 data.title = categoryDict?["title"] as? String ?? "";
                 data.blurb = categoryDict?["blurb"] as? String ?? "";
                 data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
                 
-                completion(data);
-                
             }
+            else{
+                print("category '\(id)' does not exist");
+            }
+            
+            completion(data);
             
         }
         

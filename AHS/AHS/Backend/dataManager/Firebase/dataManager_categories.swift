@@ -14,8 +14,9 @@ struct categoryData{
     var blurb : String = "";
     var color : UIColor = UIColor.rgb(0, 0, 0);
     var featured : Bool = false;
-    var title : String = "";
     var thumbURLs : [String] = [];
+    var title : String = "";
+    var visible : Bool = false;
 }
 
 extension dataManager{
@@ -39,22 +40,27 @@ extension dataManager{
             
             dataRef.child("categories").child(categoryID).observeSingleEvent(of: .value, with: { (snapshot) in
                 
+                var data : categoryData = categoryData();
+                
                 if (snapshot.exists()){
                     
                     let categoryDict = snapshot.value as? NSDictionary;
-                    
-                    var data : categoryData = categoryData();
                     
                     data.articleIDs = categoryDict?["articleIDs"] as? [String] ?? [];
                     data.blurb = categoryDict?["blurb"] as? String ?? "";
                     data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
                     data.featured = categoryDict?["featured"] as? Bool ?? false;
-                    data.title = categoryDict?["title"] as? String ?? "";
                     data.thumbURLs = categoryDict?["thumbURLs"] as? [String] ?? [];
-                    
-                    completion(data);
+                    data.title = categoryDict?["title"] as? String ?? "";
+                    data.visible = categoryDict?["visible"] as? Bool ?? false;
                     
                 }
+                else{
+                    print("categoryID '\(categoryID)' does not exist");
+                }
+                
+                completion(data);
+                
             });
             
         }

@@ -66,6 +66,9 @@ extension dataManager{
                 completion(data);
                 
             }
+            else{
+                print("location '\(locationName)' does not exist");
+            }
                 
         });
         

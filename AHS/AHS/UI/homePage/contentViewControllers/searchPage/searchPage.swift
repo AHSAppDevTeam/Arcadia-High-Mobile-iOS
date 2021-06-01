@@ -61,9 +61,34 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
         dataManager.getAllArticleSnippets(completion: { (snippetArray) in
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
-            self.articleSnippetsArray = snippetArray;
-            self.searchBarSearchButtonClicked(self.searchBar);
+            
+            self.filterHiddenSnippets(snippetArray: snippetArray, completion: { (filteredSnippetArray) in
+                self.articleSnippetsArray = filteredSnippetArray;
+                self.searchBarSearchButtonClicked(self.searchBar);
+            });
+            
         });
+        
+    }
+    
+    internal func filterHiddenSnippets(snippetArray: [articleSnippetData], completion: @escaping ([articleSnippetData]) -> Void){
+        
+        /*var filteredSnippetArray : [articleSnippetData] = [];
+
+        let semaphore = DispatchSemaphore(value: 0);
+        for snippet in snippetArray{
+            dataManager.getCategoryData("Reference", completion: { (categorydata) in
+                if (categorydata.visible){
+                    filteredSnippetArray.append(snippet);
+                }
+                print("signal")
+                semaphore.signal();
+            });
+            print("wait - \(snippet.categoryID)")
+            semaphore.wait();
+        }*/
+        
+        completion(snippetArray);
         
     }
     
