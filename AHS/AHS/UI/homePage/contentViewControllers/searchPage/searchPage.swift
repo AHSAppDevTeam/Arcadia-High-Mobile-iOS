@@ -73,23 +73,34 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
     
     internal func filterHiddenSnippets(snippetArray: [articleSnippetData], completion: @escaping ([articleSnippetData]) -> Void){
         
-        /*var filteredSnippetArray : [articleSnippetData] = [];
-
-        let semaphore = DispatchSemaphore(value: 0);
-        for snippet in snippetArray{
-            dataManager.getCategoryData("Reference", completion: { (categorydata) in
-                if (categorydata.visible){
-                    filteredSnippetArray.append(snippet);
+        // https://stackoverflow.com/questions/26515968/swift-access-to-dictionary-of-a-singleton-causes-exc-bad-access/28910283
+        /*DispatchQueue.global(qos: .background).async {
+            
+            var filteredSnippetArray : [articleSnippetData] = [];
+            
+            let dispatchGroup = DispatchGroup();
+            
+            for snippet in snippetArray{
+                if (!snippet.categoryID.isEmpty){
+                    dispatchGroup.enter();
+                    dataManager.getCategoryData(snippet.categoryID, completion: { (categorydata) in
+                        if (categorydata.visible){
+                            filteredSnippetArray.append(snippet);
+                        }
+                        dispatchGroup.leave();
+                    });
                 }
-                print("signal")
-                semaphore.signal();
-            });
-            print("wait - \(snippet.categoryID)")
-            semaphore.wait();
+            }
+            
+            dispatchGroup.wait();
+            
+            DispatchQueue.main.async {
+                completion(filteredSnippetArray);
+            }
+            
         }*/
         
         completion(snippetArray);
-        
     }
     
     internal func updateSearchResults(_ searchBarText: String){

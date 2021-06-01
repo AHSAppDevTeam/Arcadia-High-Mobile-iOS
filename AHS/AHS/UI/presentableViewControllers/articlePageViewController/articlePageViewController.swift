@@ -177,83 +177,99 @@ class articlePageViewController : presentableViewController{
         
         //
         
-        let mediaCollectionViewWidth = self.view.frame.width;
-        let mediaCollectionViewHeight = mediaCollectionViewWidth * 0.65;
-        
-        let mediaCollectionViewFrame = CGRect(x: 0, y: nextContentY, width: self.view.frame.width, height: self.view.frame.width * 0.65);
-        let mediaCollectionViewLayoutItemSizeVerticalPadding = mediaCollectionViewHeight / 12;
-        mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth - 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
-        mediaCollectionViewLayout.scrollDirection = .horizontal;
-        mediaCollectionViewLayout.spacingMode = .overlap(visibleOffset: horizontalPadding / 2);
-        
-        mediaCollectionView = UICollectionView(frame: mediaCollectionViewFrame, collectionViewLayout: mediaCollectionViewLayout);
-        
-        mediaCollectionView.showsVerticalScrollIndicator = false;
-        mediaCollectionView.showsHorizontalScrollIndicator = false;
-        mediaCollectionView.delegate = self;
-        mediaCollectionView.dataSource = self;
-        mediaCollectionView.backgroundColor = .systemGreen;
-        
-        mediaCollectionView.tag = 1;
-        scrollView.addSubview(mediaCollectionView);
-        nextContentY += mediaCollectionView.frame.height + verticalPadding;
-        
-        //
-        
-        let titleLabelText = articleData.baseData.title;
-        let titleLabelFont = UIFont(name: SFProDisplay_Bold, size: UIScreen.main.scale * 10)!;
-        let titleLabelHeight = titleLabelText.height(withConstrainedWidth: contentWidth, font: titleLabelFont);
-        let titleLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: titleLabelHeight);
-        let titleLabel = UILabel(frame: titleLabelFrame);
-        
-        titleLabel.text = titleLabelText;
-        titleLabel.font = titleLabelFont;
-        titleLabel.textAlignment = .center;
-        titleLabel.textColor = InverseBackgroundColor;
-        titleLabel.numberOfLines = 0;
-        
-        titleLabel.tag = 1;
-        scrollView.addSubview(titleLabel);
-        nextContentY += titleLabel.frame.height + verticalPadding;
+        if (articledata.imageURLs.count + articledata.videoIDs.count > 0){
+            
+            let mediaCollectionViewWidth = self.view.frame.width;
+            let mediaCollectionViewHeight = mediaCollectionViewWidth * 0.65;
+            
+            let mediaCollectionViewFrame = CGRect(x: 0, y: nextContentY, width: self.view.frame.width, height: self.view.frame.width * 0.65);
+            let mediaCollectionViewLayoutItemSizeVerticalPadding = mediaCollectionViewHeight / 12;
+            mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth - 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
+            mediaCollectionViewLayout.scrollDirection = .horizontal;
+            mediaCollectionViewLayout.spacingMode = .overlap(visibleOffset: horizontalPadding / 2);
+            
+            mediaCollectionView = UICollectionView(frame: mediaCollectionViewFrame, collectionViewLayout: mediaCollectionViewLayout);
+            
+            mediaCollectionView.showsVerticalScrollIndicator = false;
+            mediaCollectionView.showsHorizontalScrollIndicator = false;
+            mediaCollectionView.delegate = self;
+            mediaCollectionView.dataSource = self;
+            mediaCollectionView.backgroundColor = .systemGreen;
+            
+            mediaCollectionView.tag = 1;
+            scrollView.addSubview(mediaCollectionView);
+            nextContentY += mediaCollectionView.frame.height + verticalPadding;
+            
+        }
         
         //
         
-        let authorLabelText = articleData.author;
-        let authorLabelFont = UIFont(name: SFProDisplay_Regular, size: UIScreen.main.scale * 6)!;
-        let authorLabelHeight = authorLabelText.height(withConstrainedWidth: contentWidth, font: authorLabelFont);
-        let authorLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: authorLabelHeight);
-        let authorLabel = UILabel(frame: authorLabelFrame);
-        
-        authorLabel.text = authorLabelText;
-        authorLabel.font = authorLabelFont;
-        authorLabel.textAlignment = .center;
-        authorLabel.textColor = BackgroundGrayColor;
-        authorLabel.numberOfLines = 0;
-        
-        authorLabel.tag = 1;
-        scrollView.addSubview(authorLabel);
-        nextContentY += authorLabel.frame.height + verticalPadding;
+        if (!articledata.baseData.title.isEmpty){
+            
+            let titleLabelText = articleData.baseData.title;
+            let titleLabelFont = UIFont(name: SFProDisplay_Bold, size: UIScreen.main.scale * 10)!;
+            let titleLabelHeight = titleLabelText.height(withConstrainedWidth: contentWidth, font: titleLabelFont);
+            let titleLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: titleLabelHeight);
+            let titleLabel = UILabel(frame: titleLabelFrame);
+            
+            titleLabel.text = titleLabelText;
+            titleLabel.font = titleLabelFont;
+            titleLabel.textAlignment = .center;
+            titleLabel.textColor = InverseBackgroundColor;
+            titleLabel.numberOfLines = 0;
+            
+            titleLabel.tag = 1;
+            scrollView.addSubview(titleLabel);
+            nextContentY += titleLabel.frame.height + verticalPadding;
+            
+        }
         
         //
         
-        let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: UIScreen.main.scale * 6)!;
-        let bodyLabelText = htmlFunctions.parseHTML(articleData.body, bodyLabelFont);
-        let bodyLabelHeight = bodyLabelText.height(containerWidth: contentWidth);
-        let bodyLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: bodyLabelHeight);
-        let bodyLabel = UITextView(frame: bodyLabelFrame);
+        if (!articledata.author.isEmpty){
+            
+            let authorLabelText = articleData.author;
+            let authorLabelFont = UIFont(name: SFProDisplay_Regular, size: UIScreen.main.scale * 6)!;
+            let authorLabelHeight = authorLabelText.height(withConstrainedWidth: contentWidth, font: authorLabelFont);
+            let authorLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: authorLabelHeight);
+            let authorLabel = UILabel(frame: authorLabelFrame);
+            
+            authorLabel.text = authorLabelText;
+            authorLabel.font = authorLabelFont;
+            authorLabel.textAlignment = .center;
+            authorLabel.textColor = BackgroundGrayColor;
+            authorLabel.numberOfLines = 0;
+            
+            authorLabel.tag = 1;
+            scrollView.addSubview(authorLabel);
+            nextContentY += authorLabel.frame.height + verticalPadding;
+            
+        }
         
-        bodyLabel.attributedText = bodyLabelText;
-        bodyLabel.font = bodyLabelFont;
-        bodyLabel.textAlignment = .left;
-        bodyLabel.textColor = InverseBackgroundColor;
-        bodyLabel.isEditable = false;
-        bodyLabel.isScrollEnabled = false;
-        bodyLabel.tintColor = .systemBlue;
-        bodyLabel.backgroundColor = .clear;
+        //
         
-        bodyLabel.tag = 1;
-        scrollView.addSubview(bodyLabel);
-        nextContentY += bodyLabel.frame.height + verticalPadding;
+        if (!articledata.body.isEmpty){
+            
+            let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: UIScreen.main.scale * 6)!;
+            let bodyLabelText = htmlFunctions.parseHTML(articleData.body, bodyLabelFont);
+            let bodyLabelHeight = bodyLabelText.height(containerWidth: contentWidth);
+            let bodyLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: bodyLabelHeight);
+            let bodyLabel = UITextView(frame: bodyLabelFrame);
+            
+            bodyLabel.attributedText = bodyLabelText;
+            bodyLabel.font = bodyLabelFont;
+            bodyLabel.textAlignment = .left;
+            bodyLabel.textColor = InverseBackgroundColor;
+            bodyLabel.isEditable = false;
+            bodyLabel.isScrollEnabled = false;
+            bodyLabel.tintColor = .systemBlue;
+            bodyLabel.backgroundColor = .clear;
+            
+            bodyLabel.tag = 1;
+            scrollView.addSubview(bodyLabel);
+            nextContentY += bodyLabel.frame.height + verticalPadding;
+            
+        }
         
         //
         
