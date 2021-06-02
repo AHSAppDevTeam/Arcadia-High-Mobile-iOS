@@ -74,8 +74,8 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
     internal func filterHiddenSnippets(snippetArray: [articleSnippetData], completion: @escaping ([articleSnippetData]) -> Void){
         
         // https://stackoverflow.com/questions/26515968/swift-access-to-dictionary-of-a-singleton-causes-exc-bad-access/28910283
-        /*DispatchQueue.global(qos: .background).async {
-            
+        DispatchQueue.global(qos: .background).async {
+
             var filteredSnippetArray : [articleSnippetData] = [];
             
             let dispatchGroup = DispatchGroup();
@@ -98,9 +98,9 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
                 completion(filteredSnippetArray);
             }
             
-        }*/
+        }
         
-        completion(snippetArray);
+        //completion(snippetArray);
     }
     
     internal func updateSearchResults(_ searchBarText: String){

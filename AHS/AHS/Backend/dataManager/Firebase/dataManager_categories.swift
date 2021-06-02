@@ -21,15 +21,23 @@ struct categoryData{
 
 extension dataManager{
     static public func getCategoryData(_ categoryID: String , completion: @escaping (categoryData) -> Void){
-        guard let categoryLookupData = categoryLookupMap[categoryID] else {
-            loadCategoryData(categoryID, completion: { (data) in
-                categoryLookupMap[categoryID] = data;
-                completion(data);
-            });
-            return;
+        
+        articleSnippetArrayDispatchQueue.sync {
+            guard let categoryLookupData = categoryLookupMap[categoryID] else {
+                loadCategoryData(categoryID, completion: { (data) in
+                    
+                    articleSnippetArrayDispatchQueue.sync {
+                        categoryLookupMap[categoryID] = data;
+                    }
+                    
+                    completion(data);
+                });
+                return;
+            }
+            
+            completion(categoryLookupData);
         }
         
-        completion(categoryLookupData);
     }
     
     static private func loadCategoryData(_ categoryID: String, completion : @escaping (categoryData) -> Void){
