@@ -59,4 +59,14 @@ extension articlePageViewController{
         
     }
     
+    @objc internal func openChildPage(_ vc: UIViewController){
+        
+        transitionDelegateVar = transitionDelegate();
+        vc.transitioningDelegate = transitionDelegateVar;
+        vc.modalPresentationStyle = .custom;
+        
+        self.present(vc, animated: true);
+        
+    }
+    
 }

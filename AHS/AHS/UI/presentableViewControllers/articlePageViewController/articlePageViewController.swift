@@ -25,6 +25,8 @@ class articlePageViewController : presentableViewController{
     internal let mediaCollectionViewLayout = UPCarouselFlowLayout();
     internal var mediaCollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewLayout());
     
+    internal var transitionDelegateVar : transitionDelegate!;
+    
     override func viewDidLoad() {
         super.viewDidLoad();
     
@@ -304,5 +306,21 @@ extension articlePageViewController : UICollectionViewDelegate, UICollectionView
         return cell;
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let index = indexPath.row;
+        
+        if (index < articledata.imageURLs.count + articledata.videoIDs.count && index >= articledata.videoIDs.count){
+
+            let imageVC = zoomableImageViewController();
+            
+            let image : UIImage? = (collectionView.cellForItem(at: indexPath) as! mediaCollectionViewCell).imageView.image;
+            if (image != nil){
+                imageVC.image = image!;
+            }
+            
+            self.openChildPage(imageVC);
+        }
+        
+    }
     
 }

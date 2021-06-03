@@ -12,7 +12,7 @@ import youtube_ios_player_helper
 class mediaCollectionViewCell : UICollectionViewCell{
     static let identifier : String = "mediaCollectionViewCell";
     
-    internal let imageView = UIImageView();
+    public let imageView = UIImageView();
     internal let videoView = YTPlayerView();
     
     override init(frame: CGRect) {
