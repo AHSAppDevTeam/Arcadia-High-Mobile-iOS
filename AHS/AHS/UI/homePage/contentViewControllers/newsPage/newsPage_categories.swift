@@ -158,7 +158,7 @@ extension newsPageController{
                 articleTitleLabel.text = articledata.title;
                 articleTimeStampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
                 if (articledata.thumbURLs.count > 0){
-                    articleImageView.sd_setImage(with: URL(string: articledata.thumbURLs[0]));
+                    articleImageView.setImageURL(articledata.thumbURLs[0]);
                 }
             });
             
@@ -350,7 +350,7 @@ extension newsPageController{
             articleTimeStampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
             articleTitleLabel.text = articledata.title;
             if (articledata.thumbURLs.count > 0){
-                articleImageView.sd_setImage(with: URL(string: articledata.thumbURLs[0]));
+                articleImageView.setImageURL(articledata.thumbURLs[0]);
             }
         });
         
@@ -501,7 +501,7 @@ extension newsPageController{
     
         dataManager.getBaseArticleData(articleID, completion: { (articledata) in
             if (articledata.thumbURLs.count > 0){
-                imageView.sd_setImage(with: URL(string: articledata.thumbURLs[0]));
+                imageView.setImageURL(articledata.thumbURLs[0]);
             }
             
             titleLabel.text = articledata.title;

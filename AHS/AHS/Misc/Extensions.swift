@@ -135,3 +135,9 @@ extension UIViewController{
         self.view.endEditing(true)
     }
 }
+
+extension UIImageView{
+    func setImageURL(_ imageURL: String){
+        self.sd_setImage(with: URL(string: imageURL));
+    }
+}

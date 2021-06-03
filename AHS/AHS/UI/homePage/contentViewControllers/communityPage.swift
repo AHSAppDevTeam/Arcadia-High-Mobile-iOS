@@ -153,7 +153,62 @@ class communityPageController : homeContentPageViewController{
         categoryImagesView.clipsToBounds = true;
         categoryImagesView.isUserInteractionEnabled = false;
         
-        categoryImagesView.backgroundColor = .systemRed;
+        //categoryImagesView.backgroundColor = .systemRed;
+        
+        let categoryImageViewGridCount = 4; // must be sqrt able
+        let categoryImageViewGridSize = Int(Double(categoryImageViewGridCount).squareRoot());
+        
+        if (categorydata.thumbURLs.count >= categoryImageViewGridSize){
+            
+            let categoryImagesViewVerticalStackView = UIStackView(frame: CGRect(x: 0, y: 0, width: categoryImagesView.frame.width, height: categoryImagesView.frame.height));
+            categoryImagesViewVerticalStackView.axis = .vertical;
+            categoryImagesViewVerticalStackView.spacing = 0;
+            categoryImagesViewVerticalStackView.alignment = .fill;
+            categoryImagesViewVerticalStackView.distribution = .fillEqually;
+            
+            for i in 0..<categoryImageViewGridSize{
+            
+                let categoryImagesViewHorizontalStackView = UIStackView();
+                categoryImagesViewHorizontalStackView.axis = .horizontal;
+                categoryImagesViewHorizontalStackView.spacing = 0;
+                categoryImagesViewHorizontalStackView.alignment = .fill;
+                categoryImagesViewHorizontalStackView.distribution = .fillEqually;
+                
+                for j in 0..<categoryImageViewGridSize{
+                    
+                    let gridCellIndex = (i * categoryImageViewGridSize) + j;
+                    
+                    let categoryGridCellImageView = UIImageView();
+                    categoryGridCellImageView.setImageURL(categorydata.thumbURLs[gridCellIndex]);
+                    categoryGridCellImageView.contentMode = .scaleAspectFill;
+                    categoryGridCellImageView.backgroundColor = categorydata.color;
+                    
+                    categoryImagesViewHorizontalStackView.addArrangedSubview(categoryGridCellImageView);
+                    
+                }
+                
+                categoryImagesViewVerticalStackView.addArrangedSubview(categoryImagesViewHorizontalStackView);
+                
+            }
+            
+            categoryImagesView.addSubview(categoryImagesViewVerticalStackView);
+            
+        }
+        else if (categorydata.thumbURLs.count > 0){
+        
+            let categoryPrimaryImageViewFrame = CGRect(x: 0, y: 0, width: categoryImagesView.frame.width, height: categoryImagesView.frame.height);
+            let categoryPrimaryImageView = UIImageView(frame: categoryPrimaryImageViewFrame);
+            
+            categoryPrimaryImageView.setImageURL(categorydata.thumbURLs[0]);
+            
+            categoryImagesView.addSubview(categoryPrimaryImageView);
+            
+        }
+        else{ // use solid color
+            categoryImagesView.backgroundColor = categorydata.color;
+        }
+        
+        //
         
         categoryContentView.addSubview(categoryImagesView);
         

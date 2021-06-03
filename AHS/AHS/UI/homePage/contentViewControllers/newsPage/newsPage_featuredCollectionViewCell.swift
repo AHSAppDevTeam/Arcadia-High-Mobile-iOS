@@ -44,7 +44,7 @@ class featuredCollectionViewCell : UICollectionViewCell{
     }
     
     private func render(_ imageURL: String){
-        imageView.sd_setImage(with: URL(string: imageURL));
+        imageView.setImageURL(imageURL);
     }
     
     private func reset(){

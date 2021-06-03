@@ -57,7 +57,7 @@ class searchPageCollectionViewCell : UITableViewCell{
         if (data.thumbURLs.count > 0){
             articleImageView.frame = CGRect(x: horizontalPadding, y: 0, width: self.contentView.frame.width * 0.2 - 2*horizontalPadding, height: self.contentView.frame.height);
             articleTitleLabel.frame = CGRect(x: articleImageView.frame.maxX + horizontalPadding, y: 0, width: self.contentView.frame.width - articleImageView.frame.maxX - 2*horizontalPadding, height: self.contentView.frame.height);
-            articleImageView.sd_setImage(with: URL(string: data.thumbURLs[0]));
+            articleImageView.setImageURL(data.thumbURLs[0]);
         }
         else{
             articleImageView.frame = CGRect(x: 0, y: 0, width: 0, height: self.contentView.frame.height);

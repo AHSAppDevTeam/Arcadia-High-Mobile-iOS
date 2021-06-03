@@ -20,6 +20,8 @@ struct fullArticleData{
     
     var imageURLs : [String] = [];
     var videoIDs : [String] = [];
+    
+    var relatedArticleIDs : [String] = [];
 
     var baseData : baseArticleData = baseArticleData();
 }
@@ -57,6 +59,7 @@ extension dataManager{
                     data.notified = dataDict?["notified"] as? Bool ?? false;
                     data.imageURLs = dataDict?["imageURLs"] as? [String] ?? [];
                     data.videoIDs = dataDict?["videoIDs"] as? [String] ?? [];
+                    data.relatedArticleIDs = dataDict?["relatedArticleIDs"] as? [String] ?? [];
                     
                     getBaseArticleData(id, completion: { (base) in
                         data.baseData = base;
