@@ -20,6 +20,42 @@ struct categoryData{
 }
 
 extension dataManager{
+    
+    static public func preloadCategoryData(){
+        
+        setupConnection();
+        
+        if (internetConnected){
+            dataRef.child("categories").observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if (snapshot.exists()){
+                    
+                    let enumerator = snapshot.children;
+                    while let category = enumerator.nextObject() as? DataSnapshot{
+                        
+                        loadCategoryData(category.key, completion: { (categorydata) in
+                            
+                            articleSnippetArrayDispatchQueue.sync {
+                                categoryLookupMap[category.key] = categorydata;
+                            }
+                            
+                        });
+                        
+                    }
+                    
+                }
+                
+            });
+        }
+        
+    }
+    
+    static public func getPreloadedCategoryData(_ categoryID: String) -> categoryData{
+        articleSnippetArrayDispatchQueue.sync {
+            return categoryLookupMap[categoryID] ?? createDefaultCategoryData(categoryID);
+        }
+    }
+    
     static public func getCategoryData(_ categoryID: String , completion: @escaping (categoryData) -> Void){
         
         articleSnippetArrayDispatchQueue.sync {
@@ -71,5 +107,11 @@ extension dataManager{
             });
             
         }
+    }
+    
+    static private func createDefaultCategoryData(_ categoryID: String) -> categoryData{
+        var data = categoryData();
+        data.title = categoryID;
+        return data;
     }
 }
