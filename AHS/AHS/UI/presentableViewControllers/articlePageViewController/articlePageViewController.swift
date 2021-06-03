@@ -194,7 +194,8 @@ class articlePageViewController : presentableViewController{
             mediaCollectionView.showsHorizontalScrollIndicator = false;
             mediaCollectionView.delegate = self;
             mediaCollectionView.dataSource = self;
-            mediaCollectionView.backgroundColor = .systemGreen;
+            mediaCollectionView.register(mediaCollectionViewCell.self, forCellWithReuseIdentifier: mediaCollectionViewCell.identifier);
+            mediaCollectionView.backgroundColor = .clear;
             
             mediaCollectionView.tag = 1;
             scrollView.addSubview(mediaCollectionView);
@@ -284,11 +285,23 @@ class articlePageViewController : presentableViewController{
 extension articlePageViewController : UICollectionViewDelegate, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0;
+        return articledata.imageURLs.count + articledata.videoIDs.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell();
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mediaCollectionViewCell.identifier, for: indexPath) as! mediaCollectionViewCell;
+        let index = indexPath.row;
+        
+        if (index < articledata.imageURLs.count + articledata.videoIDs.count){
+            if (index < articledata.videoIDs.count){
+                cell.loadVideo(articledata.videoIDs[index]);
+            }
+            else{
+                cell.loadImage(articledata.imageURLs[index - articledata.videoIDs.count]);
+            }
+        }
+        
+        return cell;
     }
     
     

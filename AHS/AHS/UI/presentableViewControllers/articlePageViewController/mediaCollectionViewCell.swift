@@ -31,6 +31,8 @@ class mediaCollectionViewCell : UICollectionViewCell{
         videoView.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height);
         videoView.backgroundColor = .systemRed;
         
+        videoView.isHidden = true;
+        
         self.contentView.addSubview(videoView);
         
         //
@@ -51,7 +53,26 @@ class mediaCollectionViewCell : UICollectionViewCell{
     //
     
     private func reset(){
+        videoView.stopVideo();
+        videoView.isHidden = true;
+        videoView.stopVideo();
         
+        imageView.isHidden = true;
+        imageView.image = UIImage();
+    }
+    
+    public func loadVideo(_ videoID: String){
+        reset();
+        videoView.isHidden = false;
+        
+        videoView.load(withVideoId: videoID);
+    }
+    
+    public func loadImage(_ imageURL: String){
+        reset();
+        imageView.isHidden = false;
+    
+        imageView.setImageURL(imageURL);
     }
     
 }
