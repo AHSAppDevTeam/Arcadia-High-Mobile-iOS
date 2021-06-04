@@ -59,6 +59,10 @@ extension articlePageViewController{
         
     }
     
+    @objc internal func openRelatedArticle(_ button: ArticleButton){
+        print("open article with articleID - \(button.articleID)");
+    }
+    
     @objc internal func openChildPage(_ vc: UIViewController){
         
         transitionDelegateVar = transitionDelegate();

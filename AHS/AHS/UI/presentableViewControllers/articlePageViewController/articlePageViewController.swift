@@ -290,16 +290,18 @@ class articlePageViewController : presentableViewController{
             
             let relatedArticleViewFrameWidth = self.view.frame.width - 2*horizontalPadding;
             let relatedArticleViewFrame = CGRect(x: horizontalPadding, y: nextContentY, width: relatedArticleViewFrameWidth, height: relatedArticleViewFrameWidth * 0.3);
-            let relatedArticleView = UIButton(frame: relatedArticleViewFrame);
+            let relatedArticleView = ArticleButton(frame: relatedArticleViewFrame);
             
             relatedArticleView.backgroundColor = BackgroundSecondaryGrayColor;
             relatedArticleView.layer.cornerRadius = relatedArticleView.frame.height / 6;
+            relatedArticleView.articleID = relatedArticleID;
+            relatedArticleView.addTarget(self, action: #selector(self.openRelatedArticle), for: .touchUpInside);
             
             let relatedArticleContentHorizontalPadding : CGFloat = 5;
             let relatedArticleContentVerticalPadding : CGFloat = 3;
             
             let relatedArticleOuterHorizontalPadding : CGFloat = 10;
-            let relatedArticleOuterVerticalPadding : CGFloat = 7;
+            let relatedArticleOuterVerticalPadding : CGFloat = 8;
             
             //
             
@@ -465,7 +467,6 @@ class articlePageViewController : presentableViewController{
                         
                     }
                     
-                    //print("added related article with title '\(articledata.baseData.title)' with nextContentY = \(nextContentY)")
                     
                     relatedArticleView.frame = CGRect(x: horizontalPadding, y: nextContentY, width: relatedArticleViewFrameWidth, height: relatedArticleViewFrameWidth * 0.3);
                     
