@@ -465,6 +465,10 @@ class articlePageViewController : presentableViewController{
                         
                     }
                     
+                    //print("added related article with title '\(articledata.baseData.title)' with nextContentY = \(nextContentY)")
+                    
+                    relatedArticleView.frame = CGRect(x: horizontalPadding, y: nextContentY, width: relatedArticleViewFrameWidth, height: relatedArticleViewFrameWidth * 0.3);
+                    
                     relatedArticleView.tag = 1;
                     self.nextContentY += relatedArticleView.frame.height + verticalPadding;
                     self.scrollView.addSubview(relatedArticleView);
