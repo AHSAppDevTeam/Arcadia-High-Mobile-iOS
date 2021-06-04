@@ -54,14 +54,14 @@ class communityPageController : homeContentPageViewController{
         
         let categoryDescriptionLabelText = categorydata.blurb;
         let categoryDescriptionLabelWidth = categoryViewWidth - 2*categoryContentViewHorizontalPadding;
-        let categoryDescriptionLabelFont = UIFont(name: SFProDisplay_Semibold, size: UIScreen.main.scale * 8)!;
+        let categoryDescriptionLabelFont = UIFont(name: SFProDisplay_Semibold, size: self.view.frame.width * 0.05)!;
         let categoryDescriptionLabelHeight = categoryDescriptionLabelText.height(withConstrainedWidth: categoryDescriptionLabelWidth, font: categoryDescriptionLabelFont);
         
         let categoryFindViewWidth = (categoryViewWidth * 0.45) - 2*categoryContentViewHorizontalPadding;
         let categoryFindViewHeight = categoryFindViewWidth * 0.2;
         
         let categoryTitleLabelText = categorydata.title;
-        let categoryTitleLabelFont = UIFont(name: SFProDisplay_Black, size: UIScreen.main.scale * 10)!;
+        let categoryTitleLabelFont = UIFont(name: SFProDisplay_Black, size: self.view.frame.width * 0.07)!;
         let categoryTitleLabelHeight = categoryTitleLabelText.height(withConstrainedWidth: categoryViewWidth, font: categoryTitleLabelFont) + categoryContentViewVerticalPadding;
         
         //

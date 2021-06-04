@@ -201,7 +201,7 @@ class articlePageViewController : presentableViewController{
         if (!articledata.baseData.title.isEmpty){
             
             let titleLabelText = articleData.baseData.title;
-            let titleLabelFont = UIFont(name: SFProDisplay_Bold, size: UIScreen.main.scale * 10)!;
+            let titleLabelFont = UIFont(name: SFProDisplay_Bold, size: self.view.frame.width * 0.07)!;
             let titleLabelHeight = titleLabelText.height(withConstrainedWidth: contentWidth, font: titleLabelFont);
             let titleLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: titleLabelHeight);
             let titleLabel = UILabel(frame: titleLabelFrame);
@@ -223,7 +223,7 @@ class articlePageViewController : presentableViewController{
         if (!articledata.author.isEmpty){
             
             let authorLabelText = articleData.author;
-            let authorLabelFont = UIFont(name: SFProDisplay_Regular, size: UIScreen.main.scale * 6)!;
+            let authorLabelFont = UIFont(name: SFProDisplay_Regular, size: self.view.frame.width * 0.05)!;
             let authorLabelHeight = authorLabelText.height(withConstrainedWidth: contentWidth, font: authorLabelFont);
             let authorLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: authorLabelHeight);
             let authorLabel = UILabel(frame: authorLabelFrame);
@@ -244,7 +244,7 @@ class articlePageViewController : presentableViewController{
         
         if (!articledata.body.isEmpty){
             
-            let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: UIScreen.main.scale * 6)!;
+            let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: self.view.frame.width * 0.05)!;
             let bodyLabelText = htmlFunctions.parseHTML(articleData.body, bodyLabelFont);
             let bodyLabelHeight = bodyLabelText.height(containerWidth: contentWidth);
             let bodyLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: bodyLabelHeight);
