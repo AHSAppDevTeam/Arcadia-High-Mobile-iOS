@@ -289,12 +289,17 @@ class articlePageViewController : presentableViewController{
         for relatedArticleID in articledata.relatedArticleIDs{
             
             let relatedArticleViewFrameWidth = self.view.frame.width - 2*horizontalPadding;
-            let relatedArticleViewFrame = CGRect(x: horizontalPadding, y: nextContentY, width: relatedArticleViewFrameWidth, height: relatedArticleViewFrameWidth * 0.25);
-            let relatedArticleView = UIView(frame: relatedArticleViewFrame);
+            let relatedArticleViewFrame = CGRect(x: horizontalPadding, y: nextContentY, width: relatedArticleViewFrameWidth, height: relatedArticleViewFrameWidth * 0.3);
+            let relatedArticleView = UIButton(frame: relatedArticleViewFrame);
             
-            //relatedArticleView.backgroundColor = .systemBlue;
+            relatedArticleView.backgroundColor = BackgroundSecondaryGrayColor;
+            relatedArticleView.layer.cornerRadius = relatedArticleView.frame.height / 6;
+            
             let relatedArticleContentHorizontalPadding : CGFloat = 5;
             let relatedArticleContentVerticalPadding : CGFloat = 3;
+            
+            let relatedArticleOuterHorizontalPadding : CGFloat = 10;
+            let relatedArticleOuterVerticalPadding : CGFloat = 7;
             
             //
             
@@ -304,9 +309,9 @@ class articlePageViewController : presentableViewController{
             
             relatedArticleImageView.translatesAutoresizingMaskIntoConstraints = false;
             
-            let relatedArticleImageViewHeight = relatedArticleView.frame.height;
-            relatedArticleImageView.leadingAnchor.constraint(equalTo: relatedArticleView.leadingAnchor).isActive = true;
-            relatedArticleImageView.topAnchor.constraint(equalTo: relatedArticleView.topAnchor).isActive = true;
+            let relatedArticleImageViewHeight = relatedArticleView.frame.height - 2*relatedArticleOuterVerticalPadding;
+            relatedArticleImageView.leadingAnchor.constraint(equalTo: relatedArticleView.leadingAnchor, constant: relatedArticleOuterHorizontalPadding).isActive = true;
+            relatedArticleImageView.topAnchor.constraint(equalTo: relatedArticleView.topAnchor, constant: relatedArticleOuterVerticalPadding).isActive = true;
             relatedArticleImageView.heightAnchor.constraint(equalToConstant: relatedArticleImageViewHeight).isActive = true;
             relatedArticleImageView.widthAnchor.constraint(equalToConstant: 0).isActive = true;
             
@@ -323,10 +328,10 @@ class articlePageViewController : presentableViewController{
             
             relatedArticleLabel.translatesAutoresizingMaskIntoConstraints = false;
             
-            let relatedArticleLabelHeight = relatedArticleView.frame.height * 0.7;
+            let relatedArticleLabelHeight = relatedArticleView.frame.height * 0.7 - relatedArticleOuterVerticalPadding;
             relatedArticleLabel.leadingAnchor.constraint(equalTo: relatedArticleImageView.trailingAnchor, constant: relatedArticleContentHorizontalPadding).isActive = true;
-            relatedArticleLabel.topAnchor.constraint(equalTo: relatedArticleView.topAnchor).isActive = true;
-            relatedArticleLabel.trailingAnchor.constraint(equalTo: relatedArticleView.trailingAnchor).isActive = true;
+            relatedArticleLabel.topAnchor.constraint(equalTo: relatedArticleView.topAnchor, constant: relatedArticleOuterVerticalPadding).isActive = true;
+            relatedArticleLabel.trailingAnchor.constraint(equalTo: relatedArticleView.trailingAnchor, constant: relatedArticleOuterHorizontalPadding).isActive = true;
             relatedArticleLabel.heightAnchor.constraint(equalToConstant: relatedArticleLabelHeight).isActive = true;
             
             //relatedArticleLabel.backgroundColor = .systemGreen;
@@ -370,11 +375,11 @@ class articlePageViewController : presentableViewController{
             
             relatedArticleAttributesView.translatesAutoresizingMaskIntoConstraints = false;
             
-            let relatedArticleViewAttributesHeight = relatedArticleView.frame.height - relatedArticleLabelHeight - relatedArticleContentVerticalPadding;
+            let relatedArticleViewAttributesHeight = relatedArticleView.frame.height - relatedArticleLabelHeight - 3*relatedArticleOuterVerticalPadding;
             relatedArticleAttributesView.leadingAnchor.constraint(equalTo: relatedArticleImageView.trailingAnchor, constant: relatedArticleContentHorizontalPadding).isActive = true;
             relatedArticleAttributesView.topAnchor.constraint(equalTo: relatedArticleLabel.bottomAnchor, constant: relatedArticleContentVerticalPadding).isActive = true;
             relatedArticleAttributesView.heightAnchor.constraint(equalToConstant: relatedArticleViewAttributesHeight).isActive = true;
-            relatedArticleAttributesView.trailingAnchor.constraint(equalTo: relatedArticleView.trailingAnchor).isActive = true;
+            relatedArticleAttributesView.trailingAnchor.constraint(equalTo: relatedArticleView.trailingAnchor, constant: relatedArticleOuterHorizontalPadding).isActive = true;
             
             ///
             
