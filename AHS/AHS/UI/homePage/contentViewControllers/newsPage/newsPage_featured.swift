@@ -75,7 +75,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         featuredArticleLabel.topAnchor.constraint(equalTo: featuredCollectionView.bottomAnchor).isActive = true;
         featuredArticleLabel.widthAnchor.constraint(equalToConstant: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding).isActive = true;
         
-        //featuredArticleLabel.text = "test test t test test test test test test test test"
+
         featuredArticleLabel.font = UIFont(name: SFProDisplay_Bold, size: AppUtility.getCurrentScreenSize().width / 15);
         featuredArticleLabel.textColor = InverseBackgroundColor;
         //featuredArticleLabel.lineBreakMode = .byWordWrapping;
@@ -173,7 +173,7 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
             
             featuredArticleLabel.text = articleData.title;
             
-            featuredArticleTimestampLabel.text = featuredArticleTimestampLabelTextPrefix + timeManager.epochToDiffString(articleData.timestamp);
+            featuredArticleTimestampLabel.text = timestampLabelTextPrefix + timeManager.epochToDiffString(articleData.timestamp);
             
             dataManager.getCategoryData(articleData.categoryID, completion: { (data) in
                 

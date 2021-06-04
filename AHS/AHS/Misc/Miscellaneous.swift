@@ -15,9 +15,12 @@ let mainThemeColor = UIColor(named: "mainThemeColor")!;
 let InverseBackgroundColor = UIColor(named: "InverseBackgroundColor")!;
 let InverseBackgroundGrayColor = UIColor(named: "InverseBackgroundGrayColor")!;
 let BackgroundGrayColor = UIColor(named: "BackgroundGrayColor")!;
+let BackgroundSecondaryGrayColor = UIColor(named: "BackgroundSecondaryGrayColor")!;
 let BackgroundColor = UIColor(named: "BackgroundColor")!;
 let dull_mainThemeColor = UIColor(named: "dull_mainThemeColor")!;
 let dull_BackgroundColor = UIColor(named: "dull_BackgroundColor")!;
+
+let timestampLabelTextPrefix = " ∙ ";
 
 // Navigation Bar
 let NavigationBarColor = UIColor(named: "NavigationBarColor")!;

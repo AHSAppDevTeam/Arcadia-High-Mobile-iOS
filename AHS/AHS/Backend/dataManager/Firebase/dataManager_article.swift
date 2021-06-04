@@ -27,6 +27,8 @@ struct fullArticleData{
 }
 
 struct baseArticleData{
+    var isValid : Bool = false;
+    
     var articleID : String = "";
     var categoryID : String = "";
     
@@ -90,6 +92,8 @@ extension dataManager{
                 if (snapshot.exists()){
                     
                     let dataDict = snapshot.value as? NSDictionary;
+                    
+                    data.isValid = true;
                     
                     data.articleID = id;
                     data.categoryID = dataDict?["categoryID"] as? String ?? "";

@@ -26,7 +26,6 @@ class newsPageController : homeContentPageViewController, UIScrollViewDelegate{
     internal let featuredArticleCategoryView : UIView = UIView();
     internal let featuredArticleCategoryLabel : UILabel = UILabel();
     internal let featuredArticleTimestampLabel : UILabel = UILabel();
-    internal let featuredArticleTimestampLabelTextPrefix = " ∙ ";
     
     // Category views
     internal var categoryParentViews : [UIView] = [];

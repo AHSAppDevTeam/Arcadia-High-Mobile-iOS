@@ -164,15 +164,6 @@ class articlePageViewController : presentableViewController{
         
         articledata = articleData;
         
-        dataManager.getCategoryData(articleData.baseData.categoryID, completion: { (categorydata) in
-            
-            let topBarCategoryLabelFontSize = self.topBarCategoryLabel.frame.height * 0.7;
-            let topBarCategoryLabelAttributedText = NSMutableAttributedString(string: categorydata.title, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarCategoryLabelFontSize)!]);
-            topBarCategoryLabelAttributedText.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarCategoryLabelFontSize)!]));
-            self.topBarCategoryLabel.attributedText = topBarCategoryLabelAttributedText;
-            
-        });
-        
         let horizontalPadding = self.view.frame.width / 20;
         let verticalPadding : CGFloat = 10;
         let contentWidth = self.view.frame.width - 2*horizontalPadding;
@@ -275,8 +266,234 @@ class articlePageViewController : presentableViewController{
         }
         
         //
+       
+        let categoryButtonHorizontalPadding = horizontalPadding * 2;
+        let categoryButtonFrameWidth = self.view.frame.width - 2*categoryButtonHorizontalPadding;
+        let categoryButtonFrame = CGRect(x: categoryButtonHorizontalPadding, y: nextContentY, width: categoryButtonFrameWidth, height: categoryButtonFrameWidth * 0.15);
+        let categoryButton = UIButton(frame: categoryButtonFrame);
+        let categoryButtonInnerButtonEdgeInsets : CGFloat = 4;
+        
+        categoryButton.backgroundColor = BackgroundSecondaryGrayColor;
+        categoryButton.layer.cornerRadius = categoryButton.frame.height / 2;
+        categoryButton.titleLabel?.textAlignment = .center;
+        categoryButton.titleLabel?.lineBreakMode = .byTruncatingTail;
+        categoryButton.setTitleColor(UIColor.init(hex: "cc5454"), for: .normal);
+        categoryButton.titleEdgeInsets = UIEdgeInsets(top: categoryButtonInnerButtonEdgeInsets, left: categoryButtonInnerButtonEdgeInsets, bottom: categoryButtonInnerButtonEdgeInsets, right: categoryButtonInnerButtonEdgeInsets);
+        
+        categoryButton.tag = 1;
+        scrollView.addSubview(categoryButton);
+        nextContentY += categoryButton.frame.height + 3*verticalPadding;
+        
+        //
+        
+        for relatedArticleID in articledata.relatedArticleIDs{
+            
+            let relatedArticleViewFrameWidth = self.view.frame.width - 2*horizontalPadding;
+            let relatedArticleViewFrame = CGRect(x: horizontalPadding, y: nextContentY, width: relatedArticleViewFrameWidth, height: relatedArticleViewFrameWidth * 0.25);
+            let relatedArticleView = UIView(frame: relatedArticleViewFrame);
+            
+            //relatedArticleView.backgroundColor = .systemBlue;
+            let relatedArticleContentHorizontalPadding : CGFloat = 5;
+            let relatedArticleContentVerticalPadding : CGFloat = 3;
+            
+            //
+            
+            let relatedArticleImageView = UIImageView();
+            
+            relatedArticleView.addSubview(relatedArticleImageView);
+            
+            relatedArticleImageView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            let relatedArticleImageViewHeight = relatedArticleView.frame.height;
+            relatedArticleImageView.leadingAnchor.constraint(equalTo: relatedArticleView.leadingAnchor).isActive = true;
+            relatedArticleImageView.topAnchor.constraint(equalTo: relatedArticleView.topAnchor).isActive = true;
+            relatedArticleImageView.heightAnchor.constraint(equalToConstant: relatedArticleImageViewHeight).isActive = true;
+            relatedArticleImageView.widthAnchor.constraint(equalToConstant: 0).isActive = true;
+            
+            relatedArticleImageView.clipsToBounds = true;
+            relatedArticleImageView.layer.cornerRadius = relatedArticleImageViewHeight / 4;
+            relatedArticleImageView.backgroundColor = .systemRed;
+            relatedArticleImageView.contentMode = .scaleAspectFill;
+            
+            //
+            
+            let relatedArticleLabel = UILabel();
+            
+            relatedArticleView.addSubview(relatedArticleLabel);
+            
+            relatedArticleLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            let relatedArticleLabelHeight = relatedArticleView.frame.height * 0.7;
+            relatedArticleLabel.leadingAnchor.constraint(equalTo: relatedArticleImageView.trailingAnchor, constant: relatedArticleContentHorizontalPadding).isActive = true;
+            relatedArticleLabel.topAnchor.constraint(equalTo: relatedArticleView.topAnchor).isActive = true;
+            relatedArticleLabel.trailingAnchor.constraint(equalTo: relatedArticleView.trailingAnchor).isActive = true;
+            relatedArticleLabel.heightAnchor.constraint(equalToConstant: relatedArticleLabelHeight).isActive = true;
+            
+            //relatedArticleLabel.backgroundColor = .systemGreen;
+            relatedArticleLabel.textAlignment = .left;
+            relatedArticleLabel.textColor = InverseBackgroundColor;
+            relatedArticleLabel.font = UIFont(name: SFProDisplay_Bold, size: relatedArticleLabelHeight * 0.4);
+            relatedArticleLabel.numberOfLines = 2;
+            
+            /*
+            
+            let relatedArticleImageViewFrame = CGRect(x: 0, y: 0, width: relatedArticleView.frame.width / 3, height: relatedArticleView.frame.height);
+            let relatedArticleImageView = UIImageView(frame: relatedArticleImageViewFrame);
+            
+            relatedArticleImageView.layer.cornerRadius = relatedArticleImageView.frame.height / 4;
+            relatedArticleImageView.backgroundColor = .systemRed;
+            
+            relatedArticleView.addSubview(relatedArticleImageView);
+            
+            //
+            
+            let relatedArticleLabelFrame = CGRect(x: relatedArticleImageView.frame.width + relatedArticleContentHorizontalPadding, y: 0, width: relatedArticleView.frame.width - relatedArticleContentHorizontalPadding - relatedArticleImageView.frame.width, height: relatedArticleView.frame.height * 0.7);
+            let relatedArticleLabel = UILabel(frame: relatedArticleLabelFrame);
+            
+            relatedArticleLabel.backgroundColor = .systemGreen;
+            relatedArticleLabel.textAlignment = .left;
+            relatedArticleLabel.textColor = InverseBackgroundColor;
+            relatedArticleLabel.font = UIFont(name: SFProDisplay_Bold, size: relatedArticleLabel.frame.height * 0.4);
+            relatedArticleLabel.numberOfLines = 0;
+            
+            relatedArticleView.addSubview(relatedArticleLabel);
+            
+            */
+            
+            /*let relatedArticleAttributesViewFrame = CGRect(x: relatedArticleImageView.frame.width + relatedArticleContentHorizontalPadding, y: relatedArticleLabel.frame.height + relatedArticleContentVerticalPadding, width: relatedArticleLabel.frame.width, height: relatedArticleView.frame.height - relatedArticleLabel.frame.height - relatedArticleContentVerticalPadding);
+            let relatedArticleAttributesView = UIView(frame: relatedArticleAttributesViewFrame);
+            relatedArticleAttributesView.clipsToBounds = true;*/
+            
+            let relatedArticleAttributesView = UIView();
+            
+            relatedArticleView.addSubview(relatedArticleAttributesView);
+            
+            relatedArticleAttributesView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            let relatedArticleViewAttributesHeight = relatedArticleView.frame.height - relatedArticleLabelHeight - relatedArticleContentVerticalPadding;
+            relatedArticleAttributesView.leadingAnchor.constraint(equalTo: relatedArticleImageView.trailingAnchor, constant: relatedArticleContentHorizontalPadding).isActive = true;
+            relatedArticleAttributesView.topAnchor.constraint(equalTo: relatedArticleLabel.bottomAnchor, constant: relatedArticleContentVerticalPadding).isActive = true;
+            relatedArticleAttributesView.heightAnchor.constraint(equalToConstant: relatedArticleViewAttributesHeight).isActive = true;
+            relatedArticleAttributesView.trailingAnchor.constraint(equalTo: relatedArticleView.trailingAnchor).isActive = true;
+            
+            ///
+            
+            let relatedArticleCategoryView = UIView();
+            
+            relatedArticleAttributesView.addSubview(relatedArticleCategoryView);
+            
+            relatedArticleCategoryView.translatesAutoresizingMaskIntoConstraints = false;
+
+            let relatedArticleCategoryViewHeight = relatedArticleViewAttributesHeight;
+            relatedArticleCategoryView.topAnchor.constraint(equalTo: relatedArticleAttributesView.topAnchor).isActive = true;
+            relatedArticleCategoryView.heightAnchor.constraint(equalToConstant: relatedArticleCategoryViewHeight).isActive = true;
+            relatedArticleCategoryView.leadingAnchor.constraint(equalTo: relatedArticleAttributesView.leadingAnchor).isActive = true;
+            relatedArticleCategoryView.widthAnchor.constraint(equalToConstant: relatedArticleCategoryViewHeight * 0.4).isActive = true;
+            
+            relatedArticleCategoryView.backgroundColor = .systemYellow;
+            
+            ///
+            
+            let relatedArticleCategoryLabel = UILabel();
+            
+            relatedArticleAttributesView.addSubview(relatedArticleCategoryLabel);
+            
+            relatedArticleCategoryLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            let relatedArticleCategoryLabelHeight = relatedArticleViewAttributesHeight;
+            relatedArticleCategoryLabel.leadingAnchor.constraint(equalTo: relatedArticleCategoryView.trailingAnchor, constant: relatedArticleContentHorizontalPadding).isActive = true;
+            relatedArticleCategoryLabel.topAnchor.constraint(equalTo: relatedArticleAttributesView.topAnchor).isActive = true;
+            relatedArticleCategoryLabel.heightAnchor.constraint(equalToConstant: relatedArticleCategoryLabelHeight).isActive = true;
+            
+            relatedArticleCategoryLabel.textAlignment = .left;
+            relatedArticleCategoryLabel.font = UIFont(name: SFProDisplay_Semibold, size: relatedArticleCategoryLabelHeight * 0.8);
+            relatedArticleCategoryLabel.numberOfLines = 1;
+            
+            ///
+            
+            let relatedArticleTimestampLabel = UILabel();
+            
+            relatedArticleAttributesView.addSubview(relatedArticleTimestampLabel);
+            
+            relatedArticleTimestampLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            relatedArticleTimestampLabel.leadingAnchor.constraint(equalTo: relatedArticleCategoryLabel.trailingAnchor, constant: relatedArticleContentHorizontalPadding).isActive = true;
+            relatedArticleTimestampLabel.topAnchor.constraint(equalTo: relatedArticleAttributesView.topAnchor).isActive = true;
+            relatedArticleTimestampLabel.bottomAnchor.constraint(equalTo: relatedArticleAttributesView.bottomAnchor).isActive = true;
+            
+            let relatedArticleTimestampLabelTrailingConstraint = relatedArticleTimestampLabel.trailingAnchor.constraint(equalTo: relatedArticleAttributesView.trailingAnchor);
+            relatedArticleTimestampLabelTrailingConstraint.isActive = true;
+            relatedArticleTimestampLabelTrailingConstraint.priority = UILayoutPriority(250);
+            
+            relatedArticleTimestampLabel.textAlignment = .left;
+            relatedArticleTimestampLabel.textColor = BackgroundGrayColor;
+            relatedArticleTimestampLabel.numberOfLines = 1;
+            relatedArticleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: relatedArticleViewAttributesHeight * 0.8);
+            
+            ///
+            
+            dataManager.getBaseArticleData(relatedArticleID, completion: { [self] (relatedArticleData) in
+                
+                //print("loading article id - \(relatedArticleData.articleID) with title \(relatedArticleData.title)")
+                
+                if (relatedArticleData.isValid){
+                    
+                    if (relatedArticleData.thumbURLs.count > 0){
+                        relatedArticleImageView.widthAnchor.constraint(equalToConstant: relatedArticleView.frame.width / 3).isActive = true;
+                        relatedArticleImageView.setImageURL(relatedArticleData.thumbURLs[0]);
+                    }
+                    
+                    relatedArticleLabel.text = relatedArticleData.title;
+                    
+                    relatedArticleTimestampLabel.text = timestampLabelTextPrefix + timeManager.epochToDiffString(relatedArticleData.timestamp);
+                    
+                    if (!relatedArticleData.categoryID.isEmpty){
+                        
+                        dataManager.getCategoryData(relatedArticleData.categoryID, completion: { (relatedArticleCategoryData) in
+                            
+                            relatedArticleCategoryView.backgroundColor = relatedArticleCategoryData.color;
+                            
+                            relatedArticleCategoryLabel.text = relatedArticleCategoryData.title;
+                            relatedArticleCategoryLabel.textColor = relatedArticleCategoryData.color;
+                            
+                        });
+                        
+                    }
+                    
+                    relatedArticleView.tag = 1;
+                    self.nextContentY += relatedArticleView.frame.height + verticalPadding;
+                    self.scrollView.addSubview(relatedArticleView);
+                    scrollView.contentSize = CGSize(width: self.view.frame.width, height: nextContentY);
+                    
+                }
+                
+            });
+            
+            //
+            
+        }
+        
+        //
         
         scrollView.contentSize = CGSize(width: self.view.frame.width, height: nextContentY);
+        
+        //
+        
+        dataManager.getCategoryData(articleData.baseData.categoryID, completion: { (categorydata) in
+            
+            let topBarCategoryLabelFontSize = self.topBarCategoryLabel.frame.height * 0.7;
+            let topBarCategoryLabelAttributedText = NSMutableAttributedString(string: categorydata.title, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarCategoryLabelFontSize)!]);
+            topBarCategoryLabelAttributedText.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarCategoryLabelFontSize)!]));
+            self.topBarCategoryLabel.attributedText = topBarCategoryLabelAttributedText;
+            
+            //
+            
+            let categoryButtonLabelFontSize = categoryButton.frame.height * 0.4;
+            let categoryButtonLabelAttributedText = NSMutableAttributedString(string: "See more in ", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: categoryButtonLabelFontSize)!]);
+            categoryButtonLabelAttributedText.append(NSAttributedString(string: categorydata.title + " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryButtonLabelFontSize)!]));
+            categoryButton.setAttributedTitle(categoryButtonLabelAttributedText, for: .normal);
+            
+        });
         
     }
     
