@@ -55,11 +55,11 @@ class featuredCategoryViewController : homeContentPageViewController{
         let mainViewHeight = titleLabelHeight + bodyLabelHeight + 2*verticalPadding;
         
         let mainViewFrame = CGRect(x: outerHorizontalPadding, y: 0, width: mainViewWidth, height: mainViewHeight);
-        let mainView = UIButton(frame: mainViewFrame);
+        let mainView = CategoryButton(frame: mainViewFrame);
         
         mainView.layer.cornerRadius = 25;
         mainView.backgroundColor = data.color;
-        
+        mainView.categoryID = data.categoryID;
         mainView.addTarget(self, action: #selector(self.handlePress), for: .touchUpInside);
         
         self.view.addSubview(mainView);
@@ -99,8 +99,8 @@ class featuredCategoryViewController : homeContentPageViewController{
         parentVC.featuredCategoryViewHeightAnchor.constant = self.getSubviewsMaxY();
     }
     
-    @objc func handlePress(_ sender: UIButton){
-        print("featured category press");
-        //self.reload();
+    @objc func handlePress(_ sender: CategoryButton){
+        let categoryDataDict : [String : String] = ["categoryID" : sender.categoryID];
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: categoryPageNotification), object: nil, userInfo: categoryDataDict);
     }
 }

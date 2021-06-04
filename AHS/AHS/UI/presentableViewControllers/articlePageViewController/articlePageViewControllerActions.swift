@@ -68,7 +68,13 @@ extension articlePageViewController{
         openChildPage(articlePageVC);
     }
     
-    @objc internal func openCategoryPage(_ button: UIButton){
+    @objc internal func openCategoryPage(_ button: CategoryButton){
+        
+        let categoryPageVC = spotlightPageViewController();
+        
+        categoryPageVC.categoryID = button.categoryID;
+        
+        openChildPage(categoryPageVC);
         
     }
     

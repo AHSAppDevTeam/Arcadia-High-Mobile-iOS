@@ -270,7 +270,7 @@ class articlePageViewController : presentableViewController{
         let categoryButtonHorizontalPadding = horizontalPadding * 2;
         let categoryButtonFrameWidth = self.view.frame.width - 2*categoryButtonHorizontalPadding;
         let categoryButtonFrame = CGRect(x: categoryButtonHorizontalPadding, y: nextContentY, width: categoryButtonFrameWidth, height: categoryButtonFrameWidth * 0.15);
-        let categoryButton = UIButton(frame: categoryButtonFrame);
+        let categoryButton = CategoryButton(frame: categoryButtonFrame);
         let categoryButtonInnerButtonEdgeInsets : CGFloat = 4;
         
         categoryButton.backgroundColor = BackgroundSecondaryGrayColor;
@@ -281,6 +281,8 @@ class articlePageViewController : presentableViewController{
         categoryButton.titleEdgeInsets = UIEdgeInsets(top: categoryButtonInnerButtonEdgeInsets, left: categoryButtonInnerButtonEdgeInsets, bottom: categoryButtonInnerButtonEdgeInsets, right: categoryButtonInnerButtonEdgeInsets);
         
         categoryButton.tag = 1;
+        categoryButton.categoryID = articledata.baseData.categoryID;
+        categoryButton.addTarget(self, action: #selector(self.openCategoryPage), for: .touchUpInside);
         scrollView.addSubview(categoryButton);
         nextContentY += categoryButton.frame.height + 3*verticalPadding;
         
@@ -295,6 +297,7 @@ class articlePageViewController : presentableViewController{
             relatedArticleView.backgroundColor = BackgroundSecondaryGrayColor;
             relatedArticleView.layer.cornerRadius = relatedArticleView.frame.height / 6;
             relatedArticleView.articleID = relatedArticleID;
+            relatedArticleView.clipsToBounds = true;
             relatedArticleView.addTarget(self, action: #selector(self.openRelatedArticle), for: .touchUpInside);
             
             let relatedArticleContentHorizontalPadding : CGFloat = 8;
@@ -442,12 +445,9 @@ class articlePageViewController : presentableViewController{
             
             dataManager.getBaseArticleData(relatedArticleID, completion: { [self] (relatedArticleData) in
                 
-                //print("loading article id - \(relatedArticleData.articleID) with title \(relatedArticleData.title)")
-                
                 if (relatedArticleData.isValid){
                     
                     if (relatedArticleData.thumbURLs.count > 0){
-                        print("image for article with title - \(relatedArticleData.title)")
                         relatedArticleImageViewWidthConstraint.constant = relatedArticleView.frame.width / 3;
                         relatedArticleImageView.setImageURL(relatedArticleData.thumbURLs[0]);
                     }
@@ -470,7 +470,7 @@ class articlePageViewController : presentableViewController{
                     }
                     
                     
-                    relatedArticleView.frame = CGRect(x: horizontalPadding, y: nextContentY, width: relatedArticleViewFrameWidth, height: relatedArticleViewFrameWidth * 0.3);
+                    relatedArticleView.frame = CGRect(x: relatedArticleView.frame.minX, y: nextContentY, width: relatedArticleView.frame.width, height: relatedArticleView.frame.height);
                     
                     relatedArticleView.tag = 1;
                     self.nextContentY += relatedArticleView.frame.height + verticalPadding;

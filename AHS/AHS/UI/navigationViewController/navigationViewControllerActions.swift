@@ -54,6 +54,22 @@ extension navigationViewController{
         openPresentablePage(vc);
     }
     
+    @objc func openCategoryPage(_ notification: NSNotification){
+        guard let dict = notification.userInfo as NSDictionary? else{
+            return;
+        }
+        guard let categoryID = dict["categoryID"] as? String else{
+            return;
+        }
+        
+        let vc = spotlightPageViewController();
+        
+        vc.categoryID = categoryID;
+        
+        openPresentablePage(vc);
+        
+    }
+    
     internal func openPresentablePage(_ vc: presentableViewController){
         transitionDelegateVar = transitionDelegate();
         vc.transitioningDelegate = transitionDelegateVar;

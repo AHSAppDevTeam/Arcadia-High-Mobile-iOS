@@ -251,7 +251,8 @@ class communityPageController : homeContentPageViewController{
     }
     
     @objc func openCategoryPage(_ sender: CategoryButton){
-        print("category page - \(sender.categoryID)");
+        let categoryDataDict : [String : String] = ["categoryID" : sender.categoryID];
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: categoryPageNotification), object: nil, userInfo: categoryDataDict);
     }
 
 }

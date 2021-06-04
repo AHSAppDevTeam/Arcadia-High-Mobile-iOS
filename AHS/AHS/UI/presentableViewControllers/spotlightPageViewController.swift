@@ -20,6 +20,8 @@ class spotlightPageViewController : presentableViewController{
         
         self.view.backgroundColor = .systemBlue;
         
+        print("category id - \(categoryID)");
+        
     }
     
 }

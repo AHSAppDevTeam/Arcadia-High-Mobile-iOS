@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 struct featuredCategoryData{
+    var categoryID : String = "";
     var title : String = "";
     var blurb : String = "";
     var color : UIColor = UIColor();
@@ -65,6 +66,8 @@ extension dataManager{
             if (snapshot.exists()){
             
                 let categoryDict = snapshot.value as? NSDictionary;
+                
+                data.categoryID = id;
                 
                 data.title = categoryDict?["title"] as? String ?? "";
                 data.blurb = categoryDict?["blurb"] as? String ?? "";
