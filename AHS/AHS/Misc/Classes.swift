@@ -74,7 +74,7 @@ class ArticleButton : UIButton{
 }
 
 class CategoryButton : UIButton{
-    var CategoryData : categoryData = categoryData();
+    var categoryID : String = "";
 }
 
 final public class Reachability {

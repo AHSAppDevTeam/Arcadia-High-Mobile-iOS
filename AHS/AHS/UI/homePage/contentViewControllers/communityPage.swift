@@ -35,13 +35,13 @@ class communityPageController : homeContentPageViewController{
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
             for categoryID in locationdata.categoryIDs{
                 dataManager.getCategoryData(categoryID, completion: { (categorydata) in
-                    self.renderCategory(categorydata);
+                    self.renderCategory(categorydata, categoryID);
                 });
             }
         });
     }
     
-    internal func renderCategory(_ categorydata: categoryData){
+    internal func renderCategory(_ categorydata: categoryData, _ categoryID: String){
         
         // pre height calculations
         
@@ -228,7 +228,7 @@ class communityPageController : homeContentPageViewController{
         //
         
         nextContentY += categoryView.frame.height + verticalPadding;
-        categoryView.CategoryData = categorydata;
+        categoryView.categoryID = categoryID;
         categoryView.addTarget(self, action: #selector(self.openCategoryPage), for: .touchUpInside);
         self.view.addSubview(categoryView);
         updateParentHeightConstraint();
@@ -251,7 +251,7 @@ class communityPageController : homeContentPageViewController{
     }
     
     @objc func openCategoryPage(_ sender: CategoryButton){
-        print("category page - \(sender.CategoryData.title)");
+        print("category page - \(sender.categoryID)");
     }
 
 }

@@ -41,25 +41,25 @@ extension navigationViewController{
         }
         
         let vc = articlePageViewController();
-        transitionDelegateVar = transitionDelegate();
-        vc.transitioningDelegate = transitionDelegateVar;
-        vc.modalPresentationStyle = .custom;
         
         vc.articleID = articleID;
-        
-        self.present(vc, animated: true);
-        
+       
+        openPresentablePage(vc);
     }
     
     @objc func openSchedulePage(_ notification: NSNotification){
         
         let vc = schedulePageViewController();
+        
+        openPresentablePage(vc);
+    }
+    
+    internal func openPresentablePage(_ vc: presentableViewController){
         transitionDelegateVar = transitionDelegate();
         vc.transitioningDelegate = transitionDelegateVar;
         vc.modalPresentationStyle = .custom;
         
         self.present(vc, animated: true);
-        
     }
     
     internal func selectButton(_ button: UIButton){

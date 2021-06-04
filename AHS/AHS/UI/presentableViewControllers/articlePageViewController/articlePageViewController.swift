@@ -297,7 +297,7 @@ class articlePageViewController : presentableViewController{
             relatedArticleView.articleID = relatedArticleID;
             relatedArticleView.addTarget(self, action: #selector(self.openRelatedArticle), for: .touchUpInside);
             
-            let relatedArticleContentHorizontalPadding : CGFloat = 5;
+            let relatedArticleContentHorizontalPadding : CGFloat = 8;
             let relatedArticleContentVerticalPadding : CGFloat = 3;
             
             let relatedArticleOuterHorizontalPadding : CGFloat = 10;
@@ -315,10 +315,11 @@ class articlePageViewController : presentableViewController{
             relatedArticleImageView.leadingAnchor.constraint(equalTo: relatedArticleView.leadingAnchor, constant: relatedArticleOuterHorizontalPadding).isActive = true;
             relatedArticleImageView.topAnchor.constraint(equalTo: relatedArticleView.topAnchor, constant: relatedArticleOuterVerticalPadding).isActive = true;
             relatedArticleImageView.heightAnchor.constraint(equalToConstant: relatedArticleImageViewHeight).isActive = true;
-            relatedArticleImageView.widthAnchor.constraint(equalToConstant: 0).isActive = true;
+            let relatedArticleImageViewWidthConstraint = relatedArticleImageView.widthAnchor.constraint(equalToConstant: 0);
+            relatedArticleImageViewWidthConstraint.isActive = true;
             
             relatedArticleImageView.clipsToBounds = true;
-            relatedArticleImageView.layer.cornerRadius = relatedArticleImageViewHeight / 4;
+            relatedArticleImageView.layer.cornerRadius = relatedArticleImageViewHeight / 8;
             relatedArticleImageView.backgroundColor = .systemRed;
             relatedArticleImageView.contentMode = .scaleAspectFill;
             
@@ -446,7 +447,8 @@ class articlePageViewController : presentableViewController{
                 if (relatedArticleData.isValid){
                     
                     if (relatedArticleData.thumbURLs.count > 0){
-                        relatedArticleImageView.widthAnchor.constraint(equalToConstant: relatedArticleView.frame.width / 3).isActive = true;
+                        print("image for article with title - \(relatedArticleData.title)")
+                        relatedArticleImageViewWidthConstraint.constant = relatedArticleView.frame.width / 3;
                         relatedArticleImageView.setImageURL(relatedArticleData.thumbURLs[0]);
                     }
                     
