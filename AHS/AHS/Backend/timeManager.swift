@@ -22,6 +22,10 @@ class timeManager{
         return String(calendar.component(.day, from: dateObj));
     }
     
+    static func getCurrentEpoch() -> Int64{
+        return Int64(NSDate().timeIntervalSince1970);
+    }
+    
     static func epochToDiffString(_ epoch: Int64) -> String{ // 1 hour ago
         if (epoch == -1){
             return "NULL";

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		116256C604A356EE99B47D0F /* Pods_AHS_AHSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34706DB2E8CAFA1C7E965B43 /* Pods_AHS_AHSUITests.framework */; };
+		33049066266B3A5A00A11AF6 /* spotlightPageViewControllerActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33049065266B3A5A00A11AF6 /* spotlightPageViewControllerActions.swift */; };
+		33049068266B469E00A11AF6 /* location-on-icon in Resources */ = {isa = PBXBuildFile; fileRef = 33049067266B469E00A11AF6 /* location-on-icon */; };
 		3304B9A6265D7AA700F27033 /* searchPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3304B9A5265D7AA700F27033 /* searchPageCollectionViewCell.swift */; };
 		330DDFA3261D6DFD00747625 /* dataManager_article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330DDFA2261D6DFD00747625 /* dataManager_article.swift */; };
 		330F274D26620890000C2B2C /* articlePageViewControllerActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F274C26620890000C2B2C /* articlePageViewControllerActions.swift */; };
@@ -108,6 +110,8 @@
 		16DBAAFC6162165A78C25386 /* Pods-AHSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHSTests.release.xcconfig"; path = "Target Support Files/Pods-AHSTests/Pods-AHSTests.release.xcconfig"; sourceTree = "<group>"; };
 		2EB1289538F858D8CA94419F /* Pods-AHS-AHSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHS-AHSUITests.debug.xcconfig"; path = "Target Support Files/Pods-AHS-AHSUITests/Pods-AHS-AHSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		306106106A96780A079F744D /* Pods-AHS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AHS.release.xcconfig"; path = "Target Support Files/Pods-AHS/Pods-AHS.release.xcconfig"; sourceTree = "<group>"; };
+		33049065266B3A5A00A11AF6 /* spotlightPageViewControllerActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spotlightPageViewControllerActions.swift; sourceTree = "<group>"; };
+		33049067266B469E00A11AF6 /* location-on-icon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "location-on-icon"; sourceTree = "<group>"; };
 		3304B9A5265D7AA700F27033 /* searchPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchPageCollectionViewCell.swift; sourceTree = "<group>"; };
 		330DDFA2261D6DFD00747625 /* dataManager_article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManager_article.swift; sourceTree = "<group>"; };
 		330F274C26620890000C2B2C /* articlePageViewControllerActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = articlePageViewControllerActions.swift; sourceTree = "<group>"; };
@@ -205,6 +209,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33049063266B3A2900A11AF6 /* spotlightPageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				33F4169A266A9C4000A937DF /* spotlightPageViewController.swift */,
+				33049065266B3A5A00A11AF6 /* spotlightPageViewControllerActions.swift */,
+			);
+			path = spotlightPageViewController;
+			sourceTree = "<group>";
+		};
 		3304B9A4265D7A7F00F27033 /* searchPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +350,7 @@
 				333D4BBC26006100000EC057 /* SFProDisplay-Light.ttf */,
 				333D4BC026006100000EC057 /* SFProDisplay-Regular.ttf */,
 				333D4BC226006101000EC057 /* SFProDisplay-Semibold.ttf */,
+				33049067266B469E00A11AF6 /* location-on-icon */,
 				33516AE725FDDAF30048A5A5 /* Icon */,
 			);
 			path = Assets;
@@ -436,7 +450,7 @@
 			isa = PBXGroup;
 			children = (
 				330F274B2662087C000C2B2C /* articlePageViewController */,
-				33F4169A266A9C4000A937DF /* spotlightPageViewController.swift */,
+				33049063266B3A2900A11AF6 /* spotlightPageViewController */,
 				B18360BC265E33030061CD32 /* schedulePageViewController.swift */,
 			);
 			path = presentableViewControllers;
@@ -576,6 +590,7 @@
 				333D4BC926006101000EC057 /* NewYorkSmall-MediumItalic.otf in Resources */,
 				333D4BC626006101000EC057 /* NewYorkMedium-Bold.otf in Resources */,
 				333D4BD226006101000EC057 /* SFProDisplay-Black.ttf in Resources */,
+				33049068266B469E00A11AF6 /* location-on-icon in Resources */,
 				333D4BD526006101000EC057 /* SFProDisplay-Semibold.ttf in Resources */,
 				33516ABD25FDD9250048A5A5 /* LaunchScreen.storyboard in Resources */,
 				333D4BCF26006101000EC057 /* SFProDisplay-Regular.ttf in Resources */,
@@ -747,6 +762,7 @@
 				337701F825FF031100DB4A71 /* Extensions.swift in Sources */,
 				338F0D9926031BB100D49800 /* dataManager.swift in Sources */,
 				337701EF25FEED4100DB4A71 /* Miscellaneous.swift in Sources */,
+				33049066266B3A5A00A11AF6 /* spotlightPageViewControllerActions.swift in Sources */,
 				338F0D6A26030D9200D49800 /* timeManager.swift in Sources */,
 				338F0DBF26031F0900D49800 /* Classes.swift in Sources */,
 				33EA0E802669431400D758DF /* zoomableImageViewController.swift in Sources */,
