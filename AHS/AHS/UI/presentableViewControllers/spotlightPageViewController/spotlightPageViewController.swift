@@ -39,7 +39,7 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
-        refreshControl.tintColor = InverseBackgroundColor;
+        refreshControl.tintColor = pageAccentColor;
         refreshControl.addTarget(self, action: #selector(self.handleRefresh), for: .valueChanged);
         mainScrollView.addSubview(refreshControl);
         
@@ -62,8 +62,12 @@ class spotlightPageViewController : presentableViewController{
     
     internal func renderContent(){
         
+        print("render content")
+        
         for subview in mainScrollView.subviews{
-            subview.removeFromSuperview();
+            if (subview.tag == 1){
+                subview.removeFromSuperview();
+            }
         }
         
         //
@@ -106,6 +110,7 @@ class spotlightPageViewController : presentableViewController{
         
         dismissButton.addTarget(self, action: #selector(self.dismissHandler), for: .touchUpInside);
         
+        dismissButton.tag = 1;
         nextContentY += dismissButton.frame.height + contentVerticalPadding;
         mainScrollView.addSubview(dismissButton);
         
@@ -143,6 +148,7 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
+        locationView.tag = 1;
         nextContentY += locationView.frame.height + contentVerticalPadding;
         mainScrollView.addSubview(locationView);
         
@@ -157,6 +163,7 @@ class spotlightPageViewController : presentableViewController{
         dateLabel.textAlignment = .left;
         dateLabel.textColor = pageAccentColor;
         
+        dateLabel.tag = 1;
         nextContentY += dateLabel.frame.height + contentVerticalPadding;
         mainScrollView.addSubview(dateLabel);
         
@@ -169,8 +176,11 @@ class spotlightPageViewController : presentableViewController{
             let categoryLabelFontSize = categoryLabel.frame.height * 0.7;
             let categoryLabelAttributedText = NSMutableAttributedString(string: categorydata.title, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryLabelFontSize)!]);
             categoryLabelAttributedText.append(NSAttributedString(string: " News", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: categoryLabelFontSize)!]));
-            
             categoryLabel.attributedText = categoryLabelAttributedText;
+            
+            //
+            
+            
             
         });
         

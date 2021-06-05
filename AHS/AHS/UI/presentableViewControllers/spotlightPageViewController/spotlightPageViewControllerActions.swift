@@ -15,7 +15,8 @@ extension spotlightPageViewController{
     }
     
     @objc internal func handleRefresh(){
-        
+        refreshControl.beginRefreshing();
+        renderContent();
     }
     
 }
