@@ -30,7 +30,7 @@ class timeManager{
         if (epoch == -1){
             return "NULL";
         }
-        let currTime = Int64(NSDate().timeIntervalSince1970);
+        let currTime = getCurrentEpoch();
         let diff = abs(currTime - epoch);
         let timePattern = [(1, "second"), (60, "minute"), (3600, "hour"), (86400, "day"), (604800, "week"), (2592000, "month"), (31536000, "year"), (315360000, "decade"), (3153600000, "century")];
         var r = "NULL";

@@ -70,6 +70,17 @@ extension UIColor{
         }
     }
     
+    
+    // https://stackoverflow.com/a/29779319/
+    static func random() -> UIColor {
+        return UIColor(
+           red:   .random(),
+           green: .random(),
+           blue:  .random(),
+           alpha: 1.0
+        )
+    }
+    
 }
 
 extension UITextView {
@@ -139,5 +150,12 @@ extension UIViewController{
 extension UIImageView{
     func setImageURL(_ imageURL: String){
         self.sd_setImage(with: URL(string: imageURL));
+    }
+}
+
+// https://stackoverflow.com/a/29779319/
+extension CGFloat {
+    static func random() -> CGFloat {
+        return CGFloat(arc4random()) / CGFloat(UInt32.max)
     }
 }

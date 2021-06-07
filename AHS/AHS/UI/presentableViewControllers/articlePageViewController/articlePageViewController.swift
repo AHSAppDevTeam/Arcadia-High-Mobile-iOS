@@ -25,8 +25,6 @@ class articlePageViewController : presentableViewController{
     internal let mediaCollectionViewLayout = UPCarouselFlowLayout();
     internal var mediaCollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewLayout());
     
-    internal var transitionDelegateVar : transitionDelegate!;
-    
     override func viewDidLoad() {
         super.viewDidLoad();
     

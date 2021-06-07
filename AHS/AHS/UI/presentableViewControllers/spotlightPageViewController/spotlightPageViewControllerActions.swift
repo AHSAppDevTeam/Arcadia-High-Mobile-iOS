@@ -19,4 +19,17 @@ extension spotlightPageViewController{
         renderContent();
     }
     
+    @objc internal func openArticle(_ button: ArticleButton){
+    
+        let vc = articlePageViewController();
+        
+        vc.articleID = button.articleID;
+        
+        transitionDelegateVar = transitionDelegate();
+        vc.transitioningDelegate = transitionDelegateVar;
+        vc.modalPresentationStyle = .custom;
+        
+        self.present(vc, animated: true);
+        
+    }
 }

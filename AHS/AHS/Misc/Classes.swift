@@ -9,6 +9,7 @@ import Foundation
 import Network
 import SystemConfiguration
 import UIKit
+import GameplayKit
 
 class mainPageViewController : UIViewController{ // UIViewController for main pages
     public var pageName : String = "";
@@ -39,6 +40,8 @@ class homeContentPageViewController : UIViewController{ // UIViewController for 
 }
 
 class presentableViewController : UIViewController{
+    
+    internal var transitionDelegateVar : transitionDelegate!;
     
     internal var panGestureRecognizer = UIPanGestureRecognizer();
     
