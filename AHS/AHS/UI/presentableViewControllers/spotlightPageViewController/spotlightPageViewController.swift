@@ -22,6 +22,7 @@ class spotlightPageViewController : presentableViewController{
     internal var nextContentY : CGFloat = 0;
     
     internal let pageAccentColor : UIColor = .white;
+    internal let secondaryPageAccentColor : UIColor = UIColor.init(hex: "5fa4a9");
     internal let inversePageAccentColor : UIColor = .black;
     
     internal var hasRenderedLargeArticle : Bool = false;
@@ -50,7 +51,7 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
-        let topMainScrollViewGradientColor = UIColor(hex: "5fa4a9");
+        let topMainScrollViewGradientColor = secondaryPageAccentColor;
         let bottomMainScrollViewGradientColor = pageAccentColor;
         let mainScrollViewGradientLayer = CAGradientLayer();
         
@@ -274,7 +275,7 @@ class spotlightPageViewController : presentableViewController{
                 let imageViewFrame = CGRect(x: 0, y: 0, width: imageViewWidth, height: imageViewWidth * 0.55);
                 let imageView = UIImageView(frame: imageViewFrame);
                 
-                imageView.backgroundColor = .systemGray;
+                imageView.backgroundColor = self.secondaryPageAccentColor;
                 imageView.clipsToBounds = true;
                 
                 if (articledata.imageURLs.count > 0){
@@ -282,16 +283,6 @@ class spotlightPageViewController : presentableViewController{
                     imageView.contentMode = .scaleAspectFill;
                     
                     imageView.setImageURL(articledata.imageURLs[0]);
-                    
-                }
-                else{
-                    
-                    let imageViewGradientLayer = CAGradientLayer();
-                    
-                    imageViewGradientLayer.colors = [UIColor.random().cgColor, UIColor.random().cgColor];
-                    imageViewGradientLayer.locations = [0, 1];
-                    imageViewGradientLayer.frame = imageView.bounds;
-                    imageView.layer.insertSublayer(imageViewGradientLayer, at: 0);
                     
                 }
                 
