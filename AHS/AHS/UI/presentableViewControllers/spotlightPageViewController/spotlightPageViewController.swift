@@ -83,8 +83,8 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
-        let dismissButtonFrameWidth = mainScrollView.frame.width - 2*contentHorizontalPadding;
-        let dismissButtonFrame = CGRect(x: contentHorizontalPadding, y: nextContentY, width: dismissButtonFrameWidth, height: dismissButtonFrameWidth * 0.08);
+        let dismissButtonFrameWidth = mainScrollView.frame.width - contentHorizontalPadding;
+        let dismissButtonFrame = CGRect(x: contentHorizontalPadding / 2, y: nextContentY, width: dismissButtonFrameWidth, height: dismissButtonFrameWidth * 0.08);
         let dismissButton = UIButton(frame: dismissButtonFrame);
         
         let dismissButtonContentHorizontalPadding : CGFloat = 5;
@@ -267,7 +267,7 @@ class spotlightPageViewController : presentableViewController{
         articleView.addTarget(self, action: #selector(self.openArticle), for: .touchUpInside);
         //
         
-        dataManager.getFullArticleData(articleID, completion: { (articledata) in
+        dataManager.getBaseArticleData(articleID, completion: { (articledata) in
             
             if (hasImage){
                 
@@ -278,17 +278,18 @@ class spotlightPageViewController : presentableViewController{
                 imageView.backgroundColor = self.secondaryPageAccentColor;
                 imageView.clipsToBounds = true;
                 
-                if (articledata.imageURLs.count > 0){
+                if (articledata.thumbURLs.count > 0){
                 
                     imageView.contentMode = .scaleAspectFill;
                     
-                    imageView.setImageURL(articledata.imageURLs[0]);
+                    imageView.setImageURL(articledata.thumbURLs[0]);
                     
                 }
                 
                 nextY += imageView.frame.height;
                 articleView.addSubview(imageView);
             }
+            
             nextY += verticalPadding;
             
             //
@@ -301,7 +302,7 @@ class spotlightPageViewController : presentableViewController{
             let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
             
             //articleTitleLabel.backgroundColor = .systemRed;
-            articleTitleLabel.text = articledata.baseData.title;
+            articleTitleLabel.text = articledata.title;
             articleTitleLabel.textAlignment = .left;
             articleTitleLabel.textColor = self.inversePageAccentColor;
             articleTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabel.frame.width * 0.1);
@@ -316,7 +317,7 @@ class spotlightPageViewController : presentableViewController{
             let articleTimestampLabel = UILabel(frame: articleTimestampLabelFrame);
         
             //articleTimestampLabel.backgroundColor = .systemBlue;
-            articleTimestampLabel.text = timeManager.epochToDiffString(articledata.baseData.timestamp);
+            articleTimestampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
             articleTimestampLabel.textAlignment = .left;
             articleTimestampLabel.textColor = .systemGray;
             articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleTimestampLabel.frame.height * 0.8);

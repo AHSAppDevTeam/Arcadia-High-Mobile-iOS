@@ -20,7 +20,7 @@ class articlePageViewController : presentableViewController{
     internal let scrollView : UIScrollView = UIScrollView();
     internal let refreshControl : UIRefreshControl = UIRefreshControl();
     
-    internal let topBarCategoryLabel : UILabel = UILabel();
+    internal let topBarCategoryButtonLabel = UIButton();
     
     internal let mediaCollectionViewLayout = UPCarouselFlowLayout();
     internal var mediaCollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewLayout());
@@ -123,14 +123,16 @@ class articlePageViewController : presentableViewController{
         
         //
         
-        let topBarCategoryLabelFrame = CGRect(x: topBarBackButton.frame	.width + topBarHorizontalPadding, y: topBarVerticalPadding, width: topBarView.frame.width - (topBarBackButton.frame.width + 2*topBarHorizontalPadding + (topBarView.frame.width - topBarFontButton.frame.minX)), height: topBarView.frame.height - 2*topBarVerticalPadding);
-        topBarCategoryLabel.frame = topBarCategoryLabelFrame;
+        let topBarCategoryButtonLabelFrame = CGRect(x: topBarBackButton.frame.width + topBarHorizontalPadding, y: topBarVerticalPadding, width: topBarView.frame.width - (topBarBackButton.frame.width + 2*topBarHorizontalPadding + (topBarView.frame.width - topBarFontButton.frame.minX)), height: topBarView.frame.height - 2*topBarVerticalPadding);
+        topBarCategoryButtonLabel.frame = topBarCategoryButtonLabelFrame;
         
-        topBarCategoryLabel.isUserInteractionEnabled = false;
-        topBarCategoryLabel.textAlignment = .left;
-        topBarCategoryLabel.textColor = UIColor.init(hex: "#cc5454");
+        //topBarCategoryButtonLabel.titleLabel?.textAlignment = .left;
+        topBarCategoryButtonLabel.contentHorizontalAlignment = .left;
+        topBarCategoryButtonLabel.setTitleColor(UIColor.init(hex: "cc5454"), for: .normal);
         
-        topBarView.addSubview(topBarCategoryLabel);
+        topBarCategoryButtonLabel.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
+        
+        topBarView.addSubview(topBarCategoryButtonLabel);
         
         //
         
@@ -190,9 +192,11 @@ class articlePageViewController : presentableViewController{
             
             mediaCollectionView.tag = 1;
             scrollView.addSubview(mediaCollectionView);
-            nextContentY += mediaCollectionView.frame.height + verticalPadding;
+            nextContentY += mediaCollectionView.frame.height;
             
         }
+        
+        nextContentY += verticalPadding;
         
         //
         
@@ -491,10 +495,10 @@ class articlePageViewController : presentableViewController{
         
         dataManager.getCategoryData(articleData.baseData.categoryID, completion: { (categorydata) in
             
-            let topBarCategoryLabelFontSize = self.topBarCategoryLabel.frame.height * 0.7;
+            let topBarCategoryLabelFontSize = self.topBarCategoryButtonLabel.frame.height * 0.7;
             let topBarCategoryLabelAttributedText = NSMutableAttributedString(string: categorydata.title, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarCategoryLabelFontSize)!]);
             topBarCategoryLabelAttributedText.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarCategoryLabelFontSize)!]));
-            self.topBarCategoryLabel.attributedText = topBarCategoryLabelAttributedText;
+            self.topBarCategoryButtonLabel.setAttributedTitle(topBarCategoryLabelAttributedText, for: .normal);
             
             //
             
