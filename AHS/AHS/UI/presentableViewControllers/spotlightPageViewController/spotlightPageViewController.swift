@@ -33,7 +33,6 @@ class spotlightPageViewController : presentableViewController{
         
         mainScrollView.alwaysBounceVertical = true;
         mainScrollView.showsVerticalScrollIndicator = true;
-        mainScrollView.contentInsetAdjustmentBehavior = .never;
         
         self.view.addSubview(mainScrollView);
         
@@ -62,8 +61,6 @@ class spotlightPageViewController : presentableViewController{
     
     internal func renderContent(){
         
-        print("render content")
-        
         for subview in mainScrollView.subviews{
             if (subview.tag == 1){
                 subview.removeFromSuperview();
@@ -72,7 +69,7 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
-        nextContentY = AppUtility.safeAreaInset.top;
+        nextContentY = 0;
         
         //
         
@@ -180,7 +177,11 @@ class spotlightPageViewController : presentableViewController{
             
             //
             
-            
+            for articleID in categorydata.articleIDs{
+                
+                //let articleContentViewFrame = CGRect(x: , y: <#T##CGFloat#>, width: <#T##CGFloat#>, height: <#T##CGFloat#>)
+                
+            }
             
         });
         
