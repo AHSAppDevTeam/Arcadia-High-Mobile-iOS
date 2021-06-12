@@ -35,6 +35,7 @@ struct baseArticleData{
     var title : String = "";
     
     var timestamp : Int64 = 0;
+    var color : UIColor? = nil;
     
     var thumbURLs : [String] = [];
 }
@@ -100,6 +101,10 @@ extension dataManager{
                     data.title = dataDict?["title"] as? String ?? "";
                     data.timestamp = dataDict?["timestamp"] as? Int64 ?? 0;
                     data.thumbURLs = dataDict?["thumbURLs"] as? [String] ?? [];
+                    
+                    if let hex = dataDict?["color"] as? String{
+                        data.color = UIColor.init(hex: hex);
+                    }
                     
                 }
                 else{

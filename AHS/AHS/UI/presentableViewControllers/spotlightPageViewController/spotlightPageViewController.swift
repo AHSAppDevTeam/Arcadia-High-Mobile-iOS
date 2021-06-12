@@ -182,8 +182,15 @@ class spotlightPageViewController : presentableViewController{
             
             let categoryLabelFontSize = categoryLabel.frame.height * 0.7;
             let categoryLabelAttributedText = NSMutableAttributedString(string: categorydata.title, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryLabelFontSize)!]);
-            categoryLabelAttributedText.append(NSAttributedString(string: " News", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: categoryLabelFontSize)!]));
+            categoryLabelAttributedText.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: categoryLabelFontSize)!]));
             categoryLabel.attributedText = categoryLabelAttributedText;
+            
+            //
+            
+            if (categorydata.layout != .row){
+                self.hasRenderedLargeArticle = true;
+                self.subArticleRenderRowCount = 0;
+            }
             
             //
             
@@ -256,6 +263,7 @@ class spotlightPageViewController : presentableViewController{
         articleView.layer.shadowColor = inversePageAccentColor.cgColor;
         articleView.layer.shadowRadius = 0.8;
         articleView.layer.shadowOpacity = 0.5;
+        articleView.clipsToBounds = true;
         
         articleView.tag = 1;
         articleView.articleID = articleID;
@@ -279,62 +287,6 @@ class spotlightPageViewController : presentableViewController{
             let horizontalPadding : CGFloat = 10;
             let verticalPadding : CGFloat = 5;
             
-            /*if (hasImage){
-                
-                let imageViewWidth = articleView.frame.width;
-                let imageViewFrame = CGRect(x: 0, y: 0, width: imageViewWidth, height: imageViewWidth * 0.55);
-                let imageView = UIImageView(frame: imageViewFrame);
-                
-                imageView.backgroundColor = self.secondaryPageAccentColor;
-                imageView.clipsToBounds = true;
-                
-                if (articledata.thumbURLs.count > 0){
-                
-                    imageView.contentMode = .scaleAspectFill;
-                    
-                    imageView.setImageURL(articledata.thumbURLs[0]);
-                    
-                }
-                
-                nextY += imageView.frame.height;
-                articleView.addSubview(imageView);
-            }
-            
-            nextY += verticalPadding;
-            
-            //
-            
-            let articleTimestampLabelHeight = articleView.frame.height * (hasImage ? 0.05 : 0.11);
-            
-            //
-            
-            let articleTitleLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: articleView.frame.width - 2*horizontalPadding, height: articleView.frame.height - nextY - 2*verticalPadding - articleTimestampLabelHeight);
-            let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
-            
-            //articleTitleLabel.backgroundColor = .systemRed;
-            articleTitleLabel.text = articledata.title;
-            articleTitleLabel.textAlignment = .left;
-            articleTitleLabel.textColor = self.inversePageAccentColor;
-            articleTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabel.frame.width * 0.1);
-            articleTitleLabel.numberOfLines = 0;
-            
-            nextY += articleTitleLabel.frame.height + verticalPadding;
-            articleView.addSubview(articleTitleLabel);
-            
-            //
-            
-            let articleTimestampLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: articleView.frame.width - 2*horizontalPadding, height: articleTimestampLabelHeight);
-            let articleTimestampLabel = UILabel(frame: articleTimestampLabelFrame);
-        
-            //articleTimestampLabel.backgroundColor = .systemBlue;
-            articleTimestampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
-            articleTimestampLabel.textAlignment = .left;
-            articleTimestampLabel.textColor = .systemGray;
-            articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleTimestampLabel.frame.height * 0.8);
-            
-            nextY += articleTimestampLabel.frame.height + verticalPadding;
-            articleView.addSubview(articleTimestampLabel);*/
-            
             //
             
             let articleTimestampLabelHeight = articleView.frame.height * 0.05;
@@ -353,7 +305,7 @@ class spotlightPageViewController : presentableViewController{
             let articleTitleLabelText = articledata.title;
             let articleTitleLabelWidth = articleView.frame.width - 2*horizontalPadding;
             let articleTitleLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabelWidth * 0.1)!;
-            let articleTitleLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleTitleLabelWidth, font: articleTitleLabelFont), articleView.frame.height * 0.7);
+            let articleTitleLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleTitleLabelWidth, font: articleTitleLabelFont), articleView.frame.height * 0.3);
             let articleTitleLabelFrame = CGRect(x: horizontalPadding, y: articleTimestampLabel.frame.minY - verticalPadding - articleTitleLabelHeight, width: articleTitleLabelWidth, height: articleTitleLabelHeight);
             let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
             
@@ -397,8 +349,17 @@ class spotlightPageViewController : presentableViewController{
         
             //
             
+            let colorStripViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width * 0.02, height: articleView.frame.height);
+            let colorStripView = UIView(frame: colorStripViewFrame);
+            
+            colorStripView.backgroundColor = articledata.color != nil ? articledata.color : dataManager.getPreloadedCategoryData(articledata.categoryID).color;
+            
+            articleView.addSubview(colorStripView);
+            
+            //
+            
             let articleTimestampLabelHeight = articleView.frame.height * 0.11;
-            let articleTimestampLabelFrame = CGRect(x: horizontalPadding, y: articleView.frame.height - articleTimestampLabelHeight - verticalPadding, width: articleView.frame.width - 2*horizontalPadding, height: articleTimestampLabelHeight);
+            let articleTimestampLabelFrame = CGRect(x: horizontalPadding + colorStripView.frame.width, y: articleView.frame.height - articleTimestampLabelHeight - verticalPadding, width: articleView.frame.width - 2*horizontalPadding - colorStripView.frame.width, height: articleTimestampLabelHeight);
             let articleTimestampLabel = UILabel(frame: articleTimestampLabelFrame);
             
             articleTimestampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
@@ -410,7 +371,7 @@ class spotlightPageViewController : presentableViewController{
             
             //
             
-            let articleTitleLabelFrame = CGRect(x: horizontalPadding, y: verticalPadding, width: articleView.frame.width - 2*horizontalPadding, height: articleView.frame.height - 3*verticalPadding - articleTimestampLabel.frame.height);
+            let articleTitleLabelFrame = CGRect(x: horizontalPadding + colorStripView.frame.width, y: verticalPadding, width: articleView.frame.width - 2*horizontalPadding - colorStripView.frame.width, height: articleView.frame.height - 3*verticalPadding - articleTimestampLabel.frame.height);
             let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
             
             articleTitleLabel.text = articledata.title;

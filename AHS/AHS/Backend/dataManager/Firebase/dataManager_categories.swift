@@ -9,11 +9,19 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 
+enum categoryLayout{
+    case list
+    case row
+    case slash
+    case none
+}
+
 struct categoryData{
     var articleIDs = [String]();
     var blurb : String = "";
     var color : UIColor = UIColor.rgb(0, 0, 0);
     var featured : Bool = false;
+    var layout : categoryLayout = .none;
     var thumbURLs : [String] = [];
     var title : String = "";
     var visible : Bool = false;
@@ -92,6 +100,7 @@ extension dataManager{
                     data.articleIDs = categoryDict?["articleIDs"] as? [String] ?? [];
                     data.blurb = categoryDict?["blurb"] as? String ?? "";
                     data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
+                    data.layout = dataManager.encodeStringToLayoutEnum(categoryDict?["layout"] as? String ?? "");
                     data.featured = categoryDict?["featured"] as? Bool ?? false;
                     data.thumbURLs = categoryDict?["thumbURLs"] as? [String] ?? [];
                     data.title = categoryDict?["title"] as? String ?? "";
@@ -113,5 +122,18 @@ extension dataManager{
         var data = categoryData();
         data.title = categoryID;
         return data;
+    }
+    
+    static internal func encodeStringToLayoutEnum(_ s: String) -> categoryLayout{
+        switch s {
+        case "splash":
+            return .slash;
+        case "row":
+            return .row; // row layout always has images
+        case "list":
+            return .list; // list layout does not have images
+        default:
+            return .none;
+        }
     }
 }
