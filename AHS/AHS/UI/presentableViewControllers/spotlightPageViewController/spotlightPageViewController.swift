@@ -247,11 +247,6 @@ class spotlightPageViewController : presentableViewController{
     
     internal func renderArticle(_ articleView: ArticleButton, _ articleID: String, _ hasImage: Bool){
         
-        var nextY : CGFloat = 0;
-        
-        let horizontalPadding : CGFloat = 10;
-        let verticalPadding : CGFloat = 5;
-        
         //
         
         articleView.backgroundColor = pageAccentColor;
@@ -265,11 +260,26 @@ class spotlightPageViewController : presentableViewController{
         articleView.tag = 1;
         articleView.articleID = articleID;
         articleView.addTarget(self, action: #selector(self.openArticle), for: .touchUpInside);
+        
         //
+        
+        if (hasImage){
+            renderImageArticle(articleView, articleID);
+        }
+        else{
+            renderListArticle(articleView, articleID);
+        }
+        
+    }
+    
+    internal func renderImageArticle(_ articleView: ArticleButton, _ articleID: String){
         
         dataManager.getBaseArticleData(articleID, completion: { (articledata) in
             
-            if (hasImage){
+            let horizontalPadding : CGFloat = 10;
+            let verticalPadding : CGFloat = 5;
+            
+            /*if (hasImage){
                 
                 let imageViewWidth = articleView.frame.width;
                 let imageViewFrame = CGRect(x: 0, y: 0, width: imageViewWidth, height: imageViewWidth * 0.55);
@@ -323,10 +333,95 @@ class spotlightPageViewController : presentableViewController{
             articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleTimestampLabel.frame.height * 0.8);
             
             nextY += articleTimestampLabel.frame.height + verticalPadding;
+            articleView.addSubview(articleTimestampLabel);*/
+            
+            //
+            
+            let articleTimestampLabelHeight = articleView.frame.height * 0.05;
+            let articleTimestampLabelFrame = CGRect(x: horizontalPadding, y: articleView.frame.height - verticalPadding - articleTimestampLabelHeight, width: articleView.frame.width - 2*horizontalPadding, height: articleTimestampLabelHeight);
+            let articleTimestampLabel = UILabel(frame: articleTimestampLabelFrame);
+            
+            articleTimestampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
+            articleTimestampLabel.textAlignment = .left;
+            articleTimestampLabel.textColor = .systemGray;
+            articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleTimestampLabel.frame.height * 0.8);
+            
             articleView.addSubview(articleTimestampLabel);
+            
+            //
+            
+            let articleTitleLabelText = articledata.title;
+            let articleTitleLabelWidth = articleView.frame.width - 2*horizontalPadding;
+            let articleTitleLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabelWidth * 0.1)!;
+            let articleTitleLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleTitleLabelWidth, font: articleTitleLabelFont), articleView.frame.height * 0.7);
+            let articleTitleLabelFrame = CGRect(x: horizontalPadding, y: articleTimestampLabel.frame.minY - verticalPadding - articleTitleLabelHeight, width: articleTitleLabelWidth, height: articleTitleLabelHeight);
+            let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
+            
+            articleTitleLabel.text = articleTitleLabelText;
+            articleTitleLabel.textAlignment = .left;
+            articleTitleLabel.textColor = self.inversePageAccentColor;
+            articleTitleLabel.font = articleTitleLabelFont;
+            articleTitleLabel.numberOfLines = 0;
+            
+            articleView.addSubview(articleTitleLabel);
+            
+            //
+            
+            let articleImageViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width, height: articleView.frame.height - 3*verticalPadding - articleTitleLabel.frame.height - articleTimestampLabel.frame.height);
+            let articleImageView = UIImageView(frame: articleImageViewFrame);
+            
+            articleImageView.backgroundColor = self.secondaryPageAccentColor;
+            articleImageView.clipsToBounds = true;
+            
+            if (articledata.thumbURLs.count > 0){
+            
+                articleImageView.contentMode = .scaleAspectFill;
+                
+                articleImageView.setImageURL(articledata.thumbURLs[0]);
+                
+            }
+            
+            articleView.addSubview(articleImageView);
             
         });
         
+        
+    }
+    
+    internal func renderListArticle(_ articleView: ArticleButton, _ articleID: String){
+        
+        dataManager.getBaseArticleData(articleID, completion: { (articledata) in
+            
+            let horizontalPadding : CGFloat = 10;
+            let verticalPadding : CGFloat = 5;
+        
+            //
+            
+            let articleTimestampLabelHeight = articleView.frame.height * 0.11;
+            let articleTimestampLabelFrame = CGRect(x: horizontalPadding, y: articleView.frame.height - articleTimestampLabelHeight - verticalPadding, width: articleView.frame.width - 2*horizontalPadding, height: articleTimestampLabelHeight);
+            let articleTimestampLabel = UILabel(frame: articleTimestampLabelFrame);
+            
+            articleTimestampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
+            articleTimestampLabel.textAlignment = .left;
+            articleTimestampLabel.textColor = .systemGray;
+            articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleTimestampLabel.frame.height * 0.8);
+            
+            articleView.addSubview(articleTimestampLabel);
+            
+            //
+            
+            let articleTitleLabelFrame = CGRect(x: horizontalPadding, y: verticalPadding, width: articleView.frame.width - 2*horizontalPadding, height: articleView.frame.height - 3*verticalPadding - articleTimestampLabel.frame.height);
+            let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
+            
+            articleTitleLabel.text = articledata.title;
+            articleTitleLabel.textAlignment = .left;
+            articleTitleLabel.textColor = self.inversePageAccentColor;
+            articleTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabel.frame.width * 0.08);
+            articleTitleLabel.numberOfLines = 0;
+            
+            articleView.addSubview(articleTitleLabel);
+            
+        });
         
     }
     
