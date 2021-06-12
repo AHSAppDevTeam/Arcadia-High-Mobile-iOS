@@ -164,7 +164,7 @@ class articlePageViewController : presentableViewController{
         
         articledata = articleData;
         
-        let horizontalPadding = self.view.frame.width / 20;
+        let horizontalPadding = self.view.frame.width / 18;
         let verticalPadding : CGFloat = 10;
         let contentWidth = self.view.frame.width - 2*horizontalPadding;
         
@@ -260,15 +260,17 @@ class articlePageViewController : presentableViewController{
             bodyLabel.isScrollEnabled = false;
             bodyLabel.tintColor = .systemBlue;
             bodyLabel.backgroundColor = .clear;
+            bodyLabel.textContainerInset = .zero;
+            bodyLabel.textContainer.lineFragmentPadding = 0;
             
             bodyLabel.tag = 1;
             scrollView.addSubview(bodyLabel);
             nextContentY += bodyLabel.frame.height + verticalPadding;
             
         }
-        
+    
         //
-       
+        
         let categoryButtonHorizontalPadding = horizontalPadding * 2;
         let categoryButtonFrameWidth = self.view.frame.width - 2*categoryButtonHorizontalPadding;
         let categoryButtonFrame = CGRect(x: categoryButtonHorizontalPadding, y: nextContentY, width: categoryButtonFrameWidth, height: categoryButtonFrameWidth * 0.15);
@@ -287,6 +289,20 @@ class articlePageViewController : presentableViewController{
         categoryButton.addTarget(self, action: #selector(self.openCategoryPage), for: .touchUpInside);
         scrollView.addSubview(categoryButton);
         nextContentY += categoryButton.frame.height + 3*verticalPadding;
+        
+        //
+        
+        let articleViewLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: contentWidth * 0.06);
+        let articleViewLabel = UILabel(frame: articleViewLabelFrame);
+        
+        articleViewLabel.font = UIFont(name: SFProDisplay_Regular, size: articleViewLabel.frame.height * 0.8);
+        articleViewLabel.textAlignment = .left;
+        articleViewLabel.textColor = InverseBackgroundGrayColor;
+        articleViewLabel.text = String(articledata.views) + " views";
+        
+        articleViewLabel.tag = 1;
+        scrollView.addSubview(articleViewLabel);
+        //nextContentY += articleViewLabel.frame.height + verticalPadding; -- accounted for at the end when setting scrollview content size
         
         //
         
@@ -477,7 +493,10 @@ class articlePageViewController : presentableViewController{
                     relatedArticleView.tag = 1;
                     self.nextContentY += relatedArticleView.frame.height + verticalPadding;
                     self.scrollView.addSubview(relatedArticleView);
-                    scrollView.contentSize = CGSize(width: self.view.frame.width, height: nextContentY);
+                    
+                    articleViewLabel.frame = CGRect(x: articleViewLabel.frame.minX, y: nextContentY + verticalPadding, width: articleViewLabel.frame.width, height: articleViewLabel.frame.height);
+                    
+                    scrollView.contentSize = CGSize(width: self.view.frame.width, height: nextContentY + 2*verticalPadding + articleViewLabel.frame.height);
                     
                 }
                 
@@ -486,10 +505,10 @@ class articlePageViewController : presentableViewController{
             //
             
         }
-        
+    
         //
         
-        scrollView.contentSize = CGSize(width: self.view.frame.width, height: nextContentY);
+        scrollView.contentSize = CGSize(width: self.view.frame.width, height: nextContentY + 2*verticalPadding + articleViewLabel.frame.height);
         
         //
         

@@ -234,6 +234,9 @@ PODS:
   - Firebase/Firestore (7.8.1):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 7.8.0)
+  - Firebase/Functions (7.8.1):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 7.8.0)
   - Firebase/Messaging (7.8.1):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 7.8.0)
@@ -275,6 +278,9 @@ PODS:
     - "gRPC-C++ (~> 1.28.0)"
     - leveldb-library (~> 1.22)
     - nanopb (~> 2.30907.0)
+  - FirebaseFunctions (7.8.0):
+    - FirebaseCore (~> 7.0)
+    - GTMSessionFetcher/Core (~> 1.4)
   - FirebaseInstallations (7.8.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -364,6 +370,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Database
   - Firebase/Firestore
+  - Firebase/Functions
   - Firebase/Messaging
   - SDWebImage
   - UPCarouselFlowLayout
@@ -380,6 +387,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseDatabase
     - FirebaseFirestore
+    - FirebaseFunctions
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
@@ -406,6 +414,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 066f996579cf097bdad3d7dc9a918d6b9e129c50
   FirebaseDatabase: f909d1448d4e7c4f5ef5acd1b8095f4bea9813ca
   FirebaseFirestore: f1ededef972dea136e88a7bae9732f52afe64221
+  FirebaseFunctions: 60ffca9955121b73ff3b826766c25cca2cfade8e
   FirebaseInstallations: 7f7ed0e7e27fb51f57291e1876e2ddb1524126c1
   FirebaseInstanceID: aaecc93b4528bbcafea12c477e26827719ca1183
   FirebaseMessaging: 1d5cac3728c042d3d4700ecb56bbac893660a963
@@ -422,6 +431,6 @@ SPEC CHECKSUMS:
   UPCarouselFlowLayout: 4c7d2c43a10ebb1597bde502a53699d378341dad
   youtube-ios-player-helper: 0185c57db23c80d63d6ca11251d110abb8a4ca61
 
-PODFILE CHECKSUM: a3a83ff4ae1e223bab3c929d35fd95058b28dbda
+PODFILE CHECKSUM: 686c09f3ec2e96f8301600b7c31e8006c676fd33
 
 COCOAPODS: 1.10.1

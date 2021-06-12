@@ -8,9 +8,12 @@
 import Foundation
 import Firebase
 import FirebaseDatabase
+import FirebaseFunctions
 
 class dataManager{
     static internal var dataRef : DatabaseReference!;
+    static internal var dataFunc = Functions.functions();
+    
     static public var internetConnected = false;
     
     static internal var categoryLookupMap : [String : categoryData] = [:];
@@ -45,4 +48,5 @@ class dataManager{
             SceneDelegate.window?.rootViewController?.present(popup, animated: true, completion: nil);
         }
     }
+    
 }
