@@ -21,6 +21,7 @@ class articlePageViewController : presentableViewController{
     internal let refreshControl : UIRefreshControl = UIRefreshControl();
     
     internal let topBarCategoryButtonLabel = UIButton();
+    internal let topBarView : UIView = UIView();
     
     internal let mediaCollectionViewLayout = UPCarouselFlowLayout();
     internal var mediaCollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewLayout());
@@ -30,6 +31,10 @@ class articlePageViewController : presentableViewController{
     
         renderUI();
         loadArticleData();
+        
+        if (!articleID.isEmpty){
+            dataManager.incrementArticleView(articleID);
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,7 +52,8 @@ class articlePageViewController : presentableViewController{
         //
         
         let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: self.view.frame.width * 0.11);
-        let topBarView = UIView(frame: topBarViewFrame);
+        //let topBarView = UIView(frame: topBarViewFrame);
+        topBarView.frame = topBarViewFrame;
         
         //topBarView.backgroundColor = .systemBlue;
         
@@ -118,6 +124,8 @@ class articlePageViewController : presentableViewController{
         topBarFontButton.contentHorizontalAlignment = .fill;
         //topBarFontButton.imageEdgeInsets = topBarButtonEdgeInsets;
         topBarFontButton.tintColor = BackgroundGrayColor;
+        
+        topBarFontButton.addTarget(self, action: #selector(self.showFontPopup), for: .touchUpInside);
         
         topBarView.addSubview(topBarFontButton);
         
@@ -566,9 +574,9 @@ extension articlePageViewController : UICollectionViewDelegate, UICollectionView
             let image : UIImage? = (collectionView.cellForItem(at: indexPath) as! mediaCollectionViewCell).imageView.image;
             if (image != nil){
                 imageVC.image = image!;
+                self.openChildPage(imageVC);
             }
             
-            self.openChildPage(imageVC);
         }
         
     }

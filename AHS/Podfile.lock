@@ -212,6 +212,7 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - AMPopTip (4.5.3)
   - BoringSSL-GRPC (0.0.7):
     - BoringSSL-GRPC/Implementation (= 0.0.7)
     - BoringSSL-GRPC/Interface (= 0.0.7)
@@ -366,6 +367,7 @@ PODS:
   - youtube-ios-player-helper (1.0.3)
 
 DEPENDENCIES:
+  - AMPopTip
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Database
@@ -379,6 +381,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - AMPopTip
     - BoringSSL-GRPC
     - Firebase
     - FirebaseAnalytics
@@ -406,6 +409,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
+  AMPopTip: 77eef4793d50709bef83825b72da4f501263b91d
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   Firebase: d59ad4129167f9f0d2a4f6c1f0c462254b6002c8
   FirebaseAnalytics: 3b98b563d7d64c07900511198b4805cfd9f9f61c
@@ -431,6 +435,6 @@ SPEC CHECKSUMS:
   UPCarouselFlowLayout: 4c7d2c43a10ebb1597bde502a53699d378341dad
   youtube-ios-player-helper: 0185c57db23c80d63d6ca11251d110abb8a4ca61
 
-PODFILE CHECKSUM: 686c09f3ec2e96f8301600b7c31e8006c676fd33
+PODFILE CHECKSUM: 61e1b82cfb798618b24fa27808d57449b93e5fed
 
 COCOAPODS: 1.10.1

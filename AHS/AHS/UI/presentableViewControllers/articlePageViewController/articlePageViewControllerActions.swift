@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AMPopTip
 
 extension articlePageViewController{
     @objc internal func handleRefresh(){
@@ -86,6 +87,19 @@ extension articlePageViewController{
         
         self.present(vc, animated: true);
         
+    }
+    
+    @objc internal func showFontPopup(_ button: UIButton){
+        
+        /*let popupView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 200));
+        
+        popupView.backgroundColor = InverseBackgroundColor;
+        
+        //
+        
+        let popTip = PopTip();
+        popTip.show(customView: popupView, direction: .down, in: topBarView, from: button.frame);
+        */
     }
     
 }
