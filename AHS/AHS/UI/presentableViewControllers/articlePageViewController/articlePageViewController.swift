@@ -8,8 +8,9 @@
 import Foundation
 import UIKit
 import UPCarouselFlowLayout
+import AMPopTip
 
-class articlePageViewController : presentableViewController{
+class articlePageViewController : presentableViewController, UIScrollViewDelegate{
     
     public var articleID : String = "";
     internal var articledata: fullArticleData = fullArticleData();
@@ -23,6 +24,8 @@ class articlePageViewController : presentableViewController{
     internal let topBarCategoryButtonLabel = UIButton();
     internal let topBarView : UIView = UIView();
     
+    internal let fontSliderPopTip : PopTip = PopTip();
+    
     internal let mediaCollectionViewLayout = UPCarouselFlowLayout();
     internal var mediaCollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewLayout());
     
@@ -35,6 +38,12 @@ class articlePageViewController : presentableViewController{
         if (!articleID.isEmpty){
             dataManager.incrementArticleView(articleID);
         }
+        
+        //
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tappedAroundHandler));
+        tapGestureRecognizer.cancelsTouchesInView = false;
+        scrollView.addGestureRecognizer(tapGestureRecognizer);
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -144,10 +153,6 @@ class articlePageViewController : presentableViewController{
         
         //
         
-        self.view.addSubview(topBarView);
-        
-        //
-        
         scrollView.frame = CGRect(x: 0, y: topBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - topBarView.frame.maxY);
         self.view.addSubview(scrollView);
         
@@ -155,8 +160,14 @@ class articlePageViewController : presentableViewController{
         scrollView.alwaysBounceVertical = true;
         scrollView.showsVerticalScrollIndicator = true;
         
+        scrollView.delegate = self;
+        
         refreshControl.addTarget(self, action: #selector(self.handleRefresh), for: .valueChanged)
         scrollView.addSubview(refreshControl);
+        
+        //
+        
+        self.view.addSubview(topBarView);
         
     }
     

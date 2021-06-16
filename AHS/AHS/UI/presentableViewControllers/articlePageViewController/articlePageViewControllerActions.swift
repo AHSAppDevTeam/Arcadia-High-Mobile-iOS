@@ -91,15 +91,32 @@ extension articlePageViewController{
     
     @objc internal func showFontPopup(_ button: UIButton){
         
-        /*let popupView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 200));
+        if (!fontSliderPopTip.isVisible){
+            
+            let popupViewWidth = self.view.frame.width * 0.6;
+            let popupView = UIView(frame: CGRect(x: 0, y: 0, width: popupViewWidth, height: popupViewWidth * 0.1));
+            
+            popupView.backgroundColor = BackgroundColor;
+            
+            //
+            
+            fontSliderPopTip.bubbleColor = BackgroundColor;
+            
+            fontSliderPopTip.show(customView: popupView, direction: .down, in: topBarView, from: button.frame);
+            
+        }
+        else{
+            fontSliderPopTip.hide();
+        }
         
-        popupView.backgroundColor = InverseBackgroundColor;
-        
-        //
-        
-        let popTip = PopTip();
-        popTip.show(customView: popupView, direction: .down, in: topBarView, from: button.frame);
-        */
+    }
+    
+    @objc internal func tappedAroundHandler(_ sender: UITapGestureRecognizer){
+        fontSliderPopTip.hide();
+    }
+    
+    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        fontSliderPopTip.hide();
     }
     
 }
