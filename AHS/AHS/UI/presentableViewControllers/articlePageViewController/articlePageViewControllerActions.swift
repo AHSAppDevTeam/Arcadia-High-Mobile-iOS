@@ -141,6 +141,15 @@ extension articlePageViewController{
             fontSliderPopTip.shouldDismissOnSwipeOutside = true;
             fontSliderPopTip.shouldDismissOnTapOutside = true;
             
+            fontSliderPopTip.tag = 0;
+            
+            fontSliderPopTip.dismissHandler = { (popTip) in
+                if (popTip.tag == 1){
+                    self.handleRefresh();
+                    popTip.tag = 0;
+                }
+            };
+            
             fontSliderPopTip.show(customView: popupView, direction: .down, in: self.view, from: CGRect(x: button.center.x, y: topBarView.frame.maxY, width: 0, height: 0));
             
         }
@@ -159,6 +168,8 @@ extension articlePageViewController{
         let fontSize = Int(slider.value);
         fontLabel.text = String(fontSize);
         dataManager.preferencesStruct.fontSize = fontSize;
+        
+        fontSliderPopTip.tag = 1;
     }
     
 }

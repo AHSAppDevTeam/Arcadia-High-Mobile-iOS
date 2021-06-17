@@ -184,6 +184,8 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         let verticalPadding : CGFloat = 10;
         let contentWidth = self.view.frame.width - 2*horizontalPadding;
         
+        let fontSize = CGFloat(dataManager.preferencesStruct.fontSize);
+        
         //
         
         if (articledata.imageURLs.count + articledata.videoIDs.count > 0){
@@ -219,7 +221,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         if (!articledata.baseData.title.isEmpty){
             
             let titleLabelText = articleData.baseData.title;
-            let titleLabelFont = UIFont(name: SFProDisplay_Bold, size: self.view.frame.width * 0.07)!;
+            let titleLabelFont = UIFont(name: SFProDisplay_Bold, size: fontSize + 10)!;
             let titleLabelHeight = titleLabelText.height(withConstrainedWidth: contentWidth, font: titleLabelFont);
             let titleLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: titleLabelHeight);
             let titleLabel = UILabel(frame: titleLabelFrame);
@@ -241,7 +243,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         if (!articledata.author.isEmpty){
             
             let authorLabelText = articleData.author;
-            let authorLabelFont = UIFont(name: SFProDisplay_Regular, size: self.view.frame.width * 0.05)!;
+            let authorLabelFont = UIFont(name: SFProDisplay_Regular, size: fontSize)!;
             let authorLabelHeight = authorLabelText.height(withConstrainedWidth: contentWidth, font: authorLabelFont);
             let authorLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: authorLabelHeight);
             let authorLabel = UILabel(frame: authorLabelFrame);
@@ -262,7 +264,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         if (!articledata.body.isEmpty){
             
-            let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: self.view.frame.width * 0.05)!;
+            let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: fontSize)!;
             let bodyLabelText = htmlFunctions.parseHTML(articleData.body, bodyLabelFont);
             let bodyLabelHeight = bodyLabelText.height(containerWidth: contentWidth);
             let bodyLabelFrame = CGRect(x: horizontalPadding, y: nextContentY, width: contentWidth, height: bodyLabelHeight);
