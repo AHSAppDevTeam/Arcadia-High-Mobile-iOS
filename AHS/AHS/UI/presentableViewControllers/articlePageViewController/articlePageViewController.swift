@@ -101,6 +101,8 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         topBarBookmarkButton.addTarget(self, action: #selector(self.toggleBookmark), for: .touchUpInside);
         
+        self.updateBookmarkButtonAppearance(topBarBookmarkButton);
+        
         topBarView.addSubview(topBarBookmarkButton);
         
         //

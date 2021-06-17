@@ -47,15 +47,30 @@ extension articlePageViewController{
         
     }
     
-    @objc internal func toggleBookmark(_ button: UIButton){
+    @objc internal func toggleBookmark(_ bookmarkButton: UIButton){
         
-        button.isSelected = !button.isSelected;
+        bookmarkButton.isSelected = !bookmarkButton.isSelected;
         
-        if (button.isSelected){
-            button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal);
+        if (bookmarkButton.isSelected){
+            dataManager.saveArticle(self.articledata);
         }
         else{
-            button.setImage(UIImage(systemName: "bookmark"), for: .normal);
+            dataManager.unsaveArticle(self.articleID);
+        }
+        
+        self.updateBookmarkButtonAppearance(bookmarkButton);
+        
+    }
+    
+    @objc internal func updateBookmarkButtonAppearance(_ bookmarkButton: UIButton){
+        
+        if (dataManager.isArticleSaved(self.articleID)){
+            bookmarkButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal);
+            bookmarkButton.isSelected = true;
+        }
+        else{
+            bookmarkButton.setImage(UIImage(systemName: "bookmark"), for: .normal);
+            bookmarkButton.isSelected = false;
         }
         
     }
