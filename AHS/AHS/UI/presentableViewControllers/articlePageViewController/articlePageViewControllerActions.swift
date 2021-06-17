@@ -94,15 +94,54 @@ extension articlePageViewController{
         if (!fontSliderPopTip.isVisible){
             
             let popupViewWidth = self.view.frame.width * 0.6;
-            let popupView = UIView(frame: CGRect(x: 0, y: 0, width: popupViewWidth, height: popupViewWidth * 0.1));
+            let popupView = UIView(frame: CGRect(x: 0, y: 0, width: popupViewWidth, height: popupViewWidth * 0.11));
+            
+            let popupViewContentHorizontalPadding : CGFloat = 5;
             
             popupView.backgroundColor = BackgroundColor;
             
             //
             
-            fontSliderPopTip.bubbleColor = BackgroundColor;
+            fontLabel = UILabel();
+            popupView.addSubview(fontLabel);
             
-            fontSliderPopTip.show(customView: popupView, direction: .down, in: topBarView, from: button.frame);
+            fontLabel.translatesAutoresizingMaskIntoConstraints = false;
+            fontLabel.topAnchor.constraint(equalTo: popupView.topAnchor).isActive = true;
+            fontLabel.trailingAnchor.constraint(equalTo: popupView.trailingAnchor, constant: -popupViewContentHorizontalPadding).isActive = true;
+            fontLabel.bottomAnchor.constraint(equalTo: popupView.bottomAnchor).isActive = true;
+            
+            fontLabel.textAlignment = .center;
+            fontLabel.font = UIFont(name: SFProDisplay_Regular, size: popupView.frame.height * 0.8);
+            fontLabel.textColor = InverseBackgroundColor;
+            fontLabel.text = String(dataManager.preferencesStruct.fontSize);
+            
+            //
+            
+            let fontSliderView = UISlider();
+            popupView.addSubview(fontSliderView);
+            
+            fontSliderView.translatesAutoresizingMaskIntoConstraints = false;
+            fontSliderView.leadingAnchor.constraint(equalTo: popupView.leadingAnchor).isActive = true;
+            fontSliderView.topAnchor.constraint(equalTo: popupView.topAnchor).isActive = true;
+            fontSliderView.bottomAnchor.constraint(equalTo: popupView.bottomAnchor).isActive = true;
+            fontSliderView.trailingAnchor.constraint(equalTo: fontLabel.leadingAnchor, constant: -popupViewContentHorizontalPadding).isActive = true;
+            
+            fontSliderView.maximumValue = 50;
+            fontSliderView.minimumValue = 1;
+            
+            fontSliderView.value = Float(dataManager.preferencesStruct.fontSize);
+            
+            fontSliderView.addTarget(self, action: #selector(self.fontSliderValueChanged), for: .valueChanged);
+            
+            //
+            
+            fontSliderPopTip.bubbleColor = BackgroundColor;
+            //fontSliderPopTip.isRounded = true;
+            fontSliderPopTip.shouldDismissOnTap = false;
+            fontSliderPopTip.shouldDismissOnSwipeOutside = true;
+            fontSliderPopTip.shouldDismissOnTapOutside = true;
+            
+            fontSliderPopTip.show(customView: popupView, direction: .down, in: self.view, from: CGRect(x: button.center.x, y: topBarView.frame.maxY, width: 0, height: 0));
             
         }
         else{
@@ -111,12 +150,15 @@ extension articlePageViewController{
         
     }
     
-    @objc internal func tappedAroundHandler(_ sender: UITapGestureRecognizer){
+    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
         fontSliderPopTip.hide();
     }
     
-    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        fontSliderPopTip.hide();
+    @objc internal func fontSliderValueChanged(_ slider: UISlider){
+        //print(slider.value);
+        let fontSize = Int(slider.value);
+        fontLabel.text = String(fontSize);
+        dataManager.preferencesStruct.fontSize = fontSize;
     }
     
 }

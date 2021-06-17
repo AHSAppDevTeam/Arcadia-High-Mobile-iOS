@@ -23,6 +23,13 @@ class dataManager{
     
     static internal var isPresentingPopup = false;
     
+    static internal let preferencesKey = "preferencesKey";
+    static internal var preferencesStruct = appUserPreferences();
+    static internal let jsonEncoder = JSONEncoder();
+    static internal let jsonDecoder = JSONDecoder();
+    
+    //
+    
     static public func setupConnection(){
         if (Reachability.isConnectedToNetwork()){
             internetConnected = true;

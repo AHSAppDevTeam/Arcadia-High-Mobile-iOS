@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure();
         dataManager.setupConnection();
         dataManager.preloadCategoryData();
+        dataManager.loadPreferences();
         return true
     }
 

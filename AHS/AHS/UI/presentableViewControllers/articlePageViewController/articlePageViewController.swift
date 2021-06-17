@@ -25,12 +25,15 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
     internal let topBarView : UIView = UIView();
     
     internal let fontSliderPopTip : PopTip = PopTip();
+    internal var fontLabel : UILabel = UILabel();
     
     internal let mediaCollectionViewLayout = UPCarouselFlowLayout();
     internal var mediaCollectionView = UICollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewLayout());
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        setupPanGesture();
     
         renderUI();
         loadArticleData();
@@ -39,11 +42,6 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
             dataManager.incrementArticleView(articleID);
         }
         
-        //
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tappedAroundHandler));
-        tapGestureRecognizer.cancelsTouchesInView = false;
-        scrollView.addGestureRecognizer(tapGestureRecognizer);
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -56,7 +54,6 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
     internal func renderUI(){
         
         self.view.backgroundColor = BackgroundColor;
-        setupPanGesture();
         
         //
         
