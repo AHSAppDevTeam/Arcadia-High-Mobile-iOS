@@ -52,7 +52,7 @@ extension articlePageViewController{
         bookmarkButton.isSelected = !bookmarkButton.isSelected;
         
         if (bookmarkButton.isSelected){
-            dataManager.saveArticle(self.articledata);
+            dataManager.saveArticle(self.articledata ?? fullArticleData());
         }
         else{
             dataManager.unsaveArticle(self.articleID);

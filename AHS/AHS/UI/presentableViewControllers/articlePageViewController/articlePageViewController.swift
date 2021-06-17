@@ -13,7 +13,7 @@ import AMPopTip
 class articlePageViewController : presentableViewController, UIScrollViewDelegate{
     
     public var articleID : String = "";
-    internal var articledata: fullArticleData = fullArticleData();
+    public var articledata: fullArticleData? = nil;
     
     internal var nextContentY : CGFloat = 0;
     internal var userInterfaceStyle : UIUserInterfaceStyle = .unspecified;
@@ -36,7 +36,13 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         setupPanGesture();
     
         renderUI();
-        loadArticleData();
+        
+        if (articledata == nil){
+            loadArticleData();
+        }
+        else{
+            renderArticle(articledata!);
+        }
         
         if (!articleID.isEmpty){
             dataManager.incrementArticleView(articleID);
@@ -190,7 +196,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         //
         
-        if (articledata.imageURLs.count + articledata.videoIDs.count > 0){
+        if (articleData.imageURLs.count + articleData.videoIDs.count > 0){
             
             let mediaCollectionViewWidth = self.view.frame.width;
             let mediaCollectionViewHeight = mediaCollectionViewWidth * 0.65;
@@ -220,7 +226,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         //
         
-        if (!articledata.baseData.title.isEmpty){
+        if (!articleData.baseData.title.isEmpty){
             
             let titleLabelText = articleData.baseData.title;
             let titleLabelFont = UIFont(name: SFProDisplay_Bold, size: fontSize + 10)!;
@@ -242,7 +248,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         //
         
-        if (!articledata.author.isEmpty){
+        if (!articleData.author.isEmpty){
             
             let authorLabelText = articleData.author;
             let authorLabelFont = UIFont(name: SFProDisplay_Regular, size: fontSize)!;
@@ -264,7 +270,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         //
         
-        if (!articledata.body.isEmpty){
+        if (!articleData.body.isEmpty){
             
             let bodyLabelFont = UIFont(name: SFProDisplay_Regular, size: fontSize)!;
             let bodyLabelText = htmlFunctions.parseHTML(articleData.body, bodyLabelFont);
@@ -305,7 +311,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         categoryButton.titleEdgeInsets = UIEdgeInsets(top: categoryButtonInnerButtonEdgeInsets, left: categoryButtonInnerButtonEdgeInsets, bottom: categoryButtonInnerButtonEdgeInsets, right: categoryButtonInnerButtonEdgeInsets);
         
         categoryButton.tag = 1;
-        categoryButton.categoryID = articledata.baseData.categoryID;
+        categoryButton.categoryID = articleData.baseData.categoryID;
         categoryButton.addTarget(self, action: #selector(self.openCategoryPage), for: .touchUpInside);
         scrollView.addSubview(categoryButton);
         nextContentY += categoryButton.frame.height + 3*verticalPadding;
@@ -318,7 +324,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         articleViewLabel.font = UIFont(name: SFProDisplay_Regular, size: articleViewLabel.frame.height * 0.8);
         articleViewLabel.textAlignment = .left;
         articleViewLabel.textColor = InverseBackgroundGrayColor;
-        articleViewLabel.text = String(articledata.views) + " views";
+        articleViewLabel.text = String(articleData.views) + " views";
         
         articleViewLabel.tag = 1;
         scrollView.addSubview(articleViewLabel);
@@ -326,7 +332,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         //
         
-        for relatedArticleID in articledata.relatedArticleIDs{
+        for relatedArticleID in articleData.relatedArticleIDs{
             
             let relatedArticleViewFrameWidth = self.view.frame.width - 2*horizontalPadding;
             let relatedArticleViewFrame = CGRect(x: horizontalPadding, y: nextContentY, width: relatedArticleViewFrameWidth, height: relatedArticleViewFrameWidth * 0.3);
@@ -557,19 +563,29 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
 extension articlePageViewController : UICollectionViewDelegate, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return articledata.imageURLs.count + articledata.videoIDs.count;
+        
+        guard let articleData = articledata else {
+            return 0;
+        }
+        
+        return articleData.imageURLs.count + articleData.videoIDs.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let articleData = articledata else{
+            return UICollectionViewCell();
+        }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: mediaCollectionViewCell.identifier, for: indexPath) as! mediaCollectionViewCell;
         let index = indexPath.row;
         
-        if (index < articledata.imageURLs.count + articledata.videoIDs.count){
-            if (index < articledata.videoIDs.count){
-                cell.loadVideo(articledata.videoIDs[index]);
+        if (index < articleData.imageURLs.count + articleData.videoIDs.count){
+            if (index < articleData.videoIDs.count){
+                cell.loadVideo(articleData.videoIDs[index]);
             }
             else{
-                cell.loadImage(articledata.imageURLs[index - articledata.videoIDs.count]);
+                cell.loadImage(articleData.imageURLs[index - articleData.videoIDs.count]);
             }
         }
         
@@ -577,9 +593,14 @@ extension articlePageViewController : UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard let articleData = articledata else{
+            return;
+        }
+        
         let index = indexPath.row;
         
-        if (index < articledata.imageURLs.count + articledata.videoIDs.count && index >= articledata.videoIDs.count){
+        if (index < articleData.imageURLs.count + articleData.videoIDs.count && index >= articleData.videoIDs.count){
 
             let imageVC = zoomableImageViewController();
             
