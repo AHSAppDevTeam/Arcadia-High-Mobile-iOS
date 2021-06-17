@@ -81,6 +81,26 @@ extension UIColor{
         )
     }
     
+    // https://stackoverflow.com/a/28532880
+    
+    var coreImageColor: CIColor {
+        return CIColor(color: self)
+    }
+    var components: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
+        let coreImageColor = self.coreImageColor
+        return (coreImageColor.red, coreImageColor.green, coreImageColor.blue, coreImageColor.alpha)
+    }
+    
+    public func getHex() -> String{
+        let colorComponents = self.components;
+        
+        let r = Int(colorComponents.red * 255);
+        let g = Int(colorComponents.green * 255);
+        let b = Int(colorComponents.blue * 255);
+        
+        return "#\(String(r, radix: 16))\(String(g, radix: 16))\(String(b, radix: 16))";
+    }
+    
 }
 
 extension UITextView {

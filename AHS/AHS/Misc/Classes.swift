@@ -107,3 +107,17 @@ final public class Reachability {
 
     }
 }
+
+final class Color: UIColor, Codable { // https://stackoverflow.com/a/53712187
+    convenience init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let hexString = try container.decode(String.self)
+        self.init(hex: hexString)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer();
+        try container.encode(self.getHex());
+    }
+}
+

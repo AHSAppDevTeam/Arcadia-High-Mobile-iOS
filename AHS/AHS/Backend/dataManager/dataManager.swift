@@ -25,6 +25,7 @@ class dataManager{
     
     static internal let preferencesKey = "preferencesKey";
     static internal var preferencesStruct = appUserPreferences();
+    
     static internal let jsonEncoder = JSONEncoder();
     static internal let jsonDecoder = JSONDecoder();
     

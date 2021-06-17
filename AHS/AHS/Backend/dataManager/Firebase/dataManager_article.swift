@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 
-struct fullArticleData{
+struct fullArticleData : Codable{
     var author : String = "";
     var body : String = "";
     
@@ -26,7 +26,7 @@ struct fullArticleData{
     var baseData : baseArticleData = baseArticleData();
 }
 
-struct baseArticleData{
+struct baseArticleData : Codable{
     var isValid : Bool = false;
     
     var articleID : String = "";
@@ -35,7 +35,7 @@ struct baseArticleData{
     var title : String = "";
     
     var timestamp : Int64 = 0;
-    var color : UIColor? = nil;
+    var color : Color? = nil;
     
     var thumbURLs : [String] = [];
 }
@@ -103,7 +103,7 @@ extension dataManager{
                     data.thumbURLs = dataDict?["thumbURLs"] as? [String] ?? [];
                     
                     if let hex = dataDict?["color"] as? String{
-                        data.color = UIColor.init(hex: hex);
+                        data.color = Color.init(hex: hex);
                     }
                     
                 }

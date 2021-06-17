@@ -22,7 +22,11 @@ extension dataManager{
             }
         }
         
-        
+        var savedArticlesDict : [String : fullArticleData] = [:]{
+            didSet{
+                dataManager.savePreferences();
+            }
+        }
         
     }
     
