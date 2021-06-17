@@ -14,7 +14,7 @@
 
   //   let navigation = UINavigationController(rootViewController: profilePageViewController())
      
-
+    internal var transitionDelegateVar : transitionDelegate!;
 
      var infoButtonTitlesArray = ["About Us", "App Version", "Terms and Agreements"]
 
@@ -94,7 +94,7 @@
      // Sets up Schedule button
      lazy var Schedule: UIButton = {
          let button = UIButton(type: .system)
-         button.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+         button.backgroundColor = .clear
          button.setTitle("Schedule", for: .normal)
          button.titleLabel?.font = UIFont(name: SFProDisplay_Bold, size: 18)
          button.setTitleColor(InverseBackgroundColor, for: .normal)
@@ -189,9 +189,9 @@
 
          //The items are made in order of top to bottom so that they can have constraints to the item above them.
          
-         let optionsTextLabel2 = UILabel()
-         optionsTextLabel2.frame = CGRect(x: 30, y: 30, width: 300, height: 200)
-         scrollView.addSubview(optionsTextLabel2)
+         let optionsTextLabel2 = UITextField()
+         optionsTextLabel2.frame = CGRect(x: 32, y: 30, width: 300, height: 200)
+        scrollView.addSubview(optionsTextLabel2)
          scrollView.translatesAutoresizingMaskIntoConstraints = false
          optionsTextLabel2.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 1000).isActive = true
          optionsTextLabel2.textAlignment = NSTextAlignment.justified
@@ -199,8 +199,10 @@
          optionsTextLabel2.text = " Name\nLast Name"
          optionsTextLabel2.backgroundColor = .red
          optionsTextLabel2.font = UIFont.boldSystemFont(ofSize: 30)
-         optionsTextLabel2.layer.cornerRadius = 15
+         optionsTextLabel2.layer.cornerRadius = 6
 
+        
+        
 
          scrollView.addSubview(Schedule)
          Schedule.translatesAutoresizingMaskIntoConstraints = false
@@ -209,16 +211,38 @@
          Schedule.topAnchor.constraint(equalTo: optionsTextLabel2.bottomAnchor, constant: 10).isActive = true
          Schedule.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -80).isActive = true
 
-         Schedule.addTarget(self, action: #selector(didTapSchedule), for: .touchUpInside)
+         Schedule.addTarget(self, action: #selector(didTapScheduleButton), for: .touchUpInside)
 
+         
+        let schedile = UILabel()
+        schedile.text = "Schedule"
+        schedile.frame = CGRect(x: 10, y: 0, width: 140, height: 55)
+        schedile.textColor = .white
+        
 
+        
+         
+        let ScheduleBackGround = CAGradientLayer()
+        ScheduleBackGround.colors = [UIColor(hex: "#70afb4").cgColor, UIColor(hex: "#167e96").cgColor]
+        CAGradientLayer().cornerRadius = 13
+       ScheduleBackGround.startPoint = CGPoint(x: 0.0, y: 1.0)
+       ScheduleBackGround.endPoint = CGPoint(x: 1.0, y: 1.0)
+       ScheduleBackGround.frame = CGRect(x: 0, y: 0, width: 140, height: 55)
+       Schedule.layer.addSublayer(ScheduleBackGround)
+       Schedule.addSubview(schedile)
+        
+        
+        
+        
          scrollView.addSubview(Payment)
+        
          Payment.translatesAutoresizingMaskIntoConstraints = false
          Payment.heightAnchor.constraint(equalToConstant: 55).isActive = true
          Payment.widthAnchor.constraint(equalToConstant: 140).isActive = true
          Payment.topAnchor.constraint(equalTo: optionsTextLabel2.bottomAnchor, constant: 10).isActive = true
          Payment.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 80).isActive = true
 
+        Payment.addTarget(self, action: #selector(didTapPaymentButton), for: .touchUpInside)
 
          scrollView.addSubview(PeriodTime)
          PeriodTime.translatesAutoresizingMaskIntoConstraints = false
@@ -246,7 +270,8 @@
          Notifications.widthAnchor.constraint(equalToConstant: 380).isActive = true
          Notifications.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
          Notifications.topAnchor.constraint(equalTo: optionsTextLabel.bottomAnchor).isActive = true
-
+        Notifications.addTarget(self, action: #selector(didTapNotificationsButton), for: .touchUpInside)
+        
 
          let ThemeModeTextLabel = UILabel()
          ThemeModeTextLabel.frame = CGRect(x: 30, y: 250, width: 150, height: 35)
@@ -308,12 +333,48 @@
 
      //Open Schedule Page
      
-     @objc private func didTapSchedule(){
+     @objc private func didTapScheduleButton(){
 
         //self.navigationController?.pushViewController(schedulePage(), animated: true)
+        
+        
+        let vc = schedulePageViewController();
+        transitionDelegateVar = transitionDelegate();
+        vc.transitioningDelegate = transitionDelegateVar;
+        vc.modalPresentationStyle = .custom;
+        
+        
+        self.present(vc, animated: true);
+        
+        print("tap schedule")
+
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: schedulePageNotification), object: nil);
+
         
      }
+    
+    @objc private func didTapPaymentButton(){
+
+       //self.navigationController?.pushViewController(schedulePage(), animated: true)
+       
+       
+       let vc = paymentPage();
+       transitionDelegateVar = transitionDelegate();
+       vc.transitioningDelegate = transitionDelegateVar;
+       vc.modalPresentationStyle = .custom;
+       
+       
+       self.present(vc, animated: true);
+       
+       print("tap payment")
+       
+    }
+    
+    @objc private func didTapNotificationsButton(){
+        
+        
+    }
+     
 
  }
 
@@ -327,8 +388,36 @@
         let cell = tableView.dequeueReusableCell(withIdentifier: infoTableViewCell.identifier, for: indexPath) as! infoTableViewCell;
         cell.buttonTitle.text = infoButtonTitlesArray[indexPath.row]
         cell.textLabel?.text = "\(indexPath.row)"
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row = indexPath.row
+        print(row)
+        var vc = UIViewController()
+        if row == 0 {
+             vc = aboutUsPage();
+        }
+        else if row == 1 {
+             vc = AppVersionPage();
+        }
+        else {
+             vc = TermsAndAgreementsPage();
+        }
+        
+        
+        transitionDelegateVar = transitionDelegate();
+        vc.transitioningDelegate = transitionDelegateVar;
+        vc.modalPresentationStyle = .custom;
+        
+        
+        self.present(vc, animated: true);
+        
+        print("tap schedule")
+    }
+        
+    
 
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
          return 50
