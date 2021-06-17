@@ -34,8 +34,9 @@ After cloning, you must reinstall CocoaPods due to location issues across differ
 Run these commands in order:
 1. `cd .../AHS/AHS/`
 2. `pod deintegrate`
-3. `pod clean`
-4. `pod install`
+3. `pod install`
+4. `cd ../`
+5. `git update-index --assume-unchanged AHS.xcodeproj/project.pbxproj`
 
 This should regenerate the project file to suit your specific system.
 
