@@ -1,14 +1,14 @@
 //
-//  schedulePage.swift
+//  TermsAndAgreementsPage.swift
 //  AHS
 //
-//  Created by McMahon Family on 6/17/21.
+//  Created by McMahon Family on 6/14/21.
 //
 
 import UIKit
 
-class schedulePageViewController: presentableViewController {
-
+class termsAndAgreementsPageViewController: presentableViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

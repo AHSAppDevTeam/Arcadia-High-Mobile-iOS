@@ -28,10 +28,6 @@ extension navigationViewController{
         }
     }
     
-    @objc func openNotificationPage(_ sender: UIButton){
-        print("open notifications page");
-    }
-    
     @objc func openArticlePage(_ notification: NSNotification){
         guard let dict = notification.userInfo as NSDictionary? else{
             return;
@@ -46,14 +42,7 @@ extension navigationViewController{
        
         openPresentablePage(vc);
     }
-    
-    @objc func openSchedulePage(_ notification: NSNotification){
-        
-        let vc = schedulePageViewController();
-        
-        openPresentablePage(vc);
-    }
-    
+
     @objc func openCategoryPage(_ notification: NSNotification){
         guard let dict = notification.userInfo as NSDictionary? else{
             return;

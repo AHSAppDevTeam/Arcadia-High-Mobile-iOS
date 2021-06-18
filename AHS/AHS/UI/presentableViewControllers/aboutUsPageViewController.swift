@@ -1,14 +1,14 @@
 //
-//  schedulePage.swift
+//  aboutUsPage.swift
 //  AHS
 //
-//  Created by McMahon Family on 6/17/21.
+//  Created by McMahon Family on 6/14/21.
 //
 
 import UIKit
 
-class schedulePageViewController: presentableViewController {
-
+class aboutUsPageViewController: presentableViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -1,14 +1,14 @@
 //
-//  schedulePage.swift
+//  notificationSettingsPageViewController.swift
 //  AHS
 //
-//  Created by McMahon Family on 6/17/21.
+//  Created by McMahon Family on 6/14/21.
 //
 
 import UIKit
 
-class schedulePageViewController: presentableViewController {
-
+class notificationSettingsPageViewController: presentableViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,5 +18,6 @@ class schedulePageViewController: presentableViewController {
         // Do any additional setup after loading the view.
         
     }
+ 
  
 }

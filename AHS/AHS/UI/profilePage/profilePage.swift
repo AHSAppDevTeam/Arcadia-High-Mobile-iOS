@@ -334,47 +334,25 @@
      //Open Schedule Page
      
      @objc private func didTapScheduleButton(){
-
-        //self.navigationController?.pushViewController(schedulePage(), animated: true)
-        
-        
-        let vc = schedulePageViewController();
+        openPresentablePage(schedulePageViewController());
+     }
+    
+    @objc private func didTapPaymentButton(){
+        openPresentablePage(paymentPageViewController());
+    }
+    
+    @objc private func didTapNotificationsButton(){
+        openPresentablePage(notificationSettingsPageViewController());
+    }
+     
+    
+    private func openPresentablePage(_ vc: presentableViewController){
         transitionDelegateVar = transitionDelegate();
         vc.transitioningDelegate = transitionDelegateVar;
         vc.modalPresentationStyle = .custom;
         
-        
         self.present(vc, animated: true);
-        
-        print("tap schedule")
-
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: schedulePageNotification), object: nil);
-
-        
-     }
-    
-    @objc private func didTapPaymentButton(){
-
-       //self.navigationController?.pushViewController(schedulePage(), animated: true)
-       
-       
-       let vc = paymentPage();
-       transitionDelegateVar = transitionDelegate();
-       vc.transitioningDelegate = transitionDelegateVar;
-       vc.modalPresentationStyle = .custom;
-       
-       
-       self.present(vc, animated: true);
-       
-       print("tap payment")
-       
     }
-    
-    @objc private func didTapNotificationsButton(){
-        
-        
-    }
-     
 
  }
 
@@ -395,26 +373,30 @@
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = indexPath.row
         print(row)
-        var vc = UIViewController()
-        if row == 0 {
-             vc = aboutUsPage();
-        }
-        else if row == 1 {
-             vc = AppVersionPage();
-        }
-        else {
-             vc = TermsAndAgreementsPage();
+        var vc : UIViewController? = nil;
+        
+        switch row {
+        case 0:
+            vc = aboutUsPageViewController();
+        case 2:
+            vc = termsAndAgreementsPageViewController();
+        default:
+            vc = nil;
         }
         
+        // case 1 was removed because we don't need an entire page for the app verison. You can just have a label that tells the app version instead.
+        
+        guard let presentedVC = vc else{
+            return;
+        }
         
         transitionDelegateVar = transitionDelegate();
-        vc.transitioningDelegate = transitionDelegateVar;
-        vc.modalPresentationStyle = .custom;
+        presentedVC.transitioningDelegate = transitionDelegateVar;
+        presentedVC.modalPresentationStyle = .custom;
         
         
-        self.present(vc, animated: true);
+        self.present(presentedVC, animated: true);
         
-        print("tap schedule")
     }
         
     

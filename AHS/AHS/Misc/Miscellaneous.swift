@@ -46,7 +46,6 @@ let homePageHorizontalPadding = AppUtility.getCurrentScreenSize().width / 20;
 
 // Notification Center Macros
 let articlePageNotification = "articlePageNotification";
-let schedulePageNotification = "schedulePageNotification";
 let categoryPageNotification = "categoryPageNotification";
 
 let setScrollViewZeroContentOffset = "setScrollViewZeroContentOffset";
