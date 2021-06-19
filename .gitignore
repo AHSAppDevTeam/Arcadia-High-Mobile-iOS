@@ -2,7 +2,7 @@
 *.xcuserstate
 AHS/AHS/GoogleService-Info.plist
 *.xcworkspacedata
-AHS/AHS.xcodeproj/project.pbxproj
-AHS/AHS.xcworkspace/xcuserdata/*
-AHS/AHS.xcodeproj/xcuserdata/*
-AHS/Pods/Pods.xcodeproj/xcuserdata/*
+*.xcodeproj
+*.xcworkspace
+Podfile.lock
+Pods
