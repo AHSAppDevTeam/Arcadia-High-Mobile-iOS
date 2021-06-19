@@ -53,4 +53,6 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
  - Now, make a selection for a team. Select "Arcadia Unified School District"
  
  You should now be all set up and ready to compile the app!
+ 
+ Tip: if you pull a commit that has either added or deleted a file and that file change is not shown in xcode, all you have to do is rerun `xcodegen` again. However, make sure you are in this directory: `.../Arcadia-High-Mobile-iOS/AHS/`.
 
