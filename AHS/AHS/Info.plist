@@ -2,20 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SFCompactDisplay-Light.otf</string>
-		<string>NewYorkMedium-Bold.otf</string>
-		<string>NewYorkSmall-MediumItalic.otf</string>
-		<string>SFProDisplay-Medium.ttf</string>
-		<string>SFProDisplay-Black.ttf</string>
-		<string>SFProDisplay-Bold.ttf</string>
-		<string>SFProDisplay-Light.ttf</string>
-		<string>SFProDisplay-Regular.ttf</string>
-		<string>SFProDisplay-Semibold.ttf</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -34,6 +20,18 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SFCompactDisplay-Light.otf</string>
+		<string>NewYorkMedium-Bold.otf</string>
+		<string>NewYorkSmall-MediumItalic.otf</string>
+		<string>SFProDisplay-Medium.ttf</string>
+		<string>SFProDisplay-Black.ttf</string>
+		<string>SFProDisplay-Bold.ttf</string>
+		<string>SFProDisplay-Light.ttf</string>
+		<string>SFProDisplay-Regular.ttf</string>
+		<string>SFProDisplay-Semibold.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -72,5 +70,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
 </dict>
 </plist>

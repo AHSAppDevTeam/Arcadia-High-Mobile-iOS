@@ -3,12 +3,11 @@
 The official source code for Arcadia High Mobile (avaliable on the Apple app store). Includes source code for the iOS version of the app. 
 The purpose of AHS App Dev Team is to drive a culture where students can collaborate to produce application(s) that would revolutionize the way that the community stays connected.
 
-Languages used for iOS include - Swift/Obj C
+Languages used for iOS include - Swift/Obj-C
 
 Contact us at: hsappdev@students.ausd.net
 
----
-Old repository description:
+# Old repository description
 
 I would like to thank everyone who has worked on this app. I would also like to keep a record of team memebers here as well.
 
@@ -22,21 +21,38 @@ Founders: Seongwook Jang (Project Manager), Jason Zhao (Lead Programmer), Tiger 
 
 If there are parts you do not understand, please reach out to us. Thank you!
 
----
 For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam/Arcadia-High-Mobile).
-
----
 
 # XCode setup 
 
-After cloning, you must reinstall CocoaPods due to location issues across different systems.
+ - After cloning, you must generate your own xcode project that will be specific to your computer.
 
-Run these commands in order:
-1. `cd .../AHS/AHS/`
-2. `pod deintegrate`
-3. `pod clean`
-4. `pod install`
+ - Before continuing, you must first make sure you have [Brew](https://brew.sh/) and [Cocoapods](https://cocoapods.org/) installed.
 
-This should regenerate the project file to suit your specific system.
+ - Afterwards, make sure you install [xcodegen](https://github.com/yonaskolb/XcodeGen/) by running this command in the terminal: `brew install xcodegen`.
 
-Now, you might be asking, why not add the file to `.gitignore` if it's different across systems? Well, you need the project file in the first place in order to install CocoaPods at all. Just make sure to not recommit **your** new project file to the repo as that would require everyone else to reinstall CocoaPods.
+ - Now, go to our [Firebase console](https://console.firebase.google.com/) and download the `GoogleService-Info.plist` file from the iOS project.
+
+ - Place the `GoogleService-Info.plist` file inside `.../Arcadia-High-Mobile-iOS/AHS/AHS/`.
+
+ - Next, run these commands in order:
+1. `cd .../Arcadia-High-Mobile-iOS/AHS/`
+2. `xcodegen` (this should generate a `.xcodeproj` file. **DO NOT OPEN IT**)
+3. `pod install` (this should generate a `.xcworkspace`)
+
+ - Now, open the generated `.xcworkspace` file.
+
+ - Make sure to select the `AHS` target on the top bar like this:
+
+![AHS Target image](https://imgur.com/qMvgXym.png)
+
+ - Now, click on the AHS project (as opposed to the Pods project)
+ 
+ - Under the "Signing & Capabilities" tab, make sure to sign into our shared Apple developer account via our Apple ID.
+
+ - Now, make a selection for a team. Select "Arcadia Unified School District"
+ 
+ You should now be all set up and ready to compile the app!
+ 
+ Tip: if you pull a commit that has either added or deleted a file and that file change is not shown in xcode, all you have to do is rerun `xcodegen` and `pod install` again. However, make sure you are in this directory: `.../Arcadia-High-Mobile-iOS/AHS/`.
+

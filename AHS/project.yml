@@ -1,0 +1,17 @@
+name: AHS
+targets:
+    AHS:
+        type: application
+        platform: iOS
+        deploymentTarget: 13.0
+        sources: [AHS]
+        settings:
+            PRODUCT_BUNDLE_IDENTIFIER: com.ArcadiaApaches.ArcadiaHighSchoolApp
+    AHSTests:
+        type: bundle.unit-test
+        platform: iOS
+        sources: [AHSTests]
+    AHSUITests:
+        type: bundle.ui-testing
+        platform: iOS
+        sources: [AHSUITests]
