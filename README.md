@@ -31,6 +31,10 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
 
  - Afterwards, make sure you install [xcodegen](https://github.com/yonaskolb/XcodeGen/) by running this command in the terminal: `brew install xcodegen`.
 
+ - Now, go to our [Firebase console](https://console.firebase.google.com/) and download the `GoogleService-Info.plist` file from the iOS project.
+
+ - Place the `GoogleService-Info.plist` file inside `.../Arcadia-High-Mobile-iOS/AHS/AHS/`.
+
  - Next, run these commands in order:
 1. `cd .../Arcadia-High-Mobile-iOS/AHS/`
 2. `xcodegen` (this should generate a `.xcodeproj` file. **DO NOT OPEN IT**)
