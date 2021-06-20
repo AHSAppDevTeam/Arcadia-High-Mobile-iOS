@@ -98,7 +98,7 @@ class spotlightPageViewController : presentableViewController{
         dismissImageView.contentMode = .scaleAspectFit;
         dismissImageView.image = UIImage(systemName: "chevron.left");
         dismissImageView.backgroundColor = .clear;
-        dismissImageView.tintColor = InverseBackgroundColor;
+        dismissImageView.tintColor = .white;
         
         dismissButton.addSubview(dismissImageView);
         

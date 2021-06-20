@@ -141,7 +141,7 @@ class navigationViewController : UIViewController{
         
         //
         
-        let notificationButtonPadding = CGFloat(10);
+        let notificationButtonPadding : CGFloat = 10;
         let notificationButtonSize = CGFloat(topBarView.frame.height - 2*notificationButtonPadding);
         let notificationButtonFrame =  CGRect(x: topBarView.frame.width - notificationButtonPadding - notificationButtonSize, y: notificationButtonPadding, width: notificationButtonSize, height: notificationButtonSize);
         let notificationButton = UIButton(frame: notificationButtonFrame);
@@ -158,7 +158,7 @@ class navigationViewController : UIViewController{
         
         //
         
-        let titleLabelPadding = CGFloat(10);
+        let titleLabelPadding : CGFloat = 10;
         let titleLabelFrame = CGRect(x: titleLabelPadding, y: 0, width: topBarView.frame.width - (topBarView.frame.width - notificationButton.frame.minX) - 2*titleLabelPadding, height: topBarView.frame.height);
         topBarTitleLabel = UITextView(frame: titleLabelFrame); // We need a container in order to account for multiple labels
         
