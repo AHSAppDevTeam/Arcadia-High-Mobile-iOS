@@ -11,6 +11,16 @@ import SystemConfiguration
 import UIKit
 import GameplayKit
 
+// https://stackoverflow.com/a/26292829
+class UIButtonScrollView : UIScrollView{
+    override func touchesShouldCancel(in view: UIView) -> Bool {
+        if view.isKind(of: UIButton.self) {
+            return true
+        }
+        return super.touchesShouldCancel(in: view)
+    }
+}
+
 class mainPageViewController : UIViewController{ // UIViewController for main pages
     public var pageName : String = "";
     public var secondaryPageName : String = "";

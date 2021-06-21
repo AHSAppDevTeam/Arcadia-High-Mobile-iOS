@@ -24,10 +24,13 @@ class bulletinPageViewController : mainPageViewController{
     //
     
     internal let mainScrollView : UIScrollView = UIScrollView();
+    internal let verticalPadding : CGFloat = 5;
+    internal let horizontalPadding : CGFloat = 10;
     
     internal let refreshControl : UIRefreshControl = UIRefreshControl();
 
-    internal let categoryScrollView : UIScrollView = UIScrollView();
+    internal let categoryScrollView : UIButtonScrollView  = UIButtonScrollView();
+    internal var categoryScrollViewNextContentX : CGFloat = 0;
     
     internal let comingUpLabel : UILabel = UILabel();
     internal let comingUpContentView : UIView = UIView();
@@ -35,6 +38,8 @@ class bulletinPageViewController : mainPageViewController{
     
     internal let bulletinContentView : UIView = UIView();
     internal var bulletinContentViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
+    
+    internal var bulletinArticleIDList : [String] = [];
     
     //
     
@@ -52,9 +57,11 @@ class bulletinPageViewController : mainPageViewController{
             self.view.addSubview(mainScrollView);
             
             mainScrollView.addSubview(refreshControl);
-            refreshControl.addTarget(self, action: #selector(self.refresh), for: .touchUpInside);
+            refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged);
             
-            self.renderLayout();
+            renderLayout();
+            reset();
+            loadBulletinData();
             
             self.hasBeenSetup = true;
         }
@@ -62,9 +69,6 @@ class bulletinPageViewController : mainPageViewController{
     }
     
     internal func renderLayout(){
-        
-        let verticalPadding : CGFloat = 5;
-        let horizontalPadding : CGFloat = 10;
         
         //
         
@@ -80,7 +84,9 @@ class bulletinPageViewController : mainPageViewController{
         categoryScrollView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor).isActive = true;
         categoryScrollView.heightAnchor.constraint(equalToConstant: categoryScrollViewHeight).isActive = true;
         
-        categoryScrollView.backgroundColor = .systemRed;
+        //categoryScrollView.backgroundColor = .systemRed;
+        categoryScrollView.showsHorizontalScrollIndicator = false;
+        categoryScrollView.canCancelContentTouches = true;
         
         //
         
@@ -102,6 +108,7 @@ class bulletinPageViewController : mainPageViewController{
         comingUpLabel.attributedText = comingUpAttributedText;
         comingUpLabel.textColor = UIColor.init(hex: "#d8853d");
         comingUpLabel.textAlignment = .left;
+    
         //comingUpLabel.backgroundColor = .systemBlue;
         
         //
@@ -132,5 +139,112 @@ class bulletinPageViewController : mainPageViewController{
         
         
     }
+    
+    internal func reset(){
+        
+        categoryScrollViewNextContentX = horizontalPadding;
+        
+        for subview in categoryScrollView.subviews{
+            subview.removeFromSuperview();
+        }
+        
+        //
+        
+        for subview in comingUpContentView.subviews{
+            subview.removeFromSuperview();
+        }
+        
+        //
+        
+        for subview in bulletinContentView.subviews{
+            subview.removeFromSuperview();
+        }
+        
+    }
+    
+    internal func loadBulletinData(){
+        
+        self.refreshControl.beginRefreshing();
+        
+        dataManager.getBulletinLocationData(completion: { (locationdata) in
+            
+            for categoryID in locationdata.categoryIDs{
+                
+                dataManager.getCategoryData(categoryID, completion: { (categorydata) in
+                    
+                    self.refreshControl.endRefreshing();
+                    
+                    self.renderCategory(categorydata);
+                    
+                    
+                });
+                
+            }
+            
+        });
+        
+    }
+    
+    internal func renderCategory(_ categorydata: categoryData){
+        
+        let categoryViewFrame = CGRect(x: categoryScrollViewNextContentX, y: 0, width: categoryScrollView.frame.height * 0.78, height: categoryScrollView.frame.height);
+        let categoryView = CategoryButton(frame: categoryViewFrame);
+        
+        categoryView.layer.cornerRadius = categoryView.frame.height / 10;
+        categoryView.layer.borderColor = categorydata.color.cgColor;
+        categoryView.layer.borderWidth = 3;
+        //categoryView.isUserInteractionEnabled = false;
+        //categoryView.backgroundColor = categorydata.color;
+        
+        //
+        
+        let categoryImageViewPadding = categoryView.frame.width / 5;
+        let categoryImageViewSize = categoryView.frame.width - 2*categoryImageViewPadding;
+        let categoryImageViewFrame = CGRect(x: categoryImageViewPadding, y: categoryImageViewPadding, width: categoryImageViewSize, height: categoryImageViewSize);
+        let categoryImageView = UIImageView(frame: categoryImageViewFrame);
+        
+        categoryImageView.isUserInteractionEnabled = false;
+        categoryImageView.contentMode = .scaleAspectFit;
+        categoryImageView.setImageURL(categorydata.iconURL);
+        
+        categoryView.addSubview(categoryImageView);
+        
+        //
+        
+        let categoryLabelHorizontalPadding : CGFloat = categoryView.frame.width / 10;
+        let categoryLabelFrame = CGRect(x: categoryLabelHorizontalPadding, y: categoryImageView.frame.maxY + categoryImageViewPadding, width: categoryView.frame.width - 2*categoryLabelHorizontalPadding, height: categoryView.frame.height - (categoryImageView.frame.maxY + categoryImageViewPadding + (categoryImageViewPadding / 2)));
+        let categoryLabel = UILabel(frame: categoryLabelFrame);
+        
+        //categoryLabel.backgroundColor = .systemRed;
+        categoryLabel.isUserInteractionEnabled = false;
+        categoryLabel.textColor = InverseBackgroundColor;
+        categoryLabel.text = categorydata.title;
+        categoryLabel.textAlignment = .center;
+        categoryLabel.font = UIFont(name: SFProDisplay_Semibold, size: categoryLabel.frame.height * 0.8);
+        categoryLabel.adjustsFontSizeToFitWidth = true;
+        
+        categoryLabel.tag = 1;
+        categoryView.addSubview(categoryLabel);
+        
+        //
+        
+        categoryView.categoryID = categorydata.categoryID;
+        categoryView.addTarget(self, action: #selector(self.handleCategoryButton), for: .touchUpInside);
+        
+        categoryScrollView.addSubview(categoryView);
+        categoryScrollViewNextContentX += categoryView.frame.width + horizontalPadding;
+        
+        categoryScrollView.contentSize = CGSize(width: categoryScrollViewNextContentX, height: categoryScrollView.frame.height);
+        
+    }
+
+    internal func renderComingUp(_ articleIDs: [String]){
+        
+    }
+    
+    internal func renderArticleList(_ articleIDs: [String]){
+        
+    }
+    
 }
 

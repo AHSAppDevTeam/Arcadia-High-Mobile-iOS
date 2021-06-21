@@ -17,10 +17,12 @@ enum categoryLayout{
 }
 
 struct categoryData{
-    var articleIDs = [String]();
+    var categoryID : String = "";
+    var articleIDs : [String] = [];
     var blurb : String = "";
     var color : UIColor = UIColor.rgb(0, 0, 0);
     var featured : Bool = false;
+    var iconURL: String = "";
     var layout : categoryLayout = .none;
     var thumbURLs : [String] = [];
     var title : String = "";
@@ -97,11 +99,14 @@ extension dataManager{
                     
                     let categoryDict = snapshot.value as? NSDictionary;
                     
+                    data.categoryID = categoryID;
+                    
                     data.articleIDs = categoryDict?["articleIDs"] as? [String] ?? [];
                     data.blurb = categoryDict?["blurb"] as? String ?? "";
                     data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
                     data.layout = dataManager.encodeStringToLayoutEnum(categoryDict?["layout"] as? String ?? "");
                     data.featured = categoryDict?["featured"] as? Bool ?? false;
+                    data.iconURL = categoryDict?["iconURL"] as? String ?? "";
                     data.thumbURLs = categoryDict?["thumbURLs"] as? [String] ?? [];
                     data.title = categoryDict?["title"] as? String ?? "";
                     data.visible = categoryDict?["visible"] as? Bool ?? false;

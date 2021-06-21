@@ -10,8 +10,13 @@ import UIKit
 
 extension bulletinPageViewController{
     
-    @objc internal func refresh(_ refreshControl: UIRefreshControl){
-        
+    @objc internal func refresh(){
+        reset();
+        loadBulletinData();
+    }
+ 
+    @objc internal func handleCategoryButton(_ button: CategoryButton){
+        print("press button - \(button.categoryID)");
     }
     
 }
