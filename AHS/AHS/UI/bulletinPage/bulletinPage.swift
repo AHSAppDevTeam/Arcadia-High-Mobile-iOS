@@ -39,6 +39,7 @@ class bulletinPageViewController : mainPageViewController{
     internal let bulletinContentView : UIView = UIView();
     internal var bulletinContentViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
     
+    internal var bulletinCategoryDictionary : [String : Bool] = [:];
     internal var bulletinArticleIDList : [String] = [];
     
     //
@@ -102,8 +103,8 @@ class bulletinPageViewController : mainPageViewController{
         comingUpLabel.heightAnchor.constraint(equalToConstant: comingUpLabelHeight).isActive = true;
         
         
-        let comingUpAttributedText = NSMutableAttributedString(string: "Coming ", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: comingUpLabelHeight * 0.5)]);
-        comingUpAttributedText.append(NSAttributedString(string: "Up", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: comingUpLabelHeight * 0.5)]));
+        let comingUpAttributedText = NSMutableAttributedString(string: "Coming ", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: comingUpLabelHeight * 0.5)!]);
+        comingUpAttributedText.append(NSAttributedString(string: "Up", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: comingUpLabelHeight * 0.5)!]));
         
         comingUpLabel.attributedText = comingUpAttributedText;
         comingUpLabel.textColor = UIColor.init(hex: "#d8853d");
@@ -142,6 +143,8 @@ class bulletinPageViewController : mainPageViewController{
     
     internal func reset(){
         
+        resetArticleParser();
+        
         categoryScrollViewNextContentX = horizontalPadding;
         
         for subview in categoryScrollView.subviews{
@@ -175,7 +178,7 @@ class bulletinPageViewController : mainPageViewController{
                     self.refreshControl.endRefreshing();
                     
                     self.renderCategory(categorydata);
-                    
+                    self.appendCategory(categorydata.categoryID, categorydata.articleIDs);
                     
                 });
                 
@@ -205,7 +208,12 @@ class bulletinPageViewController : mainPageViewController{
         
         categoryImageView.isUserInteractionEnabled = false;
         categoryImageView.contentMode = .scaleAspectFit;
-        categoryImageView.setImageURL(categorydata.iconURL);
+        categoryImageView.sd_setImage(with: URL(string: categorydata.iconURL), completed: { (image, error, type, url) in
+            if error == nil {
+                categoryImageView.image = image?.withRenderingMode(.alwaysTemplate);
+                categoryImageView.tintColor = categorydata.color;
+            }
+        });
         
         categoryView.addSubview(categoryImageView);
         
@@ -217,7 +225,7 @@ class bulletinPageViewController : mainPageViewController{
         
         //categoryLabel.backgroundColor = .systemRed;
         categoryLabel.isUserInteractionEnabled = false;
-        categoryLabel.textColor = InverseBackgroundColor;
+        categoryLabel.textColor = categorydata.color;
         categoryLabel.text = categorydata.title;
         categoryLabel.textAlignment = .center;
         categoryLabel.font = UIFont(name: SFProDisplay_Semibold, size: categoryLabel.frame.height * 0.8);
@@ -228,6 +236,7 @@ class bulletinPageViewController : mainPageViewController{
         
         //
         
+        categoryView.isSelected = false;
         categoryView.categoryID = categorydata.categoryID;
         categoryView.addTarget(self, action: #selector(self.handleCategoryButton), for: .touchUpInside);
         
@@ -237,12 +246,22 @@ class bulletinPageViewController : mainPageViewController{
         categoryScrollView.contentSize = CGSize(width: categoryScrollViewNextContentX, height: categoryScrollView.frame.height);
         
     }
+    
+    // these functions will be called by the article parser
 
     internal func renderComingUp(_ articleIDs: [String]){
+        for subview in comingUpContentView.subviews{
+            subview.removeFromSuperview();
+        }
+        
         
     }
     
     internal func renderArticleList(_ articleIDs: [String]){
+        for subview in bulletinContentView.subviews{
+            subview.removeFromSuperview();
+        }
+        
         
     }
     

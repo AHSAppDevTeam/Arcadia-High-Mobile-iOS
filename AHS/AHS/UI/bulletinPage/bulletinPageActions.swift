@@ -16,7 +16,9 @@ extension bulletinPageViewController{
     }
  
     @objc internal func handleCategoryButton(_ button: CategoryButton){
-        print("press button - \(button.categoryID)");
+        //print("press button - \(button.categoryID)");
+        button.isSelected = !button.isSelected;
+        updateCategoryFilter(button.categoryID, button.isSelected);
     }
     
 }
