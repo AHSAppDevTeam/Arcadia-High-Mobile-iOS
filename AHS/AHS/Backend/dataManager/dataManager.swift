@@ -29,6 +29,8 @@ class dataManager{
     static internal let jsonEncoder = JSONEncoder();
     static internal let jsonDecoder = JSONDecoder();
     
+    static internal var bulletinArticleCache : [String : baseArticleData] = [:];
+    
     //
     
     static public func setupConnection(){

@@ -13,12 +13,15 @@ extension bulletinPageViewController{
     @objc internal func refresh(){
         reset();
         loadBulletinData();
+        dataManager.resetBulletinArticleListCache();
     }
  
     @objc internal func handleCategoryButton(_ button: CategoryButton){
-        //print("press button - \(button.categoryID)");
         button.isSelected = !button.isSelected;
         updateCategoryFilter(button.categoryID, button.isSelected);
+        
+        
+        
     }
     
 }
