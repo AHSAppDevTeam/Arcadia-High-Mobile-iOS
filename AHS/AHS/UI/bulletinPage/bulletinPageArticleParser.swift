@@ -31,13 +31,18 @@ extension bulletinPageViewController{
         sortArticleList();
     }
     
-    private func sortArticleList(){  // restructure to load all bulletin articles before sorting
+    private func sortArticleList(){
         bulletinArticleIDList.sort(by: { (a, b) in
             let currTime = timeManager.getCurrentEpoch();
+            let aT = dataManager.getCachedArticleData(a).timestamp, bT = dataManager.getCachedArticleData(b).timestamp;
             
+            if (aT > currTime && bT > currTime){
+                return aT < bT;
+            }
+            else{
+                return aT > bT;
+            }
             
-            
-            return false;
         });
     }
     
