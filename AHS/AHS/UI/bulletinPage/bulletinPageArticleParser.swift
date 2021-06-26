@@ -29,6 +29,10 @@ extension bulletinPageViewController{
     
     internal func updateArticleList(){
         sortArticleList();
+        
+        let articleSeperator = min(bulletinArticleIDList.count, comingUpMaxArticleCount);
+        self.renderComingUp( Array(bulletinArticleIDList[ 0 ..< articleSeperator ]) );
+        self.renderArticleList( Array(bulletinArticleIDList[ articleSeperator ..< bulletinArticleIDList.count]) );
     }
     
     private func sortArticleList(){
