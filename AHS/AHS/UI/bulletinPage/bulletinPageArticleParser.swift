@@ -18,24 +18,20 @@ extension bulletinPageViewController{
     internal func appendCategory(_ categoryID: String, _ articleIDs: [String]){
         bulletinArticleIDList += articleIDs;
         bulletinCategoryDictionary[categoryID] = false;
-        
-        dataManager.loadBulletinArticleList(articleIDs);
-        updateArticleList();
     }
     
     internal func updateCategoryFilter(_ categoryID: String, _ isSelected: Bool){
         bulletinCategoryDictionary[categoryID] = isSelected;
+        updateArticleList();
     }
     
     //
     
-    
-    
-    private func updateArticleList(){
+    internal func updateArticleList(){
         sortArticleList();
     }
     
-    private func sortArticleList(){
+    private func sortArticleList(){  // restructure to load all bulletin articles before sorting
         bulletinArticleIDList.sort(by: { (a, b) in
             let currTime = timeManager.getCurrentEpoch();
             

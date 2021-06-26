@@ -171,16 +171,41 @@ class bulletinPageViewController : mainPageViewController{
         
         dataManager.getBulletinLocationData(completion: { (locationdata) in
             
-            for categoryID in locationdata.categoryIDs{
+            DispatchQueue.global(qos: .background).async {
                 
-                dataManager.getCategoryData(categoryID, completion: { (categorydata) in
+                let dispatchGroup = DispatchGroup();
+                
+                for categoryID in locationdata.categoryIDs{
                     
-                    self.refreshControl.endRefreshing();
+                    dispatchGroup.enter();
                     
-                    self.renderCategory(categorydata);
-                    self.appendCategory(categorydata.categoryID, categorydata.articleIDs);
+                    DispatchQueue.main.async {
+                        
+                        dataManager.getCategoryData(categoryID, completion: { (categorydata) in
+                            
+                            self.renderCategory(categorydata);
+                            self.appendCategory(categorydata.categoryID, categorydata.articleIDs);
+                            
+                            dispatchGroup.leave();
+                            
+                        });
+                        
+                    }
                     
-                });
+                }
+                
+                dispatchGroup.wait();
+                
+                DispatchQueue.main.async {
+                    
+                    dataManager.loadBulletinArticleList(self.bulletinArticleIDList, completion: { () in
+                        
+                        self.refreshControl.endRefreshing();
+                        self.updateArticleList();
+                        
+                    });
+                    
+                }
                 
             }
             

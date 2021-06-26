@@ -10,12 +10,29 @@ import Firebase
 import FirebaseDatabase
 
 extension dataManager{
-    static public func loadBulletinArticleList(_ articleIDs: [String]){
+    static public func loadBulletinArticleList(_ articleIDs: [String], completion: @escaping () -> Void){
         
-        for articleID in articleIDs{
+        DispatchQueue.global(qos: .background).async {
             
-            cacheArticleData(articleID, completion: { (_) in });
+            let dispatchGroup = DispatchGroup();
             
+            for articleID in articleIDs{
+                
+                dispatchGroup.enter();
+                
+                cacheArticleData(articleID, completion: { (_) in
+                    
+                    dispatchGroup.leave();
+                    
+                });
+                
+            }
+            
+            dispatchGroup.wait();
+            
+            DispatchQueue.main.async {
+                completion();
+            }
         }
         
     }
@@ -24,36 +41,8 @@ extension dataManager{
         bulletinArticleCache = [:];
     }
     
-    static public func getArticlePairTimestamp(_ aID: String, _ bID: String, completion: @escaping (Int64, Int64) -> Void){ // completion handler return corresponding timestamp
-        
-        if (bulletinArticleCache[aID] == nil){
-            
-            cacheArticleData(aID, completion: { (_) in
-                
-                getArticlePairTimestamp(aID, bID, completion: { (aT, bT) in
-                    completion(aT, bT);
-                });
-                
-            });
-            
-        }
-        else if (bulletinArticleCache[bID] == nil){
-            
-            cacheArticleData(bID, completion: { (_) in
-                
-                getArticlePairTimestamp(aID, bID, completion: { (aT, bT) in
-                    completion(aT, bT);
-                });
-                
-            });
-            
-        }
-        else{
-            
-            completion(bulletinArticleCache[aID]!.timestamp, bulletinArticleCache[bID]!.timestamp);
-            
-        }
-        
+    static public func getCachedArticleData(_ articleID: String) -> baseArticleData{
+        return bulletinArticleCache[articleID] ?? baseArticleData();
     }
     
     //

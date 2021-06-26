@@ -34,7 +34,7 @@ struct baseArticleData : Codable{
     
     var title : String = "";
     
-    var timestamp : Int64 = 0;
+    var timestamp : Int64 = INT64_MAX; // so that when an invalid article is sorted, it is placed at the bottom
     var color : Color? = nil;
     
     var thumbURLs : [String] = [];
