@@ -34,6 +34,8 @@ class bulletinPageViewController : mainPageViewController{
     internal let categoryScrollView : UIButtonScrollView  = UIButtonScrollView();
     internal var categoryScrollViewNextContentX : CGFloat = 0;
     
+    internal var contentViewWidth : CGFloat = 0;
+    
     internal let comingUpLabel : UILabel = UILabel();
     internal let comingUpContentView : UIView = UIView();
     internal var comingUpContentViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
@@ -48,6 +50,7 @@ class bulletinPageViewController : mainPageViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        contentViewWidth = AppUtility.getCurrentScreenSize().width - 2*horizontalPadding;
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -280,6 +283,34 @@ class bulletinPageViewController : mainPageViewController{
         for subview in comingUpContentView.subviews{
             subview.removeFromSuperview();
         }
+        
+        //
+        
+        var previousView : UIView = comingUpContentView;
+        
+        for articleID in articleIDs{
+            
+            let articleView = UIView();
+            
+            articleView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            comingUpContentView.addSubview(articleView);
+            
+            articleView.leadingAnchor.constraint(equalTo: comingUpContentView.leadingAnchor).isActive = true;
+            articleView.trailingAnchor.constraint(equalTo: comingUpContentView.trailingAnchor).isActive = true;
+            articleView.widthAnchor.constraint(equalToConstant: contentViewWidth).isActive = true;
+            articleView.topAnchor.constraint(equalTo: previousView.topAnchor, constant: verticalPadding).isActive = true;
+            
+            let articleViewHeight = contentViewWidth * 0.26;
+            articleView.heightAnchor.constraint(equalToConstant: articleViewHeight).isActive = true;
+            
+            articleView.backgroundColor = .systemBlue;
+            
+            previousView = articleView;
+            
+        }
+        
+        previousView.bottomAnchor.constraint(equalTo: comingUpContentView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
         
     }
