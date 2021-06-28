@@ -38,10 +38,8 @@ class bulletinPageViewController : mainPageViewController{
     
     internal let comingUpLabel : UILabel = UILabel();
     internal let comingUpContentView : UIView = UIView();
-    internal var comingUpContentViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
     
     internal let bulletinContentView : UIView = UIView();
-    internal var bulletinContentViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
     
     internal var bulletinCategoryDictionary : [String : Bool] = [:];
     internal var bulletinArticleIDList : [String] = [];
@@ -126,8 +124,8 @@ class bulletinPageViewController : mainPageViewController{
         comingUpContentView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: horizontalPadding).isActive = true;
         comingUpContentView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
         
-        comingUpContentViewHeightConstraint = comingUpContentView.heightAnchor.constraint(equalToConstant: 0);
-        comingUpContentViewHeightConstraint.isActive = true;
+        //comingUpContentViewHeightConstraint = comingUpContentView.heightAnchor.constraint(equalToConstant: 0);
+        //comingUpContentViewHeightConstraint.isActive = true;
         
         //
         
@@ -137,9 +135,6 @@ class bulletinPageViewController : mainPageViewController{
         bulletinContentView.topAnchor.constraint(equalTo: comingUpContentView.bottomAnchor, constant: verticalPadding).isActive = true;
         bulletinContentView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: horizontalPadding).isActive = true;
         bulletinContentView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
-        
-        bulletinContentViewHeightConstraint = bulletinContentView.heightAnchor.constraint(equalToConstant: 0);
-        bulletinContentViewHeightConstraint.isActive = true;
         
         bulletinContentView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
@@ -286,7 +281,9 @@ class bulletinPageViewController : mainPageViewController{
         
         //
         
-        var previousView : UIView = comingUpContentView;
+        //comingUpContentView.backgroundColor = .systemRed;
+        
+        var nextTopAnchorContraint = comingUpContentView.topAnchor;
         
         for articleID in articleIDs{
             
@@ -299,19 +296,18 @@ class bulletinPageViewController : mainPageViewController{
             articleView.leadingAnchor.constraint(equalTo: comingUpContentView.leadingAnchor).isActive = true;
             articleView.trailingAnchor.constraint(equalTo: comingUpContentView.trailingAnchor).isActive = true;
             articleView.widthAnchor.constraint(equalToConstant: contentViewWidth).isActive = true;
-            articleView.topAnchor.constraint(equalTo: previousView.topAnchor, constant: verticalPadding).isActive = true;
+            articleView.topAnchor.constraint(equalTo: nextTopAnchorContraint, constant: verticalPadding).isActive = true;
             
             let articleViewHeight = contentViewWidth * 0.26;
             articleView.heightAnchor.constraint(equalToConstant: articleViewHeight).isActive = true;
             
             articleView.backgroundColor = .systemBlue;
             
-            previousView = articleView;
+            nextTopAnchorContraint = articleView.bottomAnchor;
             
         }
-        
-        previousView.bottomAnchor.constraint(equalTo: comingUpContentView.bottomAnchor, constant: -verticalPadding).isActive = true;
-        
+
+        nextTopAnchorContraint.constraint(equalTo: comingUpContentView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
     }
     
