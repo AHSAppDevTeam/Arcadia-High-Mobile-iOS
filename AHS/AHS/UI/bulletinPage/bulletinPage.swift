@@ -281,9 +281,11 @@ class bulletinPageViewController : mainPageViewController{
         
         //
         
+        let comingUpContentVerticalPadding = verticalPadding * 2;
+        var nextVerticalPadding : CGFloat = 0;
         //comingUpContentView.backgroundColor = .systemRed;
         
-        var nextTopAnchorContraint = comingUpContentView.topAnchor;
+        var nextTopAnchorConstraint = comingUpContentView.topAnchor;
         
         for articleID in articleIDs{
             
@@ -296,18 +298,22 @@ class bulletinPageViewController : mainPageViewController{
             articleView.leadingAnchor.constraint(equalTo: comingUpContentView.leadingAnchor).isActive = true;
             articleView.trailingAnchor.constraint(equalTo: comingUpContentView.trailingAnchor).isActive = true;
             articleView.widthAnchor.constraint(equalToConstant: contentViewWidth).isActive = true;
-            articleView.topAnchor.constraint(equalTo: nextTopAnchorContraint, constant: verticalPadding).isActive = true;
+            articleView.topAnchor.constraint(equalTo: nextTopAnchorConstraint, constant: nextVerticalPadding).isActive = true;
             
             let articleViewHeight = contentViewWidth * 0.26;
             articleView.heightAnchor.constraint(equalToConstant: articleViewHeight).isActive = true;
             
+            //
+            
             articleView.backgroundColor = .systemBlue;
             
-            nextTopAnchorContraint = articleView.bottomAnchor;
+            //
             
+            nextTopAnchorConstraint = articleView.bottomAnchor;
+            nextVerticalPadding = comingUpContentVerticalPadding;
         }
 
-        nextTopAnchorContraint.constraint(equalTo: comingUpContentView.bottomAnchor, constant: -verticalPadding).isActive = true;
+        nextTopAnchorConstraint.constraint(equalTo: comingUpContentView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
     }
     
@@ -316,6 +322,37 @@ class bulletinPageViewController : mainPageViewController{
             subview.removeFromSuperview();
         }
         
+        let articleListVerticalPadding = verticalPadding * 2;
+        
+        var nextTopAnchorConstraint = bulletinContentView.topAnchor;
+        
+        for articleID in articleIDs{
+            
+            let articleView = UIView();
+            
+            articleView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            bulletinContentView.addSubview(articleView);
+            
+            articleView.leadingAnchor.constraint(equalTo: bulletinContentView.leadingAnchor).isActive = true;
+            articleView.trailingAnchor.constraint(equalTo: bulletinContentView.trailingAnchor).isActive = true;
+            articleView.widthAnchor.constraint(equalToConstant: contentViewWidth).isActive = true;
+            articleView.topAnchor.constraint(equalTo: nextTopAnchorConstraint, constant: articleListVerticalPadding).isActive = true;
+            
+            let articleViewHeight = contentViewWidth * 0.26;
+            articleView.heightAnchor.constraint(equalToConstant: articleViewHeight).isActive = true;
+            
+            //
+            
+            articleView.backgroundColor = .systemRed;
+            
+            //
+            
+            nextTopAnchorConstraint = articleView.bottomAnchor;
+            
+        }
+        
+        nextTopAnchorConstraint.constraint(equalTo: bulletinContentView.bottomAnchor, constant: -articleListVerticalPadding).isActive = true;
         
     }
     
