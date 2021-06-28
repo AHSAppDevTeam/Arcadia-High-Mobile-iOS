@@ -305,7 +305,8 @@ class bulletinPageViewController : mainPageViewController{
             
             //
             
-            articleView.backgroundColor = .systemBlue;
+            //articleView.backgroundColor = .systemBlue;
+            renderComingUpArticleView(articleView, CGSize(width: contentViewWidth, height: articleViewHeight), articleID);
             
             //
             
@@ -316,6 +317,33 @@ class bulletinPageViewController : mainPageViewController{
         nextTopAnchorConstraint.constraint(equalTo: comingUpContentView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
     }
+    
+    internal func renderComingUpArticleView(_ articleView: UIView, _ articleViewSize: CGSize, _ articleID: String){
+        
+        let categoryColorViewHeight = articleViewSize.height;
+        let categoryColorViewWidth = categoryColorViewHeight * 0.06;
+        let categoryColorViewFrame = CGRect(x: articleViewSize.width - categoryColorViewWidth, y: 0, width: categoryColorViewWidth, height: categoryColorViewHeight);
+        let categoryColorView = UIView(frame: categoryColorViewFrame);
+        
+        categoryColorView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner];
+        categoryColorView.layer.cornerRadius = categoryColorViewWidth;
+        
+        dataManager.getBaseArticleData(articleID, completion: { (articledata) in
+            
+            dataManager.getCategoryData(articledata.categoryID, completion: { (categorydata) in
+                
+                categoryColorView.backgroundColor = categorydata.color;
+                
+            });
+            
+        });
+        
+        articleView.addSubview(categoryColorView);
+        
+        //
+    }
+    
+    //
     
     internal func renderArticleList(_ articleIDs: [String]){
         for subview in bulletinContentView.subviews{
@@ -344,7 +372,11 @@ class bulletinPageViewController : mainPageViewController{
             
             //
             
-            articleView.backgroundColor = .systemRed;
+            articleView.layer.cornerRadius = articleViewHeight * 0.06;
+            //articleView.backgroundColor = .systemRed;
+            articleView.clipsToBounds = true;
+            
+            renderBulletinArticle(articleView, CGSize(width: contentViewWidth, height: articleViewHeight), articleID);
             
             //
             
@@ -353,6 +385,29 @@ class bulletinPageViewController : mainPageViewController{
         }
         
         nextTopAnchorConstraint.constraint(equalTo: bulletinContentView.bottomAnchor, constant: -articleListVerticalPadding).isActive = true;
+        
+    }
+    
+    internal func renderBulletinArticle(_ articleView: UIView, _ articleViewSize: CGSize, _ articleID: String){
+        
+        let categoryColorViewHeight = articleViewSize.height;
+        let categoryColorViewWidth = categoryColorViewHeight * 0.06;
+        let categoryColorViewFrame = CGRect(x: 0, y: 0, width: categoryColorViewWidth, height: categoryColorViewHeight);
+        let categoryColorView = UIView(frame: categoryColorViewFrame);
+        
+        dataManager.getBaseArticleData(articleID, completion: { (articledata) in
+            
+            dataManager.getCategoryData(articledata.categoryID, completion: { (categorydata) in
+                
+                categoryColorView.backgroundColor = categorydata.color;
+                
+            });
+            
+        });
+        
+        articleView.addSubview(categoryColorView);
+        
+        //
         
     }
     
