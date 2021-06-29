@@ -30,9 +30,11 @@ extension bulletinPageViewController{
     internal func updateArticleList(){
         sortArticleList();
         
-        let articleSeperator = min(bulletinArticleIDList.count, comingUpMaxArticleCount);
-        self.renderComingUp( Array(bulletinArticleIDList[ 0 ..< articleSeperator ]) );
-        self.renderArticleList( Array(bulletinArticleIDList[ articleSeperator ..< bulletinArticleIDList.count]) );
+        let filteredArticleList = filterArticleList();
+        
+        let articleSeperator = min(filteredArticleList.count, comingUpMaxArticleCount);
+        self.renderComingUp( Array(filteredArticleList[ 0 ..< articleSeperator ]) );
+        self.renderArticleList( Array(filteredArticleList[ articleSeperator ..< filteredArticleList.count]) );
     }
     
     private func sortArticleList(){
@@ -48,6 +50,24 @@ extension bulletinPageViewController{
             }
             
         });
+    }
+    
+    private func filterArticleList() -> [String]{
+        
+        var articleList : [String] = [];
+        
+        for i in 0 ..< bulletinArticleIDList.count{
+            let articleID = bulletinArticleIDList[i];
+            let categoryID = dataManager.getCachedArticleData(articleID).categoryID;
+            
+            if (bulletinCategoryDictionary[categoryID] ?? false){
+                articleList.append(articleID);
+            }
+            
+        }
+        
+        return articleList.count == 0 ? bulletinArticleIDList : articleList;
+        
     }
     
 }
