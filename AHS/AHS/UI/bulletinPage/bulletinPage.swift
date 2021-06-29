@@ -240,6 +240,7 @@ class bulletinPageViewController : mainPageViewController{
             }
         });
         
+        categoryView.tag = -1;
         categoryView.addSubview(categoryImageView);
         
         //
@@ -264,6 +265,7 @@ class bulletinPageViewController : mainPageViewController{
         categoryView.isSelected = false;
         categoryView.categoryID = categorydata.categoryID;
         categoryView.addTarget(self, action: #selector(self.handleCategoryButton), for: .touchUpInside);
+        categoryView.categoryAccentColor = categorydata.color;
         
         categoryScrollView.addSubview(categoryView);
         categoryScrollViewNextContentX += categoryView.frame.width + horizontalPadding;

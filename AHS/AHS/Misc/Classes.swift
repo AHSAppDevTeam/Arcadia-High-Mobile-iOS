@@ -88,6 +88,7 @@ class ArticleButton : UIButton{
 
 class CategoryButton : UIButton{
     var categoryID : String = "";
+    var categoryAccentColor : UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1);
 }
 
 final public class Reachability {

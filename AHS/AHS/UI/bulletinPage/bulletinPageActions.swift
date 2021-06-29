@@ -19,8 +19,38 @@ extension bulletinPageViewController{
     @objc internal func handleCategoryButton(_ button: CategoryButton){
         button.isSelected = !button.isSelected;
         updateCategoryFilter(button.categoryID, button.isSelected);
+        updateCategoryButton(button);
+    }
+    
+    private func updateCategoryButton(_ button: CategoryButton){
         
+        let primaryColor : UIColor = button.isSelected ? BackgroundColor : button.categoryAccentColor;
+        let secondaryColor : UIColor = button.isSelected ? button.categoryAccentColor : BackgroundColor;
         
+        for subview in button.subviews{
+            
+            if subview.tag == 1{ // label
+                
+                guard let label = subview as? UILabel else{
+                    continue;
+                }
+                
+                label.textColor = primaryColor;
+            }
+            else if subview.tag == -1{ // image view
+                
+                guard let imageView = subview as? UIImageView else{
+                    continue;
+                }
+                
+                /*imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate);
+                imageView.image?.withTintColor(primaryColor);
+                imageView.tintColor = primaryColor;*/
+            }
+            
+        }
+        
+        button.backgroundColor = secondaryColor;
         
     }
     
