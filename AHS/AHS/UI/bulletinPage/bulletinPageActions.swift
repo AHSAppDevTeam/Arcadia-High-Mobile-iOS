@@ -43,9 +43,7 @@ extension bulletinPageViewController{
                     continue;
                 }
                 
-                /*imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate);
-                imageView.image?.withTintColor(primaryColor);
-                imageView.tintColor = primaryColor;*/
+                imageView.tintColor = primaryColor;
             }
             
         }

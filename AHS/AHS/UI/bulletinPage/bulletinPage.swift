@@ -240,7 +240,7 @@ class bulletinPageViewController : mainPageViewController{
             }
         });
         
-        categoryView.tag = -1;
+        categoryImageView.tag = -1;
         categoryView.addSubview(categoryImageView);
         
         //
