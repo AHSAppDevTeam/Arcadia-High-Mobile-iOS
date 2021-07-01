@@ -11,13 +11,17 @@ import UIKit
 extension bulletinPageViewController{
     
     internal func resetArticleParser(){
-        bulletinCategoryDictionary = [:];
+        //bulletinCategoryDictionary = [:];
         bulletinArticleIDList = [];
+    }
+    
+    internal func resetCategorySelection(){
+        bulletinCategoryDictionary = [:];
     }
     
     internal func appendCategory(_ categoryID: String, _ articleIDs: [String]){
         bulletinArticleIDList += articleIDs;
-        bulletinCategoryDictionary[categoryID] = false;
+        //bulletinCategoryDictionary[categoryID] = false; // is automatically set to false as default
     }
     
     internal func updateCategoryFilter(_ categoryID: String, _ isSelected: Bool){

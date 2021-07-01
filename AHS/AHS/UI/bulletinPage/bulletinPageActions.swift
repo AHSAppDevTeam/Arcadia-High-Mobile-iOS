@@ -22,7 +22,7 @@ extension bulletinPageViewController{
         updateCategoryButton(button);
     }
     
-    private func updateCategoryButton(_ button: CategoryButton){
+    internal func updateCategoryButton(_ button: CategoryButton){
         
         let primaryColor : UIColor = button.isSelected ? BackgroundColor : button.categoryAccentColor;
         let secondaryColor : UIColor = button.isSelected ? button.categoryAccentColor : BackgroundColor;

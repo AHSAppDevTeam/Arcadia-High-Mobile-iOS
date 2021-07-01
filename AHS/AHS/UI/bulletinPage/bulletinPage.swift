@@ -218,11 +218,15 @@ class bulletinPageViewController : mainPageViewController{
         let categoryViewFrame = CGRect(x: categoryScrollViewNextContentX, y: 0, width: categoryScrollView.frame.height * 0.78, height: categoryScrollView.frame.height);
         let categoryView = CategoryButton(frame: categoryViewFrame);
         
+        let isCategoryViewSelected = bulletinCategoryDictionary[categorydata.categoryID] ?? false;
+        let primaryColor : UIColor = isCategoryViewSelected ? BackgroundColor : categorydata.color;
+        let secondaryColor : UIColor = isCategoryViewSelected ? categorydata.color : BackgroundColor;
+        
         categoryView.layer.cornerRadius = categoryView.frame.height / 10;
         categoryView.layer.borderColor = categorydata.color.cgColor;
         categoryView.layer.borderWidth = 3;
         //categoryView.isUserInteractionEnabled = false;
-        //categoryView.backgroundColor = categorydata.color;
+        categoryView.backgroundColor = secondaryColor;
         
         //
         
@@ -236,7 +240,7 @@ class bulletinPageViewController : mainPageViewController{
         categoryImageView.sd_setImage(with: URL(string: categorydata.iconURL), completed: { (image, error, type, url) in
             if error == nil {
                 categoryImageView.image = image?.withRenderingMode(.alwaysTemplate);
-                categoryImageView.tintColor = categorydata.color;
+                categoryImageView.tintColor = primaryColor;
             }
         });
         
@@ -251,7 +255,7 @@ class bulletinPageViewController : mainPageViewController{
         
         //categoryLabel.backgroundColor = .systemRed;
         categoryLabel.isUserInteractionEnabled = false;
-        categoryLabel.textColor = categorydata.color;
+        categoryLabel.textColor = primaryColor;
         categoryLabel.text = categorydata.title;
         categoryLabel.textAlignment = .center;
         categoryLabel.font = UIFont(name: SFProDisplay_Semibold, size: categoryLabel.frame.height * 0.8);
@@ -262,10 +266,12 @@ class bulletinPageViewController : mainPageViewController{
         
         //
         
-        categoryView.isSelected = false;
         categoryView.categoryID = categorydata.categoryID;
-        categoryView.addTarget(self, action: #selector(self.handleCategoryButton), for: .touchUpInside);
         categoryView.categoryAccentColor = categorydata.color;
+        categoryView.addTarget(self, action: #selector(self.handleCategoryButton), for: .touchUpInside);
+        categoryView.isSelected = bulletinCategoryDictionary[categorydata.categoryID] ?? false;
+        
+        //updateCategoryButton(categoryView);
         
         categoryScrollView.addSubview(categoryView);
         categoryScrollViewNextContentX += categoryView.frame.width + horizontalPadding;
