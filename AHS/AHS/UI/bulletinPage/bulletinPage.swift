@@ -218,9 +218,12 @@ class bulletinPageViewController : mainPageViewController{
         let categoryViewFrame = CGRect(x: categoryScrollViewNextContentX, y: 0, width: categoryScrollView.frame.height * 0.78, height: categoryScrollView.frame.height);
         let categoryView = CategoryButton(frame: categoryViewFrame);
         
+        categoryView.categoryID = categorydata.categoryID;
+        categoryView.categoryAccentColor = categorydata.color;
+        
         let isCategoryViewSelected = bulletinCategoryDictionary[categorydata.categoryID] ?? false;
-        let primaryColor : UIColor = isCategoryViewSelected ? BackgroundColor : categorydata.color;
-        let secondaryColor : UIColor = isCategoryViewSelected ? categorydata.color : BackgroundColor;
+        let primaryColor : UIColor = isCategoryViewSelected ? BackgroundColor : categoryView.categoryAccentColor;
+        let secondaryColor : UIColor = isCategoryViewSelected ? categoryView.categoryAccentColor : BackgroundColor;
         
         categoryView.layer.cornerRadius = categoryView.frame.height / 10;
         categoryView.layer.borderColor = categorydata.color.cgColor;
@@ -266,8 +269,6 @@ class bulletinPageViewController : mainPageViewController{
         
         //
         
-        categoryView.categoryID = categorydata.categoryID;
-        categoryView.categoryAccentColor = categorydata.color;
         categoryView.addTarget(self, action: #selector(self.handleCategoryButton), for: .touchUpInside);
         categoryView.isSelected = bulletinCategoryDictionary[categorydata.categoryID] ?? false;
         
@@ -398,24 +399,116 @@ class bulletinPageViewController : mainPageViewController{
     
     internal func renderBulletinArticle(_ articleView: UIView, _ articleViewSize: CGSize, _ articleID: String){
         
+        let articleContentHorizontalPadding : CGFloat = horizontalPadding;
+        let articleContentVerticalPadding : CGFloat = verticalPadding;
+        
+        //
+        
         let categoryColorViewHeight = articleViewSize.height;
         let categoryColorViewWidth = categoryColorViewHeight * 0.06;
         let categoryColorViewFrame = CGRect(x: 0, y: 0, width: categoryColorViewWidth, height: categoryColorViewHeight);
         let categoryColorView = UIView(frame: categoryColorViewFrame);
+        
+        articleView.addSubview(categoryColorView);
+        
+        //
+        
+        let articleMiscDataViewHeight = articleViewSize.height * 0.18;
+        let articleMiscDataViewFrame = CGRect(x: categoryColorViewWidth + articleContentHorizontalPadding, y: articleViewSize.height - articleContentVerticalPadding - articleMiscDataViewHeight, width: articleViewSize.width - (categoryColorViewWidth + 2*articleContentHorizontalPadding), height: articleMiscDataViewHeight);
+        let articleMiscDataView = UIView(frame: articleMiscDataViewFrame);
+        
+        //articleMiscDataView.backgroundColor = .systemPink;
+        
+        ///
+        
+        let articleCategoryLabel = UILabel();
+        
+        articleMiscDataView.addSubview(articleCategoryLabel);
+        
+        articleCategoryLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        articleCategoryLabel.leadingAnchor.constraint(equalTo: articleMiscDataView.leadingAnchor).isActive = true;
+        articleCategoryLabel.topAnchor.constraint(equalTo: articleMiscDataView.topAnchor).isActive = true;
+        articleCategoryLabel.bottomAnchor.constraint(equalTo: articleMiscDataView.bottomAnchor).isActive = true;
+        
+        articleCategoryLabel.textAlignment = .left;
+        articleCategoryLabel.numberOfLines = 1;
+        
+        //
+        
+        let articleCategoryInnerColorView = UIView();
+        
+        articleMiscDataView.addSubview(articleCategoryInnerColorView);
+        
+        articleCategoryInnerColorView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        let articleCategoryInnerColorHeight = articleMiscDataView.frame.height;
+        let articleCategoryInnerColorWidth = articleCategoryInnerColorHeight * 0.45;
+        
+        articleCategoryInnerColorView.leadingAnchor.constraint(equalTo: articleCategoryLabel.trailingAnchor, constant: articleContentHorizontalPadding).isActive = true;
+        articleCategoryInnerColorView.topAnchor.constraint(equalTo: articleMiscDataView.topAnchor).isActive = true;
+        articleCategoryInnerColorView.bottomAnchor.constraint(equalTo: articleMiscDataView.bottomAnchor).isActive = true;
+        articleCategoryInnerColorView.heightAnchor.constraint(equalToConstant: articleCategoryInnerColorHeight).isActive = true;
+        articleCategoryInnerColorView.widthAnchor.constraint(equalToConstant: articleCategoryInnerColorWidth).isActive = true;
+        
+        //
+        
+        let articleTimestampLabel = UILabel();
+        
+        articleTimestampLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        articleMiscDataView.addSubview(articleTimestampLabel);
+        
+        articleTimestampLabel.leadingAnchor.constraint(equalTo: articleCategoryInnerColorView.trailingAnchor, constant: articleContentHorizontalPadding).isActive = true;
+        articleTimestampLabel.topAnchor.constraint(equalTo: articleMiscDataView.topAnchor).isActive = true;
+        articleTimestampLabel.bottomAnchor.constraint(equalTo: articleMiscDataView.bottomAnchor).isActive = true;
+        articleTimestampLabel.trailingAnchor.constraint(lessThanOrEqualTo: articleMiscDataView.trailingAnchor, constant: articleContentHorizontalPadding).isActive = true;
+        
+        articleTimestampLabel.textAlignment = .left;
+        articleTimestampLabel.numberOfLines = 1;
+        articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleMiscDataView.frame.height * 0.7);
+        articleTimestampLabel.textColor = BackgroundGrayColor;
+        
+        ///
+        
+        articleView.addSubview(articleMiscDataView);
+        
+        //
+        
+        let articleTitleLabelFrame = CGRect(x: categoryColorViewWidth + articleContentHorizontalPadding, y: articleContentVerticalPadding, width: articleViewSize.width - (categoryColorViewWidth + 2*articleContentHorizontalPadding), height: articleViewSize.height - articleMiscDataView.frame.height - 2*verticalPadding);
+        let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
+        
+        articleTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabel.frame.height * 0.35);
+        articleTitleLabel.textAlignment = .left;
+        articleTitleLabel.textColor = InverseBackgroundColor;
+        articleTitleLabel.numberOfLines = 2;
+        
+        articleView.addSubview(articleTitleLabel);
+        
+        //
         
         dataManager.getBaseArticleData(articleID, completion: { (articledata) in
             
             dataManager.getCategoryData(articledata.categoryID, completion: { (categorydata) in
                 
                 categoryColorView.backgroundColor = categorydata.color;
+                articleCategoryInnerColorView.backgroundColor = categorydata.color;
+                
+                let categoryMutableAttributedStringFontSize = articleMiscDataView.frame.height * 0.7;
+                let categoryMutableAttributedString = NSMutableAttributedString(string: categorydata.title, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryMutableAttributedStringFontSize)!]);
+                categoryMutableAttributedString.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: categoryMutableAttributedStringFontSize)!]));
+                
+                articleCategoryLabel.attributedText = categoryMutableAttributedString;
                 
             });
             
+            //
+            
+            articleTitleLabel.text = articledata.title;
+            
+            articleTimestampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
+            
         });
-        
-        articleView.addSubview(categoryColorView);
-        
-        //
         
     }
     
