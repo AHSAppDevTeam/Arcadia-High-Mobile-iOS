@@ -36,6 +36,7 @@ class bulletinPageViewController : mainPageViewController{
     
     internal var contentViewWidth : CGFloat = 0;
     
+    internal let comingUpLabelColor : UIColor = UIColor.init(hex: "#d8853d");
     internal let comingUpLabel : UILabel = UILabel();
     internal let comingUpContentView : UIView = UIView();
     
@@ -110,7 +111,7 @@ class bulletinPageViewController : mainPageViewController{
         comingUpAttributedText.append(NSAttributedString(string: "Up", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: comingUpLabelHeight * 0.5)!]));
         
         comingUpLabel.attributedText = comingUpAttributedText;
-        comingUpLabel.textColor = UIColor.init(hex: "#d8853d");
+        comingUpLabel.textColor = comingUpLabelColor;
         comingUpLabel.textAlignment = .left;
     
         //comingUpLabel.backgroundColor = .systemBlue;
@@ -296,7 +297,7 @@ class bulletinPageViewController : mainPageViewController{
         
         var nextTopAnchorConstraint = comingUpContentView.topAnchor;
         
-        for articleID in articleIDs{
+        for i in 0..<articleIDs.count{
             
             let articleView = UIView();
             
@@ -315,7 +316,7 @@ class bulletinPageViewController : mainPageViewController{
             //
             
             //articleView.backgroundColor = .systemBlue;
-            renderComingUpArticleView(articleView, CGSize(width: contentViewWidth, height: articleViewHeight), articleID);
+            renderComingUpArticleView(articleView, CGSize(width: contentViewWidth, height: articleViewHeight), articleIDs[i], i+1);
             
             //
             
@@ -327,7 +328,12 @@ class bulletinPageViewController : mainPageViewController{
         
     }
     
-    internal func renderComingUpArticleView(_ articleView: UIView, _ articleViewSize: CGSize, _ articleID: String){
+    internal func renderComingUpArticleView(_ articleView: UIView, _ articleViewSize: CGSize, _ articleID: String, _ articleNumber: Int){
+        
+        let articleContentHorizontalPadding : CGFloat = 1.5*horizontalPadding;
+        let articleContentVerticalPadding : CGFloat = verticalPadding;
+        
+        //
         
         let categoryColorViewHeight = articleViewSize.height;
         let categoryColorViewWidth = categoryColorViewHeight * 0.06;
@@ -337,19 +343,100 @@ class bulletinPageViewController : mainPageViewController{
         categoryColorView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner];
         categoryColorView.layer.cornerRadius = categoryColorViewWidth;
         
+        categoryColorView.backgroundColor = BackgroundGrayColor;
+        
+        articleView.addSubview(categoryColorView);
+        
+        //
+        let articleNumberLabelVerticalPadding = 4*articleContentVerticalPadding;
+        let articleNumberLabelSize = articleViewSize.height - 2*articleNumberLabelVerticalPadding;
+        
+        let articleNumberLabelFrame = CGRect(x: 0, y: articleNumberLabelVerticalPadding, width: articleNumberLabelSize, height: articleNumberLabelSize);
+        let articleNumberLabel = UILabel(frame: articleNumberLabelFrame);
+        
+        articleNumberLabel.layer.cornerRadius = articleNumberLabelSize / 2;
+        articleNumberLabel.clipsToBounds = true;
+        articleNumberLabel.layer.borderWidth = 1;
+        articleNumberLabel.layer.borderColor = comingUpLabelColor.cgColor;
+        
+        articleNumberLabel.text = String(articleNumber);
+        articleNumberLabel.textAlignment = .center;
+        articleNumberLabel.font = UIFont(name: SFProDisplay_Bold, size: articleNumberLabelSize * 0.7);
+        articleNumberLabel.textColor = comingUpLabelColor;
+        
+        //articleNumberLabel.backgroundColor = .systemRed;
+        
+        articleView.addSubview(articleNumberLabel);
+        
+        //
+        
+        let articleContentWidth = articleViewSize.width - 2*articleContentHorizontalPadding - articleNumberLabelSize - categoryColorView.frame.width;
+        
+        //
+        
+        let articleMiscViewHeight = articleViewSize.height * 0.18;
+        let articleMiscViewFrame = CGRect(x: articleNumberLabelSize + articleContentHorizontalPadding, y: articleViewSize.height - articleContentVerticalPadding - articleMiscViewHeight, width: articleContentWidth, height: articleMiscViewHeight);
+        let articleMiscView = UIView(frame: articleMiscViewFrame);
+        
+        
+        ///
+        
+        let articleCategoryInnerViewHeight = articleMiscView.frame.height;
+        let articleCategoryInnerViewWidth = articleCategoryInnerViewHeight * 0.45;
+        let articleCategoryInnerViewFrame = CGRect(x: 0, y: 0, width: articleCategoryInnerViewWidth, height: articleCategoryInnerViewHeight);
+        let articleCategoryInnerView = UIView(frame: articleCategoryInnerViewFrame);
+        
+        articleCategoryInnerView.backgroundColor = BackgroundGrayColor;
+        
+        articleMiscView.addSubview(articleCategoryInnerView);
+        
+        ///
+        
+        let articleTimestampLabelHorizontalPadding : CGFloat = horizontalPadding;
+        let articleTimestampLabelFrame = CGRect(x: articleCategoryInnerView.frame.width + articleTimestampLabelHorizontalPadding, y: 0, width: articleMiscView.frame.width - articleCategoryInnerView.frame.width - articleTimestampLabelHorizontalPadding, height: articleMiscView.frame.height);
+        let articleTimestampLabel = UILabel(frame: articleTimestampLabelFrame);
+        
+        articleTimestampLabel.textAlignment = .left;
+        articleTimestampLabel.textColor = BackgroundGrayColor;
+        articleTimestampLabel.numberOfLines = 1;
+        articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleTimestampLabel.frame.height * 0.7);
+        
+        articleMiscView.addSubview(articleTimestampLabel);
+        
+        ///
+        
+        articleView.addSubview(articleMiscView);
+        
+        //
+        
+        let articleTitleLabelFrame = CGRect(x: articleNumberLabelSize + articleContentHorizontalPadding, y: articleContentVerticalPadding, width: articleContentWidth, height: articleViewSize.height - 3*articleContentVerticalPadding - articleMiscView.frame.height);
+        let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
+        
+        articleTitleLabel.textAlignment = .left;
+        articleTitleLabel.textColor = InverseBackgroundColor;
+        articleTitleLabel.numberOfLines = 2;
+        articleTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabel.frame.height * 0.35);
+        
+        articleView.addSubview(articleTitleLabel);
+        
+        //
+        
         dataManager.getBaseArticleData(articleID, completion: { (articledata) in
             
             dataManager.getCategoryData(articledata.categoryID, completion: { (categorydata) in
                 
                 categoryColorView.backgroundColor = categorydata.color;
+                articleCategoryInnerView.backgroundColor = categorydata.color;
                 
             });
             
+            articleTitleLabel.text = articledata.title;
+            
+            //
+            
+            articleTimestampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
+            
         });
-        
-        articleView.addSubview(categoryColorView);
-        
-        //
     }
     
     //
@@ -409,6 +496,8 @@ class bulletinPageViewController : mainPageViewController{
         let categoryColorViewFrame = CGRect(x: 0, y: 0, width: categoryColorViewWidth, height: categoryColorViewHeight);
         let categoryColorView = UIView(frame: categoryColorViewFrame);
         
+        categoryColorView.backgroundColor = BackgroundGrayColor;
+        
         articleView.addSubview(categoryColorView);
         
         //
@@ -450,6 +539,8 @@ class bulletinPageViewController : mainPageViewController{
         articleCategoryInnerColorView.bottomAnchor.constraint(equalTo: articleMiscDataView.bottomAnchor).isActive = true;
         articleCategoryInnerColorView.heightAnchor.constraint(equalToConstant: articleCategoryInnerColorHeight).isActive = true;
         articleCategoryInnerColorView.widthAnchor.constraint(equalToConstant: articleCategoryInnerColorWidth).isActive = true;
+        
+        articleCategoryInnerColorView.backgroundColor = BackgroundGrayColor;
         
         //
         
