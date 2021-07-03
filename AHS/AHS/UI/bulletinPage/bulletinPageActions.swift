@@ -52,4 +52,13 @@ extension bulletinPageViewController{
         
     }
     
+    @objc internal func resetContentOffset(){
+        mainScrollView.setContentOffset(.zero, animated: true);
+    }
+    
+    @objc func handleArticleClick(_ sender: ArticleButton){
+        let articleDataDict : [String : String] = ["articleID" : sender.articleID];
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: articlePageNotification), object: nil, userInfo: articleDataDict);
+    }
+    
 }

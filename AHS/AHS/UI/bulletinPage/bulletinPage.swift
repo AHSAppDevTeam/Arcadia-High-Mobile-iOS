@@ -71,6 +71,13 @@ class bulletinPageViewController : mainPageViewController{
             self.hasBeenSetup = true;
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated);
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
     }
     
     internal func renderLayout(){
@@ -299,7 +306,10 @@ class bulletinPageViewController : mainPageViewController{
         
         for i in 0..<articleIDs.count{
             
-            let articleView = UIView();
+            let articleView = ArticleButton();
+            
+            articleView.articleID = articleIDs[i];
+            articleView.addTarget(self, action: #selector(self.handleArticleClick), for: .touchUpInside);
             
             articleView.translatesAutoresizingMaskIntoConstraints = false;
             
@@ -378,6 +388,7 @@ class bulletinPageViewController : mainPageViewController{
         let articleMiscViewFrame = CGRect(x: articleNumberLabelSize + articleContentHorizontalPadding, y: articleViewSize.height - articleContentVerticalPadding - articleMiscViewHeight, width: articleContentWidth, height: articleMiscViewHeight);
         let articleMiscView = UIView(frame: articleMiscViewFrame);
         
+        articleMiscView.isUserInteractionEnabled = false;
         
         ///
         
@@ -452,7 +463,10 @@ class bulletinPageViewController : mainPageViewController{
         
         for articleID in articleIDs{
             
-            let articleView = UIView();
+            let articleView = ArticleButton();
+            
+            articleView.articleID = articleID;
+            articleView.addTarget(self, action: #selector(self.handleArticleClick), for: .touchUpInside);
             
             articleView.translatesAutoresizingMaskIntoConstraints = false;
             
@@ -505,6 +519,8 @@ class bulletinPageViewController : mainPageViewController{
         let articleMiscDataViewHeight = articleViewSize.height * 0.18;
         let articleMiscDataViewFrame = CGRect(x: categoryColorViewWidth + articleContentHorizontalPadding, y: articleViewSize.height - articleContentVerticalPadding - articleMiscDataViewHeight, width: articleViewSize.width - (categoryColorViewWidth + 2*articleContentHorizontalPadding), height: articleMiscDataViewHeight);
         let articleMiscDataView = UIView(frame: articleMiscDataViewFrame);
+        
+        articleMiscDataView.isUserInteractionEnabled = false;
         
         //articleMiscDataView.backgroundColor = .systemPink;
         
