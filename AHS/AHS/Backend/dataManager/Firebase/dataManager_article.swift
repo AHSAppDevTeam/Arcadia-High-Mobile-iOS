@@ -82,39 +82,48 @@ extension dataManager{
     
     static public func getBaseArticleData(_ id: String, completion: @escaping (baseArticleData) -> Void){
         
-        setupConnection();
+        let cachedArticleData = getCachedBulletinArticleData(id);
         
-        if (internetConnected){
+        if (!cachedArticleData.isValid){
             
-            dataRef.child("snippets").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+            setupConnection();
+            
+            if (internetConnected){
                 
-                var data : baseArticleData = baseArticleData();
-                
-                if (snapshot.exists()){
+                dataRef.child("snippets").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                     
-                    let dataDict = snapshot.value as? NSDictionary;
+                    var data : baseArticleData = baseArticleData();
                     
-                    data.isValid = true;
-                    
-                    data.articleID = id;
-                    data.categoryID = dataDict?["categoryID"] as? String ?? "";
-                    data.title = dataDict?["title"] as? String ?? "";
-                    data.timestamp = dataDict?["timestamp"] as? Int64 ?? 0;
-                    data.thumbURLs = dataDict?["thumbURLs"] as? [String] ?? [];
-                    
-                    if let hex = dataDict?["color"] as? String{
-                        data.color = Color.init(hex: hex);
+                    if (snapshot.exists()){
+                        
+                        let dataDict = snapshot.value as? NSDictionary;
+                        
+                        data.isValid = true;
+                        
+                        data.articleID = id;
+                        data.categoryID = dataDict?["categoryID"] as? String ?? "";
+                        data.title = dataDict?["title"] as? String ?? "";
+                        data.timestamp = dataDict?["timestamp"] as? Int64 ?? 0;
+                        data.thumbURLs = dataDict?["thumbURLs"] as? [String] ?? [];
+                        
+                        if let hex = dataDict?["color"] as? String{
+                            data.color = Color.init(hex: hex);
+                        }
+                        
+                    }
+                    else{
+                        print("article '\(id)' does not exist");
                     }
                     
-                }
-                else{
-                    print("article '\(id)' does not exist");
-                }
+                    completion(data);
+                });
                 
-                completion(data);
-            });
-            
+            }
         }
+        else{
+            completion(cachedArticleData);
+        }
+        
     }
     
 }

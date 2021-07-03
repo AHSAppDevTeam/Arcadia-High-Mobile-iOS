@@ -41,7 +41,7 @@ extension dataManager{
         bulletinArticleCache = [:];
     }
     
-    static public func getCachedArticleData(_ articleID: String) -> baseArticleData{
+    static public func getCachedBulletinArticleData(_ articleID: String) -> baseArticleData{
         return bulletinArticleCache[articleID] ?? baseArticleData();
     }
     

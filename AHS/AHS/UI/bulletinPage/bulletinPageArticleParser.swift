@@ -44,7 +44,7 @@ extension bulletinPageViewController{
     private func sortArticleList(){
         bulletinArticleIDList.sort(by: { (a, b) in
             let currTime = timeManager.getCurrentEpoch();
-            let aT = dataManager.getCachedArticleData(a).timestamp, bT = dataManager.getCachedArticleData(b).timestamp;
+            let aT = dataManager.getCachedBulletinArticleData(a).timestamp, bT = dataManager.getCachedBulletinArticleData(b).timestamp;
             
             if (aT > currTime && bT > currTime){
                 return aT < bT;
@@ -62,7 +62,7 @@ extension bulletinPageViewController{
         
         for i in 0 ..< bulletinArticleIDList.count{
             let articleID = bulletinArticleIDList[i];
-            let categoryID = dataManager.getCachedArticleData(articleID).categoryID;
+            let categoryID = dataManager.getCachedBulletinArticleData(articleID).categoryID;
             
             if (bulletinCategoryDictionary[categoryID] ?? false){
                 articleList.append(articleID);
