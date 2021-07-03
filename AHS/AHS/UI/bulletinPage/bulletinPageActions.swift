@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AudioToolbox
 
 extension bulletinPageViewController{
     
@@ -20,6 +21,7 @@ extension bulletinPageViewController{
         button.isSelected = !button.isSelected;
         updateCategoryFilter(button.categoryID, button.isSelected);
         updateCategoryButton(button);
+        UIImpactFeedbackGenerator(style: .soft).impactOccurred();
     }
     
     internal func updateCategoryButton(_ button: CategoryButton){

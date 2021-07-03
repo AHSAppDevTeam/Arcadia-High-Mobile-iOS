@@ -16,7 +16,7 @@ extension dataManager{
         
         //
         
-        var fontSize : Int = 20{
+        var fontSize : Int = 18{
             didSet{
                 dataManager.savePreferences();
             }
