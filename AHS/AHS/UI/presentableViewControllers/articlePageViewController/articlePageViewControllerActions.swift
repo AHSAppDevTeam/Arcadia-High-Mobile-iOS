@@ -20,7 +20,14 @@ extension articlePageViewController{
         
         nextContentY = 0;
         
-        loadArticleData();
+        if (articledata == nil){
+            loadArticleData();
+        }
+        else{
+            renderArticle(articledata!);
+            self.refreshControl.endRefreshing();
+        }
+        
     }
     
     @objc internal func handleBackButton(_ button: UIButton){

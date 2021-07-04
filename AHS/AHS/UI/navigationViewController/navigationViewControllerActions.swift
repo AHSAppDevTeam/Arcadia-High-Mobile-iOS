@@ -32,14 +32,20 @@ extension navigationViewController{
         guard let dict = notification.userInfo as NSDictionary? else{
             return;
         }
-        guard let articleID = dict["articleID"] as? String else{
-            return;
-        }
         
         let vc = articlePageViewController();
         
-        vc.articleID = articleID;
-       
+        if let articledata = dict["articleData"] as? fullArticleData{
+            vc.articledata = articledata;
+        }
+        else{
+            guard let articleID = dict["articleID"] as? String else{
+                return;
+            }
+            
+            vc.articleID = articleID;
+        }
+        
         openPresentablePage(vc);
     }
 

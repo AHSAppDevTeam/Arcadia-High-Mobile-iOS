@@ -59,4 +59,9 @@ class dataManager{
         }
     }
     
+    static public func getIsConnectedToInternet() -> Bool{
+        setupConnection();
+        return internetConnected;
+    }
+    
 }

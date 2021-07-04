@@ -21,7 +21,7 @@ extension dataManager{
         return dataManager.preferencesStruct.savedArticlesDict[articleID] != nil;
     }
     
-    public static func getArticleList() -> [fullArticleData]{
+    public static func getSavedArticleList() -> [fullArticleData]{
         
         var a : [fullArticleData] = [];
         

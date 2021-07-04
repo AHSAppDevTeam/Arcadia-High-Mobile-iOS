@@ -84,6 +84,7 @@ class htmlFunctions{
 
 class ArticleButton : UIButton{
     var articleID : String = "";
+    var articleData : fullArticleData? = nil;
 }
 
 class CategoryButton : UIButton{

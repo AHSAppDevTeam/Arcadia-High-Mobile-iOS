@@ -28,7 +28,10 @@ class savedPageViewController : mainPageViewController{
     
     internal let topBarView : UIView = UIView();
     
+    internal let refreshControl : UIRefreshControl = UIRefreshControl();
+    
     internal let mainScrollView : UIScrollView = UIScrollView();
+    internal var nextY : CGFloat = 0;
     
     //
     
@@ -43,28 +46,79 @@ class savedPageViewController : mainPageViewController{
             
             //
             
-            let topBarViewWidth = self.view.frame.width;
-            let topBarViewHeight = topBarViewWidth * 0.05;
-            topBarView.frame = CGRect(x: 0, y: 0, width: topBarViewWidth, height: topBarViewHeight);
-            
-            renderTopBar();
-            
-            self.view.addSubview(topBarView);
-            
-            //
-            
-            mainScrollView.frame = CGRect(x: 0, y: topBarView.frame.height, width: self.view.frame.width, height: self.view.frame.height);
+            mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);
             mainScrollView.alwaysBounceVertical = true;
             self.view.addSubview(mainScrollView);
             
             //
+            
+            mainScrollView.addSubview(refreshControl);
+            refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged);
+            
+            //
+            
+            renderTopBar();
+            renderContent();
             
             self.hasBeenSetup = true;
         }
         
     }
     
+    
+    internal func renderContent(){
+        
+        let contentVerticalPadding = 3*verticalPadding;
+        
+        //
+        
+        for view in mainScrollView.subviews{
+            if view.tag == 1{
+                view.removeFromSuperview();
+            }
+        }
+        
+        //
+        
+        nextY = topBarView.frame.height + contentVerticalPadding;
+        
+        //
+        
+        let articleList = dataManager.getSavedArticleList();
+        
+        for article in articleList{
+            
+            let articleViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
+            let articleViewFrame = CGRect(x: horizontalPadding, y: nextY, width: articleViewWidth, height: articleViewWidth * 0.3);
+            let articleView = ArticleButton(frame: articleViewFrame);
+            
+            articleView.layer.cornerRadius = articleView.frame.height / 8;
+            articleView.clipsToBounds = true;
+            
+            articleView.backgroundColor = BackgroundSecondaryGrayColor;
+            
+            renderArticle(articleView, article);
+            
+            articleView.articleData = article;
+            articleView.tag = 1;
+            articleView.addTarget(self, action: #selector(self.openArticle), for: .touchUpInside);
+            
+            nextY += articleView.frame.height + contentVerticalPadding;
+            mainScrollView.addSubview(articleView);
+            
+        }
+        
+        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
+        
+    }
+    
     internal func renderTopBar(){
+        
+        let topBarViewWidth = mainScrollView.frame.width;
+        let topBarViewHeight = topBarViewWidth * 0.05;
+        topBarView.frame = CGRect(x: 0, y: 0, width: topBarViewWidth, height: topBarViewHeight);
+        
+        mainScrollView.addSubview(topBarView);
         
         // -- calculate size of sortButton content first before creating sortButtonFrame
     
@@ -130,12 +184,37 @@ class savedPageViewController : mainPageViewController{
         clearAllButton.layer.insertSublayer(clearAllButtonGradientLayer, at: 0);
         
         clearAllButton.setTitle(clearAllButtonLabelText, for: .normal);
-        clearAllButton.setTitleColor(InverseBackgroundColor, for: .normal);
+        clearAllButton.setTitleColor(.white, for: .normal);
         clearAllButton.titleLabel?.font = clearAllButtonLabelFont;
         clearAllButton.titleLabel?.textAlignment = .center;
         
         clearAllButton.addTarget(self, action: #selector(self.clearAll), for: .touchUpInside);
         topBarView.addSubview(clearAllButton);
+        
+    }
+    
+    internal func renderArticle(_ articleView: UIView, _ articleData: fullArticleData){
+        
+        let categoryColorViewHeight = articleView.frame.height;
+        let categoryColorViewWidth = categoryColorViewHeight * 0.08;
+        let categoryColorViewFrame = CGRect(x: 0, y: 0, width: categoryColorViewWidth, height: categoryColorViewHeight);
+        let categoryColorView = UIView(frame: categoryColorViewFrame);
+        
+        categoryColorView.backgroundColor = articleData.baseData.color;
+        
+        articleView.addSubview(categoryColorView);
+        
+        //
+        
+        
+        
+        //
+        
+        dataManager.getCategoryData(articleData.baseData.categoryID, completion: { (categorydata) in
+            
+            categoryColorView.backgroundColor = categorydata.color;
+        
+        });
         
     }
     

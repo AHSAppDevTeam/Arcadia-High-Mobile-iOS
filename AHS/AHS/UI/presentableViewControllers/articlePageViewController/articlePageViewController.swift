@@ -34,6 +34,8 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         super.viewDidLoad();
         
         setupPanGesture();
+        
+        self.articleID = articledata?.baseData.articleID ?? self.articleID;
     
         renderUI();
         
@@ -178,10 +180,20 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
     
     internal func loadArticleData(){
         refreshControl.beginRefreshing();
-        dataManager.getFullArticleData(articleID, completion: { (data) in
-            self.refreshControl.endRefreshing();
-            self.renderArticle(data);
-        });
+        
+        if (dataManager.getIsConnectedToInternet()){
+            
+            dataManager.getFullArticleData(articleID, completion: { (data) in
+                self.refreshControl.endRefreshing();
+                self.renderArticle(data);
+            });
+            
+        }
+        else{
+            
+            refreshControl.endRefreshing();
+       
+        }
     }
     
     internal func renderArticle(_ articleData: fullArticleData){
