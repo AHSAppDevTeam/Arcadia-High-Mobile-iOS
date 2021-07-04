@@ -10,8 +10,12 @@ import UIKit
 
 extension savedPageViewController{
     
-    @objc internal func refresh(){
-        
+    @objc internal func clearAll(_ button: UIButton){
+        print("clear all")
+    }
+    
+    @objc internal func sortBy(_ button: UIButton){
+        print("sort by")
     }
     
 }
