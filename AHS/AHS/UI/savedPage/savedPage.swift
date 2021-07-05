@@ -89,7 +89,7 @@ class savedPageViewController : mainPageViewController{
         for article in articleList{
             
             let articleViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
-            let articleViewFrame = CGRect(x: horizontalPadding, y: nextY, width: articleViewWidth, height: articleViewWidth * 0.3);
+            let articleViewFrame = CGRect(x: horizontalPadding, y: nextY, width: articleViewWidth, height: articleViewWidth * 0.28);
             let articleView = ArticleButton(frame: articleViewFrame);
             
             articleView.layer.cornerRadius = articleView.frame.height / 8;
@@ -195,6 +195,11 @@ class savedPageViewController : mainPageViewController{
     
     internal func renderArticle(_ articleView: UIView, _ articleData: fullArticleData){
         
+        let articleHorizontalPadding : CGFloat = 10;
+        let articleVerticalPadding : CGFloat = 5;
+        
+        //
+        
         let categoryColorViewHeight = articleView.frame.height;
         let categoryColorViewWidth = categoryColorViewHeight * 0.08;
         let categoryColorViewFrame = CGRect(x: 0, y: 0, width: categoryColorViewWidth, height: categoryColorViewHeight);
@@ -206,13 +211,94 @@ class savedPageViewController : mainPageViewController{
         
         //
         
+        let articleMiscViewWidth = articleView.frame.width - categoryColorView.frame.width - 2*articleHorizontalPadding;
+        let articleMiscViewHeight = articleView.frame.height * 0.18;
+        let articleMiscViewFrame = CGRect(x: categoryColorView.frame.width + articleHorizontalPadding, y: articleView.frame.height - articleMiscViewHeight - articleVerticalPadding, width: articleMiscViewWidth, height: articleMiscViewHeight);
+        let articleMiscView = UIView(frame: articleMiscViewFrame);
+      
+        articleMiscView.isUserInteractionEnabled = false;
         
+        ///
+        
+        let articleCategoryLabel = UILabel();
+        
+        articleCategoryLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        articleMiscView.addSubview(articleCategoryLabel);
+        
+        articleCategoryLabel.leadingAnchor.constraint(equalTo: articleMiscView.leadingAnchor).isActive = true;
+        articleCategoryLabel.topAnchor.constraint(equalTo: articleMiscView.topAnchor).isActive = true;
+        articleCategoryLabel.bottomAnchor.constraint(equalTo: articleMiscView.bottomAnchor).isActive = true;
+        
+        articleCategoryLabel.textAlignment = .left;
+        articleCategoryLabel.textColor = InverseBackgroundColor;
+        articleCategoryLabel.attributedText = generateAttributedCategoryString(articleData.baseData.categoryID, articleMiscView.frame.height);
+        
+        ///
+        
+        let articleCategoryInnerView = UIView();
+        
+        articleCategoryInnerView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        articleMiscView.addSubview(articleCategoryInnerView);
+        
+        let articleCategoryInnerViewHeight = articleMiscView.frame.height;
+        let articleCategoryInnerViewWidth = articleCategoryInnerViewHeight * 0.45;
+        
+        articleCategoryInnerView.leadingAnchor.constraint(equalTo: articleCategoryLabel.trailingAnchor, constant: articleHorizontalPadding).isActive = true;
+        articleCategoryInnerView.topAnchor.constraint(equalTo: articleMiscView.topAnchor).isActive = true;
+        articleCategoryInnerView.bottomAnchor.constraint(equalTo: articleMiscView.bottomAnchor).isActive = true;
+        articleCategoryInnerView.heightAnchor.constraint(equalToConstant: articleCategoryInnerViewHeight).isActive = true;
+        articleCategoryInnerView.widthAnchor.constraint(equalToConstant: articleCategoryInnerViewWidth).isActive = true;
+        
+        articleCategoryInnerView.backgroundColor = BackgroundGrayColor;
+        
+        ///
+        
+        let articleTimestampLabel = UILabel();
+        
+        articleTimestampLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        articleMiscView.addSubview(articleTimestampLabel);
+        
+        articleTimestampLabel.leadingAnchor.constraint(equalTo: articleCategoryInnerView.trailingAnchor, constant: articleHorizontalPadding).isActive = true;
+        articleTimestampLabel.topAnchor.constraint(equalTo: articleMiscView.topAnchor).isActive = true;
+        articleTimestampLabel.bottomAnchor.constraint(equalTo: articleMiscView.bottomAnchor).isActive = true;
+        articleTimestampLabel.trailingAnchor.constraint(lessThanOrEqualTo: articleMiscView.trailingAnchor, constant: articleHorizontalPadding).isActive = true;
+        
+        articleTimestampLabel.textAlignment = .left;
+        articleTimestampLabel.textColor = BackgroundGrayColor;
+        articleTimestampLabel.numberOfLines = 1;
+        articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleMiscView.frame.height * 0.7);
+        articleTimestampLabel.text = timeManager.epochToDiffString(articleData.baseData.timestamp);
+        
+        ///
+        
+        articleView.addSubview(articleMiscView);
+        
+        //
+        
+        let articleTitleLabelFrame = CGRect(x: categoryColorView.frame.width + articleHorizontalPadding, y: verticalPadding, width: articleView.frame.width - categoryColorView.frame.width - 2*articleHorizontalPadding, height: articleView.frame.height - 3*articleVerticalPadding - articleMiscView.frame.height);
+        let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
+        
+        articleTitleLabel.text = articleData.baseData.title;
+        articleTitleLabel.textAlignment = .left;
+        articleTitleLabel.textColor = InverseBackgroundColor;
+        articleTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabel.frame.height * 0.35);
+        articleTitleLabel.numberOfLines = 2;
+        
+        articleView.addSubview(articleTitleLabel);
         
         //
         
         dataManager.getCategoryData(articleData.baseData.categoryID, completion: { (categorydata) in
             
             categoryColorView.backgroundColor = categorydata.color;
+            articleCategoryInnerView.backgroundColor = categorydata.color;
+            
+            //
+            
+            articleCategoryLabel.attributedText = self.generateAttributedCategoryString(categorydata.title, articleMiscView.frame.height);
         
         });
         

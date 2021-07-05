@@ -33,4 +33,16 @@ extension savedPageViewController{
         
     }
     
+    //
+    
+    internal func generateAttributedCategoryString(_ categoryTitle: String, _ height: CGFloat) -> NSAttributedString{
+        
+        let fontSize = height * 0.7;
+        
+        let attributedString = NSMutableAttributedString(string: categoryTitle, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: fontSize)!]);
+        attributedString.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: fontSize)!]));
+        
+        return attributedString;
+    }
+    
 }
