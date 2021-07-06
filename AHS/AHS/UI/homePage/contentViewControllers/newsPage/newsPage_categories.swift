@@ -234,7 +234,7 @@ extension newsPageController{
             
             //
             
-            let articleScrollView = UIScrollView();
+            let articleScrollView = UIButtonScrollView();
             
             carouselView.addSubview(articleScrollView);
             
@@ -376,7 +376,7 @@ extension newsPageController{
         return out;
     }
     
-    private func renderScrollView(_ scrollView: UIScrollView, _ categoryIndex: Int, _ articleIDs: [String], _ scrollViewSize: CGSize, _ categorydata: categoryData){
+    private func renderScrollView(_ scrollView: UIButtonScrollView, _ categoryIndex: Int, _ articleIDs: [String], _ scrollViewSize: CGSize, _ categorydata: categoryData){
         //print(arrayToPairs(articleIDs));
         
         let articleIDPArray = arrayToPairs(articleIDs);

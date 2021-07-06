@@ -22,7 +22,7 @@ class homePageViewController : mainPageViewController{
     
     //
     
-    internal var mainScrollView : UIScrollView = UIScrollView();
+    internal var mainScrollView : UIButtonScrollView = UIButtonScrollView();
     
     // main scrollview views
     
@@ -64,7 +64,7 @@ class homePageViewController : mainPageViewController{
         if (!self.hasBeenSetup){
             self.view.backgroundColor = BackgroundColor;
             
-            mainScrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height));
+            mainScrollView = UIButtonScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height));
             mainScrollView.alwaysBounceVertical = true;
             
             self.view.addSubview(mainScrollView);
