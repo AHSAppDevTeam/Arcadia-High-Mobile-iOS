@@ -34,6 +34,8 @@ class savedPageViewController : mainPageViewController{
     internal let mainScrollView : UIScrollView = UIScrollView();
     internal var nextY : CGFloat = 0;
     
+    internal let noArticleLabel : UILabel = UILabel();
+    
     internal let sortByPopTip : PopTip = PopTip();
     
     //
@@ -90,25 +92,49 @@ class savedPageViewController : mainPageViewController{
         
         let articleList = dataManager.getSavedArticleList();
         
-        for article in articleList{
+        if (articleList.count > 0){
             
-            let articleViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
-            let articleViewFrame = CGRect(x: horizontalPadding, y: nextY, width: articleViewWidth, height: articleViewWidth * 0.28);
-            let articleView = ArticleButton(frame: articleViewFrame);
+            noArticleLabel.isHidden = true;
             
-            articleView.layer.cornerRadius = articleView.frame.height / 8;
-            articleView.clipsToBounds = true;
+            for article in articleList{
+                
+                let articleViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
+                let articleViewFrame = CGRect(x: horizontalPadding, y: nextY, width: articleViewWidth, height: articleViewWidth * 0.28);
+                let articleView = ArticleButton(frame: articleViewFrame);
+                
+                articleView.layer.cornerRadius = articleView.frame.height / 8;
+                articleView.clipsToBounds = true;
+                
+                articleView.backgroundColor = BackgroundSecondaryGrayColor;
+                
+                renderArticle(articleView, article);
+                
+                articleView.articleData = article;
+                articleView.tag = 1;
+                articleView.addTarget(self, action: #selector(self.openArticle), for: .touchUpInside);
+                
+                nextY += articleView.frame.height + contentVerticalPadding;
+                mainScrollView.addSubview(articleView);
+                
+            }
             
-            articleView.backgroundColor = BackgroundSecondaryGrayColor;
+        }
+        else{
             
-            renderArticle(articleView, article);
+            noArticleLabel.isHidden = false;
             
-            articleView.articleData = article;
-            articleView.tag = 1;
-            articleView.addTarget(self, action: #selector(self.openArticle), for: .touchUpInside);
+            let noArticleLabelFrameWidth = mainScrollView.frame.width - 2*horizontalPadding;
+            noArticleLabel.frame = CGRect(x: horizontalPadding, y: nextY, width: noArticleLabelFrameWidth, height: noArticleLabelFrameWidth * 0.08);
             
-            nextY += articleView.frame.height + contentVerticalPadding;
-            mainScrollView.addSubview(articleView);
+            noArticleLabel.text = "No Saved Articles";
+            noArticleLabel.font = UIFont(name: SFProDisplay_Regular, size: noArticleLabel.frame.height * 0.7);
+            noArticleLabel.textAlignment = .center;
+            noArticleLabel.textColor = InverseBackgroundGrayColor;
+            noArticleLabel.numberOfLines = 1;
+            
+            noArticleLabel.tag = 1;
+            nextY += noArticleLabel.frame.height;
+            mainScrollView.addSubview(noArticleLabel);
             
         }
         
