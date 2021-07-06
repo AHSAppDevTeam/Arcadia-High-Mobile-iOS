@@ -7,6 +7,7 @@ targets:
         sources: [AHS]
         settings:
             PRODUCT_BUNDLE_IDENTIFIER: com.ArcadiaApaches.ArcadiaHighSchoolApp
+            TARGETED_DEVICE_FAMILY: 1
     AHSTests:
         type: bundle.unit-test
         platform: iOS

@@ -22,11 +22,22 @@ extension savedPageViewController : UIScrollViewDelegate{
     
     @objc internal func clearAll(_ button: UIButton){
         
-        for article in dataManager.getSavedArticleList(){
-            dataManager.unsaveArticle(article.baseData.articleID);
-        }
+        let confirmPopUp = UIAlertController(title: "Clear All Saved Articles", message: "Are you sure?", preferredStyle: .actionSheet);
         
-        reload();
+        confirmPopUp.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (_) in
+            
+            for article in dataManager.getSavedArticleList(){
+                dataManager.unsaveArticle(article.baseData.articleID);
+            }
+            
+            self.reload();
+            
+        }));
+        
+        confirmPopUp.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil));
+        
+        self.present(confirmPopUp, animated: true);
+        
     }
     
     @objc internal func sortBy(_ button: UIButton){
