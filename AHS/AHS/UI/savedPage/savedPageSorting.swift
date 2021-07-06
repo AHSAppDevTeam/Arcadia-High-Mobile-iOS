@@ -8,12 +8,22 @@
 import Foundation
 import UIKit
 
-enum savedSortingMethods{
+enum savedSortingMethods : Int, Codable{
     case byTime
     case byTitle
     case byAuthor
+    
+    case byInvertedTime
+    case byInvertedTitle
+    case byInvertedAuthor
 }
 
 extension savedPageViewController{
+    
+    internal func sortArticles(_ articleList: [fullArticleData]) -> [fullArticleData]{
+        return articleList.sorted(by: { (a, b) in
+            return a.baseData.timestamp > b.baseData.timestamp;
+        });
+    }
     
 }

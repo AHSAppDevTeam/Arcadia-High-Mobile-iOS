@@ -31,7 +31,7 @@ class savedPageViewController : mainPageViewController{
     
     internal let refreshControl : UIRefreshControl = UIRefreshControl();
     
-    internal let mainScrollView : UIScrollView = UIScrollView();
+    internal let mainScrollView : UIButtonScrollView = UIButtonScrollView();
     internal var nextY : CGFloat = 0;
     
     internal let noArticleLabel : UILabel = UILabel();
@@ -90,7 +90,7 @@ class savedPageViewController : mainPageViewController{
         
         //
         
-        let articleList = dataManager.getSavedArticleList();
+        let articleList = sortArticles(dataManager.getSavedArticleList());
         
         if (articleList.count > 0){
             

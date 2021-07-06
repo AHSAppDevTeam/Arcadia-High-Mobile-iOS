@@ -28,6 +28,14 @@ extension dataManager{
             }
         }
         
+        //
+        
+        var savedArticlesSortPreference : savedSortingMethods = .byTime{
+            didSet{
+                dataManager.savePreferences();
+            }
+        }
+        
     }
     
     public static func loadPreferences(){
