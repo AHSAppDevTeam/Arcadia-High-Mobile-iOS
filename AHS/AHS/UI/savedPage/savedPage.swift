@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AMPopTip
 
 class savedPageViewController : mainPageViewController{
     
@@ -33,6 +34,8 @@ class savedPageViewController : mainPageViewController{
     internal let mainScrollView : UIScrollView = UIScrollView();
     internal var nextY : CGFloat = 0;
     
+    internal let sortByPopTip : PopTip = PopTip();
+    
     //
     
     override func viewDidLoad() {
@@ -48,6 +51,7 @@ class savedPageViewController : mainPageViewController{
             
             mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);
             mainScrollView.alwaysBounceVertical = true;
+            mainScrollView.delegate = self;
             self.view.addSubview(mainScrollView);
             
             //
