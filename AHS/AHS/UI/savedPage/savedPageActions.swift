@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AudioToolbox
 
 extension savedPageViewController : UIScrollViewDelegate{
     
@@ -25,6 +26,8 @@ extension savedPageViewController : UIScrollViewDelegate{
         let confirmPopUp = UIAlertController(title: "Clear All Saved Articles", message: "Are you sure?", preferredStyle: .actionSheet);
         
         confirmPopUp.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (_) in
+            
+            UIImpactFeedbackGenerator(style: .light).impactOccurred();
             
             for article in dataManager.getSavedArticleList(){
                 dataManager.unsaveArticle(article.baseData.articleID);
