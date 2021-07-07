@@ -69,8 +69,14 @@ class savedPageViewController : mainPageViewController{
             self.hasBeenSetup = true;
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.endRefreshing) ,name: NSNotification.Name(rawValue: endDataManagerRefreshing), object: nil);
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated);
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: endDataManagerRefreshing), object: nil);
+    }
     
     internal func renderContent(){
         

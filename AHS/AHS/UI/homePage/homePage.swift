@@ -84,6 +84,7 @@ class homePageViewController : mainPageViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(self.endRefreshing) ,name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.beginRefreshing), name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.endRefreshing) ,name: NSNotification.Name(rawValue: endDataManagerRefreshing), object: nil);
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -91,6 +92,7 @@ class homePageViewController : mainPageViewController{
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: endDataManagerRefreshing), object: nil);
     }
     
     private func setupLayout(){

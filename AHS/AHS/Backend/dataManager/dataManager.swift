@@ -47,15 +47,26 @@ class dataManager{
     }
     
     static private func noInternetPopup(){
+        
         if (!isPresentingPopup){
             isPresentingPopup = true;
+            
             let popup = UIAlertController(title: "No Internet Connection", message: "No content was loaded", preferredStyle: .alert);
             popup.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: endDataManagerRefreshing), object: nil);
                 popup.removeFromParent();
                 isPresentingPopup = false;
             }));
-            SceneDelegate.window?.rootViewController?.present(popup, animated: true, completion: nil);
+            
+            
+            DispatchQueue.global(qos: .background).async {
+             
+                while SceneDelegate.window == nil {};
+                
+                DispatchQueue.main.async {
+                    SceneDelegate.window!.rootViewController?.present(popup, animated: true, completion: nil);
+                }
+            }
         }
     }
     

@@ -72,12 +72,14 @@ class bulletinPageViewController : mainPageViewController{
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.endRefreshing) ,name: NSNotification.Name(rawValue: endDataManagerRefreshing), object: nil);
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated);
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: endDataManagerRefreshing), object: nil);
     }
     
     internal func renderLayout(){

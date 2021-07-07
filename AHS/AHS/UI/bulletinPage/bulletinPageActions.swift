@@ -17,6 +17,10 @@ extension bulletinPageViewController{
         dataManager.resetBulletinArticleListCache();
     }
  
+    @objc internal func endRefreshing(){
+        self.refreshControl.endRefreshing();
+    }
+    
     @objc internal func handleCategoryButton(_ button: CategoryButton){
         button.isSelected = !button.isSelected;
         updateCategoryFilter(button.categoryID, button.isSelected);

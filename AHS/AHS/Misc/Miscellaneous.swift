@@ -53,4 +53,7 @@ let setScrollViewZeroContentOffset = "setScrollViewZeroContentOffset";
 let homePageRefreshNotification = "homePageRefreshNotification";
 let homePageEndRefreshing = "homePageEndRefreshing";
 let homePageBeginRefreshing = "homePageBeginRefreshing";
+
+let endDataManagerRefreshing = "endDataManagerRefreshing";
+
 //
