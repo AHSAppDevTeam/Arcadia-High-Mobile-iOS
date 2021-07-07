@@ -153,6 +153,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         //topBarCategoryButtonLabel.titleLabel?.textAlignment = .left;
         topBarCategoryButtonLabel.contentHorizontalAlignment = .left;
         topBarCategoryButtonLabel.setTitleColor(UIColor.init(hex: "cc5454"), for: .normal);
+        topBarCategoryButtonLabel.setAttributedTitle(self.generateTopBarTitleText(articledata?.baseData.categoryID ?? ""), for: .normal);
         
         topBarCategoryButtonLabel.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
         
@@ -320,6 +321,7 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         categoryButton.titleLabel?.textAlignment = .center;
         categoryButton.titleLabel?.lineBreakMode = .byTruncatingTail;
         categoryButton.setTitleColor(UIColor.init(hex: "cc5454"), for: .normal);
+        categoryButton.setAttributedTitle(self.generateCategoryButtonTitle(articleData.baseData.categoryID, categoryButton.frame.height), for: .normal);
         categoryButton.titleEdgeInsets = UIEdgeInsets(top: categoryButtonInnerButtonEdgeInsets, left: categoryButtonInnerButtonEdgeInsets, bottom: categoryButtonInnerButtonEdgeInsets, right: categoryButtonInnerButtonEdgeInsets);
         
         categoryButton.tag = 1;
@@ -552,17 +554,11 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         dataManager.getCategoryData(articleData.baseData.categoryID, completion: { (categorydata) in
             
-            let topBarCategoryLabelFontSize = self.topBarCategoryButtonLabel.frame.height * 0.7;
-            let topBarCategoryLabelAttributedText = NSMutableAttributedString(string: categorydata.title, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarCategoryLabelFontSize)!]);
-            topBarCategoryLabelAttributedText.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarCategoryLabelFontSize)!]));
-            self.topBarCategoryButtonLabel.setAttributedTitle(topBarCategoryLabelAttributedText, for: .normal);
+            self.topBarCategoryButtonLabel.setAttributedTitle(self.generateTopBarTitleText(categorydata.title), for: .normal);
             
             //
             
-            let categoryButtonLabelFontSize = categoryButton.frame.height * 0.4;
-            let categoryButtonLabelAttributedText = NSMutableAttributedString(string: "See more in ", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: categoryButtonLabelFontSize)!]);
-            categoryButtonLabelAttributedText.append(NSAttributedString(string: categorydata.title + " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryButtonLabelFontSize)!]));
-            categoryButton.setAttributedTitle(categoryButtonLabelAttributedText, for: .normal);
+            categoryButton.setAttributedTitle(self.generateCategoryButtonTitle(categorydata.title, categoryButton.frame.height), for: .normal);
             
         });
         

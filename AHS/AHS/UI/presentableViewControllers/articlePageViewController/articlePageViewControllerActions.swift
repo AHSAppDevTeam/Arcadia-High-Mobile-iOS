@@ -194,4 +194,22 @@ extension articlePageViewController{
         fontSliderPopTip.tag = 1;
     }
     
+    internal func generateTopBarTitleText(_ categoryTitle: String) -> NSAttributedString{
+        
+        let topBarCategoryLabelFontSize = self.topBarCategoryButtonLabel.frame.height * 0.7;
+        let topBarCategoryLabelAttributedText = NSMutableAttributedString(string: categoryTitle, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarCategoryLabelFontSize)!]);
+        topBarCategoryLabelAttributedText.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarCategoryLabelFontSize)!]));
+        
+        return topBarCategoryLabelAttributedText;
+    }
+    
+    internal func generateCategoryButtonTitle(_ categoryTitle: String, _ categoryButtonHeight: CGFloat) -> NSAttributedString{
+        
+        let categoryButtonLabelFontSize = categoryButtonHeight * 0.4;
+        let categoryButtonLabelAttributedText = NSMutableAttributedString(string: "See more in ", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: categoryButtonLabelFontSize)!]);
+        categoryButtonLabelAttributedText.append(NSAttributedString(string: categoryTitle + " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryButtonLabelFontSize)!]));
+        
+        return categoryButtonLabelAttributedText;
+    }
+    
 }
