@@ -26,6 +26,10 @@ extension savedPageViewController : UIScrollViewDelegate{
         self.mainScrollView.setContentOffset(.zero, animated: true);
     }
     
+    @objc internal func resetContentOffset(){
+        self.mainScrollView.setContentOffset(.zero, animated: true);
+    }
+    
     @objc internal func clearAll(_ button: UIButton){
         
         let confirmPopUp = UIAlertController(title: "Clear All Saved Articles", message: "Are you sure?", preferredStyle: .actionSheet);
