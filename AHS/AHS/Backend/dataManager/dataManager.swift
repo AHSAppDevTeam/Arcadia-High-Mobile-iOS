@@ -75,4 +75,14 @@ class dataManager{
         return internetConnected;
     }
     
+    static public func articleTimestampComp(_ aT: Int64, _ bT: Int64) -> Bool{
+        let currTime = timeManager.getCurrentEpoch();
+        if (aT > currTime && bT > currTime){
+            return aT < bT;
+        }
+        else{
+            return aT > bT;
+        }
+    }
+    
 }

@@ -43,16 +43,8 @@ extension bulletinPageViewController{
     
     private func sortArticleList(){
         bulletinArticleIDList.sort(by: { (a, b) in
-            let currTime = timeManager.getCurrentEpoch();
             let aT = dataManager.getCachedBulletinArticleData(a).timestamp, bT = dataManager.getCachedBulletinArticleData(b).timestamp;
-            
-            if (aT > currTime && bT > currTime){
-                return aT < bT;
-            }
-            else{
-                return aT > bT;
-            }
-            
+            return dataManager.articleTimestampComp(aT, bT);
         });
     }
     
