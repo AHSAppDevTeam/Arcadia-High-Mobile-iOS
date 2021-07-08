@@ -17,25 +17,48 @@ enum savedSortingMethods : Int, Codable{
     case byInvertedTitle
     case byInvertedAuthor
     
-    public func comp(_ a: fullArticleData, _ b: fullArticleData) -> Bool{
-        switch self {
-        case .byTime:
-            return internalComp(a, b, .byTime);
-        case .byTitle:
-            return internalComp(a, b, .byTitle)
-        case .byAuthor:
-            return internalComp(a, b, .byAuthor);
-            //
-        case .byInvertedTime:
-            return !internalComp(a, b, .byTime);
-        case .byInvertedTitle:
-            return !internalComp(a, b, .byTitle);
-        case .byInvertedAuthor:
-            return !internalComp(a, b, .byAuthor);
+    static public func numberOfEnums() -> Int{
+        return 6;
+    }
+    
+    static public func nameFromIndex(_ index: Int) -> String{
+        switch index {
+        case 0:
+            return "Time";
+        case 1:
+            return "Title";
+        case 2:
+            return "Author";
+        case 3:
+            return "Inverted Time";
+        case 4:
+            return "Inverted Title";
+        case 5:
+            return "Inverted Author";
+        default:
+            return "";
         }
     }
     
-    private func internalComp(_ a: fullArticleData, _ b: fullArticleData, _ method: savedSortingMethods) -> Bool{
+    public func comp(_ a: fullArticleData, _ b: fullArticleData) -> Bool{
+        switch self {
+        case .byTime:
+            return savedSortingMethods.internalComp(a, b, .byTime);
+        case .byTitle:
+            return savedSortingMethods.internalComp(a, b, .byTitle)
+        case .byAuthor:
+            return savedSortingMethods.internalComp(a, b, .byAuthor);
+            //
+        case .byInvertedTime:
+            return !savedSortingMethods.internalComp(a, b, .byTime);
+        case .byInvertedTitle:
+            return !savedSortingMethods.internalComp(a, b, .byTitle);
+        case .byInvertedAuthor:
+            return !savedSortingMethods.internalComp(a, b, .byAuthor);
+        }
+    }
+    
+    private static func internalComp(_ a: fullArticleData, _ b: fullArticleData, _ method: savedSortingMethods) -> Bool{
         switch method {
         case .byTime:
             return dataManager.articleTimestampComp(a.baseData.timestamp, b.baseData.timestamp);

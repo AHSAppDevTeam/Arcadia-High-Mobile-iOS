@@ -57,11 +57,18 @@ extension savedPageViewController : UIScrollViewDelegate{
         
         if (!sortByPopTip.isVisible){
             
-            let sortByViewWidth = mainScrollView.frame.width * 0.3;
-            let sortByViewFrame = CGRect(x: 0, y: 0, width: sortByViewWidth, height: sortByViewWidth * 1.2);
-            let sortByView = UIView(frame: sortByViewFrame);
+            let sortByTableViewWidth = mainScrollView.frame.width * 0.3;
+            let sortByTableViewFrame = CGRect(x: 0, y: 0, width: sortByTableViewWidth, height: sortByTableViewWidth * 1.2);
+            let sortByTableView = UITableView(frame: sortByTableViewFrame);
             
-            sortByView.backgroundColor = InverseBackgroundColor;
+            sortByTableView.delegate = self;
+            sortByTableView.dataSource = self;
+            sortByTableView.rowHeight = sortByTableView.frame.height / CGFloat(savedSortingMethods.numberOfEnums());
+            sortByTableView.isScrollEnabled = false;
+            sortByTableView.register(savedPageSortByCell.self, forCellReuseIdentifier: savedPageSortByCell.identifier);
+            
+            
+            //
             
             sortByPopTip.bubbleColor = BackgroundColor;
             //fontSliderPopTip.isRounded = true;
@@ -69,7 +76,7 @@ extension savedPageViewController : UIScrollViewDelegate{
             sortByPopTip.shouldDismissOnSwipeOutside = true;
             sortByPopTip.shouldDismissOnTapOutside = true;
             
-            sortByPopTip.show(customView: sortByView, direction: .down, in: mainScrollView, from: CGRect(x: button.center.x, y: button.frame.maxY, width: 0, height: 0));
+            sortByPopTip.show(customView: sortByTableView, direction: .down, in: mainScrollView, from: CGRect(x: button.center.x, y: button.frame.maxY, width: 0, height: 0));
             
         }
         else{
