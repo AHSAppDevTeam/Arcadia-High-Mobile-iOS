@@ -25,7 +25,7 @@ class bulletinPageViewController : mainPageViewController{
     
     internal let comingUpMaxArticleCount : Int = 4;
     
-    internal let mainScrollView : UIScrollView = UIScrollView();
+    internal let mainScrollView : UIButtonScrollView = UIButtonScrollView();
     internal let verticalPadding : CGFloat = 5;
     internal let horizontalPadding : CGFloat = 10;
     
