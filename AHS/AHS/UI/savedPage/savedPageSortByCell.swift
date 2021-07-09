@@ -18,13 +18,19 @@ class savedPageSortByCell : UITableViewCell{
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier);
     
-        titleLabel.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height);
-        titleLabel.textAlignment = .left;
-        titleLabel.textColor = InverseBackgroundColor;
-        titleLabel.font = UIFont(name: SFProDisplay_Regular, size: titleLabel.frame.height * 0.2);
-        titleLabel.numberOfLines = 1;
-        
         self.contentView.addSubview(titleLabel);
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true;
+        titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true;
+        titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true;
+        titleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true;
+        
+        titleLabel.textAlignment = .center;
+        titleLabel.textColor = InverseBackgroundColor;
+        titleLabel.font = UIFont(name: SFProDisplay_Regular, size: titleLabel.font.pointSize);
+        titleLabel.numberOfLines = 1;
         
     }
     
@@ -39,8 +45,9 @@ class savedPageSortByCell : UITableViewCell{
     
     //
     
-    public func update(_ index: Int){ // 0 based
+    public func update(_ index: Int, _ height: CGFloat){ // 0 based
         titleLabel.text = savedSortingMethods.nameFromIndex(index);
+        titleLabel.font = UIFont(name: SFProDisplay_Regular, size: height * 0.5);
     }
     
     private func reset(){

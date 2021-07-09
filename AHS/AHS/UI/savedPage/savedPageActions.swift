@@ -61,9 +61,11 @@ extension savedPageViewController : UIScrollViewDelegate{
             let sortByTableViewFrame = CGRect(x: 0, y: 0, width: sortByTableViewWidth, height: sortByTableViewWidth * 1.2);
             let sortByTableView = UITableView(frame: sortByTableViewFrame);
             
+            cellHeight = sortByTableView.frame.height / CGFloat(savedSortingMethods.numberOfEnums());
+            
             sortByTableView.delegate = self;
             sortByTableView.dataSource = self;
-            sortByTableView.rowHeight = sortByTableView.frame.height / CGFloat(savedSortingMethods.numberOfEnums());
+            sortByTableView.rowHeight = cellHeight;
             sortByTableView.isScrollEnabled = false;
             sortByTableView.register(savedPageSortByCell.self, forCellReuseIdentifier: savedPageSortByCell.identifier);
             

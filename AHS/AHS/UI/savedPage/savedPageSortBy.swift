@@ -20,11 +20,15 @@ extension savedPageViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: savedPageSortByCell.identifier, for: indexPath) as! savedPageSortByCell;
+        cell.selectionStyle = .none;
         
-        cell.update(indexPath.row);
+        cell.update(indexPath.row, cellHeight);
         
         return cell;
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.layoutIfNeeded();
+    }
     
 }
