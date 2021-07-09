@@ -49,7 +49,6 @@ class dataManager{
     static private func noInternetPopup(){
         
         if (!isPresentingPopup){
-            isPresentingPopup = true;
             
             let popup = UIAlertController(title: "No Internet Connection", message: "No content was loaded", preferredStyle: .alert);
             popup.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
@@ -58,15 +57,18 @@ class dataManager{
                 isPresentingPopup = false;
             }));
             
-            
-            DispatchQueue.global(qos: .background).async {
-             
-                while SceneDelegate.window == nil {};
-                
-                DispatchQueue.main.async {
-                    SceneDelegate.window!.rootViewController?.present(popup, animated: true, completion: nil);
+            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+
+            if var topController = keyWindow?.rootViewController {
+                while let presentedViewController = topController.presentedViewController {
+                    topController = presentedViewController
                 }
+
+                isPresentingPopup = true;
+                
+                topController.present(popup, animated: true, completion: nil);
             }
+        
         }
     }
     
