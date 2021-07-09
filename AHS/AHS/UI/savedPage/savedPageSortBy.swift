@@ -11,6 +11,8 @@ import UIKit
 extension savedPageViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        sortByPopTip.hide();
+        reload();
         print("selected cell at \(indexPath.row)");
     }
     

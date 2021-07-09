@@ -57,8 +57,8 @@ extension savedPageViewController : UIScrollViewDelegate{
         
         if (!sortByPopTip.isVisible){
             
-            let sortByTableViewWidth = mainScrollView.frame.width * 0.3;
-            let sortByTableViewFrame = CGRect(x: 0, y: 0, width: sortByTableViewWidth, height: sortByTableViewWidth * 1.2);
+            let sortByTableViewWidth = mainScrollView.frame.width * 0.35;
+            let sortByTableViewFrame = CGRect(x: 0, y: 0, width: sortByTableViewWidth, height: sortByTableViewWidth * 1.3);
             let sortByTableView = UITableView(frame: sortByTableViewFrame);
             
             cellHeight = sortByTableView.frame.height / CGFloat(savedSortingMethods.numberOfEnums());

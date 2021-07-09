@@ -47,7 +47,7 @@ class savedPageSortByCell : UITableViewCell{
     
     public func update(_ index: Int, _ height: CGFloat){ // 0 based
         titleLabel.text = savedSortingMethods.nameFromIndex(index);
-        titleLabel.font = UIFont(name: SFProDisplay_Regular, size: height * 0.5);
+        titleLabel.font = UIFont(name: SFProDisplay_Regular, size: height * 0.55);
     }
     
     private func reset(){
