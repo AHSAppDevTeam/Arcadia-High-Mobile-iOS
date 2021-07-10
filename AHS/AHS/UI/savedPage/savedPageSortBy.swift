@@ -16,7 +16,6 @@ extension savedPageViewController: UITableViewDelegate, UITableViewDataSource{
         sortingMethod = savedSortingMethods.methodFromIndex(indexPath.row);
         sortByPopTip.hide();
         reload();
-        print("selected cell at \(indexPath.row)");
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
