@@ -152,7 +152,8 @@ class navigationViewController : UIViewController{
         notificationButton.contentHorizontalAlignment = .fill;
         notificationButton.imageView?.contentMode = .scaleAspectFit;
         notificationButton.tintColor = InverseBackgroundGrayColor;
-        //notificationButton.addTarget(self, action: #selector(self.openNotificationPage), for: .touchUpInside);
+        
+        notificationButton.addTarget(self, action: #selector(self.openNotificationPage), for: .touchUpInside);
         
         topBarView.addSubview(notificationButton);
         

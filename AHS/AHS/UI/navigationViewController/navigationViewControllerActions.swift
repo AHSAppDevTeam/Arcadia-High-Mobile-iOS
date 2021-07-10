@@ -49,6 +49,10 @@ extension navigationViewController{
         openPresentablePage(vc);
     }
 
+    @objc func openNotificationPage(){
+        openPresentablePage(notificationPageViewController());
+    }
+    
     @objc func openCategoryPage(_ notification: NSNotification){
         guard let dict = notification.userInfo as NSDictionary? else{
             return;
