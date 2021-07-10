@@ -41,22 +41,7 @@ enum savedSortingMethods : Int, Codable{
     }
     
     static public func methodFromIndex(_ index: Int) -> savedSortingMethods{
-        switch index {
-        case 0:
-            return .byTime;
-        case 1:
-            return .byTitle;
-        case 2:
-            return .byAuthor;
-        case 3:
-            return .byInvertedTime;
-        case 4:
-            return .byInvertedTitle;
-        case 5:
-            return .byInvertedAuthor;
-        default:
-            return .byTime;
-        }
+        return self.init(rawValue: index) ?? .byTime;
     }
     
     public func comp(_ a: fullArticleData, _ b: fullArticleData) -> Bool{
@@ -98,7 +83,7 @@ extension savedPageViewController{
     internal func sortArticles(_ articleList: [fullArticleData]) -> [fullArticleData]{
         
         return articleList.sorted(by: { (a, b) in
-            return a.baseData.timestamp > b.baseData.timestamp;
+            return sortingMethod.comp(a, b);
         });
     
     }

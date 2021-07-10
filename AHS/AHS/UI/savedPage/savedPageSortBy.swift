@@ -7,10 +7,13 @@
 
 import Foundation
 import UIKit
+import AudioToolbox
 
 extension savedPageViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        UIImpactFeedbackGenerator(style: .soft).impactOccurred();
+        sortingMethod = savedSortingMethods.methodFromIndex(indexPath.row);
         sortByPopTip.hide();
         reload();
         print("selected cell at \(indexPath.row)");
