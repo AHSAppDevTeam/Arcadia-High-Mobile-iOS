@@ -15,5 +15,7 @@ class notificationPageViewController : presentableViewController{
         setupPanGesture();
         
         self.view.backgroundColor = .systemRed;
+        
+        
     }
 }
