@@ -158,7 +158,7 @@ class savedPageViewController : mainPageViewController{
         
         let topBarViewWidth = mainScrollView.frame.width;
         let topBarViewHeight = topBarViewWidth * 0.05;
-        topBarView.frame = CGRect(x: 0, y: 0, width: topBarViewWidth, height: topBarViewHeight);
+        topBarView.frame = CGRect(x: 0, y: verticalPadding, width: topBarViewWidth, height: topBarViewHeight);
         
         mainScrollView.addSubview(topBarView);
         
