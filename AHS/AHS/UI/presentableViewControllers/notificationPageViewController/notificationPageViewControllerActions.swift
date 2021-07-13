@@ -15,7 +15,6 @@ extension notificationPageViewController{
     }
     
     @objc internal func refresh(_ refreshControl: UIRefreshControl){
-        self.refreshControl.endRefreshing();
         loadNotificationList();
     }
     

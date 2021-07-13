@@ -185,10 +185,14 @@ class notificationPageViewController : presentableViewController{
     }
     
     internal func loadNotificationList(){
-        renderContent([]);
+        self.refreshControl.beginRefreshing();
+        dataManager.getNotificationList(completion: { (notificationIDList) in
+            self.renderContent(notificationIDList);
+            self.refreshControl.endRefreshing();
+        });
     }
     
-    internal func renderContent(_ notificationList: [notificationData]){
+    internal func renderContent(_ notificationIDList: [String]){
         
         for subview in mainScrollView.subviews{
             if subview.tag == 1{
@@ -196,7 +200,104 @@ class notificationPageViewController : presentableViewController{
             }
         }
         
-        nextY = topContentView.frame.maxY + verticalPadding;
+        let contentVerticalPadding = 2*verticalPadding;
+        
+        nextY = topContentView.frame.maxY + contentVerticalPadding;
+        
+        //print("list size - \(notificationList.count)")
+        
+        for notificationID in notificationIDList{
+            
+            let notificationViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
+            let notificationViewFrame = CGRect(x: horizontalPadding, y: nextY, width: notificationViewWidth, height: notificationViewWidth * 0.22);
+            let notificationView = UIView(frame: notificationViewFrame);
+            
+            notificationView.backgroundColor = BackgroundSecondaryGrayColor;
+            notificationView.layer.cornerRadius = notificationView.frame.height / 8;
+            notificationView.clipsToBounds = true;
+            
+            self.renderNotification(notificationView, notificationID);
+            
+            notificationView.tag = 1;
+            mainScrollView.addSubview(notificationView);
+            nextY += notificationView.frame.height + contentVerticalPadding;
+            
+        }
+        
+        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
+    }
+    
+    internal func renderNotification(_ notificationView: UIView, _ notificationID: String){
+        
+        let topViewFrame = CGRect(x: 0, y: 0, width: notificationView.frame.width, height: notificationView.frame.height * 0.28);
+        let topView = UIView(frame: topViewFrame);
+        
+        ///
+        
+        let categoryLabel = UILabel();
+        
+        categoryLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        topView.addSubview(categoryLabel);
+        
+        categoryLabel.leadingAnchor.constraint(equalTo: topView.leadingAnchor, constant: horizontalPadding).isActive = true;
+        categoryLabel.topAnchor.constraint(equalTo: topView.topAnchor).isActive = true;
+        categoryLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true;
+        
+        categoryLabel.textAlignment = .left;
+        categoryLabel.textColor = InverseBackgroundColor;
+        categoryLabel.font = UIFont(name: SFProDisplay_Semibold, size: topView.frame.height * 0.7);
+        categoryLabel.numberOfLines = 1;
+        
+        //
+        
+        let timestampLabel = UILabel();
+        
+        timestampLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        topView.addSubview(timestampLabel);
+        
+        timestampLabel.leadingAnchor.constraint(equalTo: categoryLabel.trailingAnchor).isActive = true;
+        timestampLabel.topAnchor.constraint(equalTo: categoryLabel.topAnchor).isActive = true;
+        timestampLabel.bottomAnchor.constraint(equalTo: categoryLabel.bottomAnchor).isActive = true;
+        timestampLabel.trailingAnchor.constraint(lessThanOrEqualTo: topView.trailingAnchor, constant: horizontalPadding).isActive = true;
+        
+        timestampLabel.textAlignment = .left;
+        timestampLabel.textColor = InverseBackgroundGrayColor;
+        timestampLabel.font = UIFont(name: SFProDisplay_Regular, size: topView.frame.height * 0.5);
+        timestampLabel.numberOfLines = 1;
+        
+        ///
+        
+        notificationView.addSubview(topView);
+        
+        //
+        
+        let bottomViewFrame = CGRect(x: 0, y: topView.frame.height, width: notificationView.frame.width, height: notificationView.frame.height - topView.frame.height);
+        let bottomView = UIView(frame: bottomViewFrame);
+        
+        //bottomView.backgroundColor = .systemRed;
+        
+        notificationView.addSubview(bottomView);
+        
+        //
+        
+        dataManager.getNotificationData(notificationID, completion: { (notificationdata) in
+            
+            categoryLabel.text = notificationdata.categoryID;
+            
+            timestampLabel.text = timestampLabelTextPrefix + timeManager.epochToDiffString(notificationdata.notifTimestamp);
+
+            //
+            
+            dataManager.getCategoryData(notificationdata.categoryID, completion: { (categorydata) in
+                
+                categoryLabel.text = categorydata.title;
+                categoryLabel.textColor = categorydata.color;
+                
+            });
+            
+        });
         
     }
     
