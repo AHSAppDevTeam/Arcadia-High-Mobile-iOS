@@ -214,7 +214,7 @@ class notificationPageViewController : presentableViewController{
             
             notificationView.backgroundColor = BackgroundSecondaryGrayColor;
             notificationView.layer.cornerRadius = notificationView.frame.height / 8;
-            notificationView.clipsToBounds = true;
+            //notificationView.clipsToBounds = true;
             
             self.renderNotification(notificationView, notificationID);
             
@@ -276,7 +276,46 @@ class notificationPageViewController : presentableViewController{
         let bottomViewFrame = CGRect(x: 0, y: topView.frame.height, width: notificationView.frame.width, height: notificationView.frame.height - topView.frame.height);
         let bottomView = UIView(frame: bottomViewFrame);
         
-        //bottomView.backgroundColor = .systemRed;
+        ///
+        
+        let categoryColorViewHeight = bottomView.frame.height;
+        let categoryColorViewFrame = CGRect(x: horizontalPadding, y: 0, width: categoryColorViewHeight * 0.065, height: categoryColorViewHeight);
+        let categoryColorView = UIView(frame: categoryColorViewFrame);
+        
+        categoryColorView.backgroundColor = BackgroundGrayColor;
+        
+        bottomView.addSubview(categoryColorView);
+        
+        ///
+        
+        let notificationLabelHeight = (bottomView.frame.height - 3*verticalPadding) / 2;
+        let notificationLabelWidth = bottomView.frame.width - categoryColorView.frame.maxX - 2*horizontalPadding;
+        
+        ///
+        
+        let notificationTitleLabelFrame = CGRect(x: categoryColorView.frame.maxX + horizontalPadding, y: verticalPadding, width: notificationLabelWidth, height: notificationLabelHeight);
+        let notificationTitleLabel = UILabel(frame: notificationTitleLabelFrame);
+        
+        notificationTitleLabel.textAlignment = .left;
+        notificationTitleLabel.textColor = InverseBackgroundColor;
+        notificationTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: notificationTitleLabel.frame.height * 0.8);
+        notificationTitleLabel.numberOfLines = 0;
+        
+        bottomView.addSubview(notificationTitleLabel);
+        
+        ///
+        
+        let notificationBlurbLabelFrame = CGRect(x: categoryColorView.frame.maxX + horizontalPadding, y: notificationTitleLabel.frame.maxY + verticalPadding, width: notificationLabelWidth, height: notificationLabelHeight);
+        let notificationBlurbLabel = UILabel(frame: notificationBlurbLabelFrame);
+        
+        notificationBlurbLabel.textAlignment = .left;
+        notificationBlurbLabel.textColor = InverseBackgroundColor;
+        notificationBlurbLabel.font = UIFont(name: SFProDisplay_Regular, size: notificationBlurbLabel.frame.height * 0.4);
+        notificationBlurbLabel.numberOfLines = 0;
+        
+        bottomView.addSubview(notificationBlurbLabel);
+        
+        ///
         
         notificationView.addSubview(bottomView);
         
@@ -287,13 +326,19 @@ class notificationPageViewController : presentableViewController{
             categoryLabel.text = notificationdata.categoryID;
             
             timestampLabel.text = timestampLabelTextPrefix + timeManager.epochToDiffString(notificationdata.notifTimestamp);
-
+            
+            notificationTitleLabel.text = notificationdata.title;
+            
+            notificationBlurbLabel.text = notificationdata.blurb;
+            
             //
             
             dataManager.getCategoryData(notificationdata.categoryID, completion: { (categorydata) in
                 
                 categoryLabel.text = categorydata.title;
                 categoryLabel.textColor = categorydata.color;
+                
+                categoryColorView.backgroundColor = categorydata.color;
                 
             });
             
