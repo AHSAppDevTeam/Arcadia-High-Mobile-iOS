@@ -19,7 +19,7 @@ class notificationPageViewController : presentableViewController{
     
     internal let topContentView : UIView = UIView();
     
-    internal var nextY : CGFloat = 0;
+    //internal var nextY : CGFloat = 0;
     
     internal let horizontalPadding : CGFloat = 10;
     internal let verticalPadding : CGFloat = 5;
@@ -106,13 +106,23 @@ class notificationPageViewController : presentableViewController{
     internal func renderTopContent(){
         
         let topContentViewWidth = mainScrollView.frame.width;
-        topContentView.frame = CGRect(x: 0, y: 0, width: topContentViewWidth, height: topContentViewWidth * 0.05);
+        let topContentViewHeight = topContentViewWidth * 0.05;
+        //topContentView.frame = CGRect(x: 0, y: 0, width: topContentViewWidth, height: topContentViewWidth * 0.05);
+        
+        topContentView.translatesAutoresizingMaskIntoConstraints = false;
         
         mainScrollView.addSubview(topContentView);
         
+        topContentView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor).isActive = true;
+        topContentView.topAnchor.constraint(equalTo: mainScrollView.topAnchor).isActive = true;
+        topContentView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor).isActive = true;
+        topContentView.widthAnchor.constraint(equalToConstant: topContentViewWidth).isActive = true;
+        topContentView.heightAnchor.constraint(equalToConstant: topContentViewHeight).isActive = true;
+        topContentView.bottomAnchor.constraint(lessThanOrEqualTo: mainScrollView.bottomAnchor).isActive = true;
+        
         //
         
-        let sortButtonHeight = topContentView.frame.height;
+        let sortButtonHeight = topContentViewHeight;
     
         let sortButtonLabelText = "Sort By";
         let sortButtonLabelFont = UIFont(name: SFProDisplay_Medium, size: sortButtonHeight * 0.8)!;
@@ -157,12 +167,12 @@ class notificationPageViewController : presentableViewController{
         
         //
         
-        let clearAllButtonLabelHeight = topContentView.frame.height * 0.8;
+        let clearAllButtonLabelHeight = topContentViewHeight * 0.8;
         let clearAllButtonLabelText = "Clear All";
         let clearAllButtonLabelFont = UIFont(name: SFProDisplay_Medium, size: clearAllButtonLabelHeight)!;
         let clearAllButtonLabelWidth = clearAllButtonLabelText.width(withConstrainedHeight: clearAllButtonLabelHeight, font: clearAllButtonLabelFont) + 2*horizontalPadding;
         
-        let clearAllButtonFrame = CGRect(x: topContentView.frame.width - (clearAllButtonLabelWidth + horizontalPadding), y: 0, width: clearAllButtonLabelWidth, height: topContentView.frame.height);
+        let clearAllButtonFrame = CGRect(x: topContentViewWidth - (clearAllButtonLabelWidth + horizontalPadding), y: 0, width: clearAllButtonLabelWidth, height: topContentViewHeight);
         let clearAllButton = UIButton(frame: clearAllButtonFrame);
         
         clearAllButton.layer.cornerRadius = clearAllButton.frame.height / 4;
@@ -202,34 +212,47 @@ class notificationPageViewController : presentableViewController{
         
         let contentVerticalPadding = 2*verticalPadding;
         
-        nextY = topContentView.frame.maxY + contentVerticalPadding;
-        
         //print("list size - \(notificationList.count)")
+        
+        var previousViewBottomAnchor : NSLayoutYAxisAnchor = topContentView.bottomAnchor;
+        
         
         for notificationID in notificationIDList{
             
-            let notificationViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
-            let notificationViewFrame = CGRect(x: horizontalPadding, y: nextY, width: notificationViewWidth, height: notificationViewWidth * 0.22);
-            let notificationView = UIView(frame: notificationViewFrame);
+            /*let notificationViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
+            //let notificationViewFrame = CGRect(x: horizontalPadding, y: nextY, width: notificationViewWidth, height: notificationViewWidth * 0.22);*/
+            
+            let notificationView = UIView();
+            
+            notificationView.translatesAutoresizingMaskIntoConstraints = false;
+
+            mainScrollView.addSubview(notificationView);
+            
+            notificationView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: horizontalPadding).isActive = true;
+            notificationView.topAnchor.constraint(equalTo: previousViewBottomAnchor, constant: contentVerticalPadding).isActive = true;
+            notificationView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
+            notificationView.heightAnchor.constraint(equalToConstant: 200).isActive = true;
+            
+            notificationView.tag = 1;
             
             notificationView.backgroundColor = BackgroundSecondaryGrayColor;
             notificationView.layer.cornerRadius = notificationView.frame.height / 8;
             //notificationView.clipsToBounds = true;
             
-            self.renderNotification(notificationView, notificationID);
+            //self.renderNotification(notificationView, notificationID);
             
-            notificationView.tag = 1;
-            mainScrollView.addSubview(notificationView);
-            nextY += notificationView.frame.height + contentVerticalPadding;
+            previousViewBottomAnchor = notificationView.bottomAnchor;
             
         }
         
-        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
+        previousViewBottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: contentVerticalPadding).isActive = true;
+        
+        //mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
     }
     
     internal func renderNotification(_ notificationView: UIView, _ notificationID: String){
         
-        let topViewFrame = CGRect(x: 0, y: 0, width: notificationView.frame.width, height: notificationView.frame.height * 0.28);
+        /*let topViewFrame = CGRect(x: 0, y: 0, width: notificationView.frame.width, height: notificationView.frame.height * 0.28);
         let topView = UIView(frame: topViewFrame);
         
         ///
@@ -342,7 +365,10 @@ class notificationPageViewController : presentableViewController{
                 
             });
             
-        });
+        }); */
+        
+        //notificationView.heightAnchor.constraint(equalToConstant: 200).isActive = true;
+        //notificationView.backgroundColor = .systemRed;
         
     }
     
