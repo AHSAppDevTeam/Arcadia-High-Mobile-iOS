@@ -237,7 +237,7 @@ class notificationPageViewController : presentableViewController{
             notificationView.tag = 1;
             
             notificationView.backgroundColor = BackgroundSecondaryGrayColor;
-            notificationView.layer.cornerRadius = notificationView.frame.height / 8;
+            notificationView.layer.cornerRadius = notificationViewWidth / 20;
             notificationView.clipsToBounds = true;
             
             self.renderNotification(notificationView, notificationViewWidth, notificationID);
