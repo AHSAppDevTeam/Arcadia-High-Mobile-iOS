@@ -31,6 +31,8 @@ class dataManager{
     
     static internal var bulletinArticleCache : [String : baseArticleData] = [:];
     
+    static internal var notificationCache : [String : notificationData] = [:];
+    
     //
     
     static public func setupConnection(){
