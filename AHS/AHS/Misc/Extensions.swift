@@ -179,3 +179,17 @@ extension CGFloat {
         return CGFloat(arc4random()) / CGFloat(UInt32.max)
     }
 }
+
+// https://stackoverflow.com/a/55396504/
+extension UISwitch{
+    
+    func resize(newHeight: CGFloat){
+        //print("switch frame - \(self.frame)")
+        
+        let widthToHeightRatio = self.frame.width / self.frame.height;
+        
+        self.transform = CGAffineTransform(scaleX: (widthToHeightRatio * newHeight) / self.frame.width, y: newHeight / self.frame.height);
+        
+    }
+    
+}

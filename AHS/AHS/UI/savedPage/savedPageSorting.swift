@@ -52,9 +52,22 @@ struct savedSortingStruct : Codable{
         
     }
     
+    //
+    
     static public func numberOfOptions() -> Int{
         return 1;
     }
+    
+    static public func optionNameFromIndex(_ index: Int) -> String{
+        switch index {
+        case 0:
+            return "Inverted";
+        default:
+            return "";
+        }
+    }
+    
+    //
     
     static public func numberOfCells() -> Int{
         return numberOfOptions() + savedSortingMethods.numberOfMethods();
