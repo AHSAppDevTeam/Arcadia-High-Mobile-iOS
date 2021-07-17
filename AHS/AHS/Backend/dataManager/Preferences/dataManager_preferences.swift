@@ -30,7 +30,7 @@ extension dataManager{
         
         //
         
-        var savedArticlesSortPreference : savedSortingMethods = .byTime{
+        var savedArticlesSortPreference : savedSortingMethods = .defaultValue{
             didSet{
                 dataManager.savePreferences();
             }
@@ -38,7 +38,17 @@ extension dataManager{
         
         //
         
+        var notificationsSortPreference : notificationSortingStruct.notificationSortingMethods = .defaultValue{
+            didSet{
+                dataManager.savePreferences();
+            }
+        }
         
+        var notificationsReadDict : [String : Bool] = [:]{
+            didSet{
+                dataManager.savePreferences();
+            }
+        }
         
     }
     

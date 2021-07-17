@@ -9,6 +9,9 @@ import Foundation
 import UIKit
 
 enum savedSortingMethods : Int, Codable{
+    
+    static public let defaultValue : savedSortingMethods = .byTime;
+    
     case byTime
     case byTitle
     case byAuthor
