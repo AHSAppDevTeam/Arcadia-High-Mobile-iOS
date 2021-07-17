@@ -16,11 +16,8 @@ struct notificationSortingStruct{
         case byTime
         case byTitle
         
-        case byInvertedTime
-        case byInvertedTitle
-        
-        static public func numberOfEnums() -> Int{
-            return 4;
+        static public func numberOfMethods() -> Int{
+            return 2;
         }
         
         static public func nameFromIndex(_ index: Int) -> String{
@@ -29,49 +26,75 @@ struct notificationSortingStruct{
                 return "Time";
             case 1:
                 return "Title";
-            case 3:
-                return "Inverted Time";
-            case 4:
-                return "Inverted Title";
             default:
                 return "";
             }
         }
         
         static public func methodFromIndex(_ index: Int) -> notificationSortingMethods{
-            return self.init(rawValue: index) ?? .byTime;
+            return self.init(rawValue: index) ?? self.defaultValue;
         }
         
         public func comp(_ a: notificationData, _ b: notificationData) -> Bool{
             switch self {
             case .byTime:
-                return notificationSortingMethods.internalComp(a, b, .byTime);
+                return dataManager.articleTimestampComp(a.notifTimestamp, b.notifTimestamp);
             case .byTitle:
-                return notificationSortingMethods.internalComp(a, b, .byTitle)
-            //
-            case .byInvertedTime:
-                return !notificationSortingMethods.internalComp(a, b, .byTime);
-            case .byInvertedTitle:
-                return !notificationSortingMethods.internalComp(a, b, .byTitle);
-            }
-        }
-        
-        private static func internalComp(_ a: notificationData, _ b: notificationData, _ method: notificationSortingMethods) -> Bool{
-            switch method {
-            case .byTime:
-                return false;
-            case .byTitle:
-                return false;
-            default:
-                print("invalid sorting method passed to internal comp func");
-                return false;
+                return a.title < b.title;
             }
         }
         
     }
     
-    var shouldSortRead : Bool = false;
-    var sortingMethod : notificationSortingMethods = notificationSortingMethods.defaultValue;
+    //
+    
+    static public func numberOfOptions() -> Int{
+        return 2;
+    }
+    
+    static public func optionNameFromIndex(_ index: Int) -> String{
+        switch index {
+        case 0:
+            return "Inverted";
+        case 1:
+            return "Read";
+        default:
+            return "";
+        }
+    }
+    
+    mutating public func updateOptionWithIndex(_ index: Int, _ value: Bool){
+        switch index {
+        case 0:
+            self.inverted = value;
+        case 1:
+            self.read = value;
+        default:
+            print("invalid index passed to update option");
+        }
+    }
+    
+    public func getOptionWithIndex(_ index: Int) -> Bool{
+        switch index {
+        case 0:
+            return inverted;
+        case 1:
+            return read;
+        default:
+            return false;
+        }
+    }
+    
+    //
+    
+    static public func numberOfCells() -> Int{
+        return numberOfOptions() + notificationSortingMethods.numberOfMethods();
+    }
+    
+    var inverted : Bool = false;
+    var read : Bool = false;
+    
+    var sortingMethod : notificationSortingMethods = .defaultValue;
     
 }
 

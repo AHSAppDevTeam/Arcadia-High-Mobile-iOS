@@ -38,7 +38,7 @@ extension dataManager{
         
         //
         
-        var notificationsSortPreference : notificationSortingStruct.notificationSortingMethods = .defaultValue{
+        var notificationsSortPreference : notificationSortingStruct = notificationSortingStruct(){
             didSet{
                 dataManager.savePreferences();
             }

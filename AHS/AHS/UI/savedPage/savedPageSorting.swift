@@ -92,6 +92,7 @@ struct savedSortingStruct : Codable{
     }
     
     var inverted : Bool = false;
+    
     var sortingMethod : savedSortingMethods = .defaultValue;
     
 }
