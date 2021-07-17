@@ -25,9 +25,10 @@ extension savedPageViewController: UITableViewDelegate, UITableViewDataSource{
         }
         else{
             dataManager.preferencesStruct.savedArticlesSortPreference.sortingMethod = savedSortingStruct.savedSortingMethods.methodFromIndex(index - savedSortingStruct.numberOfOptions());
-            sortByPopTip.hide();
-            reload();
         }
+        
+        sortByPopTip.hide();
+        reload();
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

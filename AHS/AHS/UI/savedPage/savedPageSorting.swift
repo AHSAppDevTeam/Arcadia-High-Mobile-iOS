@@ -101,7 +101,8 @@ extension savedPageViewController{
     internal func sortArticles(_ articleList: [fullArticleData]) -> [fullArticleData]{
         
         return articleList.sorted(by: { (a, b) in
-            return dataManager.preferencesStruct.savedArticlesSortPreference.sortingMethod.comp(a, b);
+            let result = dataManager.preferencesStruct.savedArticlesSortPreference.sortingMethod.comp(a, b);
+            return dataManager.preferencesStruct.savedArticlesSortPreference.inverted ? !result : result;
         });
     
     }
