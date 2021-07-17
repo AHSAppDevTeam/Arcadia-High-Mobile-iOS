@@ -30,7 +30,7 @@ extension dataManager{
         
         //
         
-        var savedArticlesSortPreference : savedSortingMethods = .defaultValue{
+        var savedArticlesSortPreference : savedSortingStruct = savedSortingStruct(){
             didSet{
                 dataManager.savePreferences();
             }

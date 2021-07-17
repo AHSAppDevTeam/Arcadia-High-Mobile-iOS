@@ -58,17 +58,19 @@ extension savedPageViewController : UIScrollViewDelegate{
         if (!sortByPopTip.isVisible){
             
             let sortByTableViewWidth = mainScrollView.frame.width * 0.35;
-            let sortByTableViewFrame = CGRect(x: 0, y: 0, width: sortByTableViewWidth, height: sortByTableViewWidth * 1.3);
+            let sortByTableViewCellHeight = sortByTableViewWidth * 0.2;
+            let sortByTableViewHeight = sortByTableViewCellHeight * CGFloat(savedSortingStruct.numberOfCells());
+            
+            let sortByTableViewFrame = CGRect(x: 0, y: 0, width: sortByTableViewWidth, height: sortByTableViewHeight);
             let sortByTableView = UITableView(frame: sortByTableViewFrame);
             
-            cellHeight = sortByTableView.frame.height / CGFloat(savedSortingMethods.numberOfEnums());
+            cellHeight = sortByTableViewCellHeight;
             
             sortByTableView.delegate = self;
             sortByTableView.dataSource = self;
-            sortByTableView.rowHeight = cellHeight;
+            sortByTableView.rowHeight = sortByTableViewCellHeight;
             sortByTableView.isScrollEnabled = false;
             sortByTableView.register(savedPageSortByCell.self, forCellReuseIdentifier: savedPageSortByCell.identifier);
-            
             
             //
             
