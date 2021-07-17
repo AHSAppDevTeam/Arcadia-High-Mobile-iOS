@@ -40,8 +40,6 @@ class savedPageViewController : mainPageViewController{
     
     internal var cellHeight : CGFloat = 0;
     
-    internal var sortingMethod : savedSortingMethods = .byTime;
-    
     //
     
     override func viewDidLoad() {

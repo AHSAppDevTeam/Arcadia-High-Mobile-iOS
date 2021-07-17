@@ -15,6 +15,7 @@ extension notificationPageViewController{
     }
     
     @objc internal func refresh(_ refreshControl: UIRefreshControl){
+        dataManager.resetNotificationListCache();
         loadNotificationList();
     }
     
