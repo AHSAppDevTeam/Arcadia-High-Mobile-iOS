@@ -39,7 +39,6 @@ class savedPageViewController : mainPageViewController{
     internal let sortByPopTip : PopTip = PopTip();
     
     internal var cellHeight : CGFloat = 0;
-    
     //
     
     override func viewDidLoad() {
