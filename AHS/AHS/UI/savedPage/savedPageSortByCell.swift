@@ -11,7 +11,7 @@ import UIKit
 class savedPageSortByCell : UITableViewCell{
     static let identifier : String = "savedPageSortByCell";
 
-    let horizontalPadding : CGFloat = 5;
+    private let horizontalPadding : CGFloat = 5;
     
     //
     
@@ -105,10 +105,18 @@ class savedPageSortByCell : UITableViewCell{
         optionsView.isHidden = false;
         
         optionsSwitch.resize(newHeight: height * 0.7);
+        optionsSwitch.isOn = dataManager.preferencesStruct.savedArticlesSortPreference.getOptionWithIndex(index);
         
         optionsLabel.text = savedSortingStruct.optionNameFromIndex(index);
         optionsLabel.font = UIFont(name: optionsLabel.font.fontName, size: height * 0.55);
         
+    }
+    
+    public func updateOptions() -> Bool{
+        
+        optionsSwitch.setOn(!optionsSwitch.isOn, animated: true);
+        
+        return optionsSwitch.isOn;
     }
     
     public func renderMethod(_ index: Int, _ height: CGFloat){ // 0 based

@@ -14,12 +14,20 @@ extension savedPageViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         UIImpactFeedbackGenerator(style: .soft).impactOccurred();
         
+        let index = indexPath.row;
         
-        //dataManager.preferencesStruct.savedArticlesSortPreference.sortingMethod = savedSortingStruct.savedSortingMethods.methodFromIndex(indexPath.row);
-        
-        
-        sortByPopTip.hide();
-        reload();
+        if (index < savedSortingStruct.numberOfOptions()){
+            
+            let cell = tableView.cellForRow(at: indexPath) as! savedPageSortByCell;
+            
+            dataManager.preferencesStruct.savedArticlesSortPreference.updateOptionWithIndex(index, cell.updateOptions());
+            
+        }
+        else{
+            dataManager.preferencesStruct.savedArticlesSortPreference.sortingMethod = savedSortingStruct.savedSortingMethods.methodFromIndex(index - savedSortingStruct.numberOfOptions());
+            sortByPopTip.hide();
+            reload();
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

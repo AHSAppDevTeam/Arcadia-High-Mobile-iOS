@@ -67,6 +67,24 @@ struct savedSortingStruct : Codable{
         }
     }
     
+    mutating public func updateOptionWithIndex(_ index: Int, _ value: Bool){
+        switch index {
+        case 0:
+            self.inverted = value;
+        default:
+            print("invalid index passed to update option");
+        }
+    }
+    
+    public func getOptionWithIndex(_ index: Int) -> Bool{
+        switch index {
+        case 0:
+            return inverted;
+        default:
+            return false;
+        }
+    }
+    
     //
     
     static public func numberOfCells() -> Int{
