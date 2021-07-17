@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct notificationSortingStruct{
+struct notificationSortingStruct : Codable{
     enum notificationSortingMethods : Int, Codable{
         
         static public let defaultValue : notificationSortingMethods = .byTime;
