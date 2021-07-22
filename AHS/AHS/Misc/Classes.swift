@@ -87,6 +87,10 @@ class ArticleButton : UIButton{
     var articleData : fullArticleData? = nil;
 }
 
+class NotificationButton : UIButton{
+    var notificationID : String = "";
+}
+
 class CategoryButton : UIButton{
     var categoryID : String = "";
     var categoryAccentColor : UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1);

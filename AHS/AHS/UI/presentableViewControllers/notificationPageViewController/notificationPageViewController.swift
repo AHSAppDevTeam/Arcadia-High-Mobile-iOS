@@ -15,7 +15,7 @@ class notificationPageViewController : presentableViewController{
     internal let topBarView : UIView = UIView();
     
     internal let refreshControl : UIRefreshControl = UIRefreshControl();
-    internal let mainScrollView : UIScrollView = UIScrollView();
+    internal let mainScrollView : UIButtonScrollView = UIButtonScrollView();
     
     internal let topContentView : UIView = UIView();
     
@@ -229,7 +229,7 @@ class notificationPageViewController : presentableViewController{
             
             if (dataManager.getPreloadedCategoryData(notificationdata.categoryID).visible){
                 
-                let notificationView = UIView();
+                let notificationView = NotificationButton();
                 
                 notificationView.translatesAutoresizingMaskIntoConstraints = false;
                 
@@ -248,6 +248,8 @@ class notificationPageViewController : presentableViewController{
                 notificationView.clipsToBounds = true;
                 
                 self.renderNotification(notificationView, notificationViewWidth, notificationdata);
+                
+                notificationView.addTarget(self, action: #selector(self.readNotification), for: .touchUpInside);
                 
                 previousViewBottomAnchor = notificationView.bottomAnchor;
                 
@@ -278,6 +280,10 @@ class notificationPageViewController : presentableViewController{
         topView.widthAnchor.constraint(equalToConstant: topViewWidth).isActive = true;
         topView.heightAnchor.constraint(equalToConstant: topViewHeight).isActive = true;
         
+        topView.isUserInteractionEnabled = false;
+        
+        topView.tag = -1;
+        
         //
         
         let categoryLabel = UILabel();
@@ -295,6 +301,8 @@ class notificationPageViewController : presentableViewController{
         categoryLabel.font = UIFont(name: SFProDisplay_Semibold, size: topViewHeight * 0.7);
         categoryLabel.numberOfLines = 1;
         categoryLabel.text = notificationdata.categoryID;
+        
+        categoryLabel.tag = 1;
         
         //
         
@@ -334,6 +342,10 @@ class notificationPageViewController : presentableViewController{
         bottomView.widthAnchor.constraint(equalToConstant: notificationViewWidth).isActive = true;
         bottomView.bottomAnchor.constraint(equalTo: notificationView.bottomAnchor).isActive = true;
         
+        bottomView.tag = -1;
+        
+        bottomView.isUserInteractionEnabled = false;
+        
         ///
         
         //let categoryColorViewHeight = bottomView.frame.height;
@@ -350,6 +362,8 @@ class notificationPageViewController : presentableViewController{
         categoryColorView.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor).isActive = true;
         
         categoryColorView.backgroundColor = BackgroundGrayColor;
+        
+        categoryColorView.tag = 1;
         
         ///
         
@@ -375,6 +389,8 @@ class notificationPageViewController : presentableViewController{
         notificationTitleLabel.numberOfLines = 0;
         notificationTitleLabel.text = notificationdata.title;
         
+        notificationTitleLabel.tag = 1;
+        
         ///
         
         //let notificationBlurbLabelFrame = CGRect(x: categoryColorView.frame.maxX + horizontalPadding, y: notificationTitleLabel.frame.maxY + verticalPadding, width: notificationLabelWidth, height: notificationLabelHeight);
@@ -394,6 +410,8 @@ class notificationPageViewController : presentableViewController{
         notificationBlurbLabel.font = UIFont(name: SFProDisplay_Regular, size: notificationViewWidth * 0.04);
         notificationBlurbLabel.numberOfLines = 0;
         notificationBlurbLabel.text = notificationdata.blurb;
+        
+        notificationBlurbLabel.tag = 1;
         
         ///
         

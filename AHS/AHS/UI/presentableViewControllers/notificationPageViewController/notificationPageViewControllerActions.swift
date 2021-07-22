@@ -27,4 +27,31 @@ extension notificationPageViewController{
         print("clear all")
     }
     
+    @objc internal func readNotification(_ button: NotificationButton){
+        
+        //print("read notification")
+        
+        for outerview in button.subviews{
+            
+            if (outerview.tag == -1){
+                for innerview in outerview.subviews{
+                    
+                    if (innerview.tag == 1){
+                        
+                        if let notificationLabel = innerview as? UILabel{
+                            notificationLabel.textColor = BackgroundGrayColor;
+                        }
+                        else if let categoryColorView = innerview as? UIView{
+                            categoryColorView.backgroundColor = BackgroundGrayColor;
+                        }
+                        
+                    }
+                    
+                }
+            }
+            
+        }
+        
+    }
+    
 }
