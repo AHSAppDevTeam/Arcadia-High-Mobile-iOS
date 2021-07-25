@@ -45,7 +45,7 @@ extension dataManager{
                         
                         loadCategoryData(category.key, completion: { (categorydata) in
                             
-                            articleSnippetArrayDispatchQueue.sync {
+                            categoryLookupDispatchQueue.sync {
                                 categoryLookupMap[category.key] = categorydata;
                             }
                             
@@ -61,18 +61,18 @@ extension dataManager{
     }
     
     static public func getPreloadedCategoryData(_ categoryID: String) -> categoryData{
-        articleSnippetArrayDispatchQueue.sync {
+        categoryLookupDispatchQueue.sync {
             return categoryLookupMap[categoryID] ?? createDefaultCategoryData(categoryID);
         }
     }
     
     static public func getCategoryData(_ categoryID: String , completion: @escaping (categoryData) -> Void){
         
-        articleSnippetArrayDispatchQueue.sync {
+        categoryLookupDispatchQueue.sync {
             guard let categoryLookupData = categoryLookupMap[categoryID] else {
                 loadCategoryData(categoryID, completion: { (data) in
                     
-                    articleSnippetArrayDispatchQueue.sync {
+                    categoryLookupDispatchQueue.sync {
                         categoryLookupMap[categoryID] = data;
                     }
                     

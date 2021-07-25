@@ -28,19 +28,25 @@ extension notificationPageViewController{
             
             UIImpactFeedbackGenerator(style: .light).impactOccurred();
             
-            for view in self.mainScrollView.subviews{
-                if view.tag == 1{
-                    
-                    guard let notificationButton = view as? NotificationButton else{
-                        continue;
+            DispatchQueue.main.async {
+                for view in self.mainScrollView.subviews{
+                    if view.tag == 1{
+                        
+                        DispatchQueue.global(qos: .background).async {
+                         
+                            if let notificationButton = view as? NotificationButton{
+                                
+                                dataManager.setReadNotification(notificationButton.notificationID);
+                                
+                            }
+                            
+                        }
+                        
                     }
-                    
-                    dataManager.setReadNotification(notificationButton.notificationID);
-                    
                 }
+                
+                self.refresh();
             }
-            
-            self.refresh();
             
         }, declineCompletion: { () in
             
@@ -61,9 +67,15 @@ extension notificationPageViewController{
         
         //print("read notification")
         
-        dataManager.setReadNotification(button.notificationID);
-        
-        updateNotificationView(button);
+        if (!dataManager.isNotificationRead(button.notificationID)){
+            
+            UIImpactFeedbackGenerator(style: .light).impactOccurred();
+            
+            dataManager.setReadNotification(button.notificationID);
+            
+            updateNotificationView(button);
+            
+        }
         
     }
     
