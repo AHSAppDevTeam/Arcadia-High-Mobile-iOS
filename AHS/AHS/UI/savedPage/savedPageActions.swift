@@ -32,10 +32,7 @@ extension savedPageViewController : UIScrollViewDelegate{
     
     @objc internal func clearAll(_ button: UIButton){
         
-        let confirmPopUp = UIAlertController(title: "Clear All Saved Articles", message: "Are you sure?", preferredStyle: .actionSheet);
-        
-        confirmPopUp.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (_) in
-            
+        createConfirmationPrompt(self, "Clear All Saved Articles", confirmCompletion: { () in
             UIImpactFeedbackGenerator(style: .light).impactOccurred();
             
             for article in dataManager.getSavedArticleList(){
@@ -43,12 +40,7 @@ extension savedPageViewController : UIScrollViewDelegate{
             }
             
             self.reload();
-            
-        }));
-        
-        confirmPopUp.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil));
-        
-        self.present(confirmPopUp, animated: true);
+        });
         
     }
     

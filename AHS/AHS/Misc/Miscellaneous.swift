@@ -57,3 +57,25 @@ let homePageBeginRefreshing = "homePageBeginRefreshing";
 let endDataManagerRefreshing = "endDataManagerRefreshing";
 
 //
+
+// Misc functions
+
+func createConfirmationPrompt(_ viewController: UIViewController, _ title: String, confirmCompletion: @escaping () -> Void, declineCompletion: @escaping () -> Void = { () in }){
+    
+    let confirmPopUp = UIAlertController(title: title, message: "Are you sure?", preferredStyle: .actionSheet);
+    
+    confirmPopUp.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (_) in
+        
+        confirmCompletion();
+        
+    }));
+     
+    confirmPopUp.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (_) in
+        
+        declineCompletion();
+        
+    }));
+    
+    viewController.present(confirmPopUp, animated: true);
+    
+}

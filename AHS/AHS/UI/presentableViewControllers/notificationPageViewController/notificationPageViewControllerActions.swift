@@ -24,21 +24,37 @@ extension notificationPageViewController{
     }
     
     @objc internal func clearAll(){
-        
-        
-        for view in mainScrollView.subviews{
-            if view.tag == 1{
-                
-                guard let notificationButton = view as? NotificationButton else{
-                    continue;
+        createConfirmationPrompt(self, "Clear All Notifications", confirmCompletion: { () in
+            
+            UIImpactFeedbackGenerator(style: .light).impactOccurred();
+            
+            for view in self.mainScrollView.subviews{
+                if view.tag == 1{
+                    
+                    guard let notificationButton = view as? NotificationButton else{
+                        continue;
+                    }
+                    
+                    dataManager.setReadNotification(notificationButton.notificationID);
+                    
                 }
-                
-                dataManager.setReadNotification(notificationButton.notificationID);
-                
             }
-        }
-        
-        self.refresh();
+            
+            self.refresh();
+            
+        }, declineCompletion: { () in
+            
+            createConfirmationPrompt(self, "Reset All Notifications?", confirmCompletion: { () in
+               
+                UIImpactFeedbackGenerator(style: .light).impactOccurred();
+                
+                dataManager.resetNotificationReadDict();
+                
+                self.refresh();
+                
+            });
+            
+        });
     }
     
     @objc internal func readNotification(_ button: NotificationButton){
