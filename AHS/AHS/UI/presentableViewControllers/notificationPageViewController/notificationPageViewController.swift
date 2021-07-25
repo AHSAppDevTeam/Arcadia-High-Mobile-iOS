@@ -249,6 +249,8 @@ class notificationPageViewController : presentableViewController{
                 
                 self.renderNotification(notificationView, notificationViewWidth, notificationdata);
                 
+                notificationView.notificationID = notificationdata.notificationID;
+                
                 notificationView.addTarget(self, action: #selector(self.readNotification), for: .touchUpInside);
                 
                 previousViewBottomAnchor = notificationView.bottomAnchor;
@@ -265,6 +267,10 @@ class notificationPageViewController : presentableViewController{
     internal func renderNotification(_ notificationView: UIView, _ notificationViewWidth: CGFloat, _ notificationdata: notificationData){
         
         //let topViewFrame = CGRect(x: 0, y: 0, width: notificationView.frame.width, height: notificationView.frame.height * 0.28);
+        let isNotificationRead = dataManager.isNotificationRead(notificationdata.notificationID);
+        
+        //
+        
         let topView = UIView();
         
         let topViewWidth = notificationViewWidth;
@@ -282,7 +288,7 @@ class notificationPageViewController : presentableViewController{
         
         topView.isUserInteractionEnabled = false;
         
-        topView.tag = -1;
+        topView.tag = 1;
         
         //
         
@@ -301,8 +307,6 @@ class notificationPageViewController : presentableViewController{
         categoryLabel.font = UIFont(name: SFProDisplay_Semibold, size: topViewHeight * 0.7);
         categoryLabel.numberOfLines = 1;
         categoryLabel.text = notificationdata.categoryID;
-        
-        categoryLabel.tag = 1;
         
         //
         
@@ -342,7 +346,7 @@ class notificationPageViewController : presentableViewController{
         bottomView.widthAnchor.constraint(equalToConstant: notificationViewWidth).isActive = true;
         bottomView.bottomAnchor.constraint(equalTo: notificationView.bottomAnchor).isActive = true;
         
-        bottomView.tag = -1;
+        bottomView.tag = 1;
         
         bottomView.isUserInteractionEnabled = false;
         
@@ -363,8 +367,6 @@ class notificationPageViewController : presentableViewController{
         
         categoryColorView.backgroundColor = BackgroundGrayColor;
         
-        categoryColorView.tag = 1;
-        
         ///
         
         //let notificationLabelHeight = (bottomView.frame.height - 3*verticalPadding) / 2;
@@ -384,12 +386,10 @@ class notificationPageViewController : presentableViewController{
         notificationTitleLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -horizontalPadding).isActive = true;
         
         notificationTitleLabel.textAlignment = .left;
-        notificationTitleLabel.textColor = InverseBackgroundColor;
+        notificationTitleLabel.textColor = isNotificationRead ? BackgroundGrayColor : InverseBackgroundColor;
         notificationTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: notificationViewWidth * 0.06);
         notificationTitleLabel.numberOfLines = 0;
         notificationTitleLabel.text = notificationdata.title;
-        
-        notificationTitleLabel.tag = 1;
         
         ///
         
@@ -406,13 +406,11 @@ class notificationPageViewController : presentableViewController{
         notificationBlurbLabel.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
         notificationBlurbLabel.textAlignment = .left;
-        notificationBlurbLabel.textColor = InverseBackgroundColor;
+        notificationBlurbLabel.textColor = isNotificationRead ? BackgroundGrayColor : InverseBackgroundColor;
         notificationBlurbLabel.font = UIFont(name: SFProDisplay_Regular, size: notificationViewWidth * 0.04);
         notificationBlurbLabel.numberOfLines = 0;
         notificationBlurbLabel.text = notificationdata.blurb;
-        
-        notificationBlurbLabel.tag = 1;
-        
+    
         ///
         
         notificationView.addSubview(bottomView);
@@ -422,9 +420,9 @@ class notificationPageViewController : presentableViewController{
         dataManager.getCategoryData(notificationdata.categoryID, completion: { (categorydata) in
             
             categoryLabel.text = categorydata.title;
-            categoryLabel.textColor = categorydata.color;
+            categoryLabel.textColor = isNotificationRead ? BackgroundGrayColor : categorydata.color;
             
-            categoryColorView.backgroundColor = categorydata.color;
+            categoryColorView.backgroundColor = isNotificationRead ? BackgroundGrayColor : categorydata.color;
             
         });
         

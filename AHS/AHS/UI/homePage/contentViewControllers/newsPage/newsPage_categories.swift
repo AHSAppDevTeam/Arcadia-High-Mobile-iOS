@@ -367,7 +367,7 @@ extension newsPageController{
         var t : String? = nil;
         
         for i in a{
-            guard let str = t as? String else{
+            guard let str = t else{
                 t = i;
                 continue;
             }

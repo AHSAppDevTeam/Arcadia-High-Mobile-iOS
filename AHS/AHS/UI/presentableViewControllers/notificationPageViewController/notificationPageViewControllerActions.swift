@@ -14,7 +14,7 @@ extension notificationPageViewController{
         self.dismiss(animated: true);
     }
     
-    @objc internal func refresh(_ refreshControl: UIRefreshControl){
+    @objc internal func refresh(){
         dataManager.resetNotificationListCache();
         loadNotificationList();
     }
@@ -24,33 +24,42 @@ extension notificationPageViewController{
     }
     
     @objc internal func clearAll(){
-        print("clear all")
+        
+        
+        for view in mainScrollView.subviews{
+            if view.tag == 1{
+                
+                guard let notificationButton = view as? NotificationButton else{
+                    continue;
+                }
+                
+                dataManager.setReadNotification(notificationButton.notificationID);
+                
+            }
+        }
+        
+        self.refresh();
     }
     
     @objc internal func readNotification(_ button: NotificationButton){
         
         //print("read notification")
         
-        for outerview in button.subviews{
-            
-            if (outerview.tag == -1){
-                for innerview in outerview.subviews{
-                    
-                    if (innerview.tag == 1){
-                        
-                        if let notificationLabel = innerview as? UILabel{
-                            notificationLabel.textColor = BackgroundGrayColor;
-                        }
-                        else if let categoryColorView = innerview as? UIView{
-                            categoryColorView.backgroundColor = BackgroundGrayColor;
-                        }
-                        
-                    }
-                    
-                }
+        dataManager.setReadNotification(button.notificationID);
+        
+        updateNotificationView(button);
+        
+    }
+    
+    private func updateNotificationView(_ button: NotificationButton){
+        
+        for view in button.subviews{
+            if view.tag == 1{
+                view.removeFromSuperview();
             }
-            
         }
+        
+        self.renderNotification(button, mainScrollView.frame.width - 2*horizontalPadding, dataManager.getCachedNotificationData(button.notificationID));
         
     }
     
