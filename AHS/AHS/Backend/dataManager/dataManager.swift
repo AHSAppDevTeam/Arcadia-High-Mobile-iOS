@@ -33,6 +33,8 @@ class dataManager{
     
     static internal var notificationCache : [String : notificationData] = [:];
     
+    static internal let notificationReadDispatchQueue = DispatchQueue(label: "notificationReadDispatchQueue");
+    
     //
     
     static public func setupConnection(){

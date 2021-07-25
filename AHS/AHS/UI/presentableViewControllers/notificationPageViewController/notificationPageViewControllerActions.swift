@@ -28,25 +28,17 @@ extension notificationPageViewController{
             
             UIImpactFeedbackGenerator(style: .light).impactOccurred();
             
-            DispatchQueue.main.async {
-                for view in self.mainScrollView.subviews{
-                    if view.tag == 1{
+            for view in self.mainScrollView.subviews{
+                if view.tag == 1{
+                    if let notificationButton = view as? NotificationButton{
                         
-                        DispatchQueue.global(qos: .background).async {
-                         
-                            if let notificationButton = view as? NotificationButton{
-                                
-                                dataManager.setReadNotification(notificationButton.notificationID);
-                                
-                            }
-                            
-                        }
+                        dataManager.setReadNotification(notificationButton.notificationID);
                         
                     }
                 }
-                
-                self.refresh();
             }
+            
+            self.refresh();
             
         }, declineCompletion: { () in
             
