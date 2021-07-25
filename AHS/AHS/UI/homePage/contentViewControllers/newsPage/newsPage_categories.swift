@@ -80,8 +80,8 @@ extension newsPageController{
         //
         
         var articleIDs = categorydata.articleIDs;
-        var previousTopView : UIView = UIView(); // for constraining the next view under the previously rendered view
-        var previousSecondaryTopView : UIView = UIView(); // for the semifeatured section
+        var previousTopView : UIView = categoryView; // for constraining the next view under the previously rendered view
+        var previousSecondaryTopView : UIView? = nil; // for the semifeatured section
 
         if (articleIDs.count > 0){ // top featured
             
@@ -225,9 +225,12 @@ extension newsPageController{
             carouselView.translatesAutoresizingMaskIntoConstraints = false;
             
             carouselView.topAnchor.constraint(greaterThanOrEqualTo: previousTopView.bottomAnchor, constant: verticalPadding).isActive = true;
-            let carouselViewSecondaryTopAnchor = carouselView.topAnchor.constraint(equalTo: previousSecondaryTopView.bottomAnchor, constant: verticalPadding);
-            carouselViewSecondaryTopAnchor.isActive = true;
-            carouselViewSecondaryTopAnchor.priority = UILayoutPriority(rawValue: 999);
+            
+            if let secondaryView = previousSecondaryTopView{
+                let carouselViewSecondaryTopAnchor = carouselView.topAnchor.constraint(equalTo: secondaryView.bottomAnchor, constant: verticalPadding);
+                carouselViewSecondaryTopAnchor.isActive = true;
+                carouselViewSecondaryTopAnchor.priority = UILayoutPriority(rawValue: 999);
+            }
             
             carouselView.leadingAnchor.constraint(equalTo: categoryView.leadingAnchor).isActive = true;
             carouselView.trailingAnchor.constraint(equalTo: categoryView.trailingAnchor).isActive = true;
@@ -280,9 +283,12 @@ extension newsPageController{
         }
         
         categoryView.bottomAnchor.constraint(greaterThanOrEqualTo: previousTopView.bottomAnchor, constant: verticalPadding).isActive = true;
-        let categoryViewSecondaryBottomAnchor = categoryView.bottomAnchor.constraint(equalTo: previousSecondaryTopView.bottomAnchor, constant: verticalPadding);
-        categoryViewSecondaryBottomAnchor.isActive = true;
-        categoryViewSecondaryBottomAnchor.priority = UILayoutPriority(rawValue: 999);
+        
+        if let secondaryView = previousSecondaryTopView{
+            let categoryViewSecondaryBottomAnchor = categoryView.bottomAnchor.constraint(equalTo: secondaryView.bottomAnchor, constant: verticalPadding);
+            categoryViewSecondaryBottomAnchor.isActive = true;
+            categoryViewSecondaryBottomAnchor.priority = UILayoutPriority(rawValue: 999);
+        }
         
     }
     
