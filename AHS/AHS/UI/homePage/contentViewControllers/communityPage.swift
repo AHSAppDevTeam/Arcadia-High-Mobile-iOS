@@ -158,7 +158,7 @@ class communityPageController : homeContentPageViewController{
         let categoryImageViewGridCount = 4; // must be sqrt able
         let categoryImageViewGridSize = Int(Double(categoryImageViewGridCount).squareRoot());
         
-        if (categorydata.thumbURLs.count >= categoryImageViewGridSize){
+        if (categorydata.thumbURLs.count >= categoryImageViewGridCount){
             
             let categoryImagesViewVerticalStackView = UIStackView(frame: CGRect(x: 0, y: 0, width: categoryImagesView.frame.width, height: categoryImagesView.frame.height));
             categoryImagesViewVerticalStackView.axis = .vertical;

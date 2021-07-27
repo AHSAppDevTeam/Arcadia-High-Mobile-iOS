@@ -426,9 +426,6 @@ class notificationPageViewController : presentableViewController{
             
         });
         
-        
-        
-        
     }
     
 }
