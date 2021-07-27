@@ -44,4 +44,13 @@ struct AppUtility {
         return CGSize(width: (isLandscape ? AppUtility.originalHeight : AppUtility.originalWidth), height: (isLandscape ? AppUtility.originalWidth : AppUtility.originalHeight));
     }
     
+    //
+    
+    static func setAppNotificationNumber(_ n: Int){
+        UIApplication.shared.applicationIconBadgeNumber = n;
+    }
+    
+    static func getAppNotificationNumber() -> Int{
+        return UIApplication.shared.applicationIconBadgeNumber;
+    }
 }

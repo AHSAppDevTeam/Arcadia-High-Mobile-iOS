@@ -220,6 +220,7 @@ class notificationPageViewController : presentableViewController{
         
         var previousViewBottomAnchor : NSLayoutYAxisAnchor = topContentView.bottomAnchor;
         
+        var unreadNotificationCount : Int = 0;
         
         for notificationID in notificationIDList{
             
@@ -228,6 +229,8 @@ class notificationPageViewController : presentableViewController{
             let notificationViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
             
             if (dataManager.getPreloadedCategoryData(notificationdata.categoryID).visible){
+                
+                let isNotificationRead = dataManager.isNotificationRead(notificationdata.notificationID);
                 
                 let notificationView = NotificationButton();
                 
@@ -247,7 +250,7 @@ class notificationPageViewController : presentableViewController{
                 notificationView.layer.cornerRadius = notificationViewWidth / 25;
                 notificationView.clipsToBounds = true;
                 
-                self.renderNotification(notificationView, notificationViewWidth, notificationdata);
+                self.renderNotification(notificationView, notificationViewWidth, notificationdata, isNotificationRead);
                 
                 notificationView.notificationID = notificationdata.notificationID;
                 
@@ -255,19 +258,23 @@ class notificationPageViewController : presentableViewController{
                 
                 previousViewBottomAnchor = notificationView.bottomAnchor;
                 
+                unreadNotificationCount += isNotificationRead ? 0 : 1;
+                
             }
             
         }
         
         previousViewBottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: contentVerticalPadding).isActive = true;
         
+        AppUtility.setAppNotificationNumber(unreadNotificationCount);
         //mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
     }
     
-    internal func renderNotification(_ notificationView: UIView, _ notificationViewWidth: CGFloat, _ notificationdata: notificationData){
+    internal func renderNotification(_ notificationView: UIView, _ notificationViewWidth: CGFloat, _ notificationdata: notificationData, _ isNotificationRead: Bool? = nil){
         
         //let topViewFrame = CGRect(x: 0, y: 0, width: notificationView.frame.width, height: notificationView.frame.height * 0.28);
-        let isNotificationRead = dataManager.isNotificationRead(notificationdata.notificationID);
+        
+        let isRead : Bool = isNotificationRead == nil ? dataManager.isNotificationRead(notificationdata.notificationID) : isNotificationRead!;
         
         //
         
@@ -386,7 +393,7 @@ class notificationPageViewController : presentableViewController{
         notificationTitleLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -horizontalPadding).isActive = true;
         
         notificationTitleLabel.textAlignment = .left;
-        notificationTitleLabel.textColor = isNotificationRead ? BackgroundGrayColor : InverseBackgroundColor;
+        notificationTitleLabel.textColor = isRead ? BackgroundGrayColor : InverseBackgroundColor;
         notificationTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: notificationViewWidth * 0.06);
         notificationTitleLabel.numberOfLines = 0;
         notificationTitleLabel.text = notificationdata.title;
@@ -406,7 +413,7 @@ class notificationPageViewController : presentableViewController{
         notificationBlurbLabel.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
         notificationBlurbLabel.textAlignment = .left;
-        notificationBlurbLabel.textColor = isNotificationRead ? BackgroundGrayColor : InverseBackgroundColor;
+        notificationBlurbLabel.textColor = isRead ? BackgroundGrayColor : InverseBackgroundColor;
         notificationBlurbLabel.font = UIFont(name: SFProDisplay_Regular, size: notificationViewWidth * 0.04);
         notificationBlurbLabel.numberOfLines = 0;
         notificationBlurbLabel.text = notificationdata.blurb;
@@ -420,9 +427,9 @@ class notificationPageViewController : presentableViewController{
         dataManager.getCategoryData(notificationdata.categoryID, completion: { (categorydata) in
             
             categoryLabel.text = categorydata.title;
-            categoryLabel.textColor = isNotificationRead ? BackgroundGrayColor : categorydata.color;
+            categoryLabel.textColor = isRead ? BackgroundGrayColor : categorydata.color;
             
-            categoryColorView.backgroundColor = isNotificationRead ? BackgroundGrayColor : categorydata.color;
+            categoryColorView.backgroundColor = isRead ? BackgroundGrayColor : categorydata.color;
             
         });
         

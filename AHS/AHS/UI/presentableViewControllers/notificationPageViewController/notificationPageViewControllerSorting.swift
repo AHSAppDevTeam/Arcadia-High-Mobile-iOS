@@ -100,4 +100,12 @@ struct notificationSortingStruct : Codable{
 
 extension notificationPageViewController{
     
+    internal func sortNotifications(_ notificationList: [notificationData]) -> [notificationData]{
+        
+        return notificationList.sorted(by: { (a, b) in
+            return a.notifTimestamp < b.notifTimestamp;
+        });
+        
+    }
+    
 }

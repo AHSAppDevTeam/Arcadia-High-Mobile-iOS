@@ -67,6 +67,8 @@ extension notificationPageViewController{
             
             updateNotificationView(button);
             
+            AppUtility.setAppNotificationNumber(AppUtility.getAppNotificationNumber() - 1);
+            
         }
         
     }
