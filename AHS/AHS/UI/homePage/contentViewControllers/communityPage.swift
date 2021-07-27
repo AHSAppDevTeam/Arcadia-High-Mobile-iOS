@@ -182,6 +182,7 @@ class communityPageController : homeContentPageViewController{
                     categoryGridCellImageView.setImageURL(categorydata.thumbURLs[gridCellIndex]);
                     categoryGridCellImageView.contentMode = .scaleAspectFill;
                     categoryGridCellImageView.backgroundColor = categorydata.color;
+                    categoryGridCellImageView.clipsToBounds = true;
                     
                     categoryImagesViewHorizontalStackView.addArrangedSubview(categoryGridCellImageView);
                     
