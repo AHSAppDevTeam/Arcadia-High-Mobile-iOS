@@ -19,14 +19,14 @@ extension notificationPageViewController{
         loadNotificationList();
     }
     
-    @objc internal func sortBy(){
+    @objc internal func sortBy(_ button: UIButton){
         //print("sort by")
         
         if (!sortByPopTip.isVisible){
             
             let sortByTableViewWidth = mainScrollView.frame.width * 0.35;
             let sortByTableViewCellHeight = sortByTableViewWidth * 0.22;
-            let sortByTableViewHeight = sortByTableViewCellHeight * CGFloat(savedSortingStruct.numberOfCells());
+            let sortByTableViewHeight = sortByTableViewCellHeight * CGFloat(notificationSortingStruct.numberOfCells());
             
             let sortByTableViewFrame = CGRect(x: 0, y: 0, width: sortByTableViewWidth, height: sortByTableViewHeight);
             let sortByTableView = UITableView(frame: sortByTableViewFrame);
@@ -37,7 +37,7 @@ extension notificationPageViewController{
             sortByTableView.dataSource = self;
             sortByTableView.rowHeight = sortByTableViewCellHeight;
             sortByTableView.isScrollEnabled = false;
-            sortByTableView.register(savedPageSortByCell.self, forCellReuseIdentifier: savedPageSortByCell.identifier);
+            sortByTableView.register(notificationPageSortByCell.self, forCellReuseIdentifier: notificationPageSortByCell.identifier);
             
             //
             
@@ -47,7 +47,7 @@ extension notificationPageViewController{
             sortByPopTip.shouldDismissOnSwipeOutside = true;
             sortByPopTip.shouldDismissOnTapOutside = true;
             
-            //sortByPopTip.show(customView: sortByTableView, direction: .down, in: mainScrollView, from: CGRect(x: button.center.x, y: button.frame.maxY, width: 0, height: 0));
+            sortByPopTip.show(customView: sortByTableView, direction: .down, in: mainScrollView, from: CGRect(x: button.center.x, y: button.frame.maxY, width: 0, height: 0));
             
         }
         else{
