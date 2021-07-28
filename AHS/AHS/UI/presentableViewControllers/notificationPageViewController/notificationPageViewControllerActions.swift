@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension notificationPageViewController{
+extension notificationPageViewController : UIScrollViewDelegate{
     
     @objc internal func exit(){
         self.dismiss(animated: true);
@@ -17,6 +17,11 @@ extension notificationPageViewController{
     @objc internal func refresh(){
         dataManager.resetNotificationListCache();
         loadNotificationList();
+    }
+    
+    internal func reload(){
+        self.refreshControl.beginRefreshing();
+        self.refresh();
     }
     
     @objc internal func sortBy(_ button: UIButton){
@@ -116,6 +121,10 @@ extension notificationPageViewController{
         
         self.renderNotification(button, mainScrollView.frame.width - 2*horizontalPadding, dataManager.getCachedNotificationData(button.notificationID));
         
+    }
+    
+    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        sortByPopTip.hide();
     }
     
 }

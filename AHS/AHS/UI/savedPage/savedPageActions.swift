@@ -11,14 +11,14 @@ import AudioToolbox
 
 extension savedPageViewController : UIScrollViewDelegate{
     
-    @objc internal func refresh(_ refreshControl: UIRefreshControl){
+    @objc internal func refresh(){
         self.renderContent();
         self.refreshControl.endRefreshing();
     }
     
     internal func reload(){
         self.refreshControl.beginRefreshing();
-        self.refresh(UIRefreshControl());
+        self.refresh();
     }
     
     @objc internal func endRefreshing(){

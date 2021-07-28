@@ -46,6 +46,7 @@ class notificationPageViewController : presentableViewController{
         
         mainScrollView.frame = CGRect(x: 0, y: topBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - topBarView.frame.maxY);
         mainScrollView.alwaysBounceVertical = true;
+        mainScrollView.delegate = self;
         self.view.addSubview(mainScrollView);
         
         //

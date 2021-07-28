@@ -11,7 +11,22 @@ import UIKit
 extension notificationPageViewController : UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected at - \(indexPath.row)");
+        UIImpactFeedbackGenerator(style: .soft).impactOccurred();
+        
+        let index = indexPath.row;
+        
+        if (index < notificationSortingStruct.numberOfOptions()){ // options
+            
+            let cell = tableView.cellForRow(at: indexPath) as! notificationPageSortByCell;
+            
+            dataManager.preferencesStruct.notificationsSortPreference.updateOptionWithIndex(index, cell.updateOptions());
+            
+        }
+        else{
+            dataManager.preferencesStruct.notificationsSortPreference.sortingMethod = notificationSortingStruct.notificationSortingMethods.methodFromIndex(index - notificationSortingStruct.numberOfOptions());
+            sortByPopTip.hide();
+            reload();
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

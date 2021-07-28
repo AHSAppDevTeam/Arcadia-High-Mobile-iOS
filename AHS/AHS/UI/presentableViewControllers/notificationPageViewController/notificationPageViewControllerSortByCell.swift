@@ -105,7 +105,7 @@ class notificationPageSortByCell : UITableViewCell{
         optionsView.isHidden = false;
         
         optionsSwitch.resize(newHeight: height * 0.7);
-        optionsSwitch.isOn = dataManager.preferencesStruct.savedArticlesSortPreference.getOptionWithIndex(index);
+        optionsSwitch.isOn = dataManager.preferencesStruct.notificationsSortPreference.getOptionWithIndex(index);
         
         optionsLabel.text = notificationSortingStruct.optionNameFromIndex(index);
         optionsLabel.font = UIFont(name: optionsLabel.font.fontName, size: height * 0.55);
