@@ -36,6 +36,17 @@ struct notificationSortingStruct : Codable{
         }
         
         public func comp(_ a: notificationData, _ b: notificationData) -> Bool{
+            
+            if (dataManager.preferencesStruct.notificationsSortPreference.read){ // read option is on
+                
+                let isARead = dataManager.isNotificationRead(a.notificationID), isBRead = dataManager.isNotificationRead(b.notificationID);
+                
+                if (isARead != isBRead){
+                    return isBRead;
+                }
+                
+            }
+            
             switch self {
             case .byTime:
                 return dataManager.articleTimestampComp(a.notifTimestamp, b.notifTimestamp);
@@ -103,7 +114,8 @@ extension notificationPageViewController{
     internal func sortNotifications(_ notificationList: [notificationData]) -> [notificationData]{
         
         return notificationList.sorted(by: { (a, b) in
-            return a.notifTimestamp < b.notifTimestamp;
+            let result = dataManager.preferencesStruct.notificationsSortPreference.sortingMethod.comp(a, b);
+            return dataManager.preferencesStruct.notificationsSortPreference.inverted ? !result : result;
         });
         
     }
