@@ -20,7 +20,40 @@ extension notificationPageViewController{
     }
     
     @objc internal func sortBy(){
-        print("sort by")
+        //print("sort by")
+        
+        if (!sortByPopTip.isVisible){
+            
+            let sortByTableViewWidth = mainScrollView.frame.width * 0.35;
+            let sortByTableViewCellHeight = sortByTableViewWidth * 0.22;
+            let sortByTableViewHeight = sortByTableViewCellHeight * CGFloat(savedSortingStruct.numberOfCells());
+            
+            let sortByTableViewFrame = CGRect(x: 0, y: 0, width: sortByTableViewWidth, height: sortByTableViewHeight);
+            let sortByTableView = UITableView(frame: sortByTableViewFrame);
+            
+            cellHeight = sortByTableViewCellHeight;
+            
+            sortByTableView.delegate = self;
+            sortByTableView.dataSource = self;
+            sortByTableView.rowHeight = sortByTableViewCellHeight;
+            sortByTableView.isScrollEnabled = false;
+            sortByTableView.register(savedPageSortByCell.self, forCellReuseIdentifier: savedPageSortByCell.identifier);
+            
+            //
+            
+            sortByPopTip.bubbleColor = BackgroundColor;
+            //fontSliderPopTip.isRounded = true;
+            sortByPopTip.shouldDismissOnTap = false;
+            sortByPopTip.shouldDismissOnSwipeOutside = true;
+            sortByPopTip.shouldDismissOnTapOutside = true;
+            
+            //sortByPopTip.show(customView: sortByTableView, direction: .down, in: mainScrollView, from: CGRect(x: button.center.x, y: button.frame.maxY, width: 0, height: 0));
+            
+        }
+        else{
+            sortByPopTip.hide();
+        }
+        
     }
     
     @objc internal func clearAll(){

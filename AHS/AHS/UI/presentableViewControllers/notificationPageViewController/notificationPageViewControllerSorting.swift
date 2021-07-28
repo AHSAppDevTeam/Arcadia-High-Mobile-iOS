@@ -108,4 +108,24 @@ extension notificationPageViewController{
         
     }
     
+    internal func filterNotifications(_ notificationIDList: [String]) -> [notificationData]{
+        
+        var notificationList : [notificationData] = [];
+        
+        for notificationID in notificationIDList{
+            
+            let data = dataManager.getCachedNotificationData(notificationID);
+            
+            if (dataManager.getPreloadedCategoryData(data.categoryID).visible){
+                
+                notificationList.append(data);
+                
+            }
+            
+        }
+        
+        return notificationList;
+        
+    }
+    
 }
