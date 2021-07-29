@@ -46,7 +46,7 @@ extension dataManager{
         
         setupConnection();
         
-        if (internetConnected){
+        if (internetConnected && checkValidString(id)){
             
             dataRef.child("articles").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                 
@@ -88,7 +88,7 @@ extension dataManager{
             
             setupConnection();
             
-            if (internetConnected){
+            if (internetConnected && checkValidString(id)){
                 
                 dataRef.child("snippets").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                     

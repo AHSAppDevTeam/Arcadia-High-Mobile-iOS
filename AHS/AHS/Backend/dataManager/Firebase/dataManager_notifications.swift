@@ -53,7 +53,7 @@ extension dataManager{
         
         setupConnection();
         
-        if (internetConnected){
+        if (internetConnected && checkValidString(id)){
             
             dataRef.child("notifs").child(id).observeSingleEvent(of: .value, with: { (snapshot) in
                 

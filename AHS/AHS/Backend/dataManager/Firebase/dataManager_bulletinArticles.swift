@@ -48,7 +48,7 @@ extension dataManager{
     //
     
     static private func cacheArticleData(_ id: String, completion: @escaping (baseArticleData) -> Void){
-        
+    
         dataManager.getBaseArticleData(id, completion: { (articledata) in
             
             self.bulletinArticleCache[id] = articledata;

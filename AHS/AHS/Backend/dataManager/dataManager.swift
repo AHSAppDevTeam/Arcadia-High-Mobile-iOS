@@ -91,4 +91,15 @@ class dataManager{
         }
     }
     
+    //
+    
+    static public func checkValidString(_ s: String) -> Bool{
+        return !s.isEmpty
+            && s.firstIndex(of: ".") == nil
+            && s.firstIndex(of: "#") == nil
+            && s.firstIndex(of: "$") == nil
+            && s.firstIndex(of: "[") == nil
+            && s.firstIndex(of: "]") == nil
+    }
+    
 }

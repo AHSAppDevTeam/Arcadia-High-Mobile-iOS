@@ -11,19 +11,24 @@ import FirebaseFunctions
 
 extension dataManager{
     static public func incrementArticleView(_ articleID: String){
-        dataFunc.httpsCallable("incrementView").call(["id" : articleID]){ (_, error) in
+        
+        if (checkValidString(articleID)){
             
-            if let error = error as NSError?{
-               
-                if (error.domain == FunctionsErrorDomain){
+            dataFunc.httpsCallable("incrementView").call(["id" : articleID]){ (_, error) in
+                
+                if let error = error as NSError?{
                     
-                    //let code = FunctionsErrorCode(rawValue: error.code);
-                    print("incrementView call error - \(error.localizedDescription) - \(error.userInfo[FunctionsErrorDetailsKey])");
+                    if (error.domain == FunctionsErrorDomain){
+                        
+                        //let code = FunctionsErrorCode(rawValue: error.code);
+                        print("incrementView call error - \(error.localizedDescription) - \(error.userInfo[FunctionsErrorDetailsKey])");
+                        
+                    }
                     
                 }
                 
-            }
+            };
             
-        };
+        }
     }
 }

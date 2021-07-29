@@ -89,7 +89,7 @@ extension dataManager{
     static private func loadCategoryData(_ categoryID: String, completion : @escaping (categoryData) -> Void){
         setupConnection();
         
-        if (internetConnected){
+        if (internetConnected && checkValidString(categoryID)){
             
             dataRef.child("categories").child(categoryID).observeSingleEvent(of: .value, with: { (snapshot) in
                 

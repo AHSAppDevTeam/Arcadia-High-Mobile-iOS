@@ -59,26 +59,30 @@ extension dataManager{
     
     static private func getFeaturedCategoryTitleBlurb(id: String, completion: @escaping (featuredCategoryData) -> Void){
         
-        dataRef.child("categories").child(id).observeSingleEvent(of: .value){ (snapshot) in
+        if (checkValidString(id)){
             
-            var data : featuredCategoryData = featuredCategoryData();
-            
-            if (snapshot.exists()){
-            
-                let categoryDict = snapshot.value as? NSDictionary;
+            dataRef.child("categories").child(id).observeSingleEvent(of: .value){ (snapshot) in
                 
-                data.categoryID = id;
+                var data : featuredCategoryData = featuredCategoryData();
                 
-                data.title = categoryDict?["title"] as? String ?? "";
-                data.blurb = categoryDict?["blurb"] as? String ?? "";
-                data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
+                if (snapshot.exists()){
+                    
+                    let categoryDict = snapshot.value as? NSDictionary;
+                    
+                    data.categoryID = id;
+                    
+                    data.title = categoryDict?["title"] as? String ?? "";
+                    data.blurb = categoryDict?["blurb"] as? String ?? "";
+                    data.color = UIColor.init(hex: categoryDict?["color"] as? String ?? "");
+                    
+                }
+                else{
+                    print("category '\(id)' does not exist");
+                }
+                
+                completion(data);
                 
             }
-            else{
-                print("category '\(id)' does not exist");
-            }
-            
-            completion(data);
             
         }
         

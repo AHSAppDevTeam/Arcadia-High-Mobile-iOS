@@ -52,25 +52,29 @@ extension dataManager{
     
     static internal func getLocationData(locationName: String, completion: @escaping (locationData) -> Void){
         
-        dataRef.child("locations").child(locationName).observeSingleEvent(of: .value, with: { (snapshot) in
+        if (checkValidString(locationName)){
             
-            if (snapshot.exists()){
+            dataRef.child("locations").child(locationName).observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                let locationDict = snapshot.value as? NSDictionary;
+                if (snapshot.exists()){
+                    
+                    let locationDict = snapshot.value as? NSDictionary;
+                    
+                    var data : locationData = locationData();
+                    
+                    data.categoryIDs = locationDict?["categoryIDs"] as? [String] ?? [];
+                    data.locationTitle = locationDict?["title"] as? String ?? "";
+                    
+                    completion(data);
+                    
+                }
+                else{
+                    print("location '\(locationName)' does not exist");
+                }
                 
-                var data : locationData = locationData();
-                
-                data.categoryIDs = locationDict?["categoryIDs"] as? [String] ?? [];
-                data.locationTitle = locationDict?["title"] as? String ?? "";
-                
-                completion(data);
-                
-            }
-            else{
-                print("location '\(locationName)' does not exist");
-            }
-                
-        });
+            });
+            
+        }
         
     }
     
