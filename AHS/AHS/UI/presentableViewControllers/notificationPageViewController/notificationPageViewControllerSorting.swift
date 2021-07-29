@@ -103,7 +103,7 @@ struct notificationSortingStruct : Codable{
     }
     
     var inverted : Bool = false;
-    var read : Bool = false;
+    var read : Bool = true;
     
     var sortingMethod : notificationSortingMethods = .defaultValue;
     

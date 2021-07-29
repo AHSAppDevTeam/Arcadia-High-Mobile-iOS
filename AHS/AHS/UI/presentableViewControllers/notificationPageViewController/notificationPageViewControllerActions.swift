@@ -109,6 +109,21 @@ extension notificationPageViewController : UIScrollViewDelegate{
             
         }
         
+        //
+        
+        presentArticlePage(button.notificationID);
+    }
+    
+    internal func presentArticlePage(_ articleID: String){
+        let vc = articlePageViewController();
+        
+        vc.articleID = articleID;
+        
+        transitionDelegateVar = transitionDelegate();
+        vc.transitioningDelegate = transitionDelegateVar;
+        vc.modalPresentationStyle = .custom;
+        
+        self.present(vc, animated: true);
     }
     
     private func updateNotificationView(_ button: NotificationButton){
