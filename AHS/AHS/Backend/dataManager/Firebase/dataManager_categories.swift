@@ -36,6 +36,27 @@ extension dataManager{
         setupConnection();
         
         if (internetConnected){
+            
+            getCategoryIDList(completion: { (categoryID) in
+                loadCategoryData(categoryID, completion: { (categorydata) in
+                    
+                    categoryLookupDispatchQueue.sync {
+                        categoryLookupMap[categoryID] = categorydata;
+                    }
+                    
+                });
+            });
+            
+        }
+        
+    }
+    
+    static public func getCategoryIDList(completion: @escaping (String) -> Void){ // each categoryID is returned in the completion handler individually
+        
+        setupConnection();
+        
+        if (internetConnected){
+            
             dataRef.child("categories").observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 if (snapshot.exists()){
@@ -43,19 +64,14 @@ extension dataManager{
                     let enumerator = snapshot.children;
                     while let category = enumerator.nextObject() as? DataSnapshot{
                         
-                        loadCategoryData(category.key, completion: { (categorydata) in
-                            
-                            categoryLookupDispatchQueue.sync {
-                                categoryLookupMap[category.key] = categorydata;
-                            }
-                            
-                        });
+                        completion(category.key);
                         
                     }
                     
                 }
                 
             });
+            
         }
         
     }

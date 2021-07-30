@@ -13,7 +13,17 @@ extension dataManager{
     
     static public func updateFirebaseMessagingSubscription(){
         
+        setupConnection();
         
+        if (internetConnected){
+            
+            getCategoryIDList(completion: { (categoryID) in
+                
+                Messaging.messaging().subscribe(toTopic: categoryID);
+                
+            });
+            
+        }
         
     }
     
