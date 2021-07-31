@@ -29,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dataManager.setupConnection();
         dataManager.preloadCategoryData();
         dataManager.loadPreferences();
+        
+        dataManager.updateFirebaseMessagingSubscription();
+        
         return true
     }
 

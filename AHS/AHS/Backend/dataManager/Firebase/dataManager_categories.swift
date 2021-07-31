@@ -142,6 +142,7 @@ extension dataManager{
     static private func createDefaultCategoryData(_ categoryID: String) -> categoryData{
         var data = categoryData();
         data.title = categoryID;
+        data.visible = false;
         return data;
     }
     

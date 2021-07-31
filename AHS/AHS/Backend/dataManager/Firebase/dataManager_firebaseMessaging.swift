@@ -18,8 +18,18 @@ extension dataManager{
         if (internetConnected){
             
             getCategoryIDList(completion: { (categoryID) in
-                
-                Messaging.messaging().subscribe(toTopic: categoryID);
+                            
+                getCategoryData(categoryID, completion: { (categorydata) in
+                    
+                    if (categorydata.visible){
+                        
+                        print("subscribed to category id - \(categoryID)");
+                        
+                        Messaging.messaging().subscribe(toTopic: categoryID);
+                        
+                    }
+                    
+                });
                 
             });
             
