@@ -8,6 +8,7 @@ targets:
         settings:
             PRODUCT_BUNDLE_IDENTIFIER: com.ArcadiaApaches.ArcadiaHighSchoolApp
             TARGETED_DEVICE_FAMILY: 1
+            CODE_SIGN_ENTITLEMENTS: AHS/AHS.entitlements
     AHSTests:
         type: bundle.unit-test
         platform: iOS
