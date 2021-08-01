@@ -163,7 +163,7 @@ class navigationViewController : UIViewController{
         let titleLabelFrame = CGRect(x: titleLabelPadding, y: 0, width: topBarView.frame.width - (topBarView.frame.width - notificationButton.frame.minX) - 2*titleLabelPadding, height: topBarView.frame.height);
         topBarTitleLabel = UITextView(frame: titleLabelFrame); // We need a container in order to account for multiple labels
         
-        //topBarTitleLabel.backgroundColor = .systemOrange;
+        topBarTitleLabel.backgroundColor = BackgroundColor;
         topBarTitleLabel.isUserInteractionEnabled = false;
         topBarTitleLabel.isEditable = false;
         topBarTitleLabel.isSelectable = false;
@@ -222,7 +222,7 @@ class navigationViewController : UIViewController{
         topBarHomeDateLabel.textContainer.lineFragmentPadding = .zero;
         //topBarHomeDateLabel.centerTextVertically();
 
-        //topBarHomeDateLabel.backgroundColor = .systemBlue;
+        topBarHomeDateLabel.backgroundColor = BackgroundColor;
         
         topBarHomeView.addSubview(topBarHomeDateLabel);
         

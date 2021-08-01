@@ -39,6 +39,8 @@ class searchPageCollectionViewCell : UITableViewCell{
         
         self.contentView.addSubview(articleTitleLabel);
         
+        self.contentView.backgroundColor = BackgroundColor;
+        
     }
     
     required init?(coder: NSCoder) {

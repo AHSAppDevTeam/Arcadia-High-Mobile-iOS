@@ -24,6 +24,7 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         searchBar.frame = searchBarFrame;
         
         searchBar.delegate = self;
+        searchBar.backgroundColor = BackgroundColor;
         
         self.view.addSubview(searchBar);
         
@@ -32,6 +33,7 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         let resultsTableViewFrame = CGRect(x: homePageHorizontalPadding, y: searchBar.frame.height, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: 0);
         resultsTableView.frame = resultsTableViewFrame;
         
+        resultsTableView.backgroundColor = BackgroundColor;
         resultsTableView.delegate = self;
         resultsTableView.dataSource = self;
         resultsTableView.isScrollEnabled = false;
