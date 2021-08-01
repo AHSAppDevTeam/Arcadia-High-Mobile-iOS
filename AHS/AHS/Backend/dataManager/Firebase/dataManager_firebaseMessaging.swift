@@ -51,7 +51,14 @@ extension dataManager{
     //
     
     static public func isUserSubscribedToCategory(_ categoryID: String) -> Bool{
-        return dataManager.preferencesStruct.notificationSubscriptionPreference[categoryID] ?? defaultCategorySubscriptionValue;
+        
+        guard let val = dataManager.preferencesStruct.notificationSubscriptionPreference[categoryID] else{
+            dataManager.preferencesStruct.notificationSubscriptionPreference[categoryID] = defaultCategorySubscriptionValue;
+            return defaultCategorySubscriptionValue;
+        }
+        
+        return val;
+        
     }
     
     static public func setUserSubscriptionToCategory(_ categoryID: String, _ val: Bool){
