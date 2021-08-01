@@ -65,4 +65,8 @@ extension dataManager{
         dataManager.preferencesStruct.notificationSubscriptionPreference[categoryID] = val;
     }
     
+    static public func resetUserSubscriptions(){
+        dataManager.preferencesStruct.notificationSubscriptionPreference = [:];
+    }
+    
 }

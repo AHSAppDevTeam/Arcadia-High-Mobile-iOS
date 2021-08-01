@@ -26,7 +26,7 @@ extension dataManager{
             
             getFeaturedCategoryID(completion: { (id) in
                 
-                if (id != ""){
+                if (!id.isEmpty){
                     
                     getFeaturedCategoryTitleBlurb(id: id, completion: { (data) in
                         
