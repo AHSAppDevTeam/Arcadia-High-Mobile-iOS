@@ -23,9 +23,20 @@ extension dataManager{
                     
                     if (categorydata.visible){
                         
-                        print("subscribed to category id - \(categoryID)");
-                        
-                        Messaging.messaging().subscribe(toTopic: categoryID);
+                        if (isUserSubscribedToCategory(categoryID)){
+                            
+                            print("subscribed to category id - \(categoryID)");
+                            
+                            Messaging.messaging().subscribe(toTopic: categoryID);
+                            
+                        }
+                        else{
+                            
+                            print("unsubscribed to category id - \(categoryID)");
+                            
+                            Messaging.messaging().unsubscribe(fromTopic: categoryID);
+                            
+                        }
                         
                     }
                     
@@ -35,6 +46,16 @@ extension dataManager{
             
         }
         
+    }
+    
+    //
+    
+    static public func isUserSubscribedToCategory(_ categoryID: String) -> Bool{
+        return dataManager.preferencesStruct.notificationSubscriptionPreference[categoryID] ?? defaultCategorySubscriptionValue;
+    }
+    
+    static public func setUserSubscriptionToCategory(_ categoryID: String, _ val: Bool){
+        dataManager.preferencesStruct.notificationSubscriptionPreference[categoryID] = val;
     }
     
 }

@@ -50,6 +50,14 @@ extension dataManager{
             }
         }
         
+        //
+        
+        var notificationSubscriptionPreference : [String : Bool] = [:]{
+            didSet{
+                dataManager.savePreferences();
+            }
+        }
+        
     }
     
     public static func loadPreferences(){

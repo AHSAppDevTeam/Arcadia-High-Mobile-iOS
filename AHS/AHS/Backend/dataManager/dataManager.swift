@@ -35,6 +35,8 @@ class dataManager{
     
     static internal let notificationReadDispatchQueue = DispatchQueue(label: "notificationReadDispatchQueue");
     
+    static internal let defaultCategorySubscriptionValue : Bool = true;
+    
     //
     
     static public func setupConnection(){
