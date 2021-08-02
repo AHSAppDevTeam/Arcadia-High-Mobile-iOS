@@ -17,6 +17,8 @@ class profilePageViewController : mainPageViewController{
     //
     
     internal let idCardButton : UIButton = UIButton();
+    internal var idCardButtonWidth : CGFloat = 0; // set on runtime
+    internal var idCardButtonHeight : CGFloat = 0;
     
     //internal let shopButton : UIButton = UIButton(); -- for later
     
@@ -85,8 +87,8 @@ class profilePageViewController : mainPageViewController{
         idCardButton.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: verticalPadding).isActive = true;
         idCardButton.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
         
-        let idCardButtonWidth = mainScrollView.frame.width - 2*horizontalPadding;
-        let idCardButtonHeight = idCardButtonWidth * 0.562;
+        idCardButtonWidth = mainScrollView.frame.width - 2*horizontalPadding;
+        idCardButtonHeight = idCardButtonWidth * 0.562;
         
         idCardButton.widthAnchor.constraint(equalToConstant: idCardButtonWidth).isActive = true;
         idCardButton.heightAnchor.constraint(equalToConstant: idCardButtonHeight).isActive = true;
@@ -112,10 +114,6 @@ class profilePageViewController : mainPageViewController{
         contentTableView.dataSource = self;
         contentTableView.isScrollEnabled = false;
         
-    }
-    
-    internal func renderIDCard(){
-        idCardButton.backgroundColor = .systemOrange;
     }
     
 }

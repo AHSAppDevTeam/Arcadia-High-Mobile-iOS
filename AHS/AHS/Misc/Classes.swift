@@ -96,6 +96,21 @@ class CategoryButton : UIButton{
     var categoryAccentColor : UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1);
 }
 
+class IDButton : UIButton{
+    
+    enum IDState{
+        
+        static let defaultValue : IDState = .requiresSignIn;
+        
+        case isLocked
+        case isUnlocked
+        case requiresSignIn
+    }
+    
+    var idState : IDState = .defaultValue;
+    
+}
+
 final public class Reachability {
 
     class func isConnectedToNetwork() -> Bool {
