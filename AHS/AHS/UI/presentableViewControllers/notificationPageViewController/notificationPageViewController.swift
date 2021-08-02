@@ -28,6 +28,9 @@ class notificationPageViewController : presentableViewController{
     internal let sortByPopTip : PopTip = PopTip();
     
     internal var cellHeight : CGFloat = 0;
+    
+    internal let noNotificationLabel : UILabel = UILabel();
+    
     //
     
     override func viewDidLoad() {
@@ -52,6 +55,22 @@ class notificationPageViewController : presentableViewController{
         
         refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged);
         mainScrollView.addSubview(refreshControl);
+        
+        //
+        
+        mainScrollView.addSubview(noNotificationLabel);
+        
+        noNotificationLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        noNotificationLabel.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: horizontalPadding).isActive = true;
+        noNotificationLabel.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: 5*verticalPadding).isActive = true;
+        noNotificationLabel.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
+        
+        noNotificationLabel.textAlignment = .center;
+        noNotificationLabel.text = "No Notifications";
+        noNotificationLabel.textColor = InverseBackgroundColor;
+        noNotificationLabel.font = UIFont(name: SFProDisplay_Bold, size: self.view.frame.width * 0.06);
+        noNotificationLabel.isHidden = true;
         
         //
         
@@ -221,48 +240,56 @@ class notificationPageViewController : presentableViewController{
         
         let contentVerticalPadding = 2*verticalPadding;
         
-        //print("list size - \(notificationList.count)")
+        var unreadNotificationCount : Int = 0;
         
         var previousViewBottomAnchor : NSLayoutYAxisAnchor = topContentView.bottomAnchor;
         
-        let notificationList : [notificationData] = sortNotifications(filterNotifications(notificationIDList));
-        
-        var unreadNotificationCount : Int = 0;
-        
-        for notificationdata in notificationList{
+        if (notificationIDList.count > 0){
             
-            let notificationViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
+            noNotificationLabel.isHidden = true;
             
-            let isNotificationRead = dataManager.isNotificationRead(notificationdata.notificationID);
+            let notificationList : [notificationData] = sortNotifications(filterNotifications(notificationIDList));
+                
+            for notificationdata in notificationList{
+                
+                let notificationViewWidth = mainScrollView.frame.width - 2*horizontalPadding;
+                
+                let isNotificationRead = dataManager.isNotificationRead(notificationdata.notificationID);
+                
+                let notificationView = NotificationButton();
+                
+                notificationView.translatesAutoresizingMaskIntoConstraints = false;
+                
+                self.mainScrollView.addSubview(notificationView);
+                
+                notificationView.leadingAnchor.constraint(equalTo: self.mainScrollView.leadingAnchor, constant: self.horizontalPadding).isActive = true;
+                notificationView.topAnchor.constraint(equalTo: previousViewBottomAnchor, constant: contentVerticalPadding).isActive = true;
+                notificationView.trailingAnchor.constraint(equalTo: self.mainScrollView.trailingAnchor, constant: -self.horizontalPadding).isActive = true;
+                notificationView.widthAnchor.constraint(equalToConstant: notificationViewWidth).isActive = true;
+                //notificationView.heightAnchor.constraint(equalToConstant: 200).isActive = true;
+                
+                notificationView.tag = 1;
+                
+                notificationView.backgroundColor = BackgroundSecondaryGrayColor;
+                notificationView.layer.cornerRadius = notificationViewWidth / 25;
+                notificationView.clipsToBounds = true;
+                
+                self.renderNotification(notificationView, notificationViewWidth, notificationdata, isNotificationRead);
+                
+                notificationView.notificationID = notificationdata.notificationID;
+                
+                notificationView.addTarget(self, action: #selector(self.readNotification), for: .touchUpInside);
+                
+                previousViewBottomAnchor = notificationView.bottomAnchor;
+                
+                unreadNotificationCount += isNotificationRead ? 0 : 1;
+                
+            }
             
-            let notificationView = NotificationButton();
-            
-            notificationView.translatesAutoresizingMaskIntoConstraints = false;
-            
-            self.mainScrollView.addSubview(notificationView);
-            
-            notificationView.leadingAnchor.constraint(equalTo: self.mainScrollView.leadingAnchor, constant: self.horizontalPadding).isActive = true;
-            notificationView.topAnchor.constraint(equalTo: previousViewBottomAnchor, constant: contentVerticalPadding).isActive = true;
-            notificationView.trailingAnchor.constraint(equalTo: self.mainScrollView.trailingAnchor, constant: -self.horizontalPadding).isActive = true;
-            notificationView.widthAnchor.constraint(equalToConstant: notificationViewWidth).isActive = true;
-            //notificationView.heightAnchor.constraint(equalToConstant: 200).isActive = true;
-            
-            notificationView.tag = 1;
-            
-            notificationView.backgroundColor = BackgroundSecondaryGrayColor;
-            notificationView.layer.cornerRadius = notificationViewWidth / 25;
-            notificationView.clipsToBounds = true;
-            
-            self.renderNotification(notificationView, notificationViewWidth, notificationdata, isNotificationRead);
-            
-            notificationView.notificationID = notificationdata.notificationID;
-            
-            notificationView.addTarget(self, action: #selector(self.readNotification), for: .touchUpInside);
-            
-            previousViewBottomAnchor = notificationView.bottomAnchor;
-            
-            unreadNotificationCount += isNotificationRead ? 0 : 1;
-            
+        }
+        else{
+            previousViewBottomAnchor = noNotificationLabel.bottomAnchor;
+            noNotificationLabel.isHidden = false;
         }
         
         previousViewBottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: contentVerticalPadding).isActive = true;
