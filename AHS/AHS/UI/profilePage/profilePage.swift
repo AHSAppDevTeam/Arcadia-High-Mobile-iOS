@@ -16,7 +16,7 @@ class profilePageViewController : mainPageViewController{
     
     //
     
-    internal let idCardButton : UIButton = UIButton();
+    internal let idCardButton : IDButton = IDButton();
     internal var idCardButtonWidth : CGFloat = 0; // set on runtime
     internal var idCardButtonHeight : CGFloat = 0;
     

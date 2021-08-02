@@ -21,6 +21,10 @@ extension profilePageViewController{
         renderID_Lock();
     }
     
+    private func renderID_Content(){
+        
+    }
+    
     private func renderID_SignIn(){
         
         let signInIconImageView = UIImageView();
@@ -29,8 +33,8 @@ extension profilePageViewController{
         
         signInIconImageView.translatesAutoresizingMaskIntoConstraints = false;
         
-        signInIconImageView.centerXAnchor.constraint(equalTo: signInIconImageView.centerXAnchor).isActive = true;
-        signInIconImageView.centerYAnchor.constraint(equalTo: signInIconImageView.centerYAnchor).isActive = true;
+        signInIconImageView.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
+        signInIconImageView.centerYAnchor.constraint(equalTo: idCardButton.centerYAnchor).isActive = true;
         
         let signInIconImageViewSize = idCardButtonHeight * 0.2;
         
@@ -40,9 +44,21 @@ extension profilePageViewController{
         signInIconImageView.image = UIImage(named: "google-icon");
         signInIconImageView.contentMode = .scaleAspectFit;
         
-    }
-    
-    private func renderID_Content(){
+        //
+        
+        let signInLabel = UILabel();
+        
+        idCardButton.addSubview(signInLabel);
+        
+        signInLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        signInLabel.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
+        signInLabel.topAnchor.constraint(equalTo: signInIconImageView.bottomAnchor, constant: verticalPadding).isActive = true;
+        
+        signInLabel.text = "Sign-In";
+        signInLabel.textAlignment = .center;
+        signInLabel.textColor = .white;
+        signInLabel.font = UIFont(name: SFProDisplay_Semibold, size: idCardButtonWidth * 0.035);
         
     }
     
@@ -65,6 +81,22 @@ extension profilePageViewController{
         lockIconImageView.image = UIImage(systemName: "lock.fill");
         lockIconImageView.tintColor = .white;
         lockIconImageView.contentMode = .scaleAspectFit;
+        
+        //
+        
+        let lockLabel = UILabel();
+        
+        idCardButton.addSubview(lockLabel);
+        
+        lockLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        lockLabel.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
+        lockLabel.topAnchor.constraint(equalTo: lockIconImageView.bottomAnchor, constant: verticalPadding).isActive = true;
+        
+        lockLabel.text = "Tap to unlock";
+        lockLabel.textAlignment = .center;
+        lockLabel.textColor = .white;
+        lockLabel.font = UIFont(name: SFProDisplay_Semibold, size: idCardButtonWidth * 0.035);
         
     }
     
