@@ -461,42 +461,46 @@ class bulletinPageViewController : mainPageViewController{
         
         let articleListVerticalPadding = verticalPadding * 2;
         
-        var nextTopAnchorConstraint = bulletinContentView.topAnchor;
-        
-        for articleID in articleIDs{
+        if (articleIDs.count > 0){
             
-            let articleView = ArticleButton();
+            var nextTopAnchorConstraint = bulletinContentView.topAnchor;
             
-            articleView.articleID = articleID;
-            articleView.addTarget(self, action: #selector(self.handleArticleClick), for: .touchUpInside);
+            for articleID in articleIDs{
+                
+                let articleView = ArticleButton();
+                
+                articleView.articleID = articleID;
+                articleView.addTarget(self, action: #selector(self.handleArticleClick), for: .touchUpInside);
+                
+                articleView.translatesAutoresizingMaskIntoConstraints = false;
+                
+                bulletinContentView.addSubview(articleView);
+                
+                articleView.leadingAnchor.constraint(equalTo: bulletinContentView.leadingAnchor).isActive = true;
+                articleView.trailingAnchor.constraint(equalTo: bulletinContentView.trailingAnchor).isActive = true;
+                articleView.widthAnchor.constraint(equalToConstant: contentViewWidth).isActive = true;
+                articleView.topAnchor.constraint(equalTo: nextTopAnchorConstraint, constant: articleListVerticalPadding).isActive = true;
+                
+                let articleViewHeight = contentViewWidth * 0.26;
+                articleView.heightAnchor.constraint(equalToConstant: articleViewHeight).isActive = true;
+                
+                //
+                
+                articleView.layer.cornerRadius = articleViewHeight * 0.06;
+                //articleView.backgroundColor = .systemRed;
+                articleView.clipsToBounds = true;
+                
+                renderBulletinArticle(articleView, CGSize(width: contentViewWidth, height: articleViewHeight), articleID);
+                
+                //
+                
+                nextTopAnchorConstraint = articleView.bottomAnchor;
+                
+            }
             
-            articleView.translatesAutoresizingMaskIntoConstraints = false;
-            
-            bulletinContentView.addSubview(articleView);
-            
-            articleView.leadingAnchor.constraint(equalTo: bulletinContentView.leadingAnchor).isActive = true;
-            articleView.trailingAnchor.constraint(equalTo: bulletinContentView.trailingAnchor).isActive = true;
-            articleView.widthAnchor.constraint(equalToConstant: contentViewWidth).isActive = true;
-            articleView.topAnchor.constraint(equalTo: nextTopAnchorConstraint, constant: articleListVerticalPadding).isActive = true;
-            
-            let articleViewHeight = contentViewWidth * 0.26;
-            articleView.heightAnchor.constraint(equalToConstant: articleViewHeight).isActive = true;
-            
-            //
-            
-            articleView.layer.cornerRadius = articleViewHeight * 0.06;
-            //articleView.backgroundColor = .systemRed;
-            articleView.clipsToBounds = true;
-            
-            renderBulletinArticle(articleView, CGSize(width: contentViewWidth, height: articleViewHeight), articleID);
-            
-            //
-            
-            nextTopAnchorConstraint = articleView.bottomAnchor;
+            nextTopAnchorConstraint.constraint(equalTo: bulletinContentView.bottomAnchor, constant: -articleListVerticalPadding).isActive = true;
             
         }
-        
-        nextTopAnchorConstraint.constraint(equalTo: bulletinContentView.bottomAnchor, constant: -articleListVerticalPadding).isActive = true;
         
     }
     
