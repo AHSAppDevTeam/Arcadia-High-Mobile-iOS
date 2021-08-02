@@ -10,15 +10,23 @@ import UIKit
 
 extension profilePageViewController{
     
+    @objc internal func handleIDCardPress(){
+        print("ID Card press");
+    }
+    
     internal func renderIDCard(){
         
         for view in idCardButton.subviews{
             view.removeFromSuperview();
         }
         
+        idCardButton.clipsToBounds = true;
+        idCardButton.layer.cornerRadius = idCardButtonHeight / 15;
+        idCardButton.addTarget(self, action: #selector(self.handleIDCardPress), for: .touchUpInside);
+        
         idCardButton.backgroundColor = .systemOrange;
         
-        renderID_Lock();
+        renderID_SignIn();
     }
     
     private func renderID_Content(){
