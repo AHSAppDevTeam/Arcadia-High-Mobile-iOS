@@ -23,7 +23,22 @@ extension profilePageViewController{
     
     private func renderID_SignIn(){
         
+        let signInIconImageView = UIImageView();
         
+        idCardButton.addSubview(signInIconImageView);
+        
+        signInIconImageView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        signInIconImageView.centerXAnchor.constraint(equalTo: signInIconImageView.centerXAnchor).isActive = true;
+        signInIconImageView.centerYAnchor.constraint(equalTo: signInIconImageView.centerYAnchor).isActive = true;
+        
+        let signInIconImageViewSize = idCardButtonHeight * 0.2;
+        
+        signInIconImageView.widthAnchor.constraint(equalToConstant: signInIconImageViewSize).isActive = true;
+        signInIconImageView.heightAnchor.constraint(equalToConstant: signInIconImageViewSize).isActive = true;
+        
+        signInIconImageView.image = UIImage(named: "google-icon");
+        signInIconImageView.contentMode = .scaleAspectFit;
         
     }
     
