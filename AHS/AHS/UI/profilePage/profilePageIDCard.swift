@@ -19,7 +19,7 @@ extension profilePageViewController{
         case .isLocked:
             print("isLocked state");
         case .isUnlocked:
-            print("isUnlocked state");
+            createIDActionPrompt();
         case .requiresSignIn:
             dataManager.signInUser(self, completion: { (error) in
                 
@@ -62,6 +62,11 @@ extension profilePageViewController{
             renderIDCard();
             return;
         }
+        
+        //
+        
+        print("signed in with name \(signedInUserData.displayName), email \(signedInUserData.email), and url \(signedInUserData.photoURL)")
+        
         
     }
     
@@ -137,6 +142,29 @@ extension profilePageViewController{
         lockLabel.textAlignment = .center;
         lockLabel.textColor = .white;
         lockLabel.font = UIFont(name: SFProDisplay_Semibold, size: idCardButtonWidth * 0.035);
+        
+    }
+    
+    //
+    
+    private func createIDActionPrompt(){
+        
+        let confirmPopUp = UIAlertController(title: title, message: "ID Card", preferredStyle: .actionSheet);
+
+        confirmPopUp.addAction(UIAlertAction(title: "Lock", style: .default, handler: { (_) in
+            self.idCardButton.idState = .isLocked;
+            self.renderIDCard();
+        }));
+        
+        confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
+            self.idCardButton.idState = .requiresSignIn;
+        
+            dataManager.signOutUser();
+            
+            self.renderIDCard();
+        }));
+        
+        self.present(confirmPopUp, animated: true);
         
     }
     

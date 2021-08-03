@@ -57,7 +57,7 @@ extension dataManager{
         });
     }
     
-    static public func signOutGoogleUser(){
+    static public func signOutUser(){
         do{
             try Auth.auth().signOut();
             GIDSignIn.sharedInstance.signOut();
