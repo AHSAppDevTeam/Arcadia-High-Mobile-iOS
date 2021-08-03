@@ -44,7 +44,7 @@ extension dataManager{
         }
         
         guard let authentication = user?.authentication, let idToken = authentication.idToken else {
-            
+            print("Failed to cast auth and idToken on sign in");
             return;
         }
         

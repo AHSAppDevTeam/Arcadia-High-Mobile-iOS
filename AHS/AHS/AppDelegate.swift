@@ -33,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         dataManager.updateFirebaseMessagingSubscription();
         
+        dataManager.recoverPreviousSignInSession();
+        
         return true
     }
     

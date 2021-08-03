@@ -17,11 +17,21 @@ extension profilePageViewController{
         
         switch idCardButton.idState {
         case .isLocked:
-            idCardButton.idState = .requiresSignIn;
+            print("isLocked state");
         case .isUnlocked:
-            print("..")
+            print("isUnlocked state");
         case .requiresSignIn:
-            idCardButton.idState = .isLocked;
+            dataManager.signInUser(self, completion: { (error) in
+                
+                if let err = error{
+                    print("Error while signing in - \(err.localizedDescription)");
+                    return;
+                }
+                
+                self.idCardButton.idState = .isUnlocked;
+                self.renderIDCard();
+                
+            });
         }
         
         renderIDCard();
@@ -34,23 +44,24 @@ extension profilePageViewController{
             view.removeFromSuperview();
         }
         
-        idCardButton.clipsToBounds = true;
-        idCardButton.layer.cornerRadius = idCardButtonHeight / 15;
-        idCardButton.addTarget(self, action: #selector(self.handleIDCardPress), for: .touchUpInside);
-        
-        idCardButton.backgroundColor = .systemOrange;
-        
         switch idCardButton.idState{
         case .isLocked:
             renderID_Lock();
         case .isUnlocked:
-            renderContent();
+            renderID_Content();
         case .requiresSignIn:
             renderID_SignIn();
         }
     }
     
     private func renderID_Content(){
+        
+        guard let signedInUserData = dataManager.getSignedInUserData() else{
+            print("Sign in is required")
+            idCardButton.idState = .requiresSignIn;
+            renderIDCard();
+            return;
+        }
         
     }
     

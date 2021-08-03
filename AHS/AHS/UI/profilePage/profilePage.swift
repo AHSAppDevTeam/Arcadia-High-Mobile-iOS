@@ -93,6 +93,14 @@ class profilePageViewController : mainPageViewController{
         idCardButton.widthAnchor.constraint(equalToConstant: idCardButtonWidth).isActive = true;
         idCardButton.heightAnchor.constraint(equalToConstant: idCardButtonHeight).isActive = true;
         
+        idCardButton.clipsToBounds = true;
+        idCardButton.layer.cornerRadius = idCardButtonHeight / 15;
+        idCardButton.addTarget(self, action: #selector(self.handleIDCardPress), for: .touchUpInside);
+        
+        idCardButton.backgroundColor = .systemOrange;
+        
+        idCardButton.idState = .isUnlocked;
+        
         renderIDCard();
         
         //
