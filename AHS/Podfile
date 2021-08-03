@@ -17,6 +17,7 @@ target 'AHS' do
   pod "youtube-ios-player-helper", "~> 1.0.2"
   pod "UPCarouselFlowLayout"
   pod "AMPopTip"
+  pod 'GoogleSignIn'
 
   target 'AHSTests' do
     inherit! :search_paths

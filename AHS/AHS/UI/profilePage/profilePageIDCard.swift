@@ -8,10 +8,24 @@
 import Foundation
 import UIKit
 
+import Firebase
+import GoogleSignIn
+
 extension profilePageViewController{
     
     @objc internal func handleIDCardPress(){
-        print("ID Card press");
+        
+        switch idCardButton.idState {
+        case .isLocked:
+            idCardButton.idState = .requiresSignIn;
+        case .isUnlocked:
+            print("..")
+        case .requiresSignIn:
+            idCardButton.idState = .isLocked;
+        }
+        
+        renderIDCard();
+        
     }
     
     internal func renderIDCard(){
@@ -26,7 +40,14 @@ extension profilePageViewController{
         
         idCardButton.backgroundColor = .systemOrange;
         
-        renderID_SignIn();
+        switch idCardButton.idState{
+        case .isLocked:
+            renderID_Lock();
+        case .isUnlocked:
+            renderContent();
+        case .requiresSignIn:
+            renderID_SignIn();
+        }
     }
     
     private func renderID_Content(){
