@@ -162,10 +162,10 @@ extension profilePageViewController{
         userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: -userNameLabelPadding).isActive = true;
         userNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: barcodeImageView.topAnchor, constant: -userNameLabelPadding).isActive = true;
         
-        userNameLabel.text = signedInUserData.displayName;
+        userNameLabel.text = dataManager.splitFullName(signedInUserData.displayName ?? "");
         userNameLabel.textAlignment = .left;
         userNameLabel.textColor = .white;
-        userNameLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.18);
+        userNameLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.16);
         userNameLabel.numberOfLines = 0;
         userNameLabel.adjustsFontSizeToFitWidth = true;
         userNameLabel.minimumScaleFactor = 0.3;

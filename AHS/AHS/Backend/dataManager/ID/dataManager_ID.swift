@@ -30,4 +30,19 @@ extension dataManager{
         return String(email.prefix(5));
     }
     
+    static public func splitFullName(_ name: String) -> String{
+        var s : String = "";
+        var flag : Bool = true;
+        for c in name{
+            if (c.isWhitespace && flag){
+                s.append("\n");
+                flag = false;
+            }
+            else{
+                s.append(c);
+            }
+        }
+        return s;
+    }
+    
 }
