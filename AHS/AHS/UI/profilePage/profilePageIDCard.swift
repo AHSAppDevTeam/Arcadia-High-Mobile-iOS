@@ -65,7 +65,71 @@ extension profilePageViewController{
         
         //
         
-        print("signed in with name \(signedInUserData.displayName), email \(signedInUserData.email), and url \(signedInUserData.photoURL)")
+        //print("signed in with name \(signedInUserData.displayName), email \(signedInUserData.email), and url \(signedInUserData.photoURL)")
+        
+        let profileImageView = UIImageView();
+        
+        idCardButton.addSubview(profileImageView);
+        
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        let profileImageViewSize = idCardButtonHeight * 0.45;
+        let profileImageViewPadding = 2*horizontalPadding;
+        
+        profileImageView.trailingAnchor.constraint(equalTo: idCardButton.trailingAnchor, constant: -profileImageViewPadding).isActive = true;
+        profileImageView.topAnchor.constraint(equalTo: idCardButton.topAnchor, constant: profileImageViewPadding).isActive = true;
+        
+        profileImageView.widthAnchor.constraint(equalToConstant: profileImageViewSize).isActive = true;
+        profileImageView.heightAnchor.constraint(equalToConstant: profileImageViewSize).isActive = true;
+        
+        profileImageView.layer.cornerRadius = profileImageViewSize / 2;
+        profileImageView.clipsToBounds = true;
+        profileImageView.backgroundColor = BackgroundGrayColor;
+        profileImageView.contentMode = .scaleAspectFill;
+        
+        profileImageView.layer.borderWidth = 0.2;
+        profileImageView.layer.borderColor = UIColor.lightGray.cgColor;
+        
+        profileImageView.sd_setImage(with: signedInUserData.photoURL);
+        
+        //
+        
+        let profileBorderView = UIView();
+        
+        idCardButton.insertSubview(profileBorderView, at: 0);
+        
+        profileBorderView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        let profileBorderViewSize = profileImageViewSize + 5;
+        
+        profileBorderView.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true;
+        profileBorderView.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true;
+        profileBorderView.widthAnchor.constraint(equalToConstant: profileBorderViewSize).isActive = true;
+        profileBorderView.heightAnchor.constraint(equalToConstant: profileBorderViewSize).isActive = true;
+        
+        profileBorderView.backgroundColor = .white;
+        profileBorderView.layer.cornerRadius = profileBorderViewSize / 2;
+        profileBorderView.clipsToBounds = true;
+        
+        //
+        
+        let barcodeImageView = UIImageView();
+        
+        idCardButton.addSubview(barcodeImageView);
+        
+        barcodeImageView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        barcodeImageView.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: horizontalPadding).isActive = true;
+        barcodeImageView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -verticalPadding).isActive = true;
+        barcodeImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: verticalPadding).isActive = true;
+        
+        barcodeImageView.contentMode = .scaleAspectFit;
+        barcodeImageView.layer.cornerRadius = 3;
+        barcodeImageView.clipsToBounds = true;
+        barcodeImageView.backgroundColor = .white;
+        
+        //
+        
         
         
     }

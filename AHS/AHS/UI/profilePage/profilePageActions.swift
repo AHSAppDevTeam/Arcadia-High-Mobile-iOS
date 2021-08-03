@@ -11,6 +11,7 @@ import UIKit
 extension profilePageViewController{
     
     @objc internal func refresh(){
+        self.renderIDCard();
         self.refreshControl.endRefreshing();
     }
     
