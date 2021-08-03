@@ -38,6 +38,7 @@ let SFProDisplay_Black = "SFProDisplay-Black";
 let SFProDisplay_Light = "SFProDisplay-Light";
 let SFProDisplay_Medium = "SFProDisplay-Medium";
 let SFCompactDisplay_Light = "SFCompactDisplay-Light";
+let SFCompactDisplay_Semibold = "SFCompactDisplay-Semibold";
 //
 
 // Global constants

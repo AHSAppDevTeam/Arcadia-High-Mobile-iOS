@@ -18,6 +18,7 @@ target 'AHS' do
   pod "UPCarouselFlowLayout"
   pod "AMPopTip"
   pod 'GoogleSignIn'
+  pod 'RSBarcodes_Swift'
 
   target 'AHSTests' do
     inherit! :search_paths

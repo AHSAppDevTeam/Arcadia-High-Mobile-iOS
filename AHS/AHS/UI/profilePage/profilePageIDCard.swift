@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-
 import Firebase
 import GoogleSignIn
 
@@ -67,6 +66,8 @@ extension profilePageViewController{
         
         //print("signed in with name \(signedInUserData.displayName), email \(signedInUserData.email), and url \(signedInUserData.photoURL)")
         
+        //
+        
         let profileImageView = UIImageView();
         
         idCardButton.addSubview(profileImageView);
@@ -86,6 +87,7 @@ extension profilePageViewController{
         profileImageView.clipsToBounds = true;
         profileImageView.backgroundColor = BackgroundGrayColor;
         profileImageView.contentMode = .scaleAspectFill;
+        profileImageView.isUserInteractionEnabled = false;
         
         profileImageView.layer.borderWidth = 0.2;
         profileImageView.layer.borderColor = UIColor.lightGray.cgColor;
@@ -110,6 +112,7 @@ extension profilePageViewController{
         profileBorderView.backgroundColor = .white;
         profileBorderView.layer.cornerRadius = profileBorderViewSize / 2;
         profileBorderView.clipsToBounds = true;
+        profileBorderView.isUserInteractionEnabled = false;
         
         //
         
@@ -119,18 +122,54 @@ extension profilePageViewController{
         
         barcodeImageView.translatesAutoresizingMaskIntoConstraints = false;
         
-        barcodeImageView.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: horizontalPadding).isActive = true;
-        barcodeImageView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -verticalPadding).isActive = true;
-        barcodeImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: verticalPadding).isActive = true;
+        let barcodeImageViewPadding = 2*horizontalPadding;
+        
+        barcodeImageView.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: barcodeImageViewPadding).isActive = true;
+        barcodeImageView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -barcodeImageViewPadding).isActive = true;
+        barcodeImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: barcodeImageViewPadding).isActive = true;
+        
+        let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
+        let barcodeImageViewWidth = barcodeImageViewHeight * 3;
+        
+        barcodeImageView.heightAnchor.constraint(equalToConstant: barcodeImageViewHeight).isActive = true;
+        barcodeImageView.widthAnchor.constraint(equalToConstant: barcodeImageViewWidth).isActive = true;
         
         barcodeImageView.contentMode = .scaleAspectFit;
         barcodeImageView.layer.cornerRadius = 3;
         barcodeImageView.clipsToBounds = true;
         barcodeImageView.backgroundColor = .white;
+        barcodeImageView.isUserInteractionEnabled = false;
         
+        if let idString = dataManager.getIDFromStudentEmail(signedInUserData.email ?? ""){
+            barcodeImageView.image = dataManager.getIDBarcode(idString);
+        }
+        else{
+            print("Invalid student email when attempting to render ID card");
+        }
+            
         //
         
+        let userNameLabel = UILabel();
         
+        idCardButton.addSubview(userNameLabel);
+        
+        userNameLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        let userNameLabelPadding = 2*horizontalPadding;
+        
+        userNameLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: userNameLabelPadding).isActive = true;
+        userNameLabel.topAnchor.constraint(equalTo: idCardButton.topAnchor, constant: userNameLabelPadding).isActive = true;
+        userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: -userNameLabelPadding).isActive = true;
+        userNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: barcodeImageView.topAnchor, constant: -userNameLabelPadding).isActive = true;
+        
+        userNameLabel.text = signedInUserData.displayName;
+        userNameLabel.textAlignment = .left;
+        userNameLabel.textColor = .white;
+        userNameLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.18);
+        userNameLabel.numberOfLines = 0;
+        userNameLabel.adjustsFontSizeToFitWidth = true;
+        userNameLabel.minimumScaleFactor = 0.3;
+        userNameLabel.isUserInteractionEnabled = false;
         
     }
     

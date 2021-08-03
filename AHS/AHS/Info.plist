@@ -42,6 +42,8 @@
 		<string>SFProDisplay-Light.ttf</string>
 		<string>SFProDisplay-Regular.ttf</string>
 		<string>SFProDisplay-Semibold.ttf</string>
+		<string>SFCompactDisplay-Light.otf</string>
+		<string>SFCompactDisplay-Semibold.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
