@@ -16,7 +16,7 @@ extension profilePageViewController{
         
         switch idCardButton.idState {
         case .isLocked:
-            print("isLocked state");
+            idCardButton.idState = .isUnlocked;
         case .isUnlocked:
             createIDActionPrompt();
         case .requiresSignIn:
@@ -102,7 +102,7 @@ extension profilePageViewController{
         
         profileBorderView.translatesAutoresizingMaskIntoConstraints = false;
         
-        let profileBorderViewSize = profileImageViewSize + 5;
+        let profileBorderViewSize = profileImageViewSize + 3;
         
         profileBorderView.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true;
         profileBorderView.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true;
@@ -128,19 +128,19 @@ extension profilePageViewController{
         barcodeImageView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -barcodeImageViewPadding).isActive = true;
         barcodeImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: barcodeImageViewPadding).isActive = true;
         
-        let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
-        let barcodeImageViewWidth = barcodeImageViewHeight * 3;
-        
-        barcodeImageView.heightAnchor.constraint(equalToConstant: barcodeImageViewHeight).isActive = true;
-        barcodeImageView.widthAnchor.constraint(equalToConstant: barcodeImageViewWidth).isActive = true;
-        
-        barcodeImageView.contentMode = .scaleAspectFit;
-        barcodeImageView.layer.cornerRadius = 3;
-        barcodeImageView.clipsToBounds = true;
-        barcodeImageView.backgroundColor = .white;
-        barcodeImageView.isUserInteractionEnabled = false;
-        
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.email ?? ""){
+            let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
+            let barcodeImageViewWidth = barcodeImageViewHeight * 3;
+            
+            barcodeImageView.heightAnchor.constraint(equalToConstant: barcodeImageViewHeight).isActive = true;
+            barcodeImageView.widthAnchor.constraint(equalToConstant: barcodeImageViewWidth).isActive = true;
+            
+            barcodeImageView.contentMode = .scaleAspectFit;
+            barcodeImageView.layer.cornerRadius = 3;
+            barcodeImageView.clipsToBounds = true;
+            barcodeImageView.backgroundColor = .white;
+            barcodeImageView.isUserInteractionEnabled = false;
+            
             barcodeImageView.image = dataManager.getIDBarcode(idString);
         }
         else{
