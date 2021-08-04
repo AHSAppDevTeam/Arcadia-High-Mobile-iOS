@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class profilePageViewController : mainPageViewController{
-
+    
     internal let mainScrollView : UIButtonScrollView = UIButtonScrollView();
     
     internal let refreshControl : UIRefreshControl = UIRefreshControl();
@@ -30,6 +30,13 @@ class profilePageViewController : mainPageViewController{
     
     internal let horizontalPadding : CGFloat = 10;
     internal let verticalPadding : CGFloat = 5;
+    
+    //
+    
+    internal let backgroundIDGradient = CAGradientLayer();
+    
+    internal var backgroundIDGradientSet = [[CGColor]]();
+    internal var backgroundIDCurrentGradient: Int = 0;
     
     //
     
@@ -75,6 +82,13 @@ class profilePageViewController : mainPageViewController{
             self.hasBeenSetup = true;
         }
         
+        animateIDBackgroundGradient();
+
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews();
+        backgroundIDGradient.frame = idCardButton.bounds;
     }
     
     internal func renderContent(){
@@ -102,6 +116,8 @@ class profilePageViewController : mainPageViewController{
         idCardButton.idState = .isUnlocked;
         
         renderIDCard();
+        
+        setupIDBackgroundGradient();
         
         //
         

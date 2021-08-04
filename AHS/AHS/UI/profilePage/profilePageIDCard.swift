@@ -98,7 +98,7 @@ extension profilePageViewController{
         
         let profileBorderView = UIView();
         
-        idCardButton.insertSubview(profileBorderView, at: 0);
+        idCardButton.insertSubview(profileBorderView, belowSubview: profileImageView);
         
         profileBorderView.translatesAutoresizingMaskIntoConstraints = false;
         
@@ -130,7 +130,7 @@ extension profilePageViewController{
         
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.email ?? ""){
             let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
-            let barcodeImageViewWidth = barcodeImageViewHeight * 3;
+            let barcodeImageViewWidth = barcodeImageViewHeight * 3.2;
             
             barcodeImageView.heightAnchor.constraint(equalToConstant: barcodeImageViewHeight).isActive = true;
             barcodeImageView.widthAnchor.constraint(equalToConstant: barcodeImageViewWidth).isActive = true;
