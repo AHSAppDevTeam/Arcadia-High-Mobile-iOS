@@ -254,6 +254,8 @@ extension profilePageViewController{
         
         let confirmPopUp = UIAlertController(title: title, message: "ID Card", preferredStyle: .actionSheet);
 
+        confirmPopUp.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in }));
+        
         confirmPopUp.addAction(UIAlertAction(title: "Lock", style: .default, handler: { (_) in
             self.idCardButton.idState = .isLocked;
             self.renderIDCard();
