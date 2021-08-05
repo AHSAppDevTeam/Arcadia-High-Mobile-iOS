@@ -24,7 +24,6 @@ class profilePageTableViewCell : UITableViewCell{
         view.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true;
         view.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true;
         view.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true;
-        view.heightAnchor.constraint(equalToConstant: 10).isActive = true;
         
         view.backgroundColor = .systemRed;
         

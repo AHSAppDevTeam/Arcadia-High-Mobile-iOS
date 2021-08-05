@@ -23,6 +23,7 @@ class profilePageViewController : mainPageViewController{
     //internal let shopButton : UIButton = UIButton(); -- for later
     
     internal let contentTableView : UITableView = UITableView();
+    internal var contentTableViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
     
     internal let scheduleButton : UIButton = UIButton();
     
@@ -91,6 +92,7 @@ class profilePageViewController : mainPageViewController{
         backgroundIDGradient.frame = idCardButton.bounds;
     }
     
+    
     internal func renderContent(){
         
         mainScrollView.addSubview(idCardButton);
@@ -130,11 +132,27 @@ class profilePageViewController : mainPageViewController{
         contentTableView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
         contentTableView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
+        contentTableViewHeightConstraint = contentTableView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 2); // https://stackoverflow.com/a/40081129
+        contentTableViewHeightConstraint.isActive = true;
+        
         contentTableView.backgroundColor = .systemBlue;
         contentTableView.delegate = self;
         contentTableView.dataSource = self;
         contentTableView.isScrollEnabled = false;
         contentTableView.register(profilePageTableViewCell.self, forCellReuseIdentifier: profilePageTableViewCell.identifier);
+        
+        UIView.animate(withDuration: 0, animations: {
+            self.contentTableView.layoutIfNeeded();
+        }, completion: { _ in
+            
+            var height : CGFloat = 0;
+            for cell in self.contentTableView.visibleCells{
+                height += cell.frame.height;
+            }
+            
+            self.contentTableViewHeightConstraint.constant = height;
+            
+        });
         
     }
     
