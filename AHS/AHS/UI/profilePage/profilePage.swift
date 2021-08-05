@@ -134,7 +134,7 @@ class profilePageViewController : mainPageViewController{
         contentTableView.delegate = self;
         contentTableView.dataSource = self;
         contentTableView.isScrollEnabled = false;
-        contentTableView.sizeToFit();
+        contentTableView.register(profilePageTableViewCell.self, forCellReuseIdentifier: profilePageTableViewCell.identifier);
         
     }
     
