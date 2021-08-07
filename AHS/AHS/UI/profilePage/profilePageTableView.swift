@@ -40,7 +40,7 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         
         //
         
-        let headerTitleLabelPadding = headerView.frame.width / 20;
+        let headerTitleLabelPadding = horizontalPadding;
         let headerTitleLabelFrame = CGRect(x: headerTitleLabelPadding, y: 0, width: headerView.frame.width - 2*headerTitleLabelPadding, height: headerView.frame.height);
         let headerTitleLabel = UILabel(frame: headerTitleLabelFrame);
         

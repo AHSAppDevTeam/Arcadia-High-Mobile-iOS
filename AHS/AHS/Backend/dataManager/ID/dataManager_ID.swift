@@ -14,7 +14,7 @@ import AVFoundation
 extension dataManager{
     
     static public func isValidStudentEmail(_ email: String) -> Bool{
-        let regex = try! NSRegularExpression(pattern: #"^[0-9]{5}@(students\.)?ausd\.net$"#);
+        let regex = try! NSRegularExpression(pattern: #"^[0-9]{5}@(students(old)?\.)?ausd\.net$"#);
         return regex.firstMatch(in: email, options: [], range: NSRange(location: 0, length: email.utf16.count)) != nil;
     }
     
