@@ -24,6 +24,7 @@ class profilePageViewController : mainPageViewController{
     
     internal let contentTableView : UITableView = UITableView();
     internal var contentTableViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
+    internal let contentTableViewSectionHeight : CGFloat = 30;
     
     internal let scheduleButton : UIButton = UIButton();
     
@@ -128,14 +129,13 @@ class profilePageViewController : mainPageViewController{
         contentTableView.translatesAutoresizingMaskIntoConstraints = false;
         
         contentTableView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: horizontalPadding).isActive = true;
-        contentTableView.topAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: verticalPadding).isActive = true;
+        contentTableView.topAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: 3*verticalPadding).isActive = true;
         contentTableView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
         contentTableView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
         contentTableViewHeightConstraint = contentTableView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 2); // https://stackoverflow.com/a/40081129
         contentTableViewHeightConstraint.isActive = true;
         
-        contentTableView.backgroundColor = .systemBlue;
         contentTableView.delegate = self;
         contentTableView.dataSource = self;
         contentTableView.isScrollEnabled = false;
@@ -144,12 +144,15 @@ class profilePageViewController : mainPageViewController{
         UIView.animate(withDuration: 0, animations: {
             self.contentTableView.layoutIfNeeded();
         }, completion: { _ in
-            
+                    
             var height : CGFloat = 0;
+            
             for cell in self.contentTableView.visibleCells{
                 height += cell.frame.height;
             }
             
+            height += CGFloat(self.contentTableView.numberOfSections) * self.contentTableViewSectionHeight;
+                    
             self.contentTableViewHeightConstraint.constant = height;
             
         });
