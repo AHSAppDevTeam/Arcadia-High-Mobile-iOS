@@ -24,14 +24,23 @@ class profilePageViewController : mainPageViewController{
     
     internal let contentTableView : UITableView = UITableView();
     internal var contentTableViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
-    internal let contentTableViewSectionHeight : CGFloat = 30;
+    static internal let contentTableViewSectionHeight : CGFloat = 40;
+    static internal let contentTableViewRowHeight : CGFloat = 45;
     
+    internal let contentTableViewSectionCount : Int = 3;
+    
+    static internal let scheduleButtonHeight : CGFloat = 80;
     internal let scheduleButton : UIButton = UIButton();
+    
+    internal let optionsCellTitles = ["Notifications", "ID Card"];
+    internal let infoCellTitles = ["About Us", "App Version", "Terms and Agreements"];
+    
+    internal var contentTableViewCellTitles : [[String]] = []; // gets populated with optionsCellTitles and infoCellTitles
     
     //
     
-    internal let horizontalPadding : CGFloat = 10;
-    internal let verticalPadding : CGFloat = 5;
+    static public let horizontalPadding : CGFloat = 10;
+    static internal let verticalPadding : CGFloat = 5;
     
     //
     
@@ -61,6 +70,13 @@ class profilePageViewController : mainPageViewController{
         super.viewDidAppear(animated);
         
         if (!self.hasBeenSetup){
+            
+            contentTableViewCellTitles = [optionsCellTitles, infoCellTitles];
+                    
+            guard contentTableViewCellTitles.count != contentTableViewSectionCount else{
+                print("contentTableViewCellTitles count does not match contentTableViewSectionCount");
+                return;
+            }
             
             //
             
@@ -100,11 +116,11 @@ class profilePageViewController : mainPageViewController{
         
         idCardButton.translatesAutoresizingMaskIntoConstraints = false;
         
-        idCardButton.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: horizontalPadding).isActive = true;
-        idCardButton.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: verticalPadding).isActive = true;
-        idCardButton.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
+        idCardButton.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: profilePageViewController.horizontalPadding).isActive = true;
+        idCardButton.topAnchor.constraint(equalTo: mainScrollView.topAnchor, constant: profilePageViewController.verticalPadding).isActive = true;
+        idCardButton.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -profilePageViewController.horizontalPadding).isActive = true;
         
-        idCardButtonWidth = mainScrollView.frame.width - 2*horizontalPadding;
+        idCardButtonWidth = mainScrollView.frame.width - 2*profilePageViewController.horizontalPadding;
         idCardButtonHeight = idCardButtonWidth * 0.562;
         
         idCardButton.widthAnchor.constraint(equalToConstant: idCardButtonWidth).isActive = true;
@@ -128,10 +144,10 @@ class profilePageViewController : mainPageViewController{
         
         contentTableView.translatesAutoresizingMaskIntoConstraints = false;
         
-        contentTableView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: horizontalPadding).isActive = true;
-        contentTableView.topAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: 3*verticalPadding).isActive = true;
-        contentTableView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -horizontalPadding).isActive = true;
-        contentTableView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -verticalPadding).isActive = true;
+        contentTableView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: profilePageViewController.horizontalPadding).isActive = true;
+        contentTableView.topAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: 3*profilePageViewController.verticalPadding).isActive = true;
+        contentTableView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -profilePageViewController.horizontalPadding).isActive = true;
+        contentTableView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -profilePageViewController.verticalPadding).isActive = true;
         
         contentTableViewHeightConstraint = contentTableView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 2); // https://stackoverflow.com/a/40081129
         contentTableViewHeightConstraint.isActive = true;
@@ -151,7 +167,7 @@ class profilePageViewController : mainPageViewController{
                 height += cell.frame.height;
             }
             
-            height += CGFloat(self.contentTableView.numberOfSections) * self.contentTableViewSectionHeight;
+            height += CGFloat(self.contentTableView.numberOfSections) * profilePageViewController.contentTableViewSectionHeight;
                     
             self.contentTableViewHeightConstraint.constant = height;
             

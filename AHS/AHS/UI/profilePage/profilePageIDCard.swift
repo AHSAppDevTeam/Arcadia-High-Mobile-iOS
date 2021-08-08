@@ -75,9 +75,9 @@ extension profilePageViewController{
         profileImageView.translatesAutoresizingMaskIntoConstraints = false;
         
         let profileImageViewSize = idCardButtonHeight * 0.45;
-        let profileImageViewPadding = 2*horizontalPadding;
+        let profileImageViewPadding = 2*profilePageViewController.horizontalPadding;
         
-        profileImageView.trailingAnchor.constraint(equalTo: idCardButton.trailingAnchor, constant: -profileImageViewPadding).isActive = true;
+        profileImageView.trailingAnchor.constraint(equalTo: idCardButton.trailingAnchor, constant: CGFloat(-profileImageViewPadding)).isActive = true;
         profileImageView.topAnchor.constraint(equalTo: idCardButton.topAnchor, constant: profileImageViewPadding).isActive = true;
         
         profileImageView.widthAnchor.constraint(equalToConstant: profileImageViewSize).isActive = true;
@@ -122,10 +122,10 @@ extension profilePageViewController{
         
         barcodeImageView.translatesAutoresizingMaskIntoConstraints = false;
         
-        let barcodeImageViewPadding = 2*horizontalPadding;
+        let barcodeImageViewPadding = 2*profilePageViewController.horizontalPadding;
         
         barcodeImageView.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: barcodeImageViewPadding).isActive = true;
-        barcodeImageView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -barcodeImageViewPadding).isActive = true;
+        barcodeImageView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: CGFloat(-barcodeImageViewPadding)).isActive = true;
         barcodeImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: barcodeImageViewPadding).isActive = true;
         
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.email ?? ""){
@@ -155,11 +155,11 @@ extension profilePageViewController{
         
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false;
         
-        let userNameLabelPadding = 2*horizontalPadding;
+        let userNameLabelPadding = 2*profilePageViewController.horizontalPadding;
         
         userNameLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: userNameLabelPadding).isActive = true;
         userNameLabel.topAnchor.constraint(equalTo: idCardButton.topAnchor, constant: userNameLabelPadding).isActive = true;
-        userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: -userNameLabelPadding).isActive = true;
+        userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: CGFloat(-userNameLabelPadding)).isActive = true;
         userNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: barcodeImageView.topAnchor, constant: -userNameLabelPadding).isActive = true;
         
         userNameLabel.text = dataManager.splitFullName(signedInUserData.displayName ?? "");
@@ -201,7 +201,7 @@ extension profilePageViewController{
         signInLabel.translatesAutoresizingMaskIntoConstraints = false;
         
         signInLabel.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
-        signInLabel.topAnchor.constraint(equalTo: signInIconImageView.bottomAnchor, constant: verticalPadding).isActive = true;
+        signInLabel.topAnchor.constraint(equalTo: signInIconImageView.bottomAnchor, constant: profilePageViewController.verticalPadding).isActive = true;
         
         signInLabel.text = "Sign-In";
         signInLabel.textAlignment = .center;
@@ -239,7 +239,7 @@ extension profilePageViewController{
         lockLabel.translatesAutoresizingMaskIntoConstraints = false;
         
         lockLabel.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
-        lockLabel.topAnchor.constraint(equalTo: lockIconImageView.bottomAnchor, constant: verticalPadding).isActive = true;
+        lockLabel.topAnchor.constraint(equalTo: lockIconImageView.bottomAnchor, constant: profilePageViewController.verticalPadding).isActive = true;
         
         lockLabel.text = "Tap to unlock";
         lockLabel.textAlignment = .center;

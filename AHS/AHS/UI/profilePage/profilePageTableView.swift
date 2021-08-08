@@ -17,30 +17,43 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
     //
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3;
+        switch section {
+        case 0: // Schedule
+            return 1;
+        case 1: // Options
+            return 2;
+        case 2: // Info
+            return 3;
+        default:
+            return 0;
+        }
+    }
+    
+    public static func getHeightForRow(_ row: Int) -> CGFloat{
+        return row == 0 ? scheduleButtonHeight : contentTableViewRowHeight;
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 20;
+        return profilePageViewController.getHeightForRow(indexPath.section);
     }
     
     //
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3;
+        return contentTableViewSectionCount;
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return contentTableViewSectionHeight;
+        return profilePageViewController.contentTableViewSectionHeight;
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerViewFrame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: contentTableViewSectionHeight);
+        let headerViewFrame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: profilePageViewController.contentTableViewSectionHeight);
         let headerView = UIView(frame: headerViewFrame);
         
         //
         
-        let headerTitleLabelPadding = horizontalPadding;
+        let headerTitleLabelPadding = profilePageViewController.horizontalPadding;
         let headerTitleLabelFrame = CGRect(x: headerTitleLabelPadding, y: 0, width: headerView.frame.width - 2*headerTitleLabelPadding, height: headerView.frame.height);
         let headerTitleLabel = UILabel(frame: headerTitleLabelFrame);
         
@@ -76,6 +89,14 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: profilePageTableViewCell.identifier, for: indexPath) as! profilePageTableViewCell;
+        
+        if (indexPath.section == 0){
+            cell.updateWithView(indexPath.section, scheduleButton);
+        }
+        else{
+            cell.updateWithButton(indexPath.section, title: contentTableViewCellTitles[indexPath.section - 1][indexPath.row], value: nil);
+        }
+        
         return cell;
     }
     
