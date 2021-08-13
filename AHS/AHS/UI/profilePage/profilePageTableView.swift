@@ -90,6 +90,8 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: profilePageTableViewCell.identifier, for: indexPath) as! profilePageTableViewCell;
         
+        cell.selectionStyle = .none;
+        
         if (indexPath.section == 0){
             cell.updateWithView(indexPath.section, scheduleButton);
         }
