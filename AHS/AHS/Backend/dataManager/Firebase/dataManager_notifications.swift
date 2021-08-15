@@ -12,7 +12,6 @@ import FirebaseDatabase
 struct notificationData{
     var notificationID : String = "";
     
-    var blurb : String = "";
     var categoryID : String = "";
     var notifTimestamp : Int64 = INT64_MAX;
     var title : String = "";
@@ -67,7 +66,7 @@ extension dataManager{
                     
                     notifData.notificationID = id;
                     
-                    notifData.blurb = dataDict?["blurb"] as? String ?? "";
+                    //notifData.blurb = dataDict?["blurb"] as? String ?? "";
                     notifData.categoryID = dataDict?["categoryID"] as? String ?? "";
                     notifData.notifTimestamp = dataDict?["notifTimestamp"] as? Int64 ?? INT64_MAX;
                     notifData.title = dataDict?["title"] as? String ?? "";
