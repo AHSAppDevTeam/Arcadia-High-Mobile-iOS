@@ -92,7 +92,8 @@ extension profilePageViewController{
         profileImageView.layer.borderWidth = 0.2;
         profileImageView.layer.borderColor = UIColor.lightGray.cgColor;
         
-        profileImageView.sd_setImage(with: signedInUserData.photoURL);
+        let profileImageURL = signedInUserData.profile?.imageURL(withDimension: UInt(round(profileImageViewSize * UIScreen.main.scale)));
+        profileImageView.sd_setImage(with: profileImageURL);
         
         //
         
@@ -128,7 +129,7 @@ extension profilePageViewController{
         barcodeImageView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: CGFloat(-barcodeImageViewPadding)).isActive = true;
         barcodeImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: barcodeImageViewPadding).isActive = true;
         
-        if let idString = dataManager.getIDFromStudentEmail(signedInUserData.email ?? ""){
+        if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
             let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
             let barcodeImageViewWidth = barcodeImageViewHeight * 3.2;
             
@@ -162,7 +163,7 @@ extension profilePageViewController{
         userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: CGFloat(-userNameLabelPadding)).isActive = true;
         userNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: barcodeImageView.topAnchor, constant: -userNameLabelPadding).isActive = true;
         
-        userNameLabel.text = dataManager.splitFullName(signedInUserData.displayName ?? "");
+        userNameLabel.text = dataManager.splitFullName(signedInUserData.profile?.name ?? "");
         userNameLabel.textAlignment = .left;
         userNameLabel.textColor = .white;
         userNameLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.16);
