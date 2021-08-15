@@ -29,8 +29,8 @@ class profilePageViewController : mainPageViewController{
     
     internal let contentTableViewSectionCount : Int = 3;
     
-    static internal let scheduleButtonHeight : CGFloat = 80;
-    internal let scheduleButton : UIButton = UIButton();
+    static internal let scheduleViewHeight : CGFloat = 100;
+    internal let scheduleView : UIView = UIView();
     
     internal let optionsCellTitles = ["Notifications", "ID Card"];
     internal let infoCellTitles = ["About Us", "Terms and Agreements", "App Version"];
@@ -41,7 +41,7 @@ class profilePageViewController : mainPageViewController{
     //
     
     static public let horizontalPadding : CGFloat = 10;
-    static internal let verticalPadding : CGFloat = 5;
+    static public let verticalPadding : CGFloat = 5;
     
     //
     
@@ -134,7 +134,7 @@ class profilePageViewController : mainPageViewController{
         idCardButton.heightAnchor.constraint(equalToConstant: idCardButtonHeight).isActive = true;
         
         idCardButton.clipsToBounds = true;
-        idCardButton.layer.cornerRadius = idCardButtonHeight / 15;
+        idCardButton.layer.cornerRadius = 12;
         idCardButton.addTarget(self, action: #selector(self.handleIDCardPress), for: .touchUpInside);
         
         idCardButton.backgroundColor = .systemOrange;
@@ -147,12 +147,16 @@ class profilePageViewController : mainPageViewController{
         
         //
         
+        scheduleView.backgroundColor = .systemRed;
+        
+        //
+        
         mainScrollView.addSubview(contentTableView);
         
         contentTableView.translatesAutoresizingMaskIntoConstraints = false;
         
         contentTableView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: profilePageViewController.horizontalPadding).isActive = true;
-        contentTableView.topAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: 3*profilePageViewController.verticalPadding).isActive = true;
+        contentTableView.topAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: 2*profilePageViewController.verticalPadding).isActive = true;
         contentTableView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -profilePageViewController.horizontalPadding).isActive = true;
         contentTableView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -profilePageViewController.verticalPadding).isActive = true;
         

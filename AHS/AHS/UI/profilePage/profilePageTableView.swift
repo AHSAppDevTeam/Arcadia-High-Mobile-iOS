@@ -29,12 +29,12 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    public static func getHeightForRow(_ row: Int) -> CGFloat{
-        return row == 0 ? scheduleButtonHeight : contentTableViewRowHeight;
+    public static func getHeightForSection(_ row: Int) -> CGFloat{
+        return row == 0 ? scheduleViewHeight + 2*verticalPadding : contentTableViewRowHeight;
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return profilePageViewController.getHeightForRow(indexPath.section);
+        return profilePageViewController.getHeightForSection(indexPath.section);
     }
     
     //
@@ -53,7 +53,7 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         
         //
         
-        let headerTitleLabelPadding = profilePageViewController.horizontalPadding;
+        let headerTitleLabelPadding : CGFloat = 0;
         let headerTitleLabelFrame = CGRect(x: headerTitleLabelPadding, y: 0, width: headerView.frame.width - 2*headerTitleLabelPadding, height: headerView.frame.height);
         let headerTitleLabel = UILabel(frame: headerTitleLabelFrame);
         
@@ -93,7 +93,8 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         cell.selectionStyle = .none;
         
         if (indexPath.section == 0){
-            cell.updateWithView(indexPath.section, scheduleButton);
+            cell.updateWithView(indexPath.section, scheduleView);
+            renderSchedule();
         }
         else{
             cell.updateWithButton(indexPath.section, title: contentTableViewCellTitles[indexPath.section - 1][indexPath.row], value: contentTableViewCellValues[indexPath.section - 1][indexPath.row]);

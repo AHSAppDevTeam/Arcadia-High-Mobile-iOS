@@ -13,7 +13,7 @@ class profilePageTableViewCell : UITableViewCell{
     
     //
     
-    internal let horizontalPadding : CGFloat = 15;
+    internal let horizontalPadding : CGFloat = 10;
     
     internal let fontRatio : CGFloat = 0.48;
     internal let textColor : UIColor = BackgroundGrayColor;
@@ -93,7 +93,7 @@ class profilePageTableViewCell : UITableViewCell{
     }
     
     static private func getCellSize(_ section: Int) -> CGSize{
-        return CGSize(width: AppUtility.getCurrentScreenSize().width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.getHeightForRow(section));
+        return CGSize(width: AppUtility.getCurrentScreenSize().width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.getHeightForSection(section));
     }
     
     //
@@ -114,9 +114,9 @@ class profilePageTableViewCell : UITableViewCell{
         
         view.translatesAutoresizingMaskIntoConstraints = false;
         
-        view.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true;
+        view.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: profilePageViewController.verticalPadding).isActive = true;
         view.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true;
-        view.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true;
+        view.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -profilePageViewController.verticalPadding).isActive = true;
         view.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true;
     }
     
