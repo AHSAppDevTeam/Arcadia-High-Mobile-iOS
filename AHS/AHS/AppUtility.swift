@@ -53,4 +53,10 @@ struct AppUtility {
     static func getAppNotificationNumber() -> Int{
         return UIApplication.shared.applicationIconBadgeNumber;
     }
+    
+    //
+    
+    static func getAppVersionString() -> String{
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0";
+    }
 }

@@ -13,7 +13,7 @@ class profilePageTableViewCell : UITableViewCell{
     
     //
     
-    internal let horizontalPadding : CGFloat = 20;
+    internal let horizontalPadding : CGFloat = 15;
     
     internal let fontRatio : CGFloat = 0.48;
     internal let textColor : UIColor = BackgroundGrayColor;
@@ -58,7 +58,7 @@ class profilePageTableViewCell : UITableViewCell{
         
         valueLabel.textColor = textColor;
         valueLabel.textAlignment = .right;
-        valueLabel.font = UIFont(name: SFProDisplay_Regular, size: profilePageViewController.contentTableViewRowHeight * fontRatio);
+        valueLabel.font = UIFont(name: SFProDisplay_Medium, size: profilePageViewController.contentTableViewRowHeight * fontRatio);
         valueLabel.numberOfLines = 1;
         
         valueLabel.isHidden = true;

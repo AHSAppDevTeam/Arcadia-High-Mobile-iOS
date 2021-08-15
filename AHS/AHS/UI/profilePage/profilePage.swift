@@ -33,9 +33,10 @@ class profilePageViewController : mainPageViewController{
     internal let scheduleButton : UIButton = UIButton();
     
     internal let optionsCellTitles = ["Notifications", "ID Card"];
-    internal let infoCellTitles = ["About Us", "App Version", "Terms and Agreements"];
+    internal let infoCellTitles = ["About Us", "Terms and Agreements", "App Version"];
     
     internal var contentTableViewCellTitles : [[String]] = []; // gets populated with optionsCellTitles and infoCellTitles
+    internal var contentTableViewCellValues : [[String?]] = [];
     
     //
     
@@ -71,7 +72,7 @@ class profilePageViewController : mainPageViewController{
         
         if (!self.hasBeenSetup){
             
-            contentTableViewCellTitles = [optionsCellTitles, infoCellTitles];
+            setupTableViewContent();
                     
             guard contentTableViewCellTitles.count != contentTableViewSectionCount else{
                 print("contentTableViewCellTitles count does not match contentTableViewSectionCount");
@@ -109,6 +110,12 @@ class profilePageViewController : mainPageViewController{
         backgroundIDGradient.frame = idCardButton.bounds;
     }
     
+    private func setupTableViewContent(){
+        contentTableViewCellTitles = [optionsCellTitles, infoCellTitles];
+        
+        contentTableViewCellValues = [Array(repeating: nil, count: optionsCellTitles.count), Array(repeating: nil, count: infoCellTitles.count)];
+        contentTableViewCellValues[1][infoCellTitles.count - 1] = AppUtility.getAppVersionString(); // set app build number
+    }
     
     internal func renderContent(){
         

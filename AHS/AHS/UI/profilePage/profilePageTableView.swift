@@ -21,9 +21,9 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         case 0: // Schedule
             return 1;
         case 1: // Options
-            return 2;
+            return optionsCellTitles.count;
         case 2: // Info
-            return 3;
+            return infoCellTitles.count;
         default:
             return 0;
         }
@@ -96,7 +96,7 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
             cell.updateWithView(indexPath.section, scheduleButton);
         }
         else{
-            cell.updateWithButton(indexPath.section, title: contentTableViewCellTitles[indexPath.section - 1][indexPath.row], value: nil);
+            cell.updateWithButton(indexPath.section, title: contentTableViewCellTitles[indexPath.section - 1][indexPath.row], value: contentTableViewCellValues[indexPath.section - 1][indexPath.row]);
         }
         
         return cell;
