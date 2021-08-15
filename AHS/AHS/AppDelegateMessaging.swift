@@ -39,6 +39,17 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
              notificationFuncClass.loadNotifPref();
              notificationsClass.notificationReadDict[id] = true;
              notificationFuncClass.saveNotifPref(filter: false);*/
+            
+            //
+            
+            dataManager.loadPreferences();
+            dataManager.setReadNotification(id);
+            
+            //
+            
+            let articleDataDict : [String : String] = ["articleID" : id];
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: articlePageNotification), object: nil, userInfo: articleDataDict);
+            
         }
         else{
             print("Failed to cast articleID as String");

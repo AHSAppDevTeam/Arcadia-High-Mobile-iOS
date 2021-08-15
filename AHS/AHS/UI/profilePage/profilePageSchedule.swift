@@ -16,6 +16,8 @@ extension profilePageViewController{
         scheduleView.layer.cornerRadius = 10;
         scheduleView.clipsToBounds = true;
         
+        //
+        
         
         
     }
