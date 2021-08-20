@@ -24,9 +24,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) { // handle tapping on notification
         let userInfo = response.notification.request.content.userInfo;
-        
-        print("userInfo - \(userInfo)");
-        
+            
         if let id = userInfo["articleID"] as? String{
             /*dataManager.loadAllArticles(completion: { (isConnected, data) in
              if (isConnected){
