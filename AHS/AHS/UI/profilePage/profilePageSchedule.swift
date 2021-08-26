@@ -20,7 +20,7 @@ extension profilePageViewController{
         
         let scheduleViewSize = CGSize(width: mainScrollView.frame.width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.scheduleViewHeight);
         
-        let scheduleViewHorizontalPadding : CGFloat = 5;
+        //let scheduleViewHorizontalPadding : CGFloat = 5;
         let scheduleViewVerticalPadding : CGFloat = scheduleViewSize.height * 0.15;
         
         let periodViewWidth = scheduleViewSize.width * 0.35;

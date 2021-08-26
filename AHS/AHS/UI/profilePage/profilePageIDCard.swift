@@ -131,7 +131,7 @@ extension profilePageViewController{
         
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
             let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
-            let barcodeImageViewWidth = barcodeImageViewHeight * 3.2;
+            let barcodeImageViewWidth = barcodeImageViewHeight * 3.7;
             
             barcodeImageView.heightAnchor.constraint(equalToConstant: barcodeImageViewHeight).isActive = true;
             barcodeImageView.widthAnchor.constraint(equalToConstant: barcodeImageViewWidth).isActive = true;
