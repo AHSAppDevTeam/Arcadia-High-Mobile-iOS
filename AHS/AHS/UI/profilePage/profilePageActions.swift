@@ -15,4 +15,16 @@ extension profilePageViewController{
         self.refreshControl.endRefreshing();
     }
     
+    @objc internal func openSchedulePage(){
+        self.openPresentablePage(schedulePageViewController());
+    }
+    
+    internal func openPresentablePage(_ vc: presentableViewController){
+        transitionDelegateVar = transitionDelegate();
+        vc.transitioningDelegate = transitionDelegateVar;
+        vc.modalPresentationStyle = .custom;
+        
+        self.present(vc, animated: true);
+    }
+    
 }

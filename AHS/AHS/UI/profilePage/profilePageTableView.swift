@@ -11,7 +11,12 @@ import UIKit
 extension profilePageViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        switch indexPath.section {
+        case 0:
+            self.openSchedulePage();
+        default:
+            print("section - \(indexPath.section)");
+        }
     }
     
     //
@@ -29,8 +34,8 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    public static func getHeightForSection(_ row: Int) -> CGFloat{
-        return row == 0 ? scheduleViewHeight + 2*verticalPadding : contentTableViewRowHeight;
+    public static func getHeightForSection(_ section: Int) -> CGFloat{
+        return section == 0 ? scheduleViewHeight + 2*verticalPadding : contentTableViewRowHeight;
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

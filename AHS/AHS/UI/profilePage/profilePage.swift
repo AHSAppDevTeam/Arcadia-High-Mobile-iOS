@@ -52,6 +52,10 @@ class profilePageViewController : mainPageViewController{
     
     //
     
+    internal var transitionDelegateVar : transitionDelegate!;
+    
+    //
+    
     init(){
         super.init(nibName: nil, bundle: nil);
         self.pageName = "Your";
@@ -144,10 +148,6 @@ class profilePageViewController : mainPageViewController{
         renderIDCard();
         
         setupIDBackgroundGradient();
-        
-        //
-        
-        scheduleView.backgroundColor = .systemRed;
         
         //
         
