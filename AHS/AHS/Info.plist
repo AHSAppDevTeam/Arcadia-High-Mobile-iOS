@@ -15,9 +15,20 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>4.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.654225823864-jq2vdkeeoh3evsi7oun6r5u6li7ie70m</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -31,6 +42,8 @@
 		<string>SFProDisplay-Light.ttf</string>
 		<string>SFProDisplay-Regular.ttf</string>
 		<string>SFProDisplay-Semibold.ttf</string>
+		<string>SFCompactDisplay-Light.otf</string>
+		<string>SFCompactDisplay-Semibold.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

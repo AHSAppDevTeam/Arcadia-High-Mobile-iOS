@@ -419,32 +419,13 @@ class notificationPageViewController : presentableViewController{
         notificationTitleLabel.leadingAnchor.constraint(equalTo: categoryColorView.trailingAnchor, constant: horizontalPadding).isActive = true;
         notificationTitleLabel.topAnchor.constraint(equalTo: bottomView.topAnchor, constant: verticalPadding).isActive = true;
         notificationTitleLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -horizontalPadding).isActive = true;
+        notificationTitleLabel.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -verticalPadding).isActive = true;
         
         notificationTitleLabel.textAlignment = .left;
         notificationTitleLabel.textColor = isRead ? BackgroundGrayColor : InverseBackgroundColor;
         notificationTitleLabel.font = UIFont(name: SFProDisplay_Semibold, size: notificationViewWidth * 0.06);
         notificationTitleLabel.numberOfLines = 0;
         notificationTitleLabel.text = notificationdata.title;
-        
-        ///
-        
-        //let notificationBlurbLabelFrame = CGRect(x: categoryColorView.frame.maxX + horizontalPadding, y: notificationTitleLabel.frame.maxY + verticalPadding, width: notificationLabelWidth, height: notificationLabelHeight);
-        let notificationBlurbLabel = UILabel();
-        
-        notificationBlurbLabel.translatesAutoresizingMaskIntoConstraints = false;
-        
-        bottomView.addSubview(notificationBlurbLabel);
-        
-        notificationBlurbLabel.leadingAnchor.constraint(equalTo: categoryColorView.trailingAnchor, constant: horizontalPadding).isActive = true;
-        notificationBlurbLabel.topAnchor.constraint(equalTo: notificationTitleLabel.bottomAnchor, constant: verticalPadding).isActive = true;
-        notificationBlurbLabel.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -horizontalPadding).isActive = true;
-        notificationBlurbLabel.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -verticalPadding).isActive = true;
-        
-        notificationBlurbLabel.textAlignment = .left;
-        notificationBlurbLabel.textColor = isRead ? BackgroundGrayColor : InverseBackgroundColor;
-        notificationBlurbLabel.font = UIFont(name: SFProDisplay_Regular, size: notificationViewWidth * 0.04);
-        notificationBlurbLabel.numberOfLines = 0;
-        notificationBlurbLabel.text = notificationdata.blurb;
     
         ///
         

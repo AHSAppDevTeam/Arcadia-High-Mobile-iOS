@@ -89,6 +89,9 @@ class homePageViewController : mainPageViewController{
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated);
+        
+        self.refreshControl.endRefreshing();
+        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);

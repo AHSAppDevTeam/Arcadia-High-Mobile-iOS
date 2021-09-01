@@ -13,7 +13,7 @@ class spotlightPageViewController : presentableViewController{
     
     public var categoryID : String = "";
     
-    internal let mainScrollView = UIScrollView();
+    internal let mainScrollView = UIButtonScrollView();
     internal let refreshControl = UIRefreshControl();
     
     internal let contentHorizontalPadding : CGFloat = AppUtility.getCurrentScreenSize().width / 20;
@@ -253,17 +253,20 @@ class spotlightPageViewController : presentableViewController{
     }
     
     internal func renderArticle(_ articleView: ArticleButton, _ articleID: String, _ hasImage: Bool){
+          
+        let articleViewCornerRadius : CGFloat = 7;
         
         //
         
         articleView.backgroundColor = pageAccentColor;
-        articleView.layer.cornerRadius = 5;
+        articleView.layer.cornerRadius = articleViewCornerRadius;
         
         articleView.layer.shadowOffset = CGSize(width: 0, height: 2);
         articleView.layer.shadowColor = inversePageAccentColor.cgColor;
-        articleView.layer.shadowRadius = 0.8;
-        articleView.layer.shadowOpacity = 0.5;
-        articleView.clipsToBounds = true;
+        articleView.layer.shadowRadius = 1;
+        articleView.layer.shadowOpacity = 0.3;
+        //articleView.layer.masksToBounds = false;
+        //articleView.clipsToBounds = true;
         
         articleView.tag = 1;
         articleView.articleID = articleID;
@@ -272,15 +275,15 @@ class spotlightPageViewController : presentableViewController{
         //
         
         if (hasImage){
-            renderImageArticle(articleView, articleID);
+            renderImageArticle(articleView, articleID, articleViewCornerRadius);
         }
         else{
-            renderListArticle(articleView, articleID);
+            renderListArticle(articleView, articleID, articleViewCornerRadius);
         }
         
     }
     
-    internal func renderImageArticle(_ articleView: ArticleButton, _ articleID: String){
+    internal func renderImageArticle(_ articleView: ArticleButton, _ articleID: String, _ articleViewCornerRadius: CGFloat){
         
         dataManager.getBaseArticleData(articleID, completion: { (articledata) in
             
@@ -323,6 +326,9 @@ class spotlightPageViewController : presentableViewController{
             let articleImageView = UIImageView(frame: articleImageViewFrame);
             
             articleImageView.backgroundColor = self.secondaryPageAccentColor;
+            articleImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner];
+            articleImageView.layer.cornerRadius = articleViewCornerRadius;
+            articleImageView.layer.masksToBounds = true;
             articleImageView.clipsToBounds = true;
             
             if (articledata.thumbURLs.count > 0){
@@ -340,7 +346,7 @@ class spotlightPageViewController : presentableViewController{
         
     }
     
-    internal func renderListArticle(_ articleView: ArticleButton, _ articleID: String){
+    internal func renderListArticle(_ articleView: ArticleButton, _ articleID: String, _ articleViewCornerRadius: CGFloat){
         
         dataManager.getBaseArticleData(articleID, completion: { (articledata) in
             
@@ -353,6 +359,10 @@ class spotlightPageViewController : presentableViewController{
             let colorStripView = UIView(frame: colorStripViewFrame);
             
             colorStripView.backgroundColor = articledata.color != nil ? articledata.color : dataManager.getPreloadedCategoryData(articledata.categoryID).color;
+            
+            colorStripView.layer.cornerRadius = articleViewCornerRadius;
+            colorStripView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner];
+            colorStripView.layer.masksToBounds = true;
             
             articleView.addSubview(colorStripView);
             
