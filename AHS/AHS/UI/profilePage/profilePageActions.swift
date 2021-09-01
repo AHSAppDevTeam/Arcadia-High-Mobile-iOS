@@ -19,6 +19,18 @@ extension profilePageViewController{
         self.openPresentablePage(schedulePageViewController());
     }
     
+    internal func openTableViewPage(_ indexPath: IndexPath){
+        switch indexPath.section {
+        case 1:
+            self.openPresentablePage(self.tableViewContentViewControllers[0][indexPath.row]);
+        case 2:
+            if indexPath.row  < self.tableViewContentViewControllers[1].count{ self.openPresentablePage(self.tableViewContentViewControllers[1][indexPath.row]);
+            }
+        default:
+            print("invalid indexPath section in profilePage");
+        }
+    }
+    
     internal func openPresentablePage(_ vc: presentableViewController){
         transitionDelegateVar = transitionDelegate();
         vc.transitioningDelegate = transitionDelegateVar;

@@ -11,5 +11,9 @@ import UIKit
 class termsAndConditionsPageViewController : presentableViewController{
     override func viewDidLoad(){
         super.viewDidLoad();
+        
+        self.setupPanGesture();
+        
+        self.view.backgroundColor = .systemRed;
     }
 }

@@ -11,5 +11,9 @@ import UIKit
 class notificationSettingsPageViewController : presentableViewController{
     override func viewDidLoad(){
         super.viewDidLoad();
+        
+        self.setupPanGesture();
+        
+        self.view.backgroundColor = .systemRed;
     }
 }

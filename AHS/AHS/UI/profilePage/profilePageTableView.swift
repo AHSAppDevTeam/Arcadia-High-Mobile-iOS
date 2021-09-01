@@ -15,7 +15,7 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         case 0:
             self.openSchedulePage();
         default:
-            print("section - \(indexPath.section)");
+            self.openTableViewPage(indexPath);
         }
     }
     

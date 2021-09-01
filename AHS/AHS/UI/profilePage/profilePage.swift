@@ -35,6 +35,8 @@ class profilePageViewController : mainPageViewController{
     internal let optionsCellTitles = ["Notifications", "ID Card"];
     internal let infoCellTitles = ["About Us", "Terms and Agreements", "App Version"];
     
+    internal let tableViewContentViewControllers = [[notificationSettingsPageViewController(), idCardSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]];
+    
     internal var contentTableViewCellTitles : [[String]] = []; // gets populated with optionsCellTitles and infoCellTitles
     internal var contentTableViewCellValues : [[String?]] = [];
     

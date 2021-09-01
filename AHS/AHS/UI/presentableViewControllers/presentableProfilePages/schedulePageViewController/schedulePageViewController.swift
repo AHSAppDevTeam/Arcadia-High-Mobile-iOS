@@ -11,6 +11,9 @@ import UIKit
 class schedulePageViewController : presentableViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        self.setupPanGesture();
+        
         self.view.backgroundColor = .systemRed;
     }
 }

@@ -11,5 +11,10 @@ import UIKit
 class idCardSettingsPageViewController : presentableViewController{
     override func viewDidLoad(){
         super.viewDidLoad();
+    
+        self.setupPanGesture();
+        
+        self.view.backgroundColor = .systemRed;
+        
     }
 }
