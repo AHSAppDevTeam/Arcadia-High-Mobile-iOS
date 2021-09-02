@@ -35,7 +35,8 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     public static func getHeightForSection(_ section: Int) -> CGFloat{
-        return section == 0 ? scheduleViewHeight + 2*verticalPadding : contentTableViewRowHeight;
+        let contentTableViewRowHeight = contentTableViewRowHeightRatio * AppUtility.getCurrentScreenSize().width;
+        return section == 0 ? (scheduleViewHeightRatio * contentTableViewRowHeight + 2*verticalPadding) : contentTableViewRowHeight;
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -65,7 +66,7 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         headerTitleLabel.text = getHeaderTitle(for: section);
         headerTitleLabel.textAlignment = .left;
         headerTitleLabel.textColor = InverseBackgroundColor;
-        headerTitleLabel.font = UIFont(name: SFProDisplay_Bold, size: headerTitleLabel.frame.height * 0.7);
+        headerTitleLabel.font = UIFont(name: SFProDisplay_Bold, size: headerTitleLabel.frame.width * 0.06);
         headerTitleLabel.numberOfLines = 1;
         
         headerView.addSubview(headerTitleLabel);

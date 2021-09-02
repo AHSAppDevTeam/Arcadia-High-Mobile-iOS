@@ -25,11 +25,11 @@ class profilePageViewController : mainPageViewController{
     internal let contentTableView : UITableView = UITableView();
     internal var contentTableViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
     static internal let contentTableViewSectionHeight : CGFloat = 40;
-    static internal let contentTableViewRowHeight : CGFloat = 45;
+    static internal let contentTableViewRowHeightRatio : CGFloat = 0.105; // in relation to the screen width
     
     internal let contentTableViewSectionCount : Int = 3;
     
-    static internal let scheduleViewHeight : CGFloat = 100;
+    static internal let scheduleViewHeightRatio : CGFloat = 2.22; // in relation to contentTableViewRowHeightRatio
     internal let scheduleView : UIView = UIView();
     
     internal let optionsCellTitles = ["Notifications", "ID Card"];

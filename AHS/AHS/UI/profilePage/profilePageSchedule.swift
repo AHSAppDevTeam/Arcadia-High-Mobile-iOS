@@ -18,7 +18,7 @@ extension profilePageViewController{
         
         //
         
-        let scheduleViewSize = CGSize(width: mainScrollView.frame.width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.scheduleViewHeight);
+        let scheduleViewSize = CGSize(width: mainScrollView.frame.width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.scheduleViewHeightRatio * (profilePageViewController.contentTableViewRowHeightRatio * AppUtility.getCurrentScreenSize().width));
         
         //let scheduleViewHorizontalPadding : CGFloat = 5;
         let scheduleViewVerticalPadding : CGFloat = scheduleViewSize.height * 0.15;

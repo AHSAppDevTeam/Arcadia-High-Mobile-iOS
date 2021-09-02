@@ -39,7 +39,7 @@ class profilePageTableViewCell : UITableViewCell{
         
         titleLabel.textColor = textColor;
         titleLabel.textAlignment = .left;
-        titleLabel.font = UIFont(name: SFProDisplay_Semibold, size: profilePageViewController.contentTableViewRowHeight * fontRatio);
+        titleLabel.font = UIFont(name: SFProDisplay_Semibold, size: profilePageViewController.contentTableViewRowHeightRatio * AppUtility.getCurrentScreenSize().width * fontRatio);
         titleLabel.numberOfLines = 1;
         
         titleLabel.isHidden = true;
@@ -58,7 +58,7 @@ class profilePageTableViewCell : UITableViewCell{
         
         valueLabel.textColor = textColor;
         valueLabel.textAlignment = .right;
-        valueLabel.font = UIFont(name: SFProDisplay_Medium, size: profilePageViewController.contentTableViewRowHeight * fontRatio);
+        valueLabel.font = UIFont(name: SFProDisplay_Medium, size: profilePageViewController.contentTableViewRowHeightRatio * AppUtility.getCurrentScreenSize().width * fontRatio);
         valueLabel.numberOfLines = 1;
         
         valueLabel.isHidden = true;
