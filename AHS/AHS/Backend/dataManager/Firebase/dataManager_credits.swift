@@ -22,6 +22,59 @@ enum creditRole{
     case manager
     
     case none
+    
+    public func getTitleString() -> String{
+        switch self {
+        case .programmerWeb:
+            return "Web Programmer";
+        case .programmerServer:
+            return "Server Programmer";
+        case .programmerAndroid:
+            return "Android Programmer";
+        case .programmeriOS:
+            return "iOS Programmer";
+        case .editor:
+            return "Content Editor";
+        case .designer:
+            return "Graphic Designer";
+        case .manager:
+            return "Manager";
+        default:
+            return "";
+        }
+    }
+    
+}
+
+struct creditCategory{
+    var title : String = "";
+    var list : [creditData] = [];
+    
+    static public func getCategoryList() -> [String]{
+        return ["Programmers", "Graphic Designer", "Content Editors", "Managers", "Former Members"];
+    }
+    
+    static public func getCategoryIndex(_ role: creditRole) -> Int{
+        switch role {
+        case .programmerWeb:
+            return 0;
+        case .programmerServer:
+            return 0;
+        case .programmerAndroid:
+            return 0;
+        case .programmeriOS:
+            return 0;
+        case .editor:
+            return 2;
+        case .designer:
+            return 1;
+        case .manager:
+            return 3;
+        default:
+            return 4;
+        }
+    }
+    
 }
 
 struct creditData{
@@ -59,7 +112,7 @@ extension dataManager{
             data.id = snapshot.key;
             
             data.name = dataDict?["name"] as? String ?? "";
-            data.retired = dataDict?["dataDict"] as? Bool ?? false;
+            data.retired = dataDict?["retired"] as? Bool ?? false;
             data.role = parseCreditRole(dataDict?["role"] as? String ?? "");
             data.url = URL(string: dataDict?["url"] as? String ?? "");
             
@@ -84,7 +137,7 @@ extension dataManager{
             return .programmerServer;
         case "programmer.android":
             return .programmerAndroid;
-        case "programmer.iOS":
+        case "programmer.ios":
             return .programmeriOS;
         default:
             return .none;

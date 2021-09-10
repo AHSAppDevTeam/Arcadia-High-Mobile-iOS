@@ -107,12 +107,44 @@ class aboutUsPageViewController : presentableViewController{
         
         dataManager.getCreditsList(completion: { (creditList) in
             self.refreshControl.endRefreshing();
-            self.renderCreditsList(creditList);
-            print(creditList);
+            self.renderCreditsList(self.sortCreditsList(creditList));
+            //self.renderCreditsList(creditList);
+            //print(creditList);
         });
     }
     
-    internal func renderCreditsList(_ creditList: [creditData]){
+    internal func sortCreditsList(_ creditList: [creditData]) -> [creditCategory]{
+        let categoryList = creditCategory.getCategoryList();
+        var categories : [creditCategory] = Array(repeating: creditCategory(), count: categoryList.count);
+        
+        for i in 0..<categories.count{
+            categories[i].title = categoryList[i];
+        }
+        
+        for person in creditList{
+            categories[creditCategory.getCategoryIndex(person.retired ? creditRole.none : person.role)].list.append(person);
+        }
+        
+        return categories;
+    }
+    
+    internal func renderCreditsList(_ credits: [creditCategory]){
+        // for each category check if list size if bigger than 0
+        //print(credits)
+        
+        for category in credits{
+            
+            if (category.list.count == 0){
+                continue;
+            }
+            
+            print("category - \(category.title)")
+            
+            for person in category.list{
+                print(person.name);
+            }
+            
+        }
         
     }
     
