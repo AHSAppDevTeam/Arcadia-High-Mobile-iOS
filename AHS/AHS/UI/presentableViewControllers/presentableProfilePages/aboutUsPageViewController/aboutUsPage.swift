@@ -37,23 +37,10 @@ class aboutUsPageViewController : presentableViewController{
         
         //
         
-        mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);
-        mainScrollView.alwaysBounceVertical = true;
-        mainScrollView.addSubview(refreshControl);
-        
-        self.view.addSubview(mainScrollView);
-        
-        //
-        
-        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged);
-        refreshControl.beginRefreshing();
-        
-        //
-        
-        let dismissButtonWidth = mainScrollView.frame.width;
+        let dismissButtonWidth = self.view.frame.width;
         let dismissButtonHeight = dismissButtonWidth * 0.09;
         
-        dismissButton.frame = CGRect(x: 0, y: 0, width: dismissButtonWidth, height: dismissButtonHeight);
+        dismissButton.frame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: dismissButtonWidth, height: dismissButtonHeight);
         
         //
         
@@ -73,9 +60,20 @@ class aboutUsPageViewController : presentableViewController{
         
         dismissButton.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
         
-        mainScrollView.addSubview(dismissButton);
+        self.view.addSubview(dismissButton);
         
         //
+        
+        mainScrollView.frame = CGRect(x: 0, y: dismissButton.frame.height + AppUtility.safeAreaInset.top, width: self.view.frame.width, height: self.view.frame.height - dismissButton.frame.height - AppUtility.safeAreaInset.top);
+        mainScrollView.alwaysBounceVertical = true;
+        mainScrollView.addSubview(refreshControl);
+        
+        self.view.addSubview(mainScrollView);
+        
+        //
+        
+        refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged);
+        refreshControl.beginRefreshing();
         
         loadCreditsList();
         
@@ -139,6 +137,12 @@ class aboutUsPageViewController : presentableViewController{
             }
             
             print("category - \(category.title)")
+            
+            //
+            
+            
+            
+            //
             
             for person in category.list{
                 print(person.name);
