@@ -68,6 +68,8 @@ class aboutUsPageViewController : presentableViewController{
         mainScrollView.alwaysBounceVertical = true;
         mainScrollView.addSubview(refreshControl);
         
+        //mainScrollView.backgroundColor = .systemBlue;
+        
         self.view.addSubview(mainScrollView);
         
         //
@@ -130,6 +132,11 @@ class aboutUsPageViewController : presentableViewController{
         // for each category check if list size if bigger than 0
         //print(credits)
         
+        let categoryHorizontalPadding : CGFloat = mainScrollView.frame.width / 8;
+        let categoryVerticalPadding : CGFloat = 40;
+        
+        var previousViewBottomAnchor : NSLayoutYAxisAnchor = mainScrollView.topAnchor;
+        
         for category in credits{
             
             if (category.list.count == 0){
@@ -139,16 +146,41 @@ class aboutUsPageViewController : presentableViewController{
             print("category - \(category.title)")
             
             //
+    
+            let categoryView = UIView();
             
+            mainScrollView.addSubview(categoryView);
             
+            categoryView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            categoryView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: categoryHorizontalPadding).isActive = true;
+            categoryView.topAnchor.constraint(equalTo: previousViewBottomAnchor, constant: previousViewBottomAnchor == mainScrollView.topAnchor ? 0 : categoryVerticalPadding).isActive = true;
+            categoryView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -categoryHorizontalPadding).isActive = true;
+            //categoryView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
+            
+            categoryView.widthAnchor.constraint(equalToConstant: mainScrollView.frame.width - 2*categoryHorizontalPadding).isActive = true;
+            categoryView.heightAnchor.constraint(equalToConstant: 100).isActive = true;
+            
+            previousViewBottomAnchor = categoryView.bottomAnchor;
+            
+            categoryView.tag = 1;
+            categoryView.clipsToBounds = true;
+            categoryView.layer.cornerRadius = 12;
+            categoryView.backgroundColor = BackgroundColor;
             
             //
             
-            for person in category.list{
-                print(person.name);
-            }
+            self.renderCategory(category, categoryView);
             
         }
+        
+        if (previousViewBottomAnchor != mainScrollView.bottomAnchor){
+            previousViewBottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
+        }
+        
+    }
+    
+    internal func renderCategory(_ category: creditCategory, _ categoryView: UIView){
         
     }
     

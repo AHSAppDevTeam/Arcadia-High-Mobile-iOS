@@ -69,6 +69,19 @@ extension navigationViewController{
         
     }
     
+    @objc func openProfileContentPage(_ notification: NSNotification){
+        
+        guard let dict = notification.userInfo as NSDictionary? else{
+            return;
+        }
+        
+        guard let vc = dict["vc"] as? presentableViewController else{
+            return;
+        }
+        
+        openPresentablePage(vc);
+    }
+    
     internal func openPresentablePage(_ vc: presentableViewController){
         transitionDelegateVar = transitionDelegate();
         vc.transitioningDelegate = transitionDelegateVar;

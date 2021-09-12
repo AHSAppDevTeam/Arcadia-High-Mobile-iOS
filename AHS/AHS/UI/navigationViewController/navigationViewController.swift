@@ -81,11 +81,13 @@ class navigationViewController : UIViewController{
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.openArticlePage), name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.openCategoryPage), name: NSNotification.Name(rawValue: categoryPageNotification), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openProfileContentPage), name: NSNotification.Name(rawValue: profilePageContentNotification), object: nil);
     }
     
     deinit{
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: categoryPageNotification), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: profilePageContentNotification), object: nil);
     }
     
     private func renderNavigationBar(){

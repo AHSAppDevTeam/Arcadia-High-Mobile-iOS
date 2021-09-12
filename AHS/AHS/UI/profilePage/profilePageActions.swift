@@ -32,11 +32,15 @@ extension profilePageViewController{
     }
     
     internal func openPresentablePage(_ vc: presentableViewController){
-        transitionDelegateVar = transitionDelegate();
+        /*transitionDelegateVar = transitionDelegate();
         vc.transitioningDelegate = transitionDelegateVar;
         vc.modalPresentationStyle = .custom;
         
-        self.present(vc, animated: true);
+        self.present(vc, animated: true);*/
+        
+        let profileDataDict : [String : presentableViewController] = ["vc" : vc];
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: profilePageContentNotification), object: nil, userInfo: profileDataDict);
+        
     }
     
 }

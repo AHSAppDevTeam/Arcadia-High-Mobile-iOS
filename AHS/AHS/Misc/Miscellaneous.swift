@@ -49,6 +49,8 @@ let homePageHorizontalPadding = AppUtility.getCurrentScreenSize().width / 20;
 let articlePageNotification = "articlePageNotification";
 let categoryPageNotification = "categoryPageNotification";
 
+let profilePageContentNotification = "profilePageContentNotification";
+
 let setScrollViewZeroContentOffset = "setScrollViewZeroContentOffset";
 
 let homePageRefreshNotification = "homePageRefreshNotification";
