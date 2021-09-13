@@ -64,13 +64,13 @@ class aboutUsPageViewController : presentableViewController{
         
         //
         
-        mainScrollView.frame = CGRect(x: 0, y: dismissButton.frame.height + AppUtility.safeAreaInset.top, width: self.view.frame.width, height: self.view.frame.height - dismissButton.frame.height - AppUtility.safeAreaInset.top);
+        mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);
         mainScrollView.alwaysBounceVertical = true;
         mainScrollView.addSubview(refreshControl);
         
         //mainScrollView.backgroundColor = .systemBlue;
         
-        self.view.addSubview(mainScrollView);
+        self.view.insertSubview(mainScrollView, at: 0);
         
         //
         
@@ -125,6 +125,16 @@ class aboutUsPageViewController : presentableViewController{
             categories[creditCategory.getCategoryIndex(person.retired ? creditRole.none : person.role)].list.append(person);
         }
         
+        //
+        
+        var emailCreditData : creditData = creditData();
+        emailCreditData.name = "dev@ahs.app";
+        emailCreditData.url = URL(string: "mailto:dev@ahs.app");
+        
+        categories.insert(creditCategory(title: "Contact Us", list: [emailCreditData]), at: 0);
+        
+        //
+        
         return categories;
     }
     
@@ -137,13 +147,15 @@ class aboutUsPageViewController : presentableViewController{
         
         var previousViewBottomAnchor : NSLayoutYAxisAnchor = mainScrollView.topAnchor;
         
+        //
+        
         for category in credits{
             
             if (category.list.count == 0){
                 continue;
             }
             
-            print("category - \(category.title)")
+            //print("category - \(category.title)")
             
             //
     
@@ -154,12 +166,14 @@ class aboutUsPageViewController : presentableViewController{
             categoryView.translatesAutoresizingMaskIntoConstraints = false;
             
             categoryView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: categoryHorizontalPadding).isActive = true;
-            categoryView.topAnchor.constraint(equalTo: previousViewBottomAnchor, constant: previousViewBottomAnchor == mainScrollView.topAnchor ? 0 : categoryVerticalPadding).isActive = true;
+            categoryView.topAnchor.constraint(equalTo: previousViewBottomAnchor, constant: previousViewBottomAnchor == mainScrollView.topAnchor ? dismissButton.frame.height : categoryVerticalPadding).isActive = true;
             categoryView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -categoryHorizontalPadding).isActive = true;
             //categoryView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor).isActive = true;
             
-            categoryView.widthAnchor.constraint(equalToConstant: mainScrollView.frame.width - 2*categoryHorizontalPadding).isActive = true;
-            categoryView.heightAnchor.constraint(equalToConstant: 100).isActive = true;
+            let categoryViewWidth = mainScrollView.frame.width - 2*categoryHorizontalPadding;
+            
+            categoryView.widthAnchor.constraint(equalToConstant: categoryViewWidth).isActive = true;
+            //categoryView.heightAnchor.constraint(equalToConstant: 100).isActive = true;
             
             previousViewBottomAnchor = categoryView.bottomAnchor;
             
@@ -170,7 +184,7 @@ class aboutUsPageViewController : presentableViewController{
             
             //
             
-            self.renderCategory(category, categoryView);
+            self.renderCategory(category, categoryView, categoryViewWidth);
             
         }
         
@@ -180,7 +194,73 @@ class aboutUsPageViewController : presentableViewController{
         
     }
     
-    internal func renderCategory(_ category: creditCategory, _ categoryView: UIView){
+    internal func renderCategory(_ category: creditCategory, _ categoryView: UIView, _ categoryViewWidth: CGFloat){
+        
+        let verticalPadding : CGFloat = 5;
+        let secondaryVerticalPadding : CGFloat = 2*verticalPadding;
+        
+        //
+        
+        let titleLabel = UILabel();
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        categoryView.addSubview(titleLabel);
+        
+        let titleFontSize : CGFloat = categoryViewWidth * 0.08;
+        
+        titleLabel.leadingAnchor.constraint(equalTo: categoryView.leadingAnchor).isActive = true;
+        titleLabel.topAnchor.constraint(equalTo: categoryView.topAnchor, constant: verticalPadding).isActive = true;
+        titleLabel.trailingAnchor.constraint(equalTo: categoryView.trailingAnchor).isActive = true;
+        //titleLabel.heightAnchor.constraint(equalToConstant: titleLabelHeight).isActive = true;
+        
+        titleLabel.text = category.title;
+        titleLabel.textAlignment = .center;
+        titleLabel.textColor = InverseBackgroundColor;
+        titleLabel.font = UIFont(name: SFProDisplay_Bold, size: titleFontSize * 0.8);
+        
+        //titleLabel.bottomAnchor.constraint(equalTo: categoryView.bottomAnchor).isActive = true;
+        
+        //
+        
+        var previousViewBottomAnchor : NSLayoutYAxisAnchor = titleLabel.bottomAnchor;
+        
+        let personFontSize : CGFloat = categoryViewWidth * 0.05;
+        
+        for person in category.list{
+            
+            let personLabel = UITextView();
+            
+            personLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            categoryView.addSubview(personLabel);
+            
+            personLabel.leadingAnchor.constraint(equalTo: categoryView.leadingAnchor).isActive = true;
+            personLabel.topAnchor.constraint(equalTo: previousViewBottomAnchor, constant:       previousViewBottomAnchor == titleLabel.bottomAnchor ? secondaryVerticalPadding : verticalPadding).isActive = true;
+            personLabel.trailingAnchor.constraint(equalTo: categoryView.trailingAnchor).isActive = true;
+            
+            previousViewBottomAnchor = personLabel.bottomAnchor;
+            
+            let personAttributedText = NSMutableAttributedString(string: person.name, attributes: [ NSAttributedString.Key.font : UIFont(name: SFProDisplay_Semibold, size: personFontSize)! ]);
+            
+            if let url = person.url{
+                personAttributedText.addAttribute(NSAttributedString.Key.link, value: url, range: NSMakeRange(0, person.name.count));
+            }
+            
+            //personLabel.text = person.name;
+            personLabel.attributedText = personAttributedText;
+            personLabel.textAlignment = .center;
+            personLabel.textColor = InverseBackgroundColor;
+            personLabel.isScrollEnabled = false;
+            personLabel.backgroundColor = .clear;
+            personLabel.isEditable = false;
+            personLabel.textContainerInset = .zero;
+            //personLabel.font = UIFont(name: SFProDisplay_Regular, size: personFontSize);
+            
+        }
+        
+        previousViewBottomAnchor.constraint(equalTo: categoryView.bottomAnchor, constant: -secondaryVerticalPadding).isActive = true;
+        
         
     }
     

@@ -51,7 +51,7 @@ struct creditCategory{
     var list : [creditData] = [];
     
     static public func getCategoryList() -> [String]{
-        return ["Programmers", "Graphic Designer", "Content Editors", "Managers", "Former Members"];
+        return ["Programmers", "Graphic Designers", "Content Editors", "Managers", "Former Members"];
     }
     
     static public func getCategoryIndex(_ role: creditRole) -> Int{
