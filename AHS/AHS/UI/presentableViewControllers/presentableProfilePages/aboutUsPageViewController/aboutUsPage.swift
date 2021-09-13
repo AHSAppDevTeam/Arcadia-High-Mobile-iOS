@@ -217,7 +217,7 @@ class aboutUsPageViewController : presentableViewController{
         titleLabel.text = category.title;
         titleLabel.textAlignment = .center;
         titleLabel.textColor = InverseBackgroundColor;
-        titleLabel.font = UIFont(name: SFProDisplay_Bold, size: titleFontSize * 0.8);
+        titleLabel.font = UIFont(name: SFProDisplay_Bold, size: titleFontSize);
         
         //titleLabel.bottomAnchor.constraint(equalTo: categoryView.bottomAnchor).isActive = true;
         
