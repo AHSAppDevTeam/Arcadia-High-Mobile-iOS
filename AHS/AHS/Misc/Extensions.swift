@@ -133,6 +133,21 @@ extension String {
     subscript(offset: Int) -> Character {
         self[index(startIndex, offsetBy: offset)]
     }
+    
+    // https://stackoverflow.com/a/37427249
+    func htmlAttributedString() -> NSAttributedString? {
+        let htmlData = NSString(string: self).data(using: String.Encoding.unicode.rawValue);
+        let options = [NSAttributedString.DocumentReadingOptionKey.documentType:
+                        NSAttributedString.DocumentType.html];
+        
+        guard let attributed = try? NSMutableAttributedString(data: htmlData ?? Data(),
+                                                              options: options,
+                                                              documentAttributes: nil) else{
+            return nil;
+       };
+        
+        return attributed;
+    }
 }
 
 // https://stackoverflow.com/a/41743706

@@ -127,11 +127,23 @@ class aboutUsPageViewController : presentableViewController{
         
         //
         
-        var emailCreditData : creditData = creditData();
-        emailCreditData.name = "dev@ahs.app";
-        emailCreditData.url = URL(string: "mailto:dev@ahs.app");
+        var articleEmailCreditData : creditData = creditData();
+        articleEmailCreditData.name = "articles@ahs.app";
+        articleEmailCreditData.url = URL(string: "mailto:\(articleEmailCreditData.name)");
         
-        categories.insert(creditCategory(title: "Contact Us", list: [emailCreditData]), at: 0);
+        var devEmailCreditData : creditData = creditData();
+        devEmailCreditData.name = "dev@ahs.app";
+        devEmailCreditData.url = URL(string: "mailto:\(devEmailCreditData.name)");
+        
+        var editorEmailCreditData : creditData = creditData();
+        editorEmailCreditData.name = "editors@ahs.app";
+        editorEmailCreditData.url = URL(string: "mailto:\(editorEmailCreditData.name)");
+        
+        var bugEmailCreditData : creditData = creditData();
+        bugEmailCreditData.name = "bugs@ahs.app";
+        bugEmailCreditData.url = URL(string: "mailto:\(bugEmailCreditData.name)");
+        
+        categories.insert(creditCategory(title: "Contact Us", list: [articleEmailCreditData, devEmailCreditData, editorEmailCreditData, bugEmailCreditData]), at: 0);
         
         //
         
