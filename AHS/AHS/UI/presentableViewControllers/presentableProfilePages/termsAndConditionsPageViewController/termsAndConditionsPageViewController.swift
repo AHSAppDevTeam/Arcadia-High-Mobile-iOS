@@ -85,6 +85,7 @@ class termsAndConditionsPageViewController : presentableViewController{
         textView.attributedText = termsAndConditionsRawHTML.htmlAttributedString();
         textView.textColor = InverseBackgroundColor;
         textView.isEditable = false;
+        textView.font = UIFont(name: SFProDisplay_Regular, size: self.view.frame.width / 30);
         
         self.view.insertSubview(textView, at: 0);
     

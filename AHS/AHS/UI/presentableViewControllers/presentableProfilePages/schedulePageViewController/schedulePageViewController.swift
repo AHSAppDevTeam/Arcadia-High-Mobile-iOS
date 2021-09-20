@@ -9,11 +9,40 @@ import Foundation
 import UIKit
 
 class schedulePageViewController : presentableViewController{
+    
+    //
+    
+    let mainScrollView : UIButtonScrollView = UIButtonScrollView();
+    
+    //
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         
         self.setupPanGesture();
         
-        self.view.backgroundColor = .systemRed;
+        self.view.backgroundColor = BackgroundColor;
+        
+        //
+        
+        mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);
+        
+        mainScrollView.alwaysBounceVertical = true;
+        
+        self.view.addSubview(mainScrollView);
+        
+        //
+        
+        //mainScrollView.backgroundColor = .systemBlue;
+        
     }
+    
+    internal func renderStaticContent(){
+        
+    }
+    
+    internal func renderContent(){
+        
+    }
+    
 }

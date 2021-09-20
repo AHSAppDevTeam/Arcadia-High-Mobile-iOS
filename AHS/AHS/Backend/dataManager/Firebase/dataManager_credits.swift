@@ -87,20 +87,31 @@ struct creditData{
 
 extension dataManager{
     static public func getCreditsList(completion: @escaping ([creditData]) -> Void){
-        dataRef.child("credits").observeSingleEvent(of: .value, with: { (snapshot) in
+        
+        setupConnection();
+        
+        if (internetConnected){
             
-            var creditList : [creditData] = [];
-            
-            let enumerator = snapshot.children;
-            while let person = enumerator.nextObject() as? DataSnapshot{
+            dataRef.child("credits").observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                creditList.append(parseCredit(person));
+                var creditList : [creditData] = [];
                 
-            }
+                if (snapshot.exists()){
+                    
+                    let enumerator = snapshot.children;
+                    while let person = enumerator.nextObject() as? DataSnapshot{
+                        
+                        creditList.append(parseCredit(person));
+                        
+                    }
+                    
+                    completion(creditList);
+                    
+                }
+                
+            });
             
-            completion(creditList);
-            
-        });
+        }
     }
     
     static private func parseCredit(_ snapshot: DataSnapshot) -> creditData{
