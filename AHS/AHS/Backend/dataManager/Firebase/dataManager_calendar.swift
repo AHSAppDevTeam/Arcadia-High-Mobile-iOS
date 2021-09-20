@@ -19,15 +19,11 @@ struct scheduleCalendarData{
     var id : String = "";
     var color : Color = Color(red: 0, green: 0, blue: 0, alpha: 1);
     var periodIDs : [String] = [];
-    var timestamps : [UInt] = [];
+    var timestamps : [Int] = [];
     var title : String = "";
 }
 
 extension dataManager{
-    
-    
-    
-    //
     
     static private func getWeekListData(_ weekIDList: [String], completion: @escaping ([weekCalendarData]) -> Void){
         
@@ -118,6 +114,39 @@ extension dataManager{
                     
                     data.scheduleIDs = dataDict?["scheduleIDs"] as? [String] ?? [];
                     data.title = dataDict?["title"] as? String ?? "";
+                    
+                    completion(data);
+                    
+                }
+                
+            });
+            
+        }
+        
+    }
+    
+    //
+    
+    static private func getScheduleData(_ scheduleID: String, completion: @escaping (scheduleCalendarData) -> Void){
+        
+        setupConnection();
+        
+        if (internetConnected && !scheduleID.isEmpty){
+            
+            dataRef.child("schedules").child(scheduleID).observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                var data : scheduleCalendarData = scheduleCalendarData();
+                
+                if (snapshot.exists()){
+                    
+                    let dataDict = snapshot.value as? NSDictionary;
+                    
+                    data.id = scheduleID;
+                    
+                    data.title = dataDict?["title"] as? String ?? "";
+                    data.timestamps = dataDict?["timestamps"] as? [Int] ?? [];
+                    data.periodIDs = dataDict?["periodIDs"] as? [String] ?? [];
+                    data.color = Color.init(hex: dataDict?["color"] as? String ?? "");
                     
                     completion(data);
                     
