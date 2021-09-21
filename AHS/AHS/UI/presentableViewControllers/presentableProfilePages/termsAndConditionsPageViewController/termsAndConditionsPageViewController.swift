@@ -78,7 +78,9 @@ class termsAndConditionsPageViewController : presentableViewController{
     
     internal func renderContent(){
     
-        let textViewFrame = CGRect(x: 0, y: dismissButton.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - dismissButton.frame.maxY);
+        let verticalPadding : CGFloat = 10;
+        
+        let textViewFrame = CGRect(x: 0, y: dismissButton.frame.maxY + verticalPadding, width: self.view.frame.width, height: self.view.frame.height - dismissButton.frame.maxY - verticalPadding);
         let textView = UITextView(frame: textViewFrame);
         
         textView.backgroundColor = .clear;
