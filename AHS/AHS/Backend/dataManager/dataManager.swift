@@ -17,7 +17,7 @@ class dataManager{
     static public var internetConnected = false;
     
     static internal var categoryLookupMap : [String : categoryData] = [:];
-    static internal let categoryLookupDispatchQueue = DispatchQueue(label: "categoryLookupDispatchQueue");
+    //static internal let categoryLookupDispatchQueue = DispatchQueue(label: "categoryLookupDispatchQueue");
     
     static internal var articleSnippetArray : [articleSnippetData] = [];
     

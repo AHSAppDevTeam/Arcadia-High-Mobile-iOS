@@ -24,7 +24,7 @@ class profilePageViewController : mainPageViewController{
     
     internal let contentTableView : UITableView = UITableView();
     internal var contentTableViewHeightConstraint : NSLayoutConstraint = NSLayoutConstraint();
-    static internal let contentTableViewSectionHeight : CGFloat = 40;
+    static internal let contentTableViewSectionHeaderHeight : CGFloat = 40;
     static internal let contentTableViewRowHeightRatio : CGFloat = 0.105; // in relation to the screen width
     
     internal let contentTableViewSectionCount : Int = 3;
@@ -32,8 +32,8 @@ class profilePageViewController : mainPageViewController{
     static internal let scheduleViewHeightRatio : CGFloat = 2.22; // in relation to contentTableViewRowHeightRatio
     internal let scheduleView : UIView = UIView();
     
-    internal let optionsCellTitles = ["Notifications", "ID Card"];
-    internal let infoCellTitles = ["About Us", "Terms and Agreements", "App Version"];
+    static internal let optionsCellTitles = ["Notifications", "ID Card"];
+    static internal let infoCellTitles = ["About Us", "Terms and Agreements", "App Version"];
     
     internal let tableViewContentViewControllers = [[notificationSettingsPageViewController(), idCardSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]];
     
@@ -113,14 +113,18 @@ class profilePageViewController : mainPageViewController{
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews();
+        
         backgroundIDGradient.frame = idCardButton.bounds;
+        
+        //print("content table view size - \(self.contentTableView.contentSize)");
+        self.contentTableViewHeightConstraint.constant = self.contentTableView.contentSize.height;
     }
     
     private func setupTableViewContent(){
-        contentTableViewCellTitles = [optionsCellTitles, infoCellTitles];
+        contentTableViewCellTitles = [profilePageViewController.optionsCellTitles, profilePageViewController.infoCellTitles];
         
-        contentTableViewCellValues = [Array(repeating: nil, count: optionsCellTitles.count), Array(repeating: nil, count: infoCellTitles.count)];
-        contentTableViewCellValues[1][infoCellTitles.count - 1] = AppUtility.getAppVersionString(); // set app build number
+        contentTableViewCellValues = [Array(repeating: nil, count: profilePageViewController.optionsCellTitles.count), Array(repeating: nil, count: profilePageViewController.infoCellTitles.count)];
+        contentTableViewCellValues[1][profilePageViewController.infoCellTitles.count - 1] = AppUtility.getAppVersionString(); // set app build number
     }
     
     internal func renderContent(){
@@ -162,15 +166,17 @@ class profilePageViewController : mainPageViewController{
         contentTableView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -profilePageViewController.horizontalPadding).isActive = true;
         contentTableView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -profilePageViewController.verticalPadding).isActive = true;
         
-        contentTableViewHeightConstraint = contentTableView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 2); // https://stackoverflow.com/a/40081129
-        contentTableViewHeightConstraint.isActive = true;
-        
         contentTableView.delegate = self;
         contentTableView.dataSource = self;
         contentTableView.isScrollEnabled = false;
         contentTableView.register(profilePageTableViewCell.self, forCellReuseIdentifier: profilePageTableViewCell.identifier);
         
-        UIView.animate(withDuration: 0, animations: {
+        contentTableViewHeightConstraint = contentTableView.heightAnchor.constraint(equalToConstant: 1000);
+        contentTableViewHeightConstraint.isActive = true;
+
+        self.contentTableView.layoutIfNeeded();
+        
+        /*UIView.animate(withDuration: 0, animations: {  // https://stackoverflow.com/a/40081129
             self.contentTableView.layoutIfNeeded();
         }, completion: { _ in
                     
@@ -182,9 +188,11 @@ class profilePageViewController : mainPageViewController{
             
             height += CGFloat(self.contentTableView.numberOfSections) * profilePageViewController.contentTableViewSectionHeight;
                     
+            //print("visible cells count - \(self.contentTableView.visibleCells.count)");
+            
             self.contentTableViewHeightConstraint.constant = height;
             
-        });
+        });*/
         
     }
     

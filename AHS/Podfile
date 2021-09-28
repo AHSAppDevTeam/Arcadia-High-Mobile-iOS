@@ -19,7 +19,7 @@ target 'AHS' do
   pod "AMPopTip"
   pod 'GoogleSignIn'
   pod 'RSBarcodes_Swift'
-  pod 'CalendarKit'
+  pod 'JTAppleCalendar'
 
   target 'AHSTests' do
     inherit! :search_paths

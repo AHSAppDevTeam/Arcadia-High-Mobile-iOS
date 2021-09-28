@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import JTAppleCalendar
 
 class schedulePageViewController : presentableViewController{
     
@@ -38,6 +39,8 @@ class schedulePageViewController : presentableViewController{
     }
     
     internal func renderStaticContent(){
+        
+    
         
     }
     

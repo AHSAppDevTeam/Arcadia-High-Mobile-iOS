@@ -93,7 +93,7 @@ class profilePageTableViewCell : UITableViewCell{
     }
     
     static private func getCellSize(_ section: Int) -> CGSize{
-        return CGSize(width: AppUtility.getCurrentScreenSize().width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.getHeightForSection(section));
+        return CGSize(width: AppUtility.getCurrentScreenSize().width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.getContentTableViewHeightForSection(section));
     }
     
     //

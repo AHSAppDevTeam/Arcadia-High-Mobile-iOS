@@ -100,7 +100,7 @@ extension dataManager{
         
         setupConnection();
         
-        if (internetConnected && !weekID.isEmpty){
+        if (internetConnected && checkValidString(weekID)){
             
             dataRef.child("weeks").child(weekID).observeSingleEvent(of: .value, with: { (snapshot) in
                 
@@ -131,7 +131,7 @@ extension dataManager{
         
         setupConnection();
         
-        if (internetConnected && !scheduleID.isEmpty){
+        if (internetConnected && checkValidString(scheduleID)){
             
             dataRef.child("schedules").child(scheduleID).observeSingleEvent(of: .value, with: { (snapshot) in
                 

@@ -10,6 +10,8 @@ import UIKit
 
 extension profilePageViewController: UITableViewDelegate, UITableViewDataSource {
     
+    //
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
@@ -21,7 +23,7 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
     
     //
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public static func getContentTableViewRowCountForSection(_ section: Int) -> Int{
         switch section {
         case 0: // Schedule
             return 1;
@@ -34,13 +36,17 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         }
     }
     
-    public static func getHeightForSection(_ section: Int) -> CGFloat{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return profilePageViewController.getContentTableViewRowCountForSection(section);
+    }
+    
+    public static func getContentTableViewHeightForSection(_ section: Int) -> CGFloat{
         let contentTableViewRowHeight = contentTableViewRowHeightRatio * AppUtility.getCurrentScreenSize().width;
         return section == 0 ? (scheduleViewHeightRatio * contentTableViewRowHeight + 2*verticalPadding) : contentTableViewRowHeight;
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return profilePageViewController.getHeightForSection(indexPath.section);
+        return profilePageViewController.getContentTableViewHeightForSection(indexPath.section);
     }
     
     //
@@ -50,11 +56,11 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return profilePageViewController.contentTableViewSectionHeight;
+        return profilePageViewController.contentTableViewSectionHeaderHeight;
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerViewFrame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: profilePageViewController.contentTableViewSectionHeight);
+        let headerViewFrame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: profilePageViewController.contentTableViewSectionHeaderHeight);
         let headerView = UIView(frame: headerViewFrame);
         
         //
@@ -89,6 +95,16 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
             s = "";
         }
         return s;
+    }
+    
+    //
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return nil;
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return .leastNormalMagnitude;
     }
     
     //

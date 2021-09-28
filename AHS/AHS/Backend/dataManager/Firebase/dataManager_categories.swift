@@ -40,9 +40,9 @@ extension dataManager{
             getCategoryIDList(completion: { (categoryID) in
                 loadCategoryData(categoryID, completion: { (categorydata) in
                     
-                    categoryLookupDispatchQueue.sync {
+                    //categoryLookupDispatchQueue.sync {
                         categoryLookupMap[categoryID] = categorydata;
-                    }
+                    //}
                     
                 });
             });
@@ -77,20 +77,20 @@ extension dataManager{
     }
     
     static public func getPreloadedCategoryData(_ categoryID: String) -> categoryData{
-        categoryLookupDispatchQueue.sync {
+        //categoryLookupDispatchQueue.sync {
             return categoryLookupMap[categoryID] ?? createDefaultCategoryData(categoryID);
-        }
+        //}
     }
     
     static public func getCategoryData(_ categoryID: String , completion: @escaping (categoryData) -> Void){
         
-        categoryLookupDispatchQueue.sync {
+        //categoryLookupDispatchQueue.sync {
             guard let categoryLookupData = categoryLookupMap[categoryID] else {
                 loadCategoryData(categoryID, completion: { (data) in
                     
-                    categoryLookupDispatchQueue.sync {
+                   // categoryLookupDispatchQueue.sync {
                         categoryLookupMap[categoryID] = data;
-                    }
+                   // }
                     
                     completion(data);
                 });
@@ -98,7 +98,7 @@ extension dataManager{
             }
             
             completion(categoryLookupData);
-        }
+        //}
         
     }
     
