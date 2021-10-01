@@ -44,10 +44,13 @@ extension profilePageViewController{
         backgroundIDGradient.startPoint = CGPoint(x:0, y:0);
         backgroundIDGradient.endPoint = CGPoint(x:1, y:1);
         backgroundIDGradient.drawsAsynchronously = true;
+        backgroundIDGradient.frame = CGRect(x: 0, y: 0, width: idCardButtonWidth, height: idCardButtonHeight);
+        
         idCardButton.layer.insertSublayer(backgroundIDGradient, at: 0);
     }
     
     internal func animateIDBackgroundGradient(){
+        
         if backgroundIDCurrentGradient < backgroundIDGradientSet.count - 1 {
             backgroundIDCurrentGradient += 1;
         } else {

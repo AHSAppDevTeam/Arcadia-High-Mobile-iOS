@@ -114,8 +114,6 @@ class profilePageViewController : mainPageViewController{
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews();
         
-        backgroundIDGradient.frame = idCardButton.bounds;
-        
         //print("content table view size - \(self.contentTableView.contentSize)");
         self.contentTableViewHeightConstraint.constant = self.contentTableView.contentSize.height;
     }
@@ -162,7 +160,7 @@ class profilePageViewController : mainPageViewController{
         contentTableView.translatesAutoresizingMaskIntoConstraints = false;
         
         contentTableView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor, constant: profilePageViewController.horizontalPadding).isActive = true;
-        contentTableView.topAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: 2*profilePageViewController.verticalPadding).isActive = true;
+        contentTableView.topAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: profilePageViewController.verticalPadding).isActive = true;
         contentTableView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor, constant: -profilePageViewController.horizontalPadding).isActive = true;
         contentTableView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor, constant: -profilePageViewController.verticalPadding).isActive = true;
         
