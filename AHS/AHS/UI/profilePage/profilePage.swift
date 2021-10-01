@@ -32,10 +32,12 @@ class profilePageViewController : mainPageViewController{
     static internal let scheduleViewHeightRatio : CGFloat = 2.22; // in relation to contentTableViewRowHeightRatio
     internal let scheduleView : UIView = UIView();
     
-    static internal let optionsCellTitles = ["Notifications", "ID Card"];
+    //static internal let optionsCellTitles = ["Notifications", "ID Card"]; -- with id card
+    static internal let optionsCellTitles = ["Notifications"];
     static internal let infoCellTitles = ["About Us", "Terms and Agreements", "App Version"];
     
-    internal let tableViewContentViewControllers = [[notificationSettingsPageViewController(), idCardSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]];
+    //internal let tableViewContentViewControllers = [[notificationSettingsPageViewController(), idCardSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]]; -- with id card
+    internal let tableViewContentViewControllers = [[notificationSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]];
     
     internal var contentTableViewCellTitles : [[String]] = []; // gets populated with optionsCellTitles and infoCellTitles
     internal var contentTableViewCellValues : [[String?]] = [];
