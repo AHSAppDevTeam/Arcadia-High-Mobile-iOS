@@ -63,9 +63,9 @@ let endDataManagerRefreshing = "endDataManagerRefreshing";
 
 // Misc functions
 
-func createConfirmationPrompt(_ viewController: UIViewController, _ title: String, confirmCompletion: @escaping () -> Void, declineCompletion: @escaping () -> Void = { () in }){
+func createConfirmationPrompt(_ vc: UIViewController, _ title: String, message: String = "Are you sure?", confirmCompletion: @escaping () -> Void, declineCompletion: @escaping () -> Void = { () in }){
     
-    let confirmPopUp = UIAlertController(title: title, message: "Are you sure?", preferredStyle: .actionSheet);
+    let confirmPopUp = UIAlertController(title: title, message: message, preferredStyle: .actionSheet);
     
     confirmPopUp.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { (_) in
         
@@ -79,7 +79,19 @@ func createConfirmationPrompt(_ viewController: UIViewController, _ title: Strin
         
     }));
     
-    viewController.present(confirmPopUp, animated: true);
+    vc.present(confirmPopUp, animated: true);
+    
+}
+
+func createAlertPrompt(_ vc: UIViewController, _ title: String, _ message: String, completion: @escaping () -> Void = { () in }){
+    
+    let alertPopUp = UIAlertController(title: title, message: message, preferredStyle: .alert);
+    
+    alertPopUp.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (_) in
+        completion();
+    }))
+    
+    vc.present(alertPopUp, animated: true);
     
 }
 

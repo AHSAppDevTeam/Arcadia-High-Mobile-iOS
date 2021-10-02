@@ -30,6 +30,8 @@ extension profilePageViewController{
                 self.idCardButton.idState = .isUnlocked;
                 self.renderIDCard();
                 
+                createAlertPrompt(self, "ID Card Barcode", "Barcodes are temporarily disabled");
+                
             });
         }
         
@@ -130,7 +132,10 @@ extension profilePageViewController{
         barcodeImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: barcodeImageViewPadding).isActive = true;
         
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
-            let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
+            
+            // barcode rendering
+            
+            /*let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
             let barcodeImageViewWidth = barcodeImageViewHeight * 3.7;
             
             barcodeImageView.heightAnchor.constraint(equalToConstant: barcodeImageViewHeight).isActive = true;
@@ -142,7 +147,10 @@ extension profilePageViewController{
             barcodeImageView.backgroundColor = .white;
             barcodeImageView.isUserInteractionEnabled = false;
             
-            barcodeImageView.image = dataManager.getIDBarcode(idString);
+            barcodeImageView.image = dataManager.getIDBarcode(idString);*/
+            
+            //createConfirmationPrompt(self, "ID Cards are temporarily disabled", confirmCompletion: { () in });
+            
         }
         else{
             print("Invalid student email when attempting to render ID card");
