@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dataManager.preloadCategoryData();
         dataManager.loadPreferences();
         
-        dataManager.updateFirebaseMessagingSubscription();
+        dataManager.updateEntireMessagingSubscription();
         
         dataManager.recoverPreviousSignInSession();
         

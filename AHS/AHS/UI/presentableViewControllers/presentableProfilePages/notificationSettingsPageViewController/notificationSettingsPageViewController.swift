@@ -19,6 +19,7 @@ class notificationSettingsPageViewController : presentableViewController{
     internal let verticalPadding : CGFloat = 10;
     internal let horizontalPadding : CGFloat = 10;
     
+    internal let defaultNextY : CGFloat = 20;
     internal var nextY : CGFloat = 0;
     
     internal var categorySectionWidth : CGFloat = 0;
@@ -55,6 +56,8 @@ class notificationSettingsPageViewController : presentableViewController{
         
         //
         
+        nextY = defaultNextY;
+        
         self.refreshControl.beginRefreshing();
         
         loadCategories();
@@ -75,15 +78,15 @@ class notificationSettingsPageViewController : presentableViewController{
             }
         }
         
-        nextY = 0;
+        nextY = defaultNextY;
         
         //
         
         self.loadCategories();
     }
     
-    @objc internal func updateSwitchState(_ switch: NotificationUISwitch){
-        
+    @objc internal func updateSwitchState(_ notificationSwitch: NotificationUISwitch){
+        dataManager.setUserSubscriptionToCategory(notificationSwitch.categoryID, notificationSwitch.isOn);
     }
     
     //
@@ -145,7 +148,7 @@ class notificationSettingsPageViewController : presentableViewController{
                     
                     self.refreshControl.endRefreshing();
                     
-                    print("category - \(categorydata.title)");
+                    //print("category - \(categorydata.title)");
                     
                     self.renderCategory(categorydata);
                     
@@ -159,7 +162,52 @@ class notificationSettingsPageViewController : presentableViewController{
     
     private func renderCategory(_ categorydata: categoryData){
         
+        let categorySectionViewFrame = CGRect(x: horizontalPadding, y: nextY, width: categorySectionWidth, height: categorySectionHeight);
+        let categorySectionView = UIView(frame: categorySectionViewFrame);
         
+        //categorySectionView.backgroundColor = .systemRed;
+        
+        //
+        
+        let categorySectionLabel = UILabel();
+        
+        categorySectionLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        categorySectionView.addSubview(categorySectionLabel);
+        
+        categorySectionLabel.leadingAnchor.constraint(equalTo: categorySectionView.leadingAnchor, constant: horizontalPadding).isActive = true;
+        categorySectionLabel.topAnchor.constraint(equalTo: categorySectionView.topAnchor).isActive = true;
+        categorySectionLabel.bottomAnchor.constraint(equalTo: categorySectionView.bottomAnchor).isActive = true;
+        
+        categorySectionLabel.text = categorydata.title;
+        categorySectionLabel.textColor = InverseBackgroundColor;
+        categorySectionLabel.font = UIFont(name: SFProDisplay_Semibold, size: categorySectionHeight * 0.7);
+        
+        //
+        
+        let categorySectionSwitch = NotificationUISwitch();
+        
+        categorySectionSwitch.translatesAutoresizingMaskIntoConstraints = false;
+        
+        categorySectionView.addSubview(categorySectionSwitch);
+        
+        categorySectionSwitch.trailingAnchor.constraint(equalTo: categorySectionView.trailingAnchor, constant: -horizontalPadding).isActive = true;
+        categorySectionSwitch.topAnchor.constraint(equalTo: categorySectionView.topAnchor).isActive = true;
+        categorySectionSwitch.bottomAnchor.constraint(equalTo: categorySectionView.bottomAnchor).isActive = true;
+        
+        categorySectionSwitch.categoryID = categorydata.categoryID;
+        categorySectionSwitch.isOn = dataManager.isUserSubscribedToCategory(categorydata.categoryID);
+        
+        categorySectionSwitch.addTarget(self, action: #selector(self.updateSwitchState), for: .valueChanged);
+        
+        //
+        
+        categorySectionView.tag = 1;
+        
+        mainScrollView.addSubview(categorySectionView);
+        nextY += categorySectionView.frame.height + verticalPadding;
+        
+        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
         
     }
     
