@@ -17,7 +17,7 @@ extension dataManager{
         
         if (internetConnected){
             
-            getCategoryIDList(completion: { (categoryID) in
+            getCategoryIDForEach(completion: { (categoryID) in
                             
                 getCategoryData(categoryID, completion: { (categorydata) in
                     

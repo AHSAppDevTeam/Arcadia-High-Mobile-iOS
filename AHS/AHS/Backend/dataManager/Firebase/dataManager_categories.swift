@@ -37,7 +37,7 @@ extension dataManager{
         
         if (internetConnected){
             
-            getCategoryIDList(completion: { (categoryID) in
+            getCategoryIDForEach(completion: { (categoryID) in
                 loadCategoryData(categoryID, completion: { (categorydata) in
                     
                     //categoryLookupDispatchQueue.sync {
@@ -51,7 +51,7 @@ extension dataManager{
         
     }
     
-    static public func getCategoryIDList(completion: @escaping (String) -> Void){ // each categoryID is returned in the completion handler individually
+    static public func getCategoryIDForEach(completion: @escaping (String) -> Void){ // each categoryID is returned in the completion handler individually
         
         setupConnection();
         

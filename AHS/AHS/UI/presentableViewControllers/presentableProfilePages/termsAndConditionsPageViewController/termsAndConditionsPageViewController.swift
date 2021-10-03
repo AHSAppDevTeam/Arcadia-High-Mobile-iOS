@@ -54,7 +54,7 @@ class termsAndConditionsPageViewController : presentableViewController{
         dismissTitleLabel.text = "Terms and Agreements";
         dismissTitleLabel.textAlignment = .center;
         dismissTitleLabel.textColor = InverseBackgroundColor;
-        dismissTitleLabel.font = UIFont(name: SFProDisplay_Bold, size: dismissTitleLabel.frame.height * 0.8);
+        dismissTitleLabel.font = UIFont(name: SFProDisplay_Bold, size: dismissTitleLabel.frame.height * 0.9);
         
         dismissButton.addSubview(dismissTitleLabel);
         

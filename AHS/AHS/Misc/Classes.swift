@@ -21,6 +21,10 @@ class UIButtonScrollView : UIScrollView{
     }
 }
 
+class NotificationUISwitch : UISwitch{
+    public var categoryID : String? = nil; // sub to all categories if nil
+}
+
 class mainPageViewController : UIViewController{ // UIViewController for main pages
     public var pageName : String = "";
     public var secondaryPageName : String = "";
