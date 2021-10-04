@@ -30,7 +30,9 @@ extension profilePageViewController{
                 self.idCardButton.idState = .isUnlocked;
                 self.renderIDCard();
                 
-                createAlertPrompt(self, "ID Card Barcode", "Barcodes are temporarily disabled");
+                if let _ = dataManager.getIDFromStudentEmail(dataManager.getSignedInUserData()?.profile?.email ?? ""){
+                    createAlertPrompt(self, "ID Card Barcode", "Barcodes are temporarily disabled");
+                }
                 
             });
         }

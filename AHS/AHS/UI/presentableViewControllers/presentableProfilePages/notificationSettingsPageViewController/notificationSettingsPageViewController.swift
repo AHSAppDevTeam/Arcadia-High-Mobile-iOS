@@ -19,11 +19,13 @@ class notificationSettingsPageViewController : presentableViewController{
     internal let verticalPadding : CGFloat = 10;
     internal let horizontalPadding : CGFloat = 10;
     
-    internal let defaultNextY : CGFloat = 20;
+    internal var defaultNextY : CGFloat = 0;
     internal var nextY : CGFloat = 0;
     
     internal var categorySectionWidth : CGFloat = 0;
     internal var categorySectionHeight : CGFloat = 0;
+    
+    internal let allCategorySwitch : NotificationUISwitch = NotificationUISwitch();
     
     //
     
@@ -56,6 +58,10 @@ class notificationSettingsPageViewController : presentableViewController{
         
         //
         
+        renderStaticContent(); // sets defaultNextY
+        
+        //
+        
         nextY = defaultNextY;
         
         self.refreshControl.beginRefreshing();
@@ -82,11 +88,31 @@ class notificationSettingsPageViewController : presentableViewController{
         
         //
         
+        updateAllCategorySwitchState();
+        
+        //
+        
         self.loadCategories();
     }
     
     @objc internal func updateSwitchState(_ notificationSwitch: NotificationUISwitch){
-        dataManager.setUserSubscriptionToCategory(notificationSwitch.categoryID, notificationSwitch.isOn);
+        
+        guard let categoryID = notificationSwitch.categoryID else{
+            
+            dataManager.setAllCategorySubscriptions(notificationSwitch.isOn);
+            
+            refresh();
+            
+            return;
+        }
+        
+        dataManager.setUserSubscriptionToCategory(categoryID, notificationSwitch.isOn);
+        updateAllCategorySwitchState();
+        
+    }
+    
+    internal func updateAllCategorySwitchState(){
+        allCategorySwitch.setOn(dataManager.isUserSubscribedToAllCategories(), animated: true);
     }
     
     //
@@ -135,6 +161,69 @@ class notificationSettingsPageViewController : presentableViewController{
         //
         
         self.view.addSubview(dismissButton);
+        
+    }
+    
+    private func renderStaticContent(){
+        
+        nextY = 2 * verticalPadding;
+        
+        //
+        
+        let allCategoryViewFrame = CGRect(x: horizontalPadding, y: nextY, width: categorySectionWidth, height: categorySectionHeight);
+        let allCategoryView = UIView(frame: allCategoryViewFrame);
+        
+        //
+        
+        let categorySectionLabel = UILabel();
+        
+        categorySectionLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        allCategoryView.addSubview(categorySectionLabel);
+        
+        categorySectionLabel.leadingAnchor.constraint(equalTo: allCategoryView.leadingAnchor, constant: horizontalPadding).isActive = true;
+        categorySectionLabel.topAnchor.constraint(equalTo: allCategoryView.topAnchor).isActive = true;
+        categorySectionLabel.bottomAnchor.constraint(equalTo: allCategoryView.bottomAnchor).isActive = true;
+        
+        categorySectionLabel.text = "All Categories";
+        categorySectionLabel.textColor = InverseBackgroundColor;
+        categorySectionLabel.font = UIFont(name: SFProDisplay_Semibold, size: categorySectionHeight * 0.7);
+        
+        //
+                
+        allCategorySwitch.translatesAutoresizingMaskIntoConstraints = false;
+        
+        allCategoryView.addSubview(allCategorySwitch);
+        
+        allCategorySwitch.trailingAnchor.constraint(equalTo: allCategoryView.trailingAnchor, constant: -horizontalPadding).isActive = true;
+        allCategorySwitch.topAnchor.constraint(equalTo: allCategoryView.topAnchor).isActive = true;
+        allCategorySwitch.bottomAnchor.constraint(equalTo: allCategoryView.bottomAnchor).isActive = true;
+        
+        allCategorySwitch.categoryID = nil;
+        allCategorySwitch.isOn = dataManager.isUserSubscribedToAllCategories();
+        
+        allCategorySwitch.addTarget(self, action: #selector(self.updateSwitchState), for: .valueChanged);
+        
+        //
+        
+        mainScrollView.addSubview(allCategoryView);
+        nextY += allCategoryView.frame.height + verticalPadding;
+        
+        //
+        
+        let seperatorViewFrame = CGRect(x: 0, y: nextY, width: mainScrollView.frame.width, height: 0.1);
+        let seperatorView = UIView(frame: seperatorViewFrame);
+        
+        seperatorView.backgroundColor = UIColor{ theme in
+            return theme.userInterfaceStyle == .dark ? UIColor.darkGray : UIColor.lightGray;
+        };
+        
+        mainScrollView.addSubview(seperatorView);
+        nextY += seperatorView.frame.height + verticalPadding;
+        
+        //
+        
+        defaultNextY = nextY;
         
     }
     
