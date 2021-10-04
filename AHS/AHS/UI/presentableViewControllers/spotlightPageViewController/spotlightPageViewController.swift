@@ -360,7 +360,7 @@ class spotlightPageViewController : presentableViewController{
             
             colorStripView.backgroundColor = articledata.color != nil ? articledata.color : dataManager.getPreloadedCategoryData(articledata.categoryID).color;
             
-            colorStripView.layer.cornerRadius = articleViewCornerRadius;
+            colorStripView.layer.cornerRadius = articleViewCornerRadius / 2;
             colorStripView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner];
             colorStripView.layer.masksToBounds = true;
             
