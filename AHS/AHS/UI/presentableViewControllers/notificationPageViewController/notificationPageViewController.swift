@@ -68,8 +68,8 @@ class notificationPageViewController : presentableViewController{
         
         noNotificationLabel.textAlignment = .center;
         noNotificationLabel.text = "No Notifications";
-        noNotificationLabel.textColor = InverseBackgroundColor;
-        noNotificationLabel.font = UIFont(name: SFProDisplay_Bold, size: self.view.frame.width * 0.06);
+        noNotificationLabel.textColor = InverseBackgroundGrayColor;
+        noNotificationLabel.font = UIFont(name: SFProDisplay_Regular, size: self.view.frame.width * 0.04);
         noNotificationLabel.isHidden = true;
         
         //
@@ -244,11 +244,13 @@ class notificationPageViewController : presentableViewController{
         
         var previousViewBottomAnchor : NSLayoutYAxisAnchor = topContentView.bottomAnchor;
         
-        if (notificationIDList.count > 0){
+        //
+        
+        let notificationList : [notificationData] = sortNotifications(filterNotifications(notificationIDList));
+        
+        if (notificationList.count > 0){
             
             noNotificationLabel.isHidden = true;
-            
-            let notificationList : [notificationData] = sortNotifications(filterNotifications(notificationIDList));
                 
             for notificationdata in notificationList{
                 

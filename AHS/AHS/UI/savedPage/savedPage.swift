@@ -136,7 +136,7 @@ class savedPageViewController : mainPageViewController{
             noArticleLabel.frame = CGRect(x: horizontalPadding, y: nextY, width: noArticleLabelFrameWidth, height: noArticleLabelFrameWidth * 0.08);
             
             noArticleLabel.text = "No Saved Articles";
-            noArticleLabel.font = UIFont(name: SFProDisplay_Regular, size: noArticleLabel.frame.height * 0.7);
+            noArticleLabel.font = UIFont(name: SFProDisplay_Regular, size: self.view.frame.width * 0.04);
             noArticleLabel.textAlignment = .center;
             noArticleLabel.textColor = InverseBackgroundGrayColor;
             noArticleLabel.numberOfLines = 1;
