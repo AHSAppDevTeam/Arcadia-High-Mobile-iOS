@@ -5,7 +5,7 @@ The purpose of AHS App Dev Team is to drive a culture where students can collabo
 
 Languages used for iOS include - Swift/Obj-C
 
-Contact us at: hsappdev@students.ausd.net
+Contact us at: dev@ahs.app
 
 # Old repository description
 
