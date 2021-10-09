@@ -17,6 +17,10 @@ class timeManager{
         let monthInt = calendar.dateComponents([.month], from: dateObj).month;
         return calendar.monthSymbols[monthInt!-1];
     }
+    
+    static func getYearString() -> String{
+        return String(calendar.component(.year, from: dateObj));
+    }
 
     static func getDateString() -> String{
         return String(calendar.component(.day, from: dateObj));

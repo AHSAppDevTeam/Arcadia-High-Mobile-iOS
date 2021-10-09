@@ -20,6 +20,9 @@ class ScheduleCalendarDayCell : JTACDayCell{
     override init(frame: CGRect) {
         super.init(frame: frame);
         
+        self.contentView.backgroundColor = backgroundColor;
+        self.contentView.isUserInteractionEnabled = false;
+        
         //
         
         self.contentView.addSubview(colorStrip);
@@ -60,7 +63,8 @@ class ScheduleCalendarDayCell : JTACDayCell{
     }
     
     private func reset(){
-        
+        dateLabel.text = "";
+        colorStrip.backgroundColor = BackgroundGrayColor;
     }
     
     //
@@ -68,7 +72,24 @@ class ScheduleCalendarDayCell : JTACDayCell{
     public func updateWithDate(_ date: Date, _ cellState: CellState){
         let calenderDate = Calendar.current.dateComponents([.day, .year, .month], from: date);
         dateLabel.text = String(calenderDate.day ?? 0);
-        print(date);
+        //print(date);
+    }
+    
+    public func updateSelectedState(_ cellState: CellState){
+        
+        if (cellState.isSelected){
+            
+            self.contentView.backgroundColor = InverseBackgroundColor;
+            dateLabel.textColor = BackgroundColor;
+            
+        }
+        else{
+            
+            self.contentView.backgroundColor = BackgroundColor;
+            dateLabel.textColor = InverseBackgroundColor;
+            
+        }
+        
     }
     
 }

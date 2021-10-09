@@ -16,7 +16,7 @@ class profilePageTableViewCell : UITableViewCell{
     internal let horizontalPadding : CGFloat = 10;
     
     internal let fontRatio : CGFloat = 0.48;
-    internal let textColor : UIColor = BackgroundGrayColor;
+    internal let textColor : UIColor = InverseBackgroundColor;
     
     internal let titleLabel : UILabel = UILabel();
     internal let valueLabel : UILabel = UILabel();

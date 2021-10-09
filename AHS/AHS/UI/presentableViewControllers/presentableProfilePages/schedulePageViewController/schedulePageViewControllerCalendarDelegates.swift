@@ -20,6 +20,8 @@ extension schedulePageViewController : JTACMonthViewDataSource, JTACMonthViewDel
         return ConfigurationParameters(startDate: currentDate, endDate: currentDate);
     }
     
+    //
+    
     func calendar(_ calendar: JTACMonthView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTACDayCell {
         let cell = calendar.dequeueReusableCell(withReuseIdentifier: ScheduleCalendarDayCell.identifier, for: indexPath) as! ScheduleCalendarDayCell;
         setupCalendarDayCell(cell, cellState, date);
@@ -33,6 +35,28 @@ extension schedulePageViewController : JTACMonthViewDataSource, JTACMonthViewDel
     
     internal func setupCalendarDayCell(_ cell: ScheduleCalendarDayCell, _ cellState: CellState, _ date: Date){
         cell.updateWithDate(date, cellState);
+    }
+    
+    //
+    
+    func calendar(_ calendar: JTACMonthView, didSelectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) {
+        
+        guard let scheduleCell = cell as? ScheduleCalendarDayCell else{
+            return;
+        }
+        
+        scheduleCell.updateSelectedState(cellState);
+        
+    }
+    
+    func calendar(_ calendar: JTACMonthView, didDeselectDate date: Date, cell: JTACDayCell?, cellState: CellState, indexPath: IndexPath) {
+        
+        guard let scheduleCell = cell as? ScheduleCalendarDayCell else{
+            return;
+        }
+        
+        scheduleCell.updateSelectedState(cellState);
+        
     }
     
 }
