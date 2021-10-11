@@ -10,8 +10,27 @@ import UIKit
 import SystemConfiguration
 
 class timeManager{
-    static let dateObj = Date();
-    static let calendar = Calendar.current;
+    
+    //
+    
+    struct timeSecondConstants{ // in seconds
+        static public let second = 1;
+        static public let minute = 60;
+        static public let hour = 3600;
+        static public let day = 86400;
+        static public let week = 604800;
+        static public let month = 2592000;
+        static public let year = 31536000;
+        static public let decade = 315360000;
+        static public let century = 3153600000;
+        
+        static public let timePattern = [(second, "second"), (minute, "minute"), (hour, "hour"), (day, "day"), (week, "week"), (month, "month"), (year, "year"), (decade, "decade"), (century, "century")];
+    }
+    
+    //
+    
+    static public let dateObj = Date();
+    static public let calendar = Calendar.current;
     
     static func getMonthString() -> String{
         let monthInt = calendar.dateComponents([.month], from: dateObj).month;
@@ -34,15 +53,16 @@ class timeManager{
         if (epoch == -1){
             return "NULL";
         }
+        
         let currTime = getCurrentEpoch();
-        let diff = abs(currTime - epoch);
-        let timePattern = [(1, "second"), (60, "minute"), (3600, "hour"), (86400, "day"), (604800, "week"), (2592000, "month"), (31536000, "year"), (315360000, "decade"), (3153600000, "century")];
+        let diff : Double = Double(abs(currTime - epoch));
+        
         var r = "NULL";
         
-        for i in 1..<timePattern.count{
-            if (floor(Double(diff) / Double(timePattern[i].0)) == 0){
-                let prefix = Int(floor(Double(diff) / Double(timePattern[i-1].0)));
-                r = "\(prefix) " + timePattern[i-1].1 + (prefix > 1 ? "s" : "");
+        for i in 1..<timeSecondConstants.timePattern.count{
+            if (floor(diff / Double(timeSecondConstants.timePattern[i].0)) == 0){
+                let prefix = Int(floor(diff / Double(timeSecondConstants.timePattern[i-1].0)));
+                r = "\(prefix) " + timeSecondConstants.timePattern[i-1].1 + (prefix > 1 ? "s" : "");
                 break;
             }
         }

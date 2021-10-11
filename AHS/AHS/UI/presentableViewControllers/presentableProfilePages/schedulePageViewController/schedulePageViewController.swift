@@ -148,6 +148,7 @@ class schedulePageViewController : presentableViewController{
         calendarView.showsVerticalScrollIndicator = false;
         
         calendarView.selectDates([Date()]);
+        calendarView.scrollToDate(Date(), animateScroll: false);
         
         mainScrollView.addSubview(calendarView);
         nextY += calendarView.frame.height + verticalPadding;

@@ -11,13 +11,7 @@ import JTAppleCalendar
 
 extension schedulePageViewController : JTACMonthViewDataSource, JTACMonthViewDelegate{
     func configureCalendar(_ calendar: JTACMonthView) -> ConfigurationParameters {
-        
-        let currentDate = Date();
-        
-        //let startDate = formatter.date(from: "01 2021")!;
-        //let endDate = Date();
-        
-        return ConfigurationParameters(startDate: currentDate, endDate: currentDate);
+        return ConfigurationParameters(startDate: Date(timeIntervalSince1970: Double(timeManager.getCurrentEpoch())-Double(timeManager.timeSecondConstants.year)), endDate: Date(timeIntervalSinceNow: Double(timeManager.timeSecondConstants.year)) );
     }
     
     //

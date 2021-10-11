@@ -64,17 +64,21 @@ class ScheduleCalendarDayCell : JTACDayCell{
     
     private func reset(){
         dateLabel.text = "";
+        dateLabel.textColor = InverseBackgroundColor;
+        
         colorStrip.backgroundColor = BackgroundGrayColor;
+        self.contentView.backgroundColor = BackgroundColor;
     }
     
     //
     
     public func updateWithDate(_ date: Date, _ cellState: CellState){
-        let calenderDate = Calendar.current.dateComponents([.day, .year, .month], from: date);
         
-        dateLabel.text = String(calenderDate.day ?? 0);
+        dateLabel.text = String(Calendar.current.component(.day, from: date));
+    
+        //dateLabel.textColor = cellState.dateBelongsTo == .thisMonth ? (cellState.isSelected ? BackgroundColor : InverseBackgroundColor) : (cellState.isSelected ? BackgroundGrayColor : InverseBackgroundGrayColor);
         
-        dateLabel.textColor = cellState.dateBelongsTo == .thisMonth ? (cellState.isSelected ? BackgroundColor : InverseBackgroundColor) : (cellState.isSelected ? BackgroundGrayColor : InverseBackgroundGrayColor);
+        self.updateSelectedState(cellState);
         
     }
     
