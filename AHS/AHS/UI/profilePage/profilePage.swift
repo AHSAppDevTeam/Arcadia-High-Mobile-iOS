@@ -111,6 +111,13 @@ class profilePageViewController : mainPageViewController{
         
         animateIDBackgroundGradient();
 
+        NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated);
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
     }
     
     override func viewDidLayoutSubviews() {

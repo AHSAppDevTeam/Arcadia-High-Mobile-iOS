@@ -55,7 +55,7 @@ class schedulePageViewController : presentableViewController{
         
         //
         
-        renderStaticContent();
+        renderCalendar();
         
     }
     
@@ -108,7 +108,7 @@ class schedulePageViewController : presentableViewController{
     
     //
     
-    internal func renderStaticContent(){
+    internal func renderCalendar(){
         
         nextY += verticalPadding;
         
@@ -159,7 +159,9 @@ class schedulePageViewController : presentableViewController{
         
     }
     
-    internal func renderContent(){
+    internal func renderDay(_ date: Date){
+        
+        
         
     }
     

@@ -15,6 +15,10 @@ extension profilePageViewController{
         self.refreshControl.endRefreshing();
     }
     
+    @objc internal func resetContentOffset(){
+        self.mainScrollView.setContentOffset(.zero, animated: true);
+    }
+    
     @objc internal func openSchedulePage(){
         self.openPresentablePage(schedulePageViewController());
     }
