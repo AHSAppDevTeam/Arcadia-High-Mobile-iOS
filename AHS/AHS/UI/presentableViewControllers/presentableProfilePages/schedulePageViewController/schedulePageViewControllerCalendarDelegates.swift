@@ -53,4 +53,18 @@ extension schedulePageViewController : JTACMonthViewDataSource, JTACMonthViewDel
         
     }
     
+    //
+    
+    func calendar(_ calendar: JTACMonthView, willScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
+        
+        guard visibleDates.monthDates.count > 0 else{
+            print("no visible month dates");
+            return;
+        }
+        
+        let date =  visibleDates.monthDates[0].date;
+        self.monthLabel.text = "\(timeManager.getMonthString(date)) \(timeManager.getYearString(date))";
+        
+    }
+    
 }

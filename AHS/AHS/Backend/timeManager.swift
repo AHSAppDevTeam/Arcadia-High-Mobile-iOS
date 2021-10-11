@@ -32,20 +32,20 @@ class timeManager{
     static public let dateObj = Date();
     static public let calendar = Calendar.current;
     
-    static func getMonthString() -> String{
-        let monthInt = calendar.dateComponents([.month], from: dateObj).month;
+    static public func getMonthString(_ date: Date = dateObj) -> String{
+        let monthInt = calendar.dateComponents([.month], from: date).month;
         return calendar.monthSymbols[monthInt!-1];
     }
     
-    static func getYearString() -> String{
-        return String(calendar.component(.year, from: dateObj));
+    static public func getYearString(_ date: Date = dateObj) -> String{
+        return String(calendar.component(.year, from: date));
     }
 
-    static func getDateString() -> String{
-        return String(calendar.component(.day, from: dateObj));
+    static public func getDateString(_ date: Date = dateObj) -> String{
+        return String(calendar.component(.day, from: date));
     }
     
-    static func getCurrentEpoch() -> Int64{
+    static public func getCurrentEpoch() -> Int64{
         return Int64(NSDate().timeIntervalSince1970);
     }
     
