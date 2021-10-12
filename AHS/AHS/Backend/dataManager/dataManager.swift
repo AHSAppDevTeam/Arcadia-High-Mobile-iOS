@@ -37,6 +37,8 @@ class dataManager{
     
     static internal let defaultCategorySubscriptionValue : Bool = true;
     
+    static internal var calendarData : [[scheduleCalendarData]] = [];
+    
     //
     
     static public func setupConnection(){

@@ -12,7 +12,7 @@ import SwiftUI
 extension schedulePageViewController{
     
     @objc internal func refresh(){
-        self.refreshControl.endRefreshing();
+        loadCalendarData();
     }
  
     @objc internal func handleBackButton(_ button: UIButton){

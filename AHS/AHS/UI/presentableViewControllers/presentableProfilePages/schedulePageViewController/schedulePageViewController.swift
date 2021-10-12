@@ -56,6 +56,7 @@ class schedulePageViewController : presentableViewController{
         //
         
         renderCalendar();
+        loadCalendarData();
         
     }
     
@@ -106,6 +107,22 @@ class schedulePageViewController : presentableViewController{
         
     }
     
+    internal func loadCalendarData(){
+        self.refreshControl.beginRefreshing();
+                
+        print(timeManager.getDayOfWeekInt(Date(timeIntervalSince1970: 0)));
+        
+        dataManager.loadCalendarData(completion: { () in
+            self.refreshControl.endRefreshing();
+            
+            //print(weekList.count);
+            
+            
+            
+        });
+        
+    }
+    
     //
     
     internal func renderCalendar(){
@@ -149,6 +166,7 @@ class schedulePageViewController : presentableViewController{
         
         calendarView.selectDates([Date()]);
         calendarView.scrollToDate(Date(), animateScroll: false);
+        calendarView.scrollingMode = .stopAtEachCalendarFrame;
         
         mainScrollView.addSubview(calendarView);
         nextY += calendarView.frame.height + verticalPadding;

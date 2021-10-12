@@ -45,6 +45,14 @@ class timeManager{
         return String(calendar.component(.day, from: date));
     }
     
+    static public func getWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
+        return calendar.component(.weekOfYear, from: date);
+    }
+    
+    static public func getDayOfWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
+        return calendar.component(.weekday, from: date);
+    }
+    
     static public func getCurrentEpoch() -> Int64{
         return Int64(NSDate().timeIntervalSince1970);
     }

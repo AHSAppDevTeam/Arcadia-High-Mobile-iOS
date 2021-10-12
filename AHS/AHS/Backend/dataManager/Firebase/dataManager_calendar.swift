@@ -11,7 +11,7 @@ import Firebase
 
 struct weekCalendarData{
     var id : String = "";
-    var scheduleIDs : [String] = [];
+    var scheduleIDs : [String] = []; // starts from 1 - first element is empty
     var title : String = "";
 }
 
@@ -24,6 +24,132 @@ struct scheduleCalendarData{
 }
 
 extension dataManager{
+    
+    static public func loadCalendarData(completion: @escaping () -> Void){ // 52 or 53 weeks
+        
+        setupConnection();
+        
+        if (internetConnected){
+            
+            getWeekIDList(completion: { (idList) in
+                
+                getWeekListData(idList, completion: { (weekList) in
+                    
+                    calendarData = Array(repeating: [], count: weekList.count); // set array size to week count
+                    
+                    DispatchQueue.global(qos: .background).async {
+                        
+                        let dispatchGroup = DispatchGroup();
+                        
+                        for i in 0..<weekList.count{
+                            
+                            guard weekList[i].scheduleIDs.count == 8 else{
+                                print("invalid week day count for week \(i)");
+                                continue;
+                            }
+                            
+                            calendarData[i] = Array(repeating: scheduleCalendarData(), count: 7);
+                            
+                            for j in 1..<weekList[i].scheduleIDs.count{ // scheduleIDs array has 8 elements with the first element always being empty
+                                
+                                let scheduleID = weekList[i].scheduleIDs[j];
+                                
+                                print(scheduleID);
+                                
+                                dispatchGroup.enter();
+                                
+                                getScheduleData(scheduleID, completion: { (scheduledata) in
+                                    
+                                    calendarData[i][j-1] = scheduledata;
+                                    
+                                    dispatchGroup.leave();
+                                    
+                                });
+                                
+                            }
+                            
+                        }
+                        
+                        dispatchGroup.wait();
+                        
+                        DispatchQueue.main.async {
+                            completion();
+                        }
+                        
+                    }
+                    
+                });
+                
+            });
+            
+        }
+        
+    }
+    
+    static public func getWeekScheduleData(_ weekNum: Int, completion: @escaping ([scheduleCalendarData]) -> Void){ // weekNum is 0 based from 0 - (51 or 52)
+        
+        guard weekNum < calendarData.count else{
+            
+            if (calendarData.count == 0){ // calendarData has not been loaded yet
+                
+                print("Calendar get function called without loading calendarData");
+                
+                loadCalendarData(completion: { () in
+                    
+                    getWeekScheduleData(weekNum, completion: { (weekdata) in
+                        
+                        completion(weekdata);
+                        
+                    });
+                    
+                });
+                
+            }
+            else{
+                print("invalid weeknum - \(weekNum)");
+            }
+            
+            return;
+        }
+        
+        completion(calendarData[weekNum]);
+        
+    }
+    
+    static public func getWeekScheduleData(_ date: Date, completion: @escaping ([scheduleCalendarData]) -> Void){
+        
+        getWeekScheduleData(timeManager.getWeekInt(date) - 1, completion: { (weekdata) in
+            completion(weekdata);
+        });
+        
+    }
+    
+    static public func getDayScheduleData(_ weekNum: Int, _ dayNum: Int, completion: @escaping (scheduleCalendarData) -> Void){ // 0 based for weekNum and dayNum
+        
+        getWeekScheduleData(weekNum, completion: { (weekdata) in
+            
+            guard dayNum < weekdata.count else{
+                print("dayNum index \(dayNum) is out of range of \(weekdata.count)");
+                return;
+            }
+            
+            completion(weekdata[dayNum]);
+            
+        });
+        
+    }
+    
+    static public func getDayScheduleDate(_ date: Date, completion: @escaping (scheduleCalendarData) -> Void){
+        
+        getDayScheduleData(timeManager.getWeekInt(date) - 1, timeManager.getDayOfWeekInt(date) - 1, completion: { (scheduledata) in
+            
+            completion(scheduledata);
+            
+        });
+        
+    }
+    
+    //
     
     static private func getWeekListData(_ weekIDList: [String], completion: @escaping ([weekCalendarData]) -> Void){
         
