@@ -65,8 +65,8 @@ extension schedulePageViewController : JTACMonthViewDataSource, JTACMonthViewDel
             return;
         }
         
-        let date =  visibleDates.monthDates[0].date;
-        self.monthLabel.text = "\(timeManager.getMonthString(date)) \(timeManager.getYearString(date))";
+        let date = visibleDates.monthDates[0].date;
+        self.monthLabel.text = "\(timeManager.regular.getMonthString(date)) \(timeManager.regular.getYearString(date))";
         
     }
     

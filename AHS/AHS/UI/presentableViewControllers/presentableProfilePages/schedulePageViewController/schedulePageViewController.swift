@@ -57,12 +57,6 @@ class schedulePageViewController : presentableViewController{
         
         renderCalendar();
         loadCalendarData();
-        
-        //
-        
-        //print(timeManager.getWeekInt(Date(timeIntervalSince1970: 1633869643)));
-        //print(timeManager.getWeekInt());
-        
     }
     
     private func renderDismissView(){
@@ -142,7 +136,7 @@ class schedulePageViewController : presentableViewController{
         let monthLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: monthLabelWidth, height: monthLabelWidth * 0.1);
         monthLabel.frame = monthLabelFrame;
         
-        monthLabel.text = timeManager.getMonthString() + " " + timeManager.getYearString();
+        monthLabel.text = timeManager.regular.getMonthString() + " " + timeManager.regular.getYearString();
         monthLabel.textAlignment = .center;
         monthLabel.textColor = InverseBackgroundColor;
         monthLabel.font = UIFont(name: SFProDisplay_Semibold, size: monthLabel.frame.height * 0.7);

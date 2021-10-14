@@ -138,7 +138,7 @@ extension dataManager{
     
     static public func getWeekScheduleData(_ date: Date, completion: @escaping ([scheduleCalendarData]) -> Void){
         
-        getWeekScheduleData(timeManager.getWeekInt(date) - 1, completion: { (weekdata) in
+        getWeekScheduleData(timeManager.iso.getWeekInt(date) - 1, completion: { (weekdata) in
             completion(weekdata);
         });
         
@@ -157,12 +157,12 @@ extension dataManager{
             
         });*/
         
-        guard weekNum < calendarIDData.count else{
+        guard weekNum > -1 && weekNum < calendarIDData.count else{
             //print("weekNum index \(weekNum) is out of range of \(calendarIDData.count) in day lookup");
             return;
         }
         
-        guard dayNum < calendarIDData[weekNum].count else{
+        guard dayNum > -1 && dayNum < calendarIDData[weekNum].count else{
             //print("dayNum index \(dayNum) is out of range of \(calendarIDData[weekNum].count) in day lookup");
             return;
         }
@@ -173,7 +173,7 @@ extension dataManager{
     
     static public func getDayScheduleData(_ date: Date, completion: @escaping (scheduleCalendarData) -> Void){
         
-        getDayScheduleData(timeManager.getWeekInt(date) - 1, timeManager.getDayOfWeekInt(date) - 1, completion: { (scheduledata) in
+        getDayScheduleData(timeManager.iso.getWeekInt(date) - 1, timeManager.iso.getDayOfWeekInt(date) - 1, completion: { (scheduledata) in
             
             completion(scheduledata);
             

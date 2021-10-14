@@ -13,6 +13,8 @@ class timeManager{
     
     //
     
+    static public let dateObj = Date();
+    
     struct timeSecondConstants{ // in seconds
         static public let second = 1;
         static public let minute = 60;
@@ -27,32 +29,49 @@ class timeManager{
         static public let timePattern = [(second, "second"), (minute, "minute"), (hour, "hour"), (day, "day"), (week, "week"), (month, "month"), (year, "year"), (decade, "decade"), (century, "century")];
     }
     
+    
+    // singleton objects
+    
+    static public let regular = timeManager(calendar: Calendar.current);
+    static public let iso = timeManager(calendarType: .iso8601);
+    
     //
     
-    static public let dateObj = Date();
-    static public let calendar = Calendar.current;
     
-    static public func getMonthString(_ date: Date = dateObj) -> String{
+    internal var calendar : Calendar = Calendar.current;
+    
+    //
+    
+    private init(calendarType: Calendar.Identifier){
+        self.calendar = Calendar(identifier: calendarType);
+    }
+    
+    private init(calendar: Calendar){
+        self.calendar = calendar;
+    }
+    
+    //
+    
+    public func getMonthString(_ date: Date = dateObj) -> String{
         let monthInt = calendar.dateComponents([.month], from: date).month;
         return calendar.monthSymbols[monthInt!-1];
     }
     
-    static public func getYearString(_ date: Date = dateObj) -> String{
-        return String(calendar.component(.year, from: date));
+    public func getYearString(_ date: Date = dateObj) -> String{
+        return String(self.calendar.component(.year, from: date));
     }
 
-    static public func getDateString(_ date: Date = dateObj) -> String{
-        return String(calendar.component(.day, from: date));
+    public func getDateString(_ date: Date = dateObj) -> String{
+        return String(self.calendar.component(.day, from: date));
     }
     
-    static public func getWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
-        return calendar.component(.weekOfYear, from: date);
+    public func getWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
+        return self.calendar.component(.weekOfYear, from: date);
     }
     
-    static public func getDayOfWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
-        let dayOfWeek = calendar.component(.weekday, from: date);
+    public func getDayOfWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
+        let dayOfWeek = self.calendar.component(.weekday, from: date);
         return dayOfWeek == 1 ? 7 : dayOfWeek - 1;
-        // Apple likes to base their calendars off of the fact that Sundays are considered to be the start of the week
     }
     
     static public func getCurrentEpoch() -> Int64{
@@ -80,14 +99,14 @@ class timeManager{
         return currTime - epoch < 0 ? "in " + r : r + " ago";
     }
     
-    static func epochToDateString(_ epoch: Int64) -> String{ // 99/99/99
+    static public func epochToDateString(_ epoch: Int64) -> String{ // 99/99/99
         if (epoch == -1){
             return "NULL";
         }
         let date = Date(timeIntervalSince1970: TimeInterval(epoch));
-        let year = calendar.component(.year, from: date);
-        let month = calendar.component(.month, from: date);
-        let day = calendar.component(.day, from: date);
+        let year = Calendar.current.component(.year, from: date);
+        let month = Calendar.current.component(.month, from: date);
+        let day = Calendar.current.component(.day, from: date);
         return "\(month)/\(day)/\(year)";
     }
     
@@ -96,10 +115,10 @@ class timeManager{
             return "NULL";
         }
         let date = Date(timeIntervalSince1970: TimeInterval(epoch));
-        let year = calendar.component(.year, from: date);
-        let month = calendar.component(.month, from: date);
-        let day = calendar.component(.day, from: date);
-        let monthStr = calendar.monthSymbols[month-1];
+        let year = Calendar.current.component(.year, from: date);
+        let month = Calendar.current.component(.month, from: date);
+        let day = Calendar.current.component(.day, from: date);
+        let monthStr = Calendar.current.monthSymbols[month-1];
         return "\(monthStr) \(day), \(year)";
     }
     

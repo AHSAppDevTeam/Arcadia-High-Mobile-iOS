@@ -214,9 +214,9 @@ class navigationViewController : UIViewController{
         topBarHomeDateLabel.isSelectable = false;
         topBarHomeDateLabel.textAlignment = .left;
         
-        let topBarHomeDateText = NSMutableAttributedString(string: timeManager.getMonthString(), attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Medium, size: topBarHomeDateLabel.frame.height * 0.7)]);
+        let topBarHomeDateText = NSMutableAttributedString(string: timeManager.regular.getMonthString(), attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Medium, size: topBarHomeDateLabel.frame.height * 0.7)]);
         
-        topBarHomeDateText.append(NSAttributedString(string: " " + timeManager.getDateString(), attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: topBarHomeDateLabel.frame.height * 0.7)]));
+        topBarHomeDateText.append(NSAttributedString(string: " " + timeManager.regular.getDateString(), attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Light, size: topBarHomeDateLabel.frame.height * 0.7)]));
         
         topBarHomeDateLabel.attributedText = topBarHomeDateText;
         topBarHomeDateLabel.textColor = mainThemeColor;
