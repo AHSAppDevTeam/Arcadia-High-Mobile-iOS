@@ -37,7 +37,8 @@ class dataManager{
     
     static internal let defaultCategorySubscriptionValue : Bool = true;
     
-    static internal var calendarData : [[scheduleCalendarData]] = [];
+    static internal var calendarIDData : [[String]] = [];
+    static internal var scheduleCache : [String : scheduleCalendarData] = [:];
     
     //
     

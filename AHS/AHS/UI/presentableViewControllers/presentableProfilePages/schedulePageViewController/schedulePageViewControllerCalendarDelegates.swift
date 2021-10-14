@@ -39,7 +39,10 @@ extension schedulePageViewController : JTACMonthViewDataSource, JTACMonthViewDel
             return;
         }
         
+        //print("selected date - \(date)");
+        
         scheduleCell.updateSelectedState(cellState);
+        self.renderDay(date);
         
     }
     

@@ -109,18 +109,20 @@ class schedulePageViewController : presentableViewController{
     
     internal func loadCalendarData(){
         self.refreshControl.beginRefreshing();
-                
-        print(timeManager.getDayOfWeekInt(Date(timeIntervalSince1970: 0)));
-        
         dataManager.loadCalendarData(completion: { () in
+            
             self.refreshControl.endRefreshing();
             
-            //print(weekList.count);
+            self.calendarView.reloadData(withAnchor: Date());
             
+            // retrigger selection delegate
             
+            let selectedDates = self.calendarView.selectedDates;
+            
+            self.calendarView.deselectAllDates();
+            self.calendarView.selectDates(selectedDates);
             
         });
-        
     }
     
     //
@@ -178,6 +180,16 @@ class schedulePageViewController : presentableViewController{
     }
     
     internal func renderDay(_ date: Date){
+        
+        for subview in mainScrollView.subviews{
+            if subview.tag == 1{
+                subview.removeFromSuperview();
+            }
+        }
+        
+        nextY = defaultNextY;
+        
+        //
         
         
         

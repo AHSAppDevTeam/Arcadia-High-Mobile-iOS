@@ -15,14 +15,6 @@ struct weekCalendarData{
     var title : String = "";
 }
 
-struct scheduleCalendarData{
-    var id : String = "";
-    var color : Color = Color(red: 0, green: 0, blue: 0, alpha: 1);
-    var periodIDs : [String] = [];
-    var timestamps : [Int] = [];
-    var title : String = "";
-}
-
 extension dataManager{
     
     static public func loadCalendarData(completion: @escaping () -> Void){ // 52 or 53 weeks
@@ -31,56 +23,76 @@ extension dataManager{
         
         if (internetConnected){
             
-            getWeekIDList(completion: { (idList) in
+            DispatchQueue.global(qos: .background).async {
                 
-                getWeekListData(idList, completion: { (weekList) in
+                let dispatchGroup = DispatchGroup();
+                
+                dispatchGroup.enter();
+                
+                //
+                
+                getWeekIDList(completion: { (idList) in
                     
-                    calendarData = Array(repeating: [], count: weekList.count); // set array size to week count
-                    
-                    DispatchQueue.global(qos: .background).async {
+                    getWeekListData(idList, completion: { (weekList) in
                         
-                        let dispatchGroup = DispatchGroup();
+                        calendarIDData = Array(repeating: Array(repeating: "", count: 7), count: weekList.count); // set array size to week count
+                        
                         
                         for i in 0..<weekList.count{
                             
-                            guard weekList[i].scheduleIDs.count == 8 else{
+                            let scheduleIDCount = weekList[i].scheduleIDs.count;
+                            
+                            guard scheduleIDCount == 8 else{
                                 print("invalid week day count for week \(i)");
                                 continue;
                             }
                             
-                            calendarData[i] = Array(repeating: scheduleCalendarData(), count: 7);
-                            
-                            for j in 1..<weekList[i].scheduleIDs.count{ // scheduleIDs array has 8 elements with the first element always being empty
-                                
-                                let scheduleID = weekList[i].scheduleIDs[j];
-                                
-                                print(scheduleID);
-                                
-                                dispatchGroup.enter();
-                                
-                                getScheduleData(scheduleID, completion: { (scheduledata) in
-                                    
-                                    calendarData[i][j-1] = scheduledata;
-                                    
-                                    dispatchGroup.leave();
-                                    
-                                });
-                                
+                            for j in 1..<scheduleIDCount{
+                                calendarIDData[i][j-1] = weekList[i].scheduleIDs[j];
                             }
                             
                         }
                         
-                        dispatchGroup.wait();
+                        dispatchGroup.leave();
                         
-                        DispatchQueue.main.async {
-                            completion();
-                        }
-                        
-                    }
+                    });
                     
                 });
                 
-            });
+                //
+                
+                resetScheduleCache();
+                
+                dispatchGroup.enter();
+                
+                getScheduleIDList(completion: { (scheduleIDList) in
+                                    
+                    for scheduleID in scheduleIDList{
+                        
+                        dispatchGroup.enter();
+                        
+                        cacheScheduleData(scheduleID, completion: { (_) in
+                            
+                            dispatchGroup.leave();
+                            
+                        });
+                        
+                    }
+                    
+                    dispatchGroup.leave();
+                    
+                });
+                
+                
+                //
+                
+                dispatchGroup.wait();
+                
+                DispatchQueue.main.async {
+                    completion();
+                }
+                
+            }
             
         }
         
@@ -88,9 +100,9 @@ extension dataManager{
     
     static public func getWeekScheduleData(_ weekNum: Int, completion: @escaping ([scheduleCalendarData]) -> Void){ // weekNum is 0 based from 0 - (51 or 52)
         
-        guard weekNum < calendarData.count else{
+        guard weekNum < calendarIDData.count else{
             
-            if (calendarData.count == 0){ // calendarData has not been loaded yet
+            if (calendarIDData.count == 0){ // calendarData has not been loaded yet
                 
                 print("Calendar get function called without loading calendarData");
                 
@@ -106,13 +118,21 @@ extension dataManager{
                 
             }
             else{
-                print("invalid weeknum - \(weekNum)");
+                print("invalid weeknum - \(weekNum) in week lookup");
             }
             
             return;
         }
         
-        completion(calendarData[weekNum]);
+        var scheduleList : [scheduleCalendarData] = [];
+        
+        for scheduleID in calendarIDData[weekNum]{
+            scheduleList.append(getCachedScheduleData(scheduleID));
+        }
+        
+        completion(scheduleList);
+        
+        //completion(calendarData[weekNum]);
         
     }
     
@@ -126,16 +146,28 @@ extension dataManager{
     
     static public func getDayScheduleData(_ weekNum: Int, _ dayNum: Int, completion: @escaping (scheduleCalendarData) -> Void){ // 0 based for weekNum and dayNum
         
-        getWeekScheduleData(weekNum, completion: { (weekdata) in
+        /*getWeekScheduleData(weekNum, completion: { (weekdata) in
             
             guard dayNum < weekdata.count else{
                 print("dayNum index \(dayNum) is out of range of \(weekdata.count)");
                 return;
             }
             
-            completion(weekdata[dayNum]);
+            //completion(weekdata[dayNum]);
             
-        });
+        });*/
+        
+        guard weekNum < calendarIDData.count else{
+            print("weekNum index \(weekNum) is out of range of \(calendarIDData.count) in day lookup");
+            return;
+        }
+        
+        guard dayNum < calendarIDData[weekNum].count else{
+            print("dayNum index \(dayNum) is out of range of \(calendarIDData[weekNum].count) in day lookup");
+            return;
+        }
+        
+        completion(getCachedScheduleData(calendarIDData[weekNum][dayNum]));
         
     }
     
@@ -156,7 +188,7 @@ extension dataManager{
         setupConnection();
         
         if (internetConnected){
-           
+            
             DispatchQueue.global(qos: .background).async {
                 
                 let dispatchGroup = DispatchGroup();
@@ -164,9 +196,9 @@ extension dataManager{
                 var list : [weekCalendarData] = [];
                 
                 for weekID in weekIDList{
-                                        
+                    
                     dispatchGroup.enter();
-
+                    
                     getWeekData(weekID, completion: { (data) in
                         
                         list.append(data);
@@ -178,7 +210,7 @@ extension dataManager{
                 }
                 
                 dispatchGroup.wait();
-
+                
                 DispatchQueue.main.async {
                     completion(list);
                 }
@@ -250,38 +282,6 @@ extension dataManager{
         }
         
     }
-    
-    //
-    
-    static private func getScheduleData(_ scheduleID: String, completion: @escaping (scheduleCalendarData) -> Void){
-        
-        setupConnection();
-        
-        if (internetConnected && checkValidString(scheduleID)){
-            
-            dataRef.child("schedules").child(scheduleID).observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                var data : scheduleCalendarData = scheduleCalendarData();
-                
-                if (snapshot.exists()){
-                    
-                    let dataDict = snapshot.value as? NSDictionary;
-                    
-                    data.id = scheduleID;
-                    
-                    data.title = dataDict?["title"] as? String ?? "";
-                    data.timestamps = dataDict?["timestamps"] as? [Int] ?? [];
-                    data.periodIDs = dataDict?["periodIDs"] as? [String] ?? [];
-                    data.color = Color.init(hex: dataDict?["color"] as? String ?? "");
-                    
-                    completion(data);
-                    
-                }
-                
-            });
-            
-        }
-        
-    }
+
     
 }
