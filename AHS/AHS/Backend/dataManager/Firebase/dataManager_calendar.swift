@@ -171,7 +171,7 @@ extension dataManager{
         
     }
     
-    static public func getDayScheduleDate(_ date: Date, completion: @escaping (scheduleCalendarData) -> Void){
+    static public func getDayScheduleData(_ date: Date, completion: @escaping (scheduleCalendarData) -> Void){
         
         getDayScheduleData(timeManager.getWeekInt(date) - 1, timeManager.getDayOfWeekInt(date) - 1, completion: { (scheduledata) in
             

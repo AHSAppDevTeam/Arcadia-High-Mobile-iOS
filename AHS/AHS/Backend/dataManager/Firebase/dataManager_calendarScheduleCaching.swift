@@ -11,7 +11,7 @@ import Firebase
 
 struct scheduleCalendarData{
     var id : String = "";
-    var color : Color = Color(red: 0, green: 0, blue: 0, alpha: 1);
+    var color : UIColor = BackgroundGrayColor;
     var periodIDs : [String] = [];
     var timestamps : [Int] = [];
     var title : String = "";
@@ -64,7 +64,7 @@ extension dataManager{
                     data.title = dataDict?["title"] as? String ?? "";
                     data.timestamps = dataDict?["timestamps"] as? [Int] ?? [];
                     data.periodIDs = dataDict?["periodIDs"] as? [String] ?? [];
-                    data.color = Color.init(hex: dataDict?["color"] as? String ?? "");
+                    data.color = UIColor.init(hex: dataDict?["color"] as? String ?? "");
                     
                     completion(data);
                     
@@ -94,6 +94,7 @@ extension dataManager{
     }
     
     static public func getCachedScheduleData(_ scheduleID: String) -> scheduleCalendarData{
+        print("schedule cache lookup for - \(scheduleID) has \(scheduleCache[scheduleID])");
         return scheduleCache[scheduleID] ?? scheduleCalendarData();
     }
     

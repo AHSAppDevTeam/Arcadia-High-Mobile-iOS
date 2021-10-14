@@ -77,9 +77,9 @@ class ScheduleCalendarDayCell : JTACDayCell{
         dateLabel.text = String(Calendar.current.component(.day, from: date));
     
         //dateLabel.textColor = cellState.dateBelongsTo == .thisMonth ? (cellState.isSelected ? BackgroundColor : InverseBackgroundColor) : (cellState.isSelected ? BackgroundGrayColor : InverseBackgroundGrayColor);
-        /*dataManager.getDayScheduleDate(date, completion: { (scheduledata) in
+        dataManager.getDayScheduleData(date, completion: { (scheduledata) in
             self.colorStrip.backgroundColor = scheduledata.color;
-        });*/
+        });
         
         self.updateSelectedState(cellState);
         

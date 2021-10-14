@@ -113,7 +113,7 @@ class schedulePageViewController : presentableViewController{
             
             self.refreshControl.endRefreshing();
             
-            self.calendarView.reloadData(withAnchor: Date());
+            self.calendarView.reloadData();
             
             // retrigger selection delegate
             
@@ -191,7 +191,15 @@ class schedulePageViewController : presentableViewController{
         
         //
         
+        /*dataManager.getDayScheduleData(date, completion: { (daydata) in
+           
+            print(daydata);
+            
+        });
         
+        if (dataManager.calendarIDData.count > 0){
+            print("data for selected date - \(dataManager.getCachedScheduleData(dataManager.calendarIDData[timeManager.getWeekInt(date) - 1][timeManager.getDayOfWeekInt(date) - 1]))");
+        }*/
         
     }
     
