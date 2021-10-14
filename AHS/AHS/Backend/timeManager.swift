@@ -50,7 +50,9 @@ class timeManager{
     }
     
     static public func getDayOfWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
-        return calendar.component(.weekday, from: date);
+        let dayOfWeek = calendar.component(.weekday, from: date);
+        return dayOfWeek == 1 ? 7 : dayOfWeek - 1;
+        // Apple likes to base their calendars off of the fact that Sundays are considered to be the start of the week
     }
     
     static public func getCurrentEpoch() -> Int64{

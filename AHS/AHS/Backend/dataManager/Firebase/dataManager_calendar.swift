@@ -158,12 +158,12 @@ extension dataManager{
         });*/
         
         guard weekNum < calendarIDData.count else{
-            print("weekNum index \(weekNum) is out of range of \(calendarIDData.count) in day lookup");
+            //print("weekNum index \(weekNum) is out of range of \(calendarIDData.count) in day lookup");
             return;
         }
         
         guard dayNum < calendarIDData[weekNum].count else{
-            print("dayNum index \(dayNum) is out of range of \(calendarIDData[weekNum].count) in day lookup");
+            //print("dayNum index \(dayNum) is out of range of \(calendarIDData[weekNum].count) in day lookup");
             return;
         }
         
@@ -193,15 +193,24 @@ extension dataManager{
                 
                 let dispatchGroup = DispatchGroup();
                 
-                var list : [weekCalendarData] = [];
+                var list : [weekCalendarData] = Array(repeating: weekCalendarData(), count: weekIDList.count);
                 
-                for weekID in weekIDList{
+                for i in 0..<weekIDList.count{
                     
                     dispatchGroup.enter();
                     
-                    getWeekData(weekID, completion: { (data) in
+                    getWeekData(weekIDList[i], i, completion: { (data, weekNum) in
                         
-                        list.append(data);
+                        guard let weekNum = weekNum else {
+                            return;
+                        }
+                        
+                        guard weekNum < weekIDList.count else{
+                            print("weekNum \(weekNum) returned from getWeekData is out of bounds of \(weekIDList.count)");
+                            return;
+                        }
+                        
+                        list[weekNum] = data;
                         
                         dispatchGroup.leave();
                         
@@ -228,10 +237,10 @@ extension dataManager{
         if (internetConnected){
             
             dataRef.child("weekIDs").observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                var weekIDList : [String] = Array(repeating: "", count: 53);
-                
+                            
                 if (snapshot.exists()){
+                                    
+                    var weekIDList : [String] = Array(repeating: "", count: Int(snapshot.childrenCount));
                     
                     let enumerator = snapshot.children;
                     while let week = enumerator.nextObject() as? DataSnapshot{
@@ -242,6 +251,7 @@ extension dataManager{
                         }
                         
                         weekIDList[weekNum] = (week.value as? String ?? "");
+                                            
                     }
                     
                     completion(weekIDList);
@@ -254,7 +264,7 @@ extension dataManager{
         
     }
     
-    static private func getWeekData(_ weekID: String, completion: @escaping (weekCalendarData) -> Void){
+    static private func getWeekData(_ weekID: String, _ index: Int? = nil, completion: @escaping (weekCalendarData, Int?) -> Void){
         
         setupConnection();
         
@@ -273,7 +283,7 @@ extension dataManager{
                     data.scheduleIDs = dataDict?["scheduleIDs"] as? [String] ?? [];
                     data.title = dataDict?["title"] as? String ?? "";
                     
-                    completion(data);
+                    completion(data, index);
                     
                 }
                 

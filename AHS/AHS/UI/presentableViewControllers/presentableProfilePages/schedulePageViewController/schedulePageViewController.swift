@@ -58,6 +58,11 @@ class schedulePageViewController : presentableViewController{
         renderCalendar();
         loadCalendarData();
         
+        //
+        
+        //print(timeManager.getWeekInt(Date(timeIntervalSince1970: 1633869643)));
+        //print(timeManager.getWeekInt());
+        
     }
     
     private func renderDismissView(){
@@ -191,7 +196,18 @@ class schedulePageViewController : presentableViewController{
         
         //
         
-        /*dataManager.getDayScheduleData(date, completion: { (daydata) in
+        /*let weekNum = timeManager.getWeekInt(date) -  1;
+        let dayNum = timeManager.getDayOfWeekInt(date) - 1;
+        
+        if (dataManager.calendarIDData.count > 0){
+            print("selected date week - \(weekNum) = \(dataManager.calendarIDData[weekNum][dayNum])");
+            
+            for weekI in 0..<52{
+                print("\(weekI) = \(dataManager.calendarIDData[weekI]) \n");
+            }
+        }
+        
+        dataManager.getDayScheduleData(date, completion: { (daydata) in
            
             print(daydata);
             

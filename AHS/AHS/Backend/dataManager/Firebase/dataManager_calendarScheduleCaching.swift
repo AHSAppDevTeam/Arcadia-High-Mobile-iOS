@@ -94,7 +94,7 @@ extension dataManager{
     }
     
     static public func getCachedScheduleData(_ scheduleID: String) -> scheduleCalendarData{
-        print("schedule cache lookup for - \(scheduleID) has \(scheduleCache[scheduleID])");
+        //print("schedule cache lookup for - \(scheduleID) has \(scheduleCache[scheduleID])");
         return scheduleCache[scheduleID] ?? scheduleCalendarData();
     }
     
