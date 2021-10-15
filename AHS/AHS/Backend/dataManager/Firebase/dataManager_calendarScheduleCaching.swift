@@ -29,12 +29,10 @@ extension dataManager{
                 
                 if (snapshot.exists()){
                     
-                    //print(snapshot.value)
-                    
                     guard let scheduleIDList = snapshot.value as? [String] else{
                         return;
                     }
-                    
+                                        
                     completion(scheduleIDList);
                     
                 }
@@ -50,7 +48,7 @@ extension dataManager{
         setupConnection();
         
         if (internetConnected && checkValidString(scheduleID)){
-            
+                        
             dataRef.child("schedules").child(scheduleID).observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 var data : scheduleCalendarData = scheduleCalendarData();
@@ -68,6 +66,9 @@ extension dataManager{
                     
                     completion(data);
                     
+                }
+                else{
+                    print("scheduleID \(scheduleID) does not exist");
                 }
                 
             });

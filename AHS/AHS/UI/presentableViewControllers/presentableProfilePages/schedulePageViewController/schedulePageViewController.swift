@@ -57,6 +57,8 @@ class schedulePageViewController : presentableViewController{
         
         renderCalendar();
         loadCalendarData();
+        
+        //
     }
     
     private func renderDismissView(){
@@ -170,7 +172,7 @@ class schedulePageViewController : presentableViewController{
         calendarView.scrollingMode = .stopAtEachCalendarFrame;
         
         mainScrollView.addSubview(calendarView);
-        nextY += calendarView.frame.height + verticalPadding;
+        nextY += calendarView.frame.height + 5*verticalPadding;
         
         //
         
@@ -190,26 +192,22 @@ class schedulePageViewController : presentableViewController{
         
         //
         
-        /*let weekNum = timeManager.getWeekInt(date) -  1;
-        let dayNum = timeManager.getDayOfWeekInt(date) - 1;
+        let dateLabelWidth = mainScrollView.frame.width - 2*horizontalPadding;
+        let dateLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: dateLabelWidth, height: dateLabelWidth * 0.12);
+        let dateLabel = UILabel(frame: dateLabelFrame);
         
-        if (dataManager.calendarIDData.count > 0){
-            print("selected date week - \(weekNum) = \(dataManager.calendarIDData[weekNum][dayNum])");
-            
-            for weekI in 0..<52{
-                print("\(weekI) = \(dataManager.calendarIDData[weekI]) \n");
-            }
-        }
+        dateLabel.backgroundColor = .systemBlue;
         
-        dataManager.getDayScheduleData(date, completion: { (daydata) in
-           
-            print(daydata);
-            
-        });
+        mainScrollView.addSubview(dateLabel);
+        nextY += dateLabel.frame.height;
         
-        if (dataManager.calendarIDData.count > 0){
-            print("data for selected date - \(dataManager.getCachedScheduleData(dataManager.calendarIDData[timeManager.getWeekInt(date) - 1][timeManager.getDayOfWeekInt(date) - 1]))");
-        }*/
+        //
+        
+        
+        
+        //
+        
+        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
         
     }
     
