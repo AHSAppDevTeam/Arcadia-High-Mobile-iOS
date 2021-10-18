@@ -12,7 +12,7 @@ import JTAppleCalendar
 class schedulePageViewController : presentableViewController{
     
     //
-    
+        
     internal let dismissButton : UIButton = UIButton();
     
     internal let mainScrollView : UIButtonScrollView = UIButtonScrollView();
@@ -26,6 +26,8 @@ class schedulePageViewController : presentableViewController{
     
     internal var nextY : CGFloat = 0;
     internal var defaultNextY : CGFloat = 0;
+    
+    internal let minuteToHeightRatio : CGFloat = 3;
     
     //
     
@@ -59,6 +61,7 @@ class schedulePageViewController : presentableViewController{
         loadCalendarData();
         
         //
+        
     }
     
     private func renderDismissView(){
@@ -172,7 +175,7 @@ class schedulePageViewController : presentableViewController{
         calendarView.scrollingMode = .stopAtEachCalendarFrame;
         
         mainScrollView.addSubview(calendarView);
-        nextY += calendarView.frame.height + 5*verticalPadding;
+        nextY += calendarView.frame.height + 3*verticalPadding;
         
         //
         
@@ -192,19 +195,91 @@ class schedulePageViewController : presentableViewController{
         
         //
         
-        let dateLabelWidth = mainScrollView.frame.width - 2*horizontalPadding;
-        let dateLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: dateLabelWidth, height: dateLabelWidth * 0.12);
-        let dateLabel = UILabel(frame: dateLabelFrame);
+        let dayOfWeekLabelWidth = mainScrollView.frame.width - 2*horizontalPadding;
+        let dayOfWeekLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: dayOfWeekLabelWidth, height: dayOfWeekLabelWidth * 0.12);
+        let dayOfWeekLabel = UILabel(frame: dayOfWeekLabelFrame);
         
-        dateLabel.backgroundColor = .systemBlue;
+        dayOfWeekLabel.text = String(timeManager.getDayOfWeekString(date));
+        dayOfWeekLabel.textAlignment = .left;
+        dayOfWeekLabel.textColor = InverseBackgroundColor;
+        dayOfWeekLabel.font = UIFont(name: SFProDisplay_Bold, size: dayOfWeekLabel.frame.height * 0.7);
         
-        mainScrollView.addSubview(dateLabel);
-        nextY += dateLabel.frame.height;
+        dayOfWeekLabel.tag = 1;
+        
+        mainScrollView.addSubview(dayOfWeekLabel);
+        nextY += dayOfWeekLabel.frame.height + (verticalPadding / 4);
         
         //
         
+        let dateLabelWidth = mainScrollView.frame.width - 2*horizontalPadding;
+        let dateLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: dateLabelWidth, height: dateLabelWidth * 0.10);
+        let dateLabel = UILabel(frame: dateLabelFrame);
         
+        dateLabel.text = "\(timeManager.regular.getMonthString(date)) \(timeManager.regular.getDateInt(date))\(timeManager.regular.getDateSuffix(date))";
+        dateLabel.textAlignment = .left;
+        dateLabel.textColor = InverseBackgroundColor;
+        dateLabel.font = UIFont(name: SFProDisplay_Semibold, size: dateLabel.frame.height * 0.7);
         
+        dateLabel.tag = 1;
+        
+        mainScrollView.addSubview(dateLabel);
+        nextY += dateLabel.frame.height + (verticalPadding / 4);
+        
+        //
+        
+        dataManager.getDayScheduleData(date, completion: { (scheduledata) in
+            
+            self.renderSchedule(date, scheduledata);
+            
+        });
+        
+        //
+        
+        mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
+        
+    }
+    
+    private func renderSchedule(_ date: Date, _ scheduledata: scheduleCalendarData){
+        
+        let scheduleTypeLabelWidth = mainScrollView.frame.width - 2*horizontalPadding;
+        let scheduleTypeLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: scheduleTypeLabelWidth, height: scheduleTypeLabelWidth * 0.07);
+        let scheduleTypeLabel = UILabel(frame: scheduleTypeLabelFrame);
+        
+        scheduleTypeLabel.text = scheduledata.title;
+        scheduleTypeLabel.textAlignment = .left;
+        scheduleTypeLabel.textColor = scheduledata.color;
+        scheduleTypeLabel.font = UIFont(name: SFProDisplay_Semibold, size: scheduleTypeLabel.frame.height * 0.7);
+        
+        scheduleTypeLabel.tag = 1;
+        
+        mainScrollView.addSubview(scheduleTypeLabel);
+        nextY += scheduleTypeLabel.frame.height + verticalPadding;
+        
+        //
+        
+        if (scheduledata.timestamps.count > 1){
+            for i in 1..<scheduledata.timestamps.count{
+                
+                let periodTime : Int = scheduledata.timestamps[i] - scheduledata.timestamps[i-1];
+                
+                let periodViewFrame = CGRect(x: 0, y: nextY, width: mainScrollView.frame.width, height: CGFloat(periodTime) * minuteToHeightRatio);
+                let periodView = UIView(frame: periodViewFrame);
+                
+                if i-1 < scheduledata.periodIDs.count, let periodInt = Int(scheduledata.periodIDs[i-1]){
+                    //print("period - \(periodInt)")
+                    periodView.backgroundColor = scheduledata.color;
+                }
+                else{
+                    periodView.backgroundColor = InverseBackgroundColor;
+                }
+                            
+                periodView.tag = 1;
+                
+                mainScrollView.addSubview(periodView);
+                nextY += periodView.frame.height;
+                
+            }
+        }
         //
         
         mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);

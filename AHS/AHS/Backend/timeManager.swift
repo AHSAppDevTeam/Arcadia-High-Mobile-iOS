@@ -15,6 +15,11 @@ class timeManager{
     
     static public let dateObj = Date();
     
+    static private let dateSuffixesString = "|st|nd|rd|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|st|nd|rd|th|th|th|th|th|th|th|st";
+    static public let dateSuffixes = dateSuffixesString.split(separator: "|");
+    
+    static public let dayOfWeekStrings = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; // in regular format (need translation for iso format)
+    
     struct timeSecondConstants{ // in seconds
         static public let second = 1;
         static public let minute = 60;
@@ -36,7 +41,6 @@ class timeManager{
     static public let iso = timeManager(calendarType: .iso8601);
     
     //
-    
     
     internal var calendar : Calendar = Calendar.current;
     
@@ -65,13 +69,30 @@ class timeManager{
         return String(self.calendar.component(.day, from: date));
     }
     
+    public func getDateInt(_ date: Date = dateObj) -> Int{
+        return self.calendar.component(.day, from: date);
+    }
+    
+    public func getDateSuffix(_ date: Date = dateObj) -> String{
+        let index = getDateInt(date) - 1;
+        guard index > -1 && index < timeManager.dateSuffixes.count else{
+            print("invalid date index for date suffix");
+            return "";
+        }
+        return String(timeManager.dateSuffixes[index]);
+    }
+    
     public func getWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
         return self.calendar.component(.weekOfYear, from: date);
     }
     
     public func getDayOfWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
         let dayOfWeek = self.calendar.component(.weekday, from: date);
-        return dayOfWeek == 1 ? 7 : dayOfWeek - 1;
+        return calendar.identifier == .iso8601 ? (dayOfWeek == 1 ? 7 : dayOfWeek - 1) : dayOfWeek;
+    }
+    
+    static public func getDayOfWeekString(_ date: Date = dateObj) -> String{
+        return timeManager.dayOfWeekStrings[timeManager.regular.getDayOfWeekInt(date) - 1];
     }
     
     static public func getCurrentEpoch() -> Int64{
