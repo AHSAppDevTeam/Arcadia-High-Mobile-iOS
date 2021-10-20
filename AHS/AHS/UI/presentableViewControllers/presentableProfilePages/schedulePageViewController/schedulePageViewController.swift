@@ -27,7 +27,7 @@ class schedulePageViewController : presentableViewController{
     internal var nextY : CGFloat = 0;
     internal var defaultNextY : CGFloat = 0;
     
-    internal let minuteToHeightRatio : CGFloat = 3;
+    internal let minuteToHeightRatio : CGFloat = 3.5;
     
     //
     
@@ -207,7 +207,7 @@ class schedulePageViewController : presentableViewController{
         dayOfWeekLabel.tag = 1;
         
         mainScrollView.addSubview(dayOfWeekLabel);
-        nextY += dayOfWeekLabel.frame.height + (verticalPadding / 4);
+        nextY += dayOfWeekLabel.frame.height + (verticalPadding / 8);
         
         //
         
@@ -307,6 +307,22 @@ class schedulePageViewController : presentableViewController{
             
             //
         }
+        else{
+            
+            let noScheduleLabelWidth = mainScrollView.frame.width;
+            let noScheduleLabelFrame = CGRect(x: 0, y: nextY, width: noScheduleLabelWidth, height: noScheduleLabelWidth * 0.07);
+            let noScheduleLabel = UILabel(frame: noScheduleLabelFrame);
+            
+            noScheduleLabel.text = "No Schedule";
+            noScheduleLabel.textColor = InverseBackgroundColor;
+            noScheduleLabel.textAlignment = .center;
+            noScheduleLabel.font = UIFont(name: SFProDisplay_Semibold, size: noScheduleLabelFrame.height * 0.7);
+            
+            noScheduleLabel.tag = 1;
+            
+            mainScrollView.addSubview(noScheduleLabel);
+            nextY += noScheduleLabel.frame.height
+        }
         
         mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
         
@@ -333,7 +349,7 @@ class schedulePageViewController : presentableViewController{
             timestampLabel.textColor = InverseBackgroundColor;
             timestampLabel.textAlignment = .center;
             timestampLabel.font = labelFont;
-            timestampLabel.text = "12:00 pm";
+            timestampLabel.text = timeManager.regular.getFormattedTimeString(timeManager.regular.getDateFromMinSinceMidnight(timestamp));
             
             timestampView.addSubview(timestampLabel);
         }

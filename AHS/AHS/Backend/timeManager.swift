@@ -95,11 +95,26 @@ class timeManager{
         return timeManager.dayOfWeekStrings[timeManager.regular.getDayOfWeekInt(date) - 1];
     }
     
+    //
+    
+    public func getDateFromMinSinceMidnight(_ minutes: Int) -> Date{
+        let dateUnixEpoch = calendar.startOfDay(for: Date()).timeIntervalSince1970;
+        return Date(timeIntervalSince1970: dateUnixEpoch + Double((minutes * 60)));
+    }
+    
+    public func getFormattedTimeString(_ date: Date = dateObj) -> String{
+        let dateFormatter = DateFormatter();
+        dateFormatter.dateFormat = "hh:mm a";
+        return dateFormatter.string(from: date);
+    }
+    
+    //
+    
     static public func getCurrentEpoch() -> Int64{
         return Int64(NSDate().timeIntervalSince1970);
     }
     
-    static func epochToDiffString(_ epoch: Int64) -> String{ // 1 hour ago
+    static public func epochToDiffString(_ epoch: Int64) -> String{ // 1 hour ago
         if (epoch == -1){
             return "NULL";
         }
@@ -131,7 +146,7 @@ class timeManager{
         return "\(month)/\(day)/\(year)";
     }
     
-    static func epochToFormattedDateString(_ epoch: Int64) -> String{ // Month 00, 2000
+    static public func epochToFormattedDateString(_ epoch: Int64) -> String{ // Month 00, 2000
         if (epoch == -1){
             return "NULL";
         }
