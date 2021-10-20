@@ -326,7 +326,8 @@ class schedulePageViewController : presentableViewController{
             
             let timeSinceBeginningOfDay : CGFloat = CGFloat(timestamp - scheduledata.timestamps[0]);
             
-            let timestampLabelFrame = CGRect(x: 0, y: max((timeSinceBeginningOfDay * self.minuteToHeightRatio) - (labelHeight / 2), 0), width: labelWidth, height: labelHeight);
+            let timestampLabelFrameY = min(timestampView.frame.height - labelHeight, max((timeSinceBeginningOfDay * self.minuteToHeightRatio) - (labelHeight / 2), 0));
+            let timestampLabelFrame = CGRect(x: 0, y: timestampLabelFrameY, width: labelWidth, height: labelHeight);
             let timestampLabel = UILabel(frame: timestampLabelFrame);
             
             timestampLabel.textColor = InverseBackgroundColor;
