@@ -12,7 +12,7 @@ import JTAppleCalendar
 class schedulePageViewController : presentableViewController{
     
     //
-        
+    
     internal let dismissButton : UIButton = UIButton();
     
     internal let mainScrollView : UIButtonScrollView = UIButtonScrollView();
@@ -253,16 +253,40 @@ class schedulePageViewController : presentableViewController{
         scheduleTypeLabel.tag = 1;
         
         mainScrollView.addSubview(scheduleTypeLabel);
-        nextY += scheduleTypeLabel.frame.height + verticalPadding;
+        nextY += scheduleTypeLabel.frame.height + 1.5 * verticalPadding;
         
         //
         
         if (scheduledata.timestamps.count > 1){
+            
+            let scheduleTotalTime : CGFloat = CGFloat((scheduledata.timestamps.last ?? 0) - (scheduledata.timestamps.first ?? 0));
+            
+            guard scheduleTotalTime > 0 else{
+                print("invalid schedule total time");
+                return;
+            }
+            
+            let timestampViewHeight : CGFloat = scheduleTotalTime * minuteToHeightRatio;
+            let timestampViewWidth : CGFloat = mainScrollView.frame.width / 5;
+            let timestampViewFrame = CGRect(x: horizontalPadding, y: nextY, width: timestampViewWidth, height: timestampViewHeight);
+            let timestampView = UIView(frame: timestampViewFrame);
+            
+            renderScheduleTimestamp(timestampView, date, scheduledata);
+            
+            timestampView.tag = 1;
+            
+            mainScrollView.addSubview(timestampView);
+            // no nextY set because of schedule rendering
+            
+            //
+            
+            
             for i in 1..<scheduledata.timestamps.count{
                 
                 let periodTime : Int = scheduledata.timestamps[i] - scheduledata.timestamps[i-1];
                 
-                let periodViewFrame = CGRect(x: 0, y: nextY, width: mainScrollView.frame.width, height: CGFloat(periodTime) * minuteToHeightRatio);
+                let periodViewHeight = CGFloat(periodTime) * minuteToHeightRatio;
+                let periodViewFrame = CGRect(x: timestampView.frame.width + 2*horizontalPadding, y: nextY, width: mainScrollView.frame.width - (timestampView.frame.width + 3*horizontalPadding), height: periodViewHeight);
                 let periodView = UIView(frame: periodViewFrame);
                 
                 if i-1 < scheduledata.periodIDs.count, let periodInt = Int(scheduledata.periodIDs[i-1]){
@@ -272,17 +296,46 @@ class schedulePageViewController : presentableViewController{
                 else{
                     periodView.backgroundColor = InverseBackgroundColor;
                 }
-                            
+                
                 periodView.tag = 1;
                 
                 mainScrollView.addSubview(periodView);
                 nextY += periodView.frame.height;
                 
             }
+            
+            
+            //
         }
-        //
         
         mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
+        
+    }
+    
+    private func renderScheduleTimestamp(_ timestampView: UIView, _ date: Date, _ scheduledata: scheduleCalendarData){
+        
+        //timestampView.backgroundColor = .systemRed;
+        
+        let labelWidth = timestampView.frame.width;
+        let labelHeight = labelWidth * 0.24;
+        let labelFont = UIFont(name: SFProDisplay_Semibold, size: labelHeight * 0.7);
+        
+        //
+        
+        for timestamp in scheduledata.timestamps{
+            
+            let timeSinceBeginningOfDay : CGFloat = CGFloat(timestamp - scheduledata.timestamps[0]);
+            
+            let timestampLabelFrame = CGRect(x: 0, y: max((timeSinceBeginningOfDay * self.minuteToHeightRatio) - (labelHeight / 2), 0), width: labelWidth, height: labelHeight);
+            let timestampLabel = UILabel(frame: timestampLabelFrame);
+            
+            timestampLabel.textColor = InverseBackgroundColor;
+            timestampLabel.textAlignment = .center;
+            timestampLabel.font = labelFont;
+            timestampLabel.text = "12:00 pm";
+            
+            timestampView.addSubview(timestampLabel);
+        }
         
     }
     
