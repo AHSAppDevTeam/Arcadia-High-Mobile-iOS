@@ -181,6 +181,8 @@ class schedulePageViewController : presentableViewController{
         
         defaultNextY = nextY;
         
+        //
+                
     }
     
     internal func renderDay(_ date: Date){
@@ -194,7 +196,7 @@ class schedulePageViewController : presentableViewController{
         nextY = defaultNextY;
         
         //
-        
+                
         let dayOfWeekLabelWidth = mainScrollView.frame.width - 2*horizontalPadding;
         let dayOfWeekLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: dayOfWeekLabelWidth, height: dayOfWeekLabelWidth * 0.12);
         let dayOfWeekLabel = UILabel(frame: dayOfWeekLabelFrame);
@@ -240,7 +242,7 @@ class schedulePageViewController : presentableViewController{
     }
     
     private func renderSchedule(_ date: Date, _ scheduledata: scheduleCalendarData){
-        
+                
         let scheduleTypeLabelWidth = mainScrollView.frame.width - 2*horizontalPadding;
         let scheduleTypeLabelFrame = CGRect(x: horizontalPadding, y: nextY, width: scheduleTypeLabelWidth, height: scheduleTypeLabelWidth * 0.07);
         let scheduleTypeLabel = UILabel(frame: scheduleTypeLabelFrame);
@@ -289,13 +291,52 @@ class schedulePageViewController : presentableViewController{
                 let periodViewFrame = CGRect(x: timestampView.frame.width + 2*horizontalPadding, y: nextY, width: mainScrollView.frame.width - (timestampView.frame.width + 3*horizontalPadding), height: periodViewHeight);
                 let periodView = UIView(frame: periodViewFrame);
                 
-                if i-1 < scheduledata.periodIDs.count, let periodInt = Int(scheduledata.periodIDs[i-1]){
+                periodView.layer.cornerRadius = 5;
+                periodView.clipsToBounds = true;
+                
+                guard i - 1 < scheduledata.periodIDs.count else{
+                    print("index out of bounds when rendering schedule - \(scheduledata.title)")
+                    return;
+                }
+                
+                let periodID = scheduledata.periodIDs[i-1];
+                
+                //
+                
+                let periodLabelFontSize = periodView.frame.width * 0.05;
+                
+                let periodLabel = UILabel();
+                periodView.addSubview(periodLabel);
+                
+                periodLabel.translatesAutoresizingMaskIntoConstraints = false;
+                
+                periodLabel.centerXAnchor.constraint(equalTo: periodView.centerXAnchor).isActive = true;
+                periodLabel.centerYAnchor.constraint(equalTo: periodView.centerYAnchor).isActive = true;
+                
+                periodLabel.textColor = InverseBackgroundColor;
+                periodLabel.font = UIFont(name: SFProDisplay_Bold, size: periodLabelFontSize);
+                
+                if let periodInt = Int(periodID){
                     //print("period - \(periodInt)")
                     periodView.backgroundColor = scheduledata.color;
+                    
+                    //
+                    
+                    periodLabel.text = "Period \(periodInt)";
+                    
                 }
                 else{
-                    periodView.backgroundColor = InverseBackgroundColor;
+                    periodView.backgroundColor = BackgroundColor;
+                    
+                    if (periodID != "passing" && CGFloat(periodTime) * self.minuteToHeightRatio > periodLabelFontSize){
+                        
+                        periodLabel.text = periodID.capitalizingFirstLetter();
+                        
+                    }
+                    
                 }
+                
+                //
                 
                 periodView.tag = 1;
                 

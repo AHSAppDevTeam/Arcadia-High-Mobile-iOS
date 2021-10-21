@@ -74,10 +74,10 @@ extension UIColor{
     // https://stackoverflow.com/a/29779319/
     static func random() -> UIColor {
         return UIColor(
-           red:   .random(),
-           green: .random(),
-           blue:  .random(),
-           alpha: 1.0
+            red:   .random(),
+            green: .random(),
+            blue:  .random(),
+            alpha: 1.0
         )
     }
     
@@ -119,14 +119,14 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-    
+        
         return ceil(boundingBox.height)
     }
-
+    
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-
+        
         return ceil(boundingBox.width)
     }
     
@@ -144,24 +144,33 @@ extension String {
                                                               options: options,
                                                               documentAttributes: nil) else{
             return nil;
-       };
+        };
         
         return attributed;
+    }
+    
+    // https://stackoverflow.com/a/26306372
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + self.lowercased().dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
     }
 }
 
 // https://stackoverflow.com/a/41743706
 extension NSAttributedString {
     func height(containerWidth: CGFloat) -> CGFloat {
-
+        
         let rect = self.boundingRect(with: CGSize.init(width: containerWidth, height: CGFloat.greatestFiniteMagnitude),
                                      options: [.usesLineFragmentOrigin, .usesFontLeading],
                                      context: nil)
         return ceil(rect.size.height)
     }
-
+    
     func width(containerHeight: CGFloat) -> CGFloat {
-
+        
         let rect = self.boundingRect(with: CGSize.init(width: CGFloat.greatestFiniteMagnitude, height: containerHeight),
                                      options: [.usesLineFragmentOrigin, .usesFontLeading],
                                      context: nil)
