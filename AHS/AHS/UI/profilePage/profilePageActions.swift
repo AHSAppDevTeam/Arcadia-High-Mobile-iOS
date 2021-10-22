@@ -12,6 +12,7 @@ extension profilePageViewController{
     
     @objc internal func refresh(){
         self.renderIDCard();
+        self.loadSchedule();
         self.refreshControl.endRefreshing();
     }
     

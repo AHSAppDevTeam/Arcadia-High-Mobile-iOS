@@ -183,6 +183,34 @@ extension dataManager{
     
     //
     
+    static public func getTodaySchedule(completion: @escaping (scheduleCalendarData) -> Void){
+        
+        setupConnection();
+        
+        if (internetConnected){
+            
+            getWeekDataForWeekNum(timeManager.iso.getWeekInt(), completion: { (weekdata) in
+                
+                let dayOfWeek = timeManager.iso.getDayOfWeekInt();
+                
+                guard dayOfWeek > -1 && dayOfWeek < weekdata.scheduleIDs.count else{
+                    return;
+                }
+                
+                getScheduleData(weekdata.scheduleIDs[dayOfWeek], completion: { (scheduledata) in
+                    
+                    completion(scheduledata);
+                    
+                });
+                
+            });
+            
+        }
+        
+    }
+    
+    //
+    
     static private func getWeekListData(_ weekIDList: [String], completion: @escaping ([weekCalendarData]) -> Void){
         
         setupConnection();
@@ -257,6 +285,30 @@ extension dataManager{
                     completion(weekIDList);
                     
                 }
+                
+            });
+            
+        }
+        
+    }
+    
+    static private func getWeekDataForWeekNum(_ weekNum: Int, completion: @escaping (weekCalendarData) -> Void){ // 1 based
+        
+        setupConnection();
+        
+        if (internetConnected && weekNum >= 1){
+            
+            dataRef.child("weekIDs").child("\(weekNum - 1)").observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                guard let weekID = snapshot.value as? String else{
+                    return;
+                }
+                
+                getWeekData(weekID, nil, completion: { (weekdata, _) in
+                    
+                    completion(weekdata);
+                    
+                });
                 
             });
             

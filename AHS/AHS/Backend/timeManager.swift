@@ -15,8 +15,8 @@ class timeManager{
     
     static public let dateObj = Date();
     
-    static private let dateSuffixesString = "|st|nd|rd|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|st|nd|rd|th|th|th|th|th|th|th|st";
-    static public let dateSuffixes = dateSuffixesString.split(separator: "|");
+    static private let numberSuffixesString = "|st|nd|rd|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|st|nd|rd|th|th|th|th|th|th|th|st";
+    static public let numberSuffixes = numberSuffixesString.split(separator: "|");
     
     static public let dayOfWeekStrings = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]; // in regular format (need translation for iso format)
     
@@ -75,11 +75,18 @@ class timeManager{
     
     public func getDateSuffix(_ date: Date = dateObj) -> String{
         let index = getDateInt(date) - 1;
-        guard index > -1 && index < timeManager.dateSuffixes.count else{
+        guard index > -1 && index < timeManager.numberSuffixes.count else{
             print("invalid date index for date suffix");
             return "";
         }
-        return String(timeManager.dateSuffixes[index]);
+        return timeManager.getNumberSuffix(index);
+    }
+    
+    static public func getNumberSuffix(_ num: Int) -> String{
+        guard num < timeManager.numberSuffixes.count else{
+            return "";
+        }
+        return String(timeManager.numberSuffixes[num]);
     }
     
     public func getWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
@@ -100,6 +107,11 @@ class timeManager{
     public func getDateFromMinSinceMidnight(_ minutes: Int) -> Date{
         let dateUnixEpoch = calendar.startOfDay(for: Date()).timeIntervalSince1970;
         return Date(timeIntervalSince1970: dateUnixEpoch + Double((minutes * 60)));
+    }
+    
+    public func getMinSinceMidnightFromDate(_ date: Date = dateObj) -> Int{
+        let midnightUnixEpoch = calendar.startOfDay(for: date).timeIntervalSince1970;
+        return Int(floor((date.timeIntervalSince1970 - midnightUnixEpoch) / 60));
     }
     
     public func getFormattedTimeString(_ date: Date = dateObj) -> String{
