@@ -116,7 +116,7 @@ extension profilePageViewController{
             periodNumericalLabel.centerXAnchor.constraint(equalTo: periodView.centerXAnchor).isActive = true;
             periodNumericalLabel.topAnchor.constraint(equalTo: periodView.topAnchor, constant: scheduleInnerPrimaryPadding).isActive = true;
                         
-            periodNumericalLabel.text = isValidPeriod ? "\(periodNumber)\(timeManager.getNumberSuffix(periodNumber))" : periodID.capitalizingFirstLetter();
+            periodNumericalLabel.text = isValidPeriod ? "\(periodNumber)\(timeManager.getNumberSuffix(periodNumber-1))" : periodID.capitalizingFirstLetter();
             periodNumericalLabel.textColor = .white;
             periodNumericalLabel.font = UIFont(name: SFProDisplay_Bold, size: schedulePrimaryFontSize);
             

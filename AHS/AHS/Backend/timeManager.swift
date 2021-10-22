@@ -13,7 +13,9 @@ class timeManager{
     
     //
     
-    static public let dateObj = Date();
+    static private var dateObj :  () -> Date = {
+        return Date();
+    }
     
     static private let numberSuffixesString = "|st|nd|rd|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|th|st|nd|rd|th|th|th|th|th|th|th|st";
     static public let numberSuffixes = numberSuffixesString.split(separator: "|");
@@ -56,24 +58,24 @@ class timeManager{
     
     //
     
-    public func getMonthString(_ date: Date = dateObj) -> String{
+    public func getMonthString(_ date: Date = dateObj()) -> String{
         let monthInt = calendar.dateComponents([.month], from: date).month;
         return calendar.monthSymbols[monthInt!-1];
     }
     
-    public func getYearString(_ date: Date = dateObj) -> String{
+    public func getYearString(_ date: Date = dateObj()) -> String{
         return String(self.calendar.component(.year, from: date));
     }
 
-    public func getDateString(_ date: Date = dateObj) -> String{
+    public func getDateString(_ date: Date = dateObj()) -> String{
         return String(self.calendar.component(.day, from: date));
     }
     
-    public func getDateInt(_ date: Date = dateObj) -> Int{
+    public func getDateInt(_ date: Date = dateObj()) -> Int{
         return self.calendar.component(.day, from: date);
     }
     
-    public func getDateSuffix(_ date: Date = dateObj) -> String{
+    public func getDateSuffix(_ date: Date = dateObj()) -> String{
         let index = getDateInt(date) - 1;
         guard index > -1 && index < timeManager.numberSuffixes.count else{
             print("invalid date index for date suffix");
@@ -89,16 +91,16 @@ class timeManager{
         return String(timeManager.numberSuffixes[num]);
     }
     
-    public func getWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
+    public func getWeekInt(_ date: Date = dateObj()) -> Int{ // 1 based
         return self.calendar.component(.weekOfYear, from: date);
     }
     
-    public func getDayOfWeekInt(_ date: Date = dateObj) -> Int{ // 1 based
+    public func getDayOfWeekInt(_ date: Date = dateObj()) -> Int{ // 1 based
         let dayOfWeek = self.calendar.component(.weekday, from: date);
         return calendar.identifier == .iso8601 ? (dayOfWeek == 1 ? 7 : dayOfWeek - 1) : dayOfWeek;
     }
     
-    static public func getDayOfWeekString(_ date: Date = dateObj) -> String{
+    static public func getDayOfWeekString(_ date: Date = dateObj()) -> String{
         return timeManager.dayOfWeekStrings[timeManager.regular.getDayOfWeekInt(date) - 1];
     }
     
@@ -109,12 +111,12 @@ class timeManager{
         return Date(timeIntervalSince1970: dateUnixEpoch + Double((minutes * 60)));
     }
     
-    public func getMinSinceMidnightFromDate(_ date: Date = dateObj) -> Int{
+    public func getMinSinceMidnightFromDate(_ date: Date = dateObj()) -> Int{
         let midnightUnixEpoch = calendar.startOfDay(for: date).timeIntervalSince1970;
         return Int(floor((date.timeIntervalSince1970 - midnightUnixEpoch) / 60));
     }
     
-    public func getFormattedTimeString(_ date: Date = dateObj) -> String{
+    public func getFormattedTimeString(_ date: Date = dateObj()) -> String{
         let dateFormatter = DateFormatter();
         dateFormatter.dateFormat = "hh:mm a";
         return dateFormatter.string(from: date);
