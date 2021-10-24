@@ -47,27 +47,31 @@ extension profilePageViewController{
         var periodID : String = ""; // if empty, no period (out of school time)
         var nextTimestamp : Int = 0;
         
-        for i in 1..<scheduledata.timestamps.count{
-            
-            guard i-1 < scheduledata.periodIDs.count else{
-                continue;
+        if (scheduledata.timestamps.count > 0){
+            for i in 1..<scheduledata.timestamps.count{
+                
+                guard i-1 < scheduledata.periodIDs.count else{
+                    continue;
+                }
+                
+                let currentTime = timeManager.regular.getMinSinceMidnightFromDate();
+                
+                if (currentTime >= scheduledata.timestamps[i-1] && currentTime <= scheduledata.timestamps[i]){
+                    periodID = scheduledata.periodIDs[i-1];
+                    nextTimestamp = scheduledata.timestamps[i];
+                    break;
+                }
+                
             }
-            
-            let currentTime = timeManager.regular.getMinSinceMidnightFromDate();
-            
-            if (currentTime >= scheduledata.timestamps[i-1] && currentTime <= scheduledata.timestamps[i]){
-                periodID = scheduledata.periodIDs[i-1];
-                nextTimestamp = scheduledata.timestamps[i];
-                break;
-            }
-            
         }
         
-        //print("periodID is - \(periodID)");
+        let scheduleViewSize = CGSize(width: mainScrollView.frame.width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.scheduleViewHeightRatio * (profilePageViewController.contentTableViewRowHeightRatio * AppUtility.getCurrentScreenSize().width));
+        let schedulePrimaryFontSize : CGFloat = scheduleViewSize.height * 0.3;
+        let scheduleSecondaryFontSize : CGFloat = scheduleViewSize.height * 0.15;
+        let scheduleInnerPrimaryPadding : CGFloat = scheduleViewSize.height * 0.2;
+        let scheduleInnerSecondaryPadding : CGFloat = scheduleViewSize.height * 0.02;
         
         if (!periodID.isEmpty){
-            
-            let scheduleViewSize = CGSize(width: mainScrollView.frame.width - 2*profilePageViewController.horizontalPadding, height: profilePageViewController.scheduleViewHeightRatio * (profilePageViewController.contentTableViewRowHeightRatio * AppUtility.getCurrentScreenSize().width));
             
             //let scheduleViewHorizontalPadding : CGFloat = 5;
             let scheduleViewVerticalPadding : CGFloat = scheduleViewSize.height * 0.15;
@@ -75,11 +79,6 @@ extension profilePageViewController{
             let periodViewWidth = scheduleViewSize.width * 0.35;
             let separatorViewWidth = scheduleViewSize.width * 0.002;
             let timeViewWidth = scheduleViewSize.width - periodViewWidth - separatorViewWidth;
-            
-            let schedulePrimaryFontSize : CGFloat = scheduleViewSize.height * 0.3;
-            let scheduleSecondaryFontSize : CGFloat = scheduleViewSize.height * 0.15;
-            let scheduleInnerPrimaryPadding : CGFloat = scheduleViewSize.height * 0.2;
-            let scheduleInnerSecondaryPadding : CGFloat = scheduleViewSize.height * 0.02;
             
             
             //
@@ -187,8 +186,9 @@ extension profilePageViewController{
             timeValueLabel.translatesAutoresizingMaskIntoConstraints = false;
             
             // constraints are set up after timeLabel
+            let timeValue = max(timeDifference, -1);
             
-            timeValueLabel.text = "\(max(timeDifference, -1)) minutes";
+            timeValueLabel.text = "\(timeValue) minute\(timeValue > 1 ? "s" : "")";
             timeValueLabel.textColor = .white;
             timeValueLabel.font = UIFont(name: SFProDisplay_Bold, size: schedulePrimaryFontSize);
             
@@ -247,11 +247,30 @@ extension profilePageViewController{
             scheduleLabel.centerXAnchor.constraint(equalTo: scheduleView.centerXAnchor).isActive = true;
             scheduleLabel.centerYAnchor.constraint(equalTo: scheduleView.centerYAnchor).isActive = true;
             
-            scheduleLabel.text = scheduledata.title;
+            scheduleLabel.text = "\(scheduledata.title)" + "\n" + "(Out of school)";
             scheduleLabel.textColor = InverseBackgroundColor;
             scheduleLabel.font = UIFont(name: SFProDisplay_Semibold, size: scheduleView.frame.width * 0.06);
             scheduleLabel.numberOfLines = 0;
+            scheduleLabel.textAlignment = .center;
             
+            //
+            
+            let chevronImageView = UIImageView();
+            
+            scheduleView.addSubview(chevronImageView);
+            
+            chevronImageView.tag = 1;
+            chevronImageView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            chevronImageView.trailingAnchor.constraint(equalTo: scheduleView.trailingAnchor, constant: -scheduleInnerPrimaryPadding).isActive = true;
+            chevronImageView.topAnchor.constraint(equalTo: scheduleView.topAnchor, constant: scheduleInnerPrimaryPadding).isActive = true;
+            chevronImageView.bottomAnchor.constraint(equalTo: scheduleView.bottomAnchor, constant: -scheduleInnerPrimaryPadding).isActive = true;
+            chevronImageView.leadingAnchor.constraint(greaterThanOrEqualTo: scheduleLabel.trailingAnchor, constant: (scheduleInnerPrimaryPadding / 2)).isActive = true;
+            
+            chevronImageView.contentMode = .scaleAspectFit;
+            chevronImageView.image = UIImage(systemName: "chevron.right");
+            chevronImageView.tintColor = .white;
+            //chevronImageView.backgroundColor = .systemRed;
             
         }
         
