@@ -183,9 +183,22 @@ class navigationViewController : UIViewController{
         
         topBarHomeView = UIView(frame: titleLabelFrame);
         
+        //topBarHomeView.backgroundColor = .systemRed;
+        
         topBarView.addSubview(topBarHomeView);
-
-        //topBarHomeView.backgroundColor = .systemBlue;
+        
+        //
+        
+        let topBarHomeImageViewHeight = topBarHomeView.frame.height;
+        let topBarHomeImageViewWidth = topBarHomeImageViewHeight * 0.8;
+        let topBarHomeImageViewFrame = CGRect(x: 0, y: 0, width: topBarHomeImageViewWidth, height: topBarHomeImageViewHeight);
+        topBarHomeImageView = UIImageView(frame: topBarHomeImageViewFrame);
+        
+        topBarHomeImageView.image = UIImage(named: "icon_no_bg");
+        topBarHomeImageView.contentMode = .scaleAspectFill;
+        //topBarHomeImageView.backgroundColor = .systemRed;
+        
+        topBarHomeView.addSubview(topBarHomeImageView);
         
         //
         
@@ -193,7 +206,7 @@ class navigationViewController : UIViewController{
         let topBarHomeTitleLabelFont = UIFont(name: SFProDisplay_Bold, size: topBarHomeView.frame.height * 0.5)!;
         let topBarHomeTitleLabelHeight = topBarHomeView.frame.height / 2;
         let topBarHomeTitleLabelWidth = topBarHomeTitleLabelText.width(withConstrainedHeight: topBarHomeTitleLabelHeight, font: topBarHomeTitleLabelFont);
-        let topBarHomeTitleLabelFrame = CGRect(x: 0, y: 0, width: topBarHomeView.frame.width, height: topBarHomeTitleLabelHeight);
+        let topBarHomeTitleLabelFrame = CGRect(x: topBarHomeImageViewWidth, y: 0, width: topBarHomeTitleLabelWidth, height: topBarHomeTitleLabelHeight);
         let topBarHomeTitleLabel = UILabel(frame: topBarHomeTitleLabelFrame);
         
         topBarHomeTitleLabel.text = topBarHomeTitleLabelText;
@@ -206,7 +219,7 @@ class navigationViewController : UIViewController{
         
         //
         
-        let topBarHomeDateLabelFrame = CGRect(x: 0, y: topBarHomeView.frame.height / 2, width: topBarHomeView.frame.width, height: topBarHomeView.frame.height / 2);
+        let topBarHomeDateLabelFrame = CGRect(x: topBarHomeImageViewWidth, y: topBarHomeView.frame.height / 2, width: topBarHomeView.frame.width - topBarHomeImageViewWidth, height: topBarHomeView.frame.height / 2);
         let topBarHomeDateLabel = UITextView(frame: topBarHomeDateLabelFrame);
         
         topBarHomeDateLabel.isUserInteractionEnabled = false;
@@ -228,16 +241,6 @@ class navigationViewController : UIViewController{
         
         topBarHomeView.addSubview(topBarHomeDateLabel);
         
-        //
-        
-        let topBarHomeImageViewFrame = CGRect(x: 0, y: 0, width: topBarHomeTitleLabelWidth, height: topBarHomeView.frame.height);
-        topBarHomeImageView = UIImageView(frame: topBarHomeImageViewFrame);
-        
-        topBarHomeImageView.image = UIImage(named: "icon_no_bg");
-        topBarHomeImageView.contentMode = .scaleAspectFit;
-        topBarHomeImageView.alpha = 0.5;
-        
-        topBarHomeView.addSubview(topBarHomeImageView);
 
     }
     

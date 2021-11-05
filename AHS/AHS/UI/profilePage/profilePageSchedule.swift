@@ -26,13 +26,13 @@ extension profilePageViewController{
     
     internal func loadSchedule(){
         
-        for subview in scheduleView.subviews{
-            if subview.tag == 1{
-                subview.removeFromSuperview();
-            }
-        }
-        
         dataManager.getTodaySchedule(completion: { (scheduledata) in
+            
+            for subview in self.scheduleView.subviews{
+                if subview.tag == 1{
+                    subview.removeFromSuperview();
+                }
+            }
             
             self.renderInnerSchedule(scheduledata);
             
