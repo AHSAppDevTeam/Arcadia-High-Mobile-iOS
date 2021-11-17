@@ -12,6 +12,15 @@ extension profilePageViewController{
     
     internal func renderSchedule(){
         
+        scheduleViewHeight = AppUtility.getCurrentScreenSize().width * profilePageViewController.contentTableViewRowHeightRatio * profilePageViewController.scheduleViewHeightRatio;
+        scheduleViewWidth = AppUtility.getCurrentScreenSize().width - 2*profilePageViewController.horizontalPadding;
+        
+        //
+        
+        setupBackgroundScheduleGradient();
+        
+        //
+        
         scheduleView.backgroundColor = UIColor.init(hex: "#70afb4");
         scheduleView.layer.cornerRadius = 10;
         scheduleView.clipsToBounds = true;

@@ -49,7 +49,7 @@ extension profilePageViewController{
         idCardButton.layer.insertSublayer(backgroundIDGradient, at: 0);
     }
     
-    internal func animateIDBackgroundGradient(){
+    internal func animateBackgroundIDGradient(){
         
         if backgroundIDCurrentGradient < backgroundIDGradientSet.count - 1 {
             backgroundIDCurrentGradient += 1;
@@ -65,17 +65,7 @@ extension profilePageViewController{
         gradientChangeAnimation.fillMode = .forwards;
         gradientChangeAnimation.isRemovedOnCompletion = false;
         gradientChangeAnimation.delegate = self;
-        backgroundIDGradient.add(gradientChangeAnimation, forKey: "colorChange");
+        backgroundIDGradient.add(gradientChangeAnimation, forKey: "colorChangeID");
     }
     
-}
-
-
-extension profilePageViewController: CAAnimationDelegate {
-    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        if flag {
-            backgroundIDGradient.colors = backgroundIDGradientSet[backgroundIDCurrentGradient];
-            animateIDBackgroundGradient();
-        }
-    }
 }

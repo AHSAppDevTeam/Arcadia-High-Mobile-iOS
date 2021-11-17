@@ -31,6 +31,8 @@ class profilePageViewController : mainPageViewController{
     
     static internal let scheduleViewHeightRatio : CGFloat = 2.22; // in relation to contentTableViewRowHeightRatio
     internal let scheduleView : UIView = UIView();
+    internal var scheduleViewWidth : CGFloat = 0; // set on runtime
+    internal var scheduleViewHeight : CGFloat = 0;
     
     //static internal let optionsCellTitles = ["Notifications", "ID Card"]; -- with id card
     static internal let optionsCellTitles = ["Notifications"];
@@ -53,6 +55,13 @@ class profilePageViewController : mainPageViewController{
     
     internal var backgroundIDGradientSet = [[CGColor]]();
     internal var backgroundIDCurrentGradient: Int = 0;
+    
+    //
+    
+    internal let backgroundScheduleGradient = CAGradientLayer();
+    
+    internal var backgroundScheduleGradientSet = [[CGColor]]();
+    internal var backgroundScheduleCurrentGradient : Int = 0;
     
     //
     
@@ -109,7 +118,7 @@ class profilePageViewController : mainPageViewController{
             self.hasBeenSetup = true;
         }
         
-        animateIDBackgroundGradient();
+        animateBackgroundIDGradient();
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
     }
@@ -203,4 +212,17 @@ class profilePageViewController : mainPageViewController{
         
     }
     
+}
+
+
+extension profilePageViewController: CAAnimationDelegate {
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        if flag {
+            backgroundIDGradient.colors = backgroundIDGradientSet[backgroundIDCurrentGradient];
+            animateBackgroundIDGradient();
+
+            //backgroundScheduleGradient.colors = backgroundScheduleGradientSet[backgroundScheduleCurrentGradient];
+            //animateBackgroundScheduleGradient();
+        }
+    }
 }
