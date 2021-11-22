@@ -28,9 +28,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Arcadia High Mobile requires access to camera APIs in order to generate/scan barcodes with an external library called RSBarcodes_Swift</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SFCompactDisplay-Light.otf</string>
