@@ -13,6 +13,7 @@ extension homePageViewController{
     @objc func refresh(_ sender: UIRefreshControl){
         //print("refresh");
         //refreshControl.endRefreshing();
+        dataManager.cacheCategoryData();
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
     }
     

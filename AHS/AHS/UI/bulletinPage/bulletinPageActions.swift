@@ -15,6 +15,7 @@ extension bulletinPageViewController{
         reset();
         loadBulletinData();
         dataManager.resetBulletinArticleListCache();
+        dataManager.cacheCategoryData();
     }
  
     @objc internal func endRefreshing(){
