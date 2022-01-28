@@ -358,7 +358,7 @@ class spotlightPageViewController : presentableViewController{
             let colorStripViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width * 0.02, height: articleView.frame.height);
             let colorStripView = UIView(frame: colorStripViewFrame);
             
-            colorStripView.backgroundColor = articledata.color != nil ? articledata.color : dataManager.getPreloadedCategoryData(articledata.categoryID).color;
+            colorStripView.backgroundColor = articledata.color != nil ? articledata.color : dataManager.getCachedCategoryData(articledata.categoryID).color;
             
             colorStripView.layer.cornerRadius = articleViewCornerRadius / 2;
             colorStripView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner];

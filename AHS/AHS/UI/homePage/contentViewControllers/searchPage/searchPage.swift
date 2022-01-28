@@ -78,7 +78,7 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         var filteredSnippetArray : [articleSnippetData] = [];
         
         for snippet in snippetArray{
-            if (!snippet.categoryID.isEmpty && dataManager.getPreloadedCategoryData(snippet.categoryID).visible){
+            if (!snippet.categoryID.isEmpty && dataManager.getCachedCategoryData(snippet.categoryID).visible){
                 filteredSnippetArray.append(snippet);
             }
         }

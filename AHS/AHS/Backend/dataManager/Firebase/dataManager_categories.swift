@@ -31,7 +31,7 @@ struct categoryData{
 
 extension dataManager{
     
-    static public func preloadCategoryData(){
+    static public func cacheCategoryData(){
         
         setupConnection();
         
@@ -76,7 +76,7 @@ extension dataManager{
         
     }
     
-    static public func getPreloadedCategoryData(_ categoryID: String) -> categoryData{
+    static public func getCachedCategoryData(_ categoryID: String) -> categoryData{
         //categoryLookupDispatchQueue.sync {
             return categoryLookupMap[categoryID] ?? createDefaultCategoryData(categoryID);
         //}

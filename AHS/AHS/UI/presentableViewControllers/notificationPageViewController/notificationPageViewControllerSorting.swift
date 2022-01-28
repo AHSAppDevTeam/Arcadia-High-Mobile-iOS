@@ -128,7 +128,7 @@ extension notificationPageViewController{
             
             let data = dataManager.getCachedNotificationData(notificationID);
             
-            if (dataManager.isUserSubscribedToCategory(data.categoryID) && dataManager.getPreloadedCategoryData(data.categoryID).visible){
+            if (dataManager.isUserSubscribedToCategory(data.categoryID) && dataManager.getCachedCategoryData(data.categoryID).visible){
                 
                 notificationList.append(data);
                 
