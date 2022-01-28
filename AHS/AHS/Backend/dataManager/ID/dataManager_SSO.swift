@@ -18,7 +18,7 @@ extension dataManager{
     
     static public func recoverPreviousSignInSession(){
         GIDSignIn.sharedInstance.restorePreviousSignIn(callback: { (user, error) in
-            signInFirebase(user, error: error, completion: { _ in });
+            //signInFirebase(user, error: error, completion: { _ in });
         });
     }
     
@@ -29,16 +29,16 @@ extension dataManager{
         let config = GIDConfiguration(clientID: clientID)
         
         GIDSignIn.sharedInstance.signIn(with: config, presenting: parentVC) { (user, error) in
-            signInFirebase(user, error: error, completion: { (err) in
+            /*signInFirebase(user, error: error, completion: { (err) in
                 
                 completion(err);
                 
-            });
-            //completion(error);
+            });*/
+            completion(error);
         }
     }
     
-    static private func signInFirebase(_ user: GIDGoogleUser?, error: Error?, completion: @escaping (Error?) -> Void){
+    static private func signInFirebase(_ user: GIDGoogleUser?, error: Error?, completion: @escaping (Error?) -> Void){ // for signing into firebase
         if let err = error {
             completion(err);
             return;
@@ -59,14 +59,14 @@ extension dataManager{
     }
     
     static public func signOutUser(){
-        do{
+        /*do{
             try Auth.auth().signOut();
             GIDSignIn.sharedInstance.signOut();
         }
         catch{
             print("Failed to sign out - \(error.localizedDescription)");
-        }
-        //GIDSignIn.sharedInstance.signOut();
+        }*/
+        GIDSignIn.sharedInstance.signOut();
     }
     
 }
