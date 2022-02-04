@@ -69,6 +69,10 @@ class profilePageViewController : mainPageViewController{
     
     //
     
+    internal var timer : Timer? = nil;
+    
+    //
+    
     init(){
         super.init(nibName: nil, bundle: nil);
         self.pageName = "Your";
@@ -121,12 +125,20 @@ class profilePageViewController : mainPageViewController{
         animateBackgroundIDGradient();
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+        
+        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.updateSchedule), userInfo: nil, repeats: true);
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated);
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+        
+        if let t = timer{
+            t.invalidate();
+            timer = nil;
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {

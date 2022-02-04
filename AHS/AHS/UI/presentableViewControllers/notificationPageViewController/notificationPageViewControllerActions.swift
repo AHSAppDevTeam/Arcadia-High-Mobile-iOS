@@ -68,11 +68,17 @@ extension notificationPageViewController : UIScrollViewDelegate{
             
             for view in self.mainScrollView.subviews{
                 if view.tag == 1{
-                    if let notificationButton = view as? NotificationButton{
+                    
+                    DispatchQueue.global(qos: .background).async {
                         
-                        dataManager.setReadNotification(notificationButton.notificationID);
+                        if let notificationButton = view as? NotificationButton{
+                            
+                            dataManager.setReadNotification(notificationButton.notificationID);
+                            
+                        }
                         
                     }
+                    
                 }
             }
             
@@ -80,15 +86,15 @@ extension notificationPageViewController : UIScrollViewDelegate{
             
         }, declineCompletion: { () in
             
-            createConfirmationPrompt(self, "Reset All Notifications?", confirmCompletion: { () in
-               
+            /*createConfirmationPrompt(self, "Reset All Notifications?", confirmCompletion: { () in
+                
                 UIImpactFeedbackGenerator(style: .light).impactOccurred();
                 
                 dataManager.resetNotificationReadDict();
                 
                 self.refresh();
                 
-            });
+            });*/
             
         });
     }

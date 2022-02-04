@@ -12,7 +12,7 @@ import FirebaseDatabase
 enum categoryLayout{
     case list
     case row
-    case slash
+    case splash
     case none
 }
 
@@ -149,7 +149,7 @@ extension dataManager{
     static internal func encodeStringToLayoutEnum(_ s: String) -> categoryLayout{
         switch s {
         case "splash":
-            return .slash;
+            return .splash;
         case "row":
             return .row; // row layout always has images
         case "list":

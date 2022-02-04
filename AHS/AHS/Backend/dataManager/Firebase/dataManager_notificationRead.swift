@@ -11,7 +11,7 @@ import UIKit
 extension dataManager{
     
     static public func setReadNotification(_ notificationID: String){
-        notificationReadDispatchQueue.sync {
+        notificationReadDispatchQueue.async {
             dataManager.preferencesStruct.notificationsReadDict[notificationID] = true;
         }
     }
