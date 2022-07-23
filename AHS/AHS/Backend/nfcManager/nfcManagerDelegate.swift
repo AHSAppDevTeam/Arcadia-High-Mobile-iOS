@@ -33,14 +33,14 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
     private func writeDataToTag(_ session: NFCNDEFReaderSession, _ nfctag: NFCNDEFTag, _ nfcmsg: NFCNDEFMessage){
         // When a tag is read-writable and has sufficient capacity,
         // write an NDEF message to it.
-        print("WRITE TO TAG = \(nfcmsg)");
+        //print("WRITE TO TAG = \(nfcmsg)");
         nfctag.writeNDEF(nfcmsg) { (error: Error?) in
             if let err = error {
                 print("ERROR WRITING TO TAG \(err)");
                 session.invalidate(errorMessage: "Update tag failed. Please try again.");
             }
             else{
-                session.alertMessage = "Update success!";
+                session.alertMessage = "Student ID Sent!";
                 session.invalidate();
             }
         }
@@ -55,7 +55,13 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
     internal func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
         // If necessary, you may handle the error. Note session is no longer valid.
         // You must create a new session to restart RF polling.
-        print("NFC Session invalidated with error \(error)");
+        guard let err = error as? NFCReaderError else{
+            print(error);
+            return;
+        }
+        if (err.errorCode != 200){ // error code 200 is "Session invalidated by user"
+            print("NFC Session invalidated with error \(err)");
+        }
     }
     
     internal func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
@@ -73,7 +79,7 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
         let nfctag = tags.first!;
         session.connect(to: nfctag) { (error: Error?) in
             if let err = error {
-                print("Error connecting to tag \(err), restarting...");
+                //print("Error connecting to tag \(err), restarting...");
                 session.restartPolling();
                 return;
             }
@@ -83,7 +89,7 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
                 return;
             }
             
-            print("CONNECTED SESSION")
+            //print("CONNECTED SESSION")
             
             // You then query the NDEF status of tag.
             nfctag.queryNDEFStatus() { (status: NFCNDEFStatus, capacity: Int, error: Error?) in
@@ -92,7 +98,7 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
                     return;
                 }
                 
-                print("CONNECTED NDEF STATUS = \(status)")
+                //print("CONNECTED NDEF STATUS = \(status)")
                 
                 if status == .readOnly {
                     session.invalidate(errorMessage: "Tag is not writable.");
@@ -102,7 +108,7 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
                         return;
                     }
                     
-                    print("WRITING TO TAG");
+                    //print("WRITING TO TAG");
                     self.writeDataToTag(session, nfctag, nfcmsg);
                     
                 } else {
