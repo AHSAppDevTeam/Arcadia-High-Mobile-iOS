@@ -49,7 +49,7 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
     //
     
     internal func readerSessionDidBecomeActive(_ session: NFCNDEFReaderSession) {
-        generateNFCPayload();
+        generatePayload();
     }
     
     internal func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {

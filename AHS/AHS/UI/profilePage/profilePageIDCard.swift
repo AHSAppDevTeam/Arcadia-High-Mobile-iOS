@@ -18,20 +18,8 @@ extension profilePageViewController{
             handleIDCardLongPress();
         }
         else{
-            guard let signedInUserData = dataManager.getSignedInUserData() else{
-                print("Sign in is required");
-                idCardButton.idState = .requiresSignIn;
-                renderIDCard();
-                return;
-            }
-            
-            guard let idstr = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? "") else{
-                print("Called nfc init when invalid id");
-                return;
-            }
-            
-            print("nfc triggered \(idstr)");
-            nfcmgr.initNFC(idstr);
+            //print("nfc triggered \(idstr)");
+            nfcmgr.initNFC();
         }
         
     }

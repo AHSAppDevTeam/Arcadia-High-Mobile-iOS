@@ -9,6 +9,7 @@ import Foundation
 import CryptoKit
 import CoreNFC
 import UIKit
+import SwiftMsgPack
 
 class nfcManager : NSObject{
     
@@ -57,27 +58,55 @@ class nfcManager : NSObject{
     
     private func beginNFCSession(){
         nfcSession = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: false);
-        nfcSession?.alertMessage = "Hold your iPhone near an NFC reader.";
+        nfcSession?.alertMessage = "Hold your iPhone next to the NFC scanner.";
         nfcSession?.begin();
     }
     
-    internal func generateNFCPayload(){
-        let textPayload = NFCNDEFPayload.wellKnownTypeTextPayload(
+    internal func generatePayload(){
+        guard dataManager.getIsStudentSignedIn() else{
+            nfcSession?.invalidate(errorMessage: "User not signed in.");
+            return;
+        }
+        
+        var idData = Data();
+        do{
+            try idData.pack(dataManager.getIDFromStudentEmail(dataManager.getSignedInUserData()?.profile?.email ?? ""));
+        }
+        catch{
+            nfcSession?.invalidate(errorMessage: "Unable to generate ID payload.");
+            return;
+        }
+        
+        guard let nfcSaltString = Bundle.main.infoDictionary?["nfcsalt"] as? String else{
+            nfcSession?.invalidate(errorMessage: "Invalid nfc configuration");
+            return;
+        }
+        
+        let nfcsalt = nfcSaltString.split(separator: " ").compactMap { UInt8($0) };
+        
+        let hashedData = SHA256.hash(data: Data(dataManager.convertDataToAUInt8(idData) + nfcsalt));
+        
+        generateNFCPayload(hashedData.data, idData);
+    }
+    
+    internal func generateNFCPayload(_ hashedData: Data, _ idData: Data){
+        /*let textPayload = NFCNDEFPayload.wellKnownTypeTextPayload(
             string: "https://ahs.app/",
             locale: Locale(identifier: "EN")
-        )
-        nfcMessage = NFCNDEFMessage(records: [textPayload!]);
+        )*/
+        
+        //print("generating nfc payload")
+        
+        let hashedPayload = NFCNDEFPayload(format: .nfcExternal, type: "nfc_h".data(using: .ascii)!, identifier: "ahs".data(using: .ascii)!, payload: hashedData);
+        let idDataPayload = NFCNDEFPayload(format: .nfcExternal, type: "nfc_d".data(using: .ascii)!, identifier: "ahs".data(using: .ascii)!, payload: idData);
+        
+        nfcMessage = NFCNDEFMessage(records: [hashedPayload, idDataPayload]);
     }
     
     //
     
-    public func initNFC(_ studentID: String){
-        if (studentID.count != 5 && Int(studentID) != nil){
-            print("Invalid studentID passed to nfc function \(studentID)")
-            return;
-        }
-        
-        if (isNFCAvailable()){
+    public func initNFC(){
+        if (dataManager.getIsStudentSignedIn() && isNFCAvailable()){
             beginNFCSession();
         }
     }

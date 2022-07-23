@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CryptoKit
 
 extension UIColor{
     static func rgb(_ r: Double, _ g: Double, _ b: Double) -> UIColor{
@@ -217,3 +218,14 @@ extension UISwitch{
     }
     
 }
+
+// https://stackoverflow.com/a/57255549/
+extension Digest {
+    var bytes: [UInt8] { Array(makeIterator()) }
+    var data: Data { Data(bytes) }
+
+    var hexStr: String {
+        bytes.map { String(format: "%02X", $0) }.joined()
+    }
+}
+

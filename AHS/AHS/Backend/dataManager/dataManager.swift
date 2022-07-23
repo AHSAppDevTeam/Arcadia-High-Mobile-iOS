@@ -107,4 +107,16 @@ class dataManager{
             && s.firstIndex(of: "]") == nil
     }
     
+    //
+    
+    static public func convertDataToAUInt8(_ d: Data) -> [UInt8]{
+        var t : [UInt8] = [];
+        t.append(contentsOf: d);
+        return t;
+    }
+    
+    static public func convertAUInt8ToData(_ a: [UInt8]) -> Data{
+        return Data(a);
+    }
+    
 }
