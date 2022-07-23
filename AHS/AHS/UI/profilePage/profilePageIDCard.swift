@@ -139,6 +139,30 @@ extension profilePageViewController{
         
         //
         
+        let userNameLabel = UILabel();
+        
+        idCardButton.addSubview(userNameLabel);
+        
+        userNameLabel.translatesAutoresizingMaskIntoConstraints = false;
+        
+        let userNameLabelPadding = 2*profilePageViewController.horizontalPadding;
+        
+        userNameLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: userNameLabelPadding).isActive = true;
+        userNameLabel.topAnchor.constraint(equalTo: idCardButton.topAnchor, constant: userNameLabelPadding).isActive = true;
+        userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: CGFloat(-userNameLabelPadding)).isActive = true;
+        //userNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: barcodeImageView.topAnchor, constant: -userNameLabelPadding).isActive = true;
+        
+        userNameLabel.text = dataManager.splitFullName(signedInUserData.profile?.name ?? "");
+        userNameLabel.textAlignment = .left;
+        userNameLabel.textColor = .white;
+        userNameLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.16);
+        userNameLabel.numberOfLines = 0;
+        userNameLabel.adjustsFontSizeToFitWidth = true;
+        userNameLabel.minimumScaleFactor = 0.3;
+        userNameLabel.isUserInteractionEnabled = false;
+        
+        //
+        
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
             
             //print("valid id = " + idString);
@@ -182,6 +206,25 @@ extension profilePageViewController{
             nfcImageView.image = UIImage(systemName: "wave.3.forward.circle.fill");
             //nfcImageView.backgroundColor = .systemRed;
             
+            //
+            
+            let idLabel = UILabel();
+            
+            idCardButton.addSubview(idLabel);
+            
+            idLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            let idLabelPadding = 2*profilePageViewController.horizontalPadding;
+            
+            idLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: idLabelPadding).isActive = true;
+            idLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: idLabelPadding * 0.2).isActive = true;
+            idLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: CGFloat(-idLabelPadding)).isActive = true;
+            
+            idLabel.text = idString;
+            idLabel.textAlignment = .left;
+            idLabel.textColor = .white;
+            idLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.1);
+            
         }
         else{
             //print("Invalid student email when attempting to render ID card");
@@ -210,30 +253,6 @@ extension profilePageViewController{
             //invalidLabel.backgroundColor = .systemRed;
             
         }
-        
-        //
-        
-        let userNameLabel = UILabel();
-        
-        idCardButton.addSubview(userNameLabel);
-        
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false;
-        
-        let userNameLabelPadding = 2*profilePageViewController.horizontalPadding;
-        
-        userNameLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: userNameLabelPadding).isActive = true;
-        userNameLabel.topAnchor.constraint(equalTo: idCardButton.topAnchor, constant: userNameLabelPadding).isActive = true;
-        userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: CGFloat(-userNameLabelPadding)).isActive = true;
-        //userNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: barcodeImageView.topAnchor, constant: -userNameLabelPadding).isActive = true;
-        
-        userNameLabel.text = dataManager.splitFullName(signedInUserData.profile?.name ?? "");
-        userNameLabel.textAlignment = .left;
-        userNameLabel.textColor = .white;
-        userNameLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.16);
-        userNameLabel.numberOfLines = 0;
-        userNameLabel.adjustsFontSizeToFitWidth = true;
-        userNameLabel.minimumScaleFactor = 0.3;
-        userNameLabel.isUserInteractionEnabled = false;
         
     }
     
