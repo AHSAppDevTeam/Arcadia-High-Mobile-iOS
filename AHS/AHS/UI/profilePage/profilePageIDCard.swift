@@ -18,9 +18,22 @@ extension profilePageViewController{
             handleIDCardLongPress();
         }
         else{
-            print("nfc triggered");
+            guard let signedInUserData = dataManager.getSignedInUserData() else{
+                print("Sign in is required");
+                idCardButton.idState = .requiresSignIn;
+                renderIDCard();
+                return;
+            }
+            
+            guard let idstr = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? "") else{
+                print("Called nfc init when invalid id");
+                return;
+            }
+            
+            print("nfc triggered \(idstr)");
+            nfcmgr.initNFC(idstr);
         }
-             
+        
     }
     
     @objc internal func handleIDCardLongPress(){
@@ -65,7 +78,7 @@ extension profilePageViewController{
     private func renderID_Content(){
         
         guard let signedInUserData = dataManager.getSignedInUserData() else{
-            print("Sign in is required")
+            print("Sign in is required");
             idCardButton.idState = .requiresSignIn;
             renderIDCard();
             return;
@@ -154,7 +167,7 @@ extension profilePageViewController{
             
             let nfcImageView = UIImageView();
             let nfcImageViewSize = idCardButtonWidth * 0.16;
-        
+            
             idCardButton.addSubview(nfcImageView);
             
             nfcImageView.translatesAutoresizingMaskIntoConstraints = false;
@@ -197,7 +210,7 @@ extension profilePageViewController{
             //invalidLabel.backgroundColor = .systemRed;
             
         }
-            
+        
         //
         
         let userNameLabel = UILabel();
@@ -304,7 +317,7 @@ extension profilePageViewController{
     private func createIDActionPrompt(){
         
         let confirmPopUp = UIAlertController(title: title, message: "ID Card", preferredStyle: .actionSheet);
-
+        
         confirmPopUp.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in }));
         
         confirmPopUp.addAction(UIAlertAction(title: "Lock", style: .default, handler: { (_) in
@@ -314,7 +327,7 @@ extension profilePageViewController{
         
         confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
             self.idCardButton.idState = .requiresSignIn;
-        
+            
             dataManager.signOutUser();
             
             self.renderIDCard();

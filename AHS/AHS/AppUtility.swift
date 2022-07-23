@@ -2,7 +2,7 @@
 //  AppUtility.swift
 //  AHS
 //
-//  Created by Richard Wei on 12/14/20.
+//  Created by Richard Wei.
 //
 import Foundation
 import UIKit
@@ -42,6 +42,29 @@ struct AppUtility {
     static func getCurrentScreenSize() -> CGSize{
         let isLandscape = isOrientationLocked ? isLockedOrientationLandscape : UIDevice.current.orientation.isLandscape;
         return CGSize(width: (isLandscape ? AppUtility.originalHeight : AppUtility.originalWidth), height: (isLandscape ? AppUtility.originalWidth : AppUtility.originalHeight));
+    }
+    
+    // https://stackoverflow.com/a/26667122/
+    static func getTopMostViewController() -> UIViewController?{
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+
+        if var topController = keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+
+            return topController;
+        }
+        return nil;
+    }
+    
+    static func presentAlertController(_ vc: UIAlertController){
+        guard let topVC = getTopMostViewController() else{
+            print("Unable to find topmost view controller");
+            return;
+        }
+        
+        topVC.present(vc, animated: true);
     }
     
     //
