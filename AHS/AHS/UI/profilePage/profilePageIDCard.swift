@@ -128,7 +128,7 @@ extension profilePageViewController{
         
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
             
-            print("valid id = " + idString);
+            //print("valid id = " + idString);
             
             let nfcLabel = UILabel();
             let nfcLabelText = "Tap for NFC"
@@ -153,7 +153,7 @@ extension profilePageViewController{
             //
             
             let nfcImageView = UIImageView();
-            let nfcImageViewSize = idCardButtonWidth * 0.12;
+            let nfcImageViewSize = idCardButtonWidth * 0.16;
         
             idCardButton.addSubview(nfcImageView);
             
