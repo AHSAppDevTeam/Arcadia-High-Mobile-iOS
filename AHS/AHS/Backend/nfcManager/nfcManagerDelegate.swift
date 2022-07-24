@@ -79,7 +79,7 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
         let nfctag = tags.first!;
         session.connect(to: nfctag) { (error: Error?) in
             if let err = error {
-                //print("Error connecting to tag \(err), restarting...");
+                print("Error connecting to tag \(err), restarting...");
                 session.restartPolling();
                 return;
             }

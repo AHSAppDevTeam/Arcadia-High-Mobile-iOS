@@ -70,13 +70,14 @@ class nfcManager : NSObject{
         
         var idData = Data();
         do{
-            try idData.pack(dataManager.getIDFromStudentEmail(dataManager.getSignedInUserData()?.profile?.email ?? ""));
+            let id = Int(dataManager.getIDFromStudentEmail(dataManager.getSignedInUserData()?.profile?.email ?? "") ?? "");
+            try idData.pack(id);
         }
         catch{
             nfcSession?.invalidate(errorMessage: "Unable to generate ID payload.");
             return;
         }
-        
+                
         guard let nfcSaltString = Bundle.main.infoDictionary?["nfcsalt"] as? String else{
             nfcSession?.invalidate(errorMessage: "Invalid nfc configuration");
             return;
@@ -84,7 +85,11 @@ class nfcManager : NSObject{
         
         let nfcsalt = nfcSaltString.split(separator: " ").compactMap { UInt8($0) };
         
-        let hashedData = SHA256.hash(data: Data(dataManager.convertDataToAUInt8(idData) + nfcsalt));
+        let prehashData = dataManager.convertDataToAUInt8(idData) + nfcsalt;
+                
+        let hashedData = SHA256.hash(data: Data(prehashData));
+        
+        //print(dataManager.convertDataToAUInt8(hashedData.data))
         
         generateNFCPayload(hashedData.data, idData);
     }
@@ -101,6 +106,8 @@ class nfcManager : NSObject{
         let idDataPayload = NFCNDEFPayload(format: .nfcExternal, type: "nfc_d".data(using: .ascii)!, identifier: "ahs".data(using: .ascii)!, payload: idData);
         
         nfcMessage = NFCNDEFMessage(records: [hashedPayload, idDataPayload]);
+        
+        //print("message size = \(nfcMessage?.length)");
     }
     
     //
