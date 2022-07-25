@@ -36,12 +36,6 @@ class nfcManager : NSObject{
      let digest = SHA512.hash(data: (data));
      print(digest.bytes);*/
     
-    private func getNFCSalt() -> [UInt]?{
-        let nfcsaltstr = Bundle.main.infoDictionary?["nfcsalt"] as? String;
-        let nfcsalt = nfcsaltstr?.components(separatedBy: .whitespaces).compactMap{ UInt($0) };
-        return nfcsalt;
-    }
-    
     private func isNFCAvailable() -> Bool{
         guard NFCNDEFReaderSession.readingAvailable else{
             let alertController = UIAlertController(
@@ -87,11 +81,15 @@ class nfcManager : NSObject{
         
         let prehashData = dataManager.convertDataToAUInt8(idData) + nfcsalt;
                 
-        let hashedData = SHA256.hash(data: Data(prehashData));
+        let hashedData = SHA256.hash(data: Data(prehashData)).data;
+                
+        let hashedDataArray = dataManager.convertDataToAUInt8(hashedData);
+        
+        let splitHashedDataArray = Array(ArraySlice<UInt8>(hashedDataArray[0..<hashedDataArray.count/2]));
         
         //print(dataManager.convertDataToAUInt8(hashedData.data))
         
-        generateNFCPayload(hashedData.data, idData);
+        generateNFCPayload(dataManager.convertAUInt8ToData(splitHashedDataArray), idData);
     }
     
     internal func generateNFCPayload(_ hashedData: Data, _ idData: Data){
@@ -100,10 +98,10 @@ class nfcManager : NSObject{
             locale: Locale(identifier: "EN")
         )*/
         
-        //print("generating nfc payload")
+        //print("hashed size = \(hashedData.count), idData = \(idData.count)")
         
-        let hashedPayload = NFCNDEFPayload(format: .nfcExternal, type: "nfc_h".data(using: .ascii)!, identifier: "ahs".data(using: .ascii)!, payload: hashedData);
-        let idDataPayload = NFCNDEFPayload(format: .nfcExternal, type: "nfc_d".data(using: .ascii)!, identifier: "ahs".data(using: .ascii)!, payload: idData);
+        let hashedPayload = NFCNDEFPayload(format: .nfcExternal, type: "a:h".data(using: .ascii)!, identifier: "a".data(using: .ascii)!, payload: hashedData);
+        let idDataPayload = NFCNDEFPayload(format: .nfcExternal, type: "a:d".data(using: .ascii)!, identifier: "a".data(using: .ascii)!, payload: idData);
         
         nfcMessage = NFCNDEFMessage(records: [hashedPayload, idDataPayload]);
         
@@ -114,6 +112,7 @@ class nfcManager : NSObject{
     
     public func initNFC(){
         if (dataManager.getIsStudentSignedIn() && isNFCAvailable()){
+            generatePayload();
             beginNFCSession();
         }
     }
