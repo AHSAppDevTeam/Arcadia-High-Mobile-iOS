@@ -173,7 +173,15 @@ class profilePageViewController : mainPageViewController{
         
         idCardButton.clipsToBounds = true;
         idCardButton.layer.cornerRadius = 12;
-        idCardButton.addTarget(self, action: #selector(self.handleIDCardPress), for: .touchUpInside);
+        //idCardButton.addTarget(self, action: #selector(self.handleIDCardPress), for: .touchUpInside);
+    
+        let idCardButtonTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleIDCardPress));
+        idCardButtonTapGestureRecognizer.numberOfTapsRequired = 1;
+        idCardButton.addGestureRecognizer(idCardButtonTapGestureRecognizer);
+        
+        let idCardButtonLongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleIDCardLongPress));
+        idCardButton.addGestureRecognizer(idCardButtonLongPressGestureRecognizer);
+    
         
         idCardButton.backgroundColor = .systemOrange;
         

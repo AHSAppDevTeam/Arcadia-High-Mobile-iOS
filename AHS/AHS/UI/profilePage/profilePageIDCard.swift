@@ -14,9 +14,20 @@ extension profilePageViewController{
     
     @objc internal func handleIDCardPress(){
         
+        if (idCardButton.idState != .isUnlocked || !dataManager.getIsStudentSignedIn()){
+            handleIDCardLongPress();
+        }
+        else{
+            //print("nfc triggered \(idstr)");
+            nfcmgr.initNFC();
+        }
+        
+    }
+    
+    @objc internal func handleIDCardLongPress(){
         switch idCardButton.idState {
         case .isLocked:
-            idCardButton.idState = .isUnlocked;
+            idCardButton.idState = .isUnlocked; // need to implement auth
         case .isUnlocked:
             createIDActionPrompt();
         case .requiresSignIn:
@@ -30,15 +41,10 @@ extension profilePageViewController{
                 self.idCardButton.idState = .isUnlocked;
                 self.renderIDCard();
                 
-                if let _ = dataManager.getIDFromStudentEmail(dataManager.getSignedInUserData()?.profile?.email ?? ""){
-                    createAlertPrompt(self, "ID Card Barcode", "Barcodes are temporarily disabled");
-                }
-                
             });
         }
         
         renderIDCard();
-        
     }
     
     internal func renderIDCard(){
@@ -60,7 +66,7 @@ extension profilePageViewController{
     private func renderID_Content(){
         
         guard let signedInUserData = dataManager.getSignedInUserData() else{
-            print("Sign in is required")
+            print("Sign in is required");
             idCardButton.idState = .requiresSignIn;
             renderIDCard();
             return;
@@ -121,45 +127,6 @@ extension profilePageViewController{
         
         //
         
-        let barcodeImageView = UIImageView();
-        
-        idCardButton.addSubview(barcodeImageView);
-        
-        barcodeImageView.translatesAutoresizingMaskIntoConstraints = false;
-        
-        let barcodeImageViewPadding = 2*profilePageViewController.horizontalPadding;
-        
-        barcodeImageView.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: barcodeImageViewPadding).isActive = true;
-        barcodeImageView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: CGFloat(-barcodeImageViewPadding)).isActive = true;
-        barcodeImageView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: barcodeImageViewPadding).isActive = true;
-        
-        if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
-            
-            // barcode rendering
-            
-            /*let barcodeImageViewHeight = idCardButtonHeight - profileImageViewPadding - profileImageViewSize - 2*barcodeImageViewPadding;
-            let barcodeImageViewWidth = barcodeImageViewHeight * 3.7;
-            
-            barcodeImageView.heightAnchor.constraint(equalToConstant: barcodeImageViewHeight).isActive = true;
-            barcodeImageView.widthAnchor.constraint(equalToConstant: barcodeImageViewWidth).isActive = true;
-            
-            barcodeImageView.contentMode = .scaleAspectFit;
-            barcodeImageView.layer.cornerRadius = 3;
-            barcodeImageView.clipsToBounds = true;
-            barcodeImageView.backgroundColor = .white;
-            barcodeImageView.isUserInteractionEnabled = false;
-            
-            barcodeImageView.image = dataManager.getIDBarcode(idString);*/
-            
-            //createConfirmationPrompt(self, "ID Cards are temporarily disabled", confirmCompletion: { () in });
-            
-        }
-        else{
-            print("Invalid student email when attempting to render ID card");
-        }
-            
-        //
-        
         let userNameLabel = UILabel();
         
         idCardButton.addSubview(userNameLabel);
@@ -171,7 +138,7 @@ extension profilePageViewController{
         userNameLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: userNameLabelPadding).isActive = true;
         userNameLabel.topAnchor.constraint(equalTo: idCardButton.topAnchor, constant: userNameLabelPadding).isActive = true;
         userNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: CGFloat(-userNameLabelPadding)).isActive = true;
-        userNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: barcodeImageView.topAnchor, constant: -userNameLabelPadding).isActive = true;
+        //userNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: barcodeImageView.topAnchor, constant: -userNameLabelPadding).isActive = true;
         
         userNameLabel.text = dataManager.splitFullName(signedInUserData.profile?.name ?? "");
         userNameLabel.textAlignment = .left;
@@ -181,6 +148,99 @@ extension profilePageViewController{
         userNameLabel.adjustsFontSizeToFitWidth = true;
         userNameLabel.minimumScaleFactor = 0.3;
         userNameLabel.isUserInteractionEnabled = false;
+        
+        //
+        
+        if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
+            
+            //print("valid id = " + idString);
+            
+            let nfcLabel = UILabel();
+            let nfcLabelText = "Tap for NFC"
+            let nfcLabelFont = UIFont(name: SFProDisplay_Bold, size: idCardButtonHeight * 0.075)!;
+            let nfcLabelHeight = nfcLabelText.height(withConstrainedWidth: idCardButtonWidth, font: nfcLabelFont);
+            
+            idCardButton.addSubview(nfcLabel);
+            
+            nfcLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            nfcLabel.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
+            nfcLabel.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -idCardButtonHeight * 0.05).isActive = true;
+            nfcLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor).isActive = true;
+            nfcLabel.trailingAnchor.constraint(equalTo: idCardButton.trailingAnchor).isActive = true;
+            
+            nfcLabel.text = nfcLabelText;
+            nfcLabel.font = nfcLabelFont;
+            nfcLabel.textAlignment = .center;
+            nfcLabel.textColor = .white;
+            
+            
+            //
+            
+            let nfcImageView = UIImageView();
+            let nfcImageViewSize = idCardButtonWidth * 0.16;
+            
+            idCardButton.addSubview(nfcImageView);
+            
+            nfcImageView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            nfcImageView.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
+            nfcImageView.bottomAnchor.constraint(equalTo: nfcLabel.topAnchor, constant: -idCardButtonHeight * 0.03).isActive = true;
+            nfcImageView.topAnchor.constraint(greaterThanOrEqualTo: profileImageView.bottomAnchor).isActive = true;
+            nfcImageView.widthAnchor.constraint(equalToConstant: nfcImageViewSize).isActive = true;
+            nfcImageView.heightAnchor.constraint(equalToConstant: nfcImageViewSize).isActive = true;
+            
+            nfcImageView.tintColor = .white;
+            nfcImageView.image = UIImage(systemName: "wave.3.forward.circle.fill");
+            //nfcImageView.backgroundColor = .systemRed;
+            
+            //
+            
+            let idLabel = UILabel();
+            
+            idCardButton.addSubview(idLabel);
+            
+            idLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            let idLabelPadding = 2*profilePageViewController.horizontalPadding;
+            
+            idLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor, constant: idLabelPadding).isActive = true;
+            idLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: idLabelPadding * 0.2).isActive = true;
+            idLabel.trailingAnchor.constraint(lessThanOrEqualTo: profileImageView.leadingAnchor, constant: CGFloat(-idLabelPadding)).isActive = true;
+            
+            idLabel.text = idString;
+            idLabel.textAlignment = .left;
+            idLabel.textColor = .white;
+            idLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.1);
+            
+        }
+        else{
+            //print("Invalid student email when attempting to render ID card");
+            
+            let invalidLabel = UILabel();
+            let invalidLabelText = "Not a Student";
+            let invalidLabelFont = UIFont(name: SFProDisplay_Bold, size: idCardButtonHeight * 0.11)!;
+            let invalidLabelHeight = invalidLabelText.height(withConstrainedWidth: idCardButtonWidth, font: invalidLabelFont);
+            
+            idCardButton.addSubview(invalidLabel);
+            
+            invalidLabel.translatesAutoresizingMaskIntoConstraints = false;
+            
+            invalidLabel.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
+            invalidLabel.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -idCardButtonHeight * 0.05).isActive = true;
+            invalidLabel.leadingAnchor.constraint(equalTo: idCardButton.leadingAnchor).isActive = true;
+            invalidLabel.trailingAnchor.constraint(equalTo: idCardButton.trailingAnchor).isActive = true;
+            invalidLabel.heightAnchor.constraint(equalToConstant: invalidLabelHeight).isActive = true;
+            
+            //invalidLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true;
+            //invalidLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true;
+            
+            invalidLabel.text = invalidLabelText;
+            invalidLabel.textAlignment = .center;
+            invalidLabel.font = invalidLabelFont;
+            //invalidLabel.backgroundColor = .systemRed;
+            
+        }
         
     }
     
@@ -264,7 +324,7 @@ extension profilePageViewController{
     private func createIDActionPrompt(){
         
         let confirmPopUp = UIAlertController(title: title, message: "ID Card", preferredStyle: .actionSheet);
-
+        
         confirmPopUp.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in }));
         
         confirmPopUp.addAction(UIAlertAction(title: "Lock", style: .default, handler: { (_) in
@@ -274,7 +334,7 @@ extension profilePageViewController{
         
         confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
             self.idCardButton.idState = .requiresSignIn;
-        
+            
             dataManager.signOutUser();
             
             self.renderIDCard();

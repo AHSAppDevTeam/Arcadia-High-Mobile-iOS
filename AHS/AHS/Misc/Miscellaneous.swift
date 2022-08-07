@@ -61,6 +61,10 @@ let endDataManagerRefreshing = "endDataManagerRefreshing";
 
 //
 
+// Singleton Macros
+let nfcmgr = nfcManager.obj;
+//
+
 // Misc functions
 
 func createConfirmationPrompt(_ vc: UIViewController, _ title: String, message: String = "Are you sure?", confirmCompletion: @escaping () -> Void, declineCompletion: @escaping () -> Void = { () in }){
