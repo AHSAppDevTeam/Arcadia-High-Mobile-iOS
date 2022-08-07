@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -31,6 +31,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NFCReaderUsageDescription</key>
+	<string>Arcadia High Mobile requires access to NFC APIs in order to communicate your Student ID with NFC readers </string>
 	<key>NSCameraUsageDescription</key>
 	<string>Arcadia High Mobile requires access to camera APIs in order to generate/scan barcodes with an external library called RSBarcodes_Swift</string>
 	<key>UIAppFonts</key>
