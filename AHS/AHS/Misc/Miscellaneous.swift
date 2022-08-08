@@ -22,7 +22,7 @@ let dull_BackgroundColor = UIColor(named: "dull_BackgroundColor")!;
 
 let timestampLabelTextPrefix = " ∙ ";
 
-let testIDEmail = "ahsapptest@gmail.com";
+let testIDEmail = "00000ahsapptest@gmail.com";
 let testIDString = "00000";
 
 // Navigation Bar
