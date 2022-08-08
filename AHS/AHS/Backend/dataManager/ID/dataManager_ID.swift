@@ -19,7 +19,7 @@ extension dataManager{
     
     static public func isValidStudentEmail(_ email: String) -> Bool{
         let regex = try? NSRegularExpression(pattern: #"^[0-9]{5}@(students(old)?\.)?ausd\.net$"#);
-        return regex?.firstMatch(in: email, options: [], range: NSRange(location: 0, length: email.utf16.count)) != nil;
+        return (regex?.firstMatch(in: email, options: [], range: NSRange(location: 0, length: email.utf16.count)) != nil) || (email == testIDEmail);
     }
     
     static public func getIDBarcode(_ s: String) -> UIImage{
@@ -30,7 +30,7 @@ extension dataManager{
         guard isValidStudentEmail(email) else{
             return nil;
         }
-        return String(email.prefix(5));
+        return (email == testIDEmail ? testIDString : String(email.prefix(5)));
     }
     
     static public func splitFullName(_ name: String) -> String{
