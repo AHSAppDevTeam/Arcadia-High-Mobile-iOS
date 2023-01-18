@@ -31,7 +31,11 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
 
  - Afterwards, make sure you install [xcodegen](https://github.com/yonaskolb/XcodeGen/) by running this command in the terminal: `brew install xcodegen`.
 
- - Now, go to our [Firebase console](https://console.firebase.google.com/) and download the `GoogleService-Info.plist` file from the iOS project.
+ - Now, go to our [Firebase console](https://console.firebase.google.com/) and download the `GoogleService-Info.plist` file from the iOS project. 
+ 
+ **NOTE: you may want to change the `DATABASE_URL` to `https://ahs-app.firebaseio.com/` if it isn't already as shown below:**
+ 
+ ![database url in google service plist](https://imgur.com/DoQBQei.png)
 
  - Download [this NFC salt file](https://github.com/AHSAppDevTeam/NFC-Reader/blob/master/salts/keys.xcconfig) too (if you can't access the repo, ask someone to add you to the Github org).
 
