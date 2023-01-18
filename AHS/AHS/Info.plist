@@ -91,5 +91,7 @@
 	<true/>
 	<key>nfcsalt</key>
 	<string>$(nfcsalt)</string>
+	<key>GIDClientID</key>
+	<string>$(googleclientid)</string>
 </dict>
 </plist>

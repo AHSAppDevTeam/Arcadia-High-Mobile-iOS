@@ -17,46 +17,60 @@ extension dataManager{
     }
     
     static public func recoverPreviousSignInSession(){
-        GIDSignIn.sharedInstance.restorePreviousSignIn(callback: { (user, error) in
+        GIDSignIn.sharedInstance.restorePreviousSignIn(completion: { (user, error) in
             //signInFirebase(user, error: error, completion: { _ in });
+            if (user != nil && error == nil){
+                // TODO: refresh id card to show signed in state
+            }
         });
     }
     
     static public func signInUser(_ parentVC: UIViewController, completion: @escaping (Error?) -> Void){
         
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        //guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         
-        let config = GIDConfiguration(clientID: clientID)
+        //let config = GIDConfiguration(clientID: clientID);
         
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: parentVC) { (user, error) in
+        GIDSignIn.sharedInstance.signIn(withPresenting: parentVC) { (user, error) in
+            completion(error);
+        }
+        
+        /*GIDSignIn.sharedInstance.signIn(with: config, presenting: parentVC) { (user, error) in
             /*signInFirebase(user, error: error, completion: { (err) in
                 
                 completion(err);
                 
             });*/
             completion(error);
-        }
+        }*/
     }
     
-    static private func signInFirebase(_ user: GIDGoogleUser?, error: Error?, completion: @escaping (Error?) -> Void){ // for signing into firebase
+    /*static private func signInFirebase(_ user: GIDGoogleUser?, error: Error?, completion: @escaping (Error?) -> Void){ // for signing into firebase
         if let err = error {
             completion(err);
             return;
         }
         
-        guard let authentication = user?.authentication, let idToken = authentication.idToken else {
+        /*guard let authentication = user?.authentication, let idToken = authentication.idToken else {
             print("Failed to cast auth and idToken on sign in");
             return;
         }
         
-        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken);
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken);*/
+        
+        guard let idToken = user?.idToken, let accessToken = user?.accessToken else{
+            print("Failed to cast auth and idToken on sign in");
+            return;
+        }
+        
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken.tokenString, accessToken: accessToken.tokenString);
         
         Auth.auth().signIn(with: credential, completion: { (authResult, error) in
             
             completion(error);
             
         });
-    }
+    }*/
     
     static public func signOutUser(){
         /*do{
