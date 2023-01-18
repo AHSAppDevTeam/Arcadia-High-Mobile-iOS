@@ -50,7 +50,9 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
  
  - Under the "Signing & Capabilities" tab, make sure to sign into our shared Apple developer account via our Apple ID.
 
- - Now, make a selection for a team. Select "Arcadia Unified School District"
+ - Now, make a selection for a team. Select "Arcadia Unified School District" like this:
+ 
+ ![AHS Signing team image](https://imgur.com/wcpA9U9.png)
  
  You should now be all set up and ready to compile the app!
  
