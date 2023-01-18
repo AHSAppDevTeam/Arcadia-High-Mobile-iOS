@@ -33,7 +33,7 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
 
  - Now, go to our [Firebase console](https://console.firebase.google.com/) and download the `GoogleService-Info.plist` file from the iOS project.
 
- - Download [this NFC salt file](https://github.com/AHSAppDevTeam/NFC-Reader/blob/master/salts/keys.xcconfig) too.
+ - Download [this NFC salt file](https://github.com/AHSAppDevTeam/NFC-Reader/blob/master/salts/keys.xcconfig) too (if you can't access the repo, ask someone to add you to the Github org).
 
  - Place the `GoogleService-Info.plist` and `keys.xcconfig` file inside `.../Arcadia-High-Mobile-iOS/AHS/AHS/`.
  
