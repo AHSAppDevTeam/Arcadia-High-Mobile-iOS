@@ -33,8 +33,10 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
 
  - Now, go to our [Firebase console](https://console.firebase.google.com/) and download the `GoogleService-Info.plist` file from the iOS project.
 
- - Place the `GoogleService-Info.plist` file inside `.../Arcadia-High-Mobile-iOS/AHS/AHS/`.
+ - Download [this NFC salt file](https://github.com/AHSAppDevTeam/NFC-Reader/blob/master/salts/keys.xcconfig) too.
 
+ - Place the `GoogleService-Info.plist` and `keys.xcconfig` file inside `.../Arcadia-High-Mobile-iOS/AHS/AHS/`.
+ 
  - Next, run these commands in order:
 1. `cd .../Arcadia-High-Mobile-iOS/AHS/`
 2. `xcodegen` (this should generate a `.xcodeproj` file. **DO NOT OPEN IT**)
@@ -57,4 +59,12 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
  You should now be all set up and ready to compile the app!
  
  Tip: if you pull a commit that has either added or deleted a file and that file change is not shown in xcode, all you have to do is rerun `xcodegen` and `pod install` again. However, make sure you are in this directory: `.../Arcadia-High-Mobile-iOS/AHS/`.
+ 
+ # Updating to new version
+ 
+ When uploading a new version, make sure to change the bundle version info in `Info.plist` to the next version number. When doing this, make sure to change **both `Bundle version string (short)` AND `Bundle version` to the new version string**. 
+ 
+ For all other steps, please follow online guides on how to publish iOS apps from XCode (because I'm too lazy to type it all out here).
+ 
+ Note: on App Store Connect, when the app finishes uploading, choose the encryption exempt option. Our app does not use encryption.
 
