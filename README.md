@@ -60,7 +60,7 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
  
  ![AHS Signing team image](https://imgur.com/wcpA9U9.png)
  
- **Note: If you're running the project on a physical device, you may get a few signing errors from the Pods project. Repeat last 3 steps for each error.**
+ **Note: If you're running the project on a physical device, you may get a few signing errors from the Pods project. Repeat above steps for each error.**
  
  - Lastly, open the `Info` configuration section of the AHS project file and make sure to select `keys.xcconfig` under both release and debug like this:
 
