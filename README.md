@@ -35,7 +35,7 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
 
  - Download [this NFC salt file](https://github.com/AHSAppDevTeam/NFC-Reader/blob/master/salts/keys.xcconfig) too (if you can't access the repo, ask someone to add you to the Github org).
 
- - Place the `GoogleService-Info.plist` and `keys.xcconfig` file inside `.../Arcadia-High-Mobile-iOS/AHS/AHS/`.
+ - Place the `GoogleService-Info.plist` file and the `keys.xcconfig` file inside `.../Arcadia-High-Mobile-iOS/AHS/AHS/`.
  
  - Next, run these commands in order:
 1. `cd .../Arcadia-High-Mobile-iOS/AHS/`
