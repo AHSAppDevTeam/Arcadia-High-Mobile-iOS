@@ -60,7 +60,7 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
  
  ![AHS Signing team image](https://imgur.com/wcpA9U9.png)
  
- - Repeat last 3 steps for the Pods project
+ **Note: If you're running the project on a physical device, you may get a few signing errors from the Pods project. Repeat last 3 steps for each error.**
  
  You should now be all set up and ready to compile the app!
  
