@@ -37,7 +37,7 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
  
  ![database url in google service plist](https://imgur.com/DoQBQei.png)
 
- - Download [this NFC salt file](https://github.com/AHSAppDevTeam/NFC-Reader/blob/master/salts/keys.xcconfig) too (if you can't access the repo, ask someone to add you to the Github org).
+ - Download [this config file](https://github.com/AHSAppDevTeam/Arcadia-High-Mobile-iOS-Secrets/blob/main/keys.xcconfig) too (if you can't access the repo, ask someone to add you to the Github org).
 
  - Place the `GoogleService-Info.plist` file and the `keys.xcconfig` file inside `.../Arcadia-High-Mobile-iOS/AHS/AHS/`.
  
@@ -61,6 +61,10 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
  ![AHS Signing team image](https://imgur.com/wcpA9U9.png)
  
  **Note: If you're running the project on a physical device, you may get a few signing errors from the Pods project. Repeat last 3 steps for each error.**
+ 
+ - Lastly, open the `Info` configuration section of the AHS project file and make sure to select `keys.xcconfig` under both release and debug like this:
+
+![Using .xcconfig file](https://imgur.com/TtKlnFJ.png)
  
  You should now be all set up and ready to compile the app!
  
