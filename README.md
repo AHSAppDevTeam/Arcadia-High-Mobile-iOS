@@ -62,7 +62,9 @@ For reference, the old repo can be found [here](https://github.com/AHSAppDevTeam
  
  # Updating to new version
  
- When uploading a new version, make sure to change the bundle version info in `Info.plist` to the next version number. When doing this, make sure to change **both `Bundle version string (short)` AND `Bundle version` to the new version string**. 
+ When uploading a new version, make sure to change the bundle version info in `Info.plist` to the next version number. When doing this, make sure to change **both `Bundle version string (short)` AND `Bundle version` to the new version string**. See this screenshot:
+ 
+ ![info.plist bundle version settings](https://imgur.com/CB8wTb7.png)
  
  For all other steps, please follow online guides on how to publish iOS apps from XCode (because I'm too lazy to type it all out here).
  
