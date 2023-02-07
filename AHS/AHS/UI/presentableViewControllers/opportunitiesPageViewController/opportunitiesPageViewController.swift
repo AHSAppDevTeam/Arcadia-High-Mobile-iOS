@@ -1,20 +1,22 @@
+
 //
-//  spotlightPageViewController.swift
+//  opportunitiesPageViewController.swift
 //  AHS
 //
-//  Created by Richard Wei on 6/4/21.
+//  Created by Kaitlyn Kwan on 2/5/2023
 //
 
 import Foundation
 import UIKit
 
 
-class spotlightPageViewController : presentableViewController{
+class opportunitiesPageViewController : presentableViewController{
     
     public var categoryID : String = "";
     
     internal let mainScrollView = UIButtonScrollView();
     internal let refreshControl = UIRefreshControl();
+    internal let topView = UIButton();
     
     internal let contentHorizontalPadding : CGFloat = AppUtility.getCurrentScreenSize().width / 20;
     internal let headerVerticalPadding : CGFloat = 8;
@@ -33,6 +35,11 @@ class spotlightPageViewController : presentableViewController{
         super.viewDidLoad();
         
         setupPanGesture();
+        let image = UIImage(named: "chevron.left")
+        topView.setBackgroundImage(image, for: UIControl.State.normal);
+        topView.addTarget(self, action: #selector(self.topViewTapped), for: .touchUpInside);
+        self.view.addSubview(topView);
+        
         
         mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);
         
@@ -63,7 +70,9 @@ class spotlightPageViewController : presentableViewController{
         
         renderContent();
     }
-    
+    @objc func topViewTapped(_sender:UIButton!){
+        print("");
+    }
     internal func renderContent(){
         
         for subview in mainScrollView.subviews{
@@ -121,6 +130,43 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
+        let locationViewFrameWidth = mainScrollView.frame.width - 2*contentHorizontalPadding;
+        let locationViewFrame = CGRect(x: contentHorizontalPadding, y: nextContentY, width: locationViewFrameWidth, height: locationViewFrameWidth * 0.1);
+        let locationView = UIView(frame: locationViewFrame);
+        
+        let locationViewContentHorizontalPadding : CGFloat = 5;
+        
+        //
+        
+        let locationImageViewSize = locationView.frame.height;
+        let locationImageViewFrame = CGRect(x: 0, y: 0, width: locationImageViewSize, height: locationImageViewSize);
+        let locationImageView = UIImageView(frame: locationImageViewFrame);
+        
+        locationImageView.contentMode = .scaleAspectFit;
+        locationImageView.tintColor = pageAccentColor;
+        locationImageView.image = UIImage(named: "location-on-icon");
+        
+        locationView.addSubview(locationImageView);
+        
+        //
+        
+        let locationLabelFrame = CGRect(x: locationImageView.frame.width + locationViewContentHorizontalPadding, y: 0, width: locationView.frame.width - 2*locationViewContentHorizontalPadding - locationImageView.frame.width, height: locationView.frame.height);
+        let locationLabel = UILabel(frame: locationLabelFrame);
+        
+        locationLabel.font = UIFont(name: SFProDisplay_Bold, size: locationLabel.frame.height * 0.9);
+        locationLabel.text = "Arcadia, CA";
+        locationLabel.textAlignment = .left;
+        locationLabel.textColor = pageAccentColor;
+        
+        locationView.addSubview(locationLabel);
+        
+        //
+        
+        locationView.tag = 1;
+        nextContentY += locationView.frame.height + headerVerticalPadding;
+        mainScrollView.addSubview(locationView);
+        
+        //
         
         let dateLabelWidth = mainScrollView.frame.width - 2*contentHorizontalPadding;
         let dateLabelFrame = CGRect(x: contentHorizontalPadding, y: nextContentY, width: dateLabelWidth, height: dateLabelWidth * 0.06);
@@ -266,24 +312,24 @@ class spotlightPageViewController : presentableViewController{
             
             //
             
-            let topView = UIButton();
-            let topViewWidth = articleView.frame.width - 2*horizontalPadding;
-            let topViewFont = UIFont(name: SFProDisplay_Semibold, size: topViewWidth * 0.1)!;
-            let topViewHeight = min(topView.frame.height, articleView.frame.height * 0.3);
-            let topViewFrame = CGRect(x: horizontalPadding, y: articleTimestampLabel.frame.minY - verticalPadding - topViewHeight, width: topViewWidth, height: topViewHeight);
-            let topViewLabel = UILabel(frame: topViewFrame);
+            let articleTitleLabelText = articledata.title;
+            let articleTitleLabelWidth = articleView.frame.width - 2*horizontalPadding;
+            let articleTitleLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabelWidth * 0.1)!;
+            let articleTitleLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleTitleLabelWidth, font: articleTitleLabelFont), articleView.frame.height * 0.3);
+            let articleTitleLabelFrame = CGRect(x: horizontalPadding, y: articleTimestampLabel.frame.minY - verticalPadding - articleTitleLabelHeight, width: articleTitleLabelWidth, height: articleTitleLabelHeight);
+            let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
             
-            topViewLabel.text = "Opportunities";
-            topViewLabel.textAlignment = .left;
-            topViewLabel.textColor = self.inversePageAccentColor;
-            topViewLabel.font = topViewFont;
-            topViewLabel.numberOfLines = 0;
+            articleTitleLabel.text = articleTitleLabelText;
+            articleTitleLabel.textAlignment = .left;
+            articleTitleLabel.textColor = self.inversePageAccentColor;
+            articleTitleLabel.font = articleTitleLabelFont;
+            articleTitleLabel.numberOfLines = 0;
             
-            articleView.addSubview(topViewLabel);
+            articleView.addSubview(articleTitleLabel);
             
             //
             
-            let articleImageViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width, height: articleView.frame.height - 3*verticalPadding - topView.frame.height - articleTimestampLabel.frame.height);
+            let articleImageViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width, height: articleView.frame.height - 3*verticalPadding - articleTitleLabel.frame.height - articleTimestampLabel.frame.height);
             let articleImageView = UIImageView(frame: articleImageViewFrame);
             
             articleImageView.backgroundColor = self.secondaryPageAccentColor;
@@ -358,3 +404,4 @@ class spotlightPageViewController : presentableViewController{
     }
     
 }
+
