@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class spotlightPageViewController : presentableViewController{
+class spotlightPageViewController : presentableViewController, UIScrollViewDelegate {
     
     public var categoryID : String = "";
     
@@ -21,6 +21,9 @@ class spotlightPageViewController : presentableViewController{
     internal let contentVerticalPadding : CGFloat = 14;
     internal var nextContentY : CGFloat = 0;
     
+    internal let topBarCategoryButtonLabel = UIButton();
+    internal let topBarView : UIView = UIView();
+    
     internal let pageAccentColor : UIColor = .white;
     internal let secondaryPageAccentColor : UIColor = UIColor.init(hex: "5fa4a9");
     internal let inversePageAccentColor : UIColor = .black;
@@ -31,6 +34,63 @@ class spotlightPageViewController : presentableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        //
+        
+        let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: self.view.frame.width * 0.11);
+        let topBarView = UIView(frame: topBarViewFrame);
+        topBarView.frame = topBarViewFrame;
+                
+        let topBarVerticalPadding : CGFloat = topBarView.frame.height / 8;
+        
+        let topBarButtonSize = topBarView.frame.height - 2*topBarVerticalPadding;
+        let topBarButtonInset = topBarButtonSize / 8;
+        let topBarButtonEdgeInsets = UIEdgeInsets(top: topBarButtonInset, left: topBarButtonInset, bottom: topBarButtonInset, right: topBarButtonInset);
+        
+        
+        //
+    
+        let topBarBackButtonFrame = CGRect(x: 0, y: topBarVerticalPadding, width: topBarButtonSize, height: topBarButtonSize);
+        let topBarBackButton = UIButton(frame: topBarBackButtonFrame);
+        
+        topBarBackButton.setImage(UIImage(systemName: "chevron.left"), for: .normal);
+        topBarBackButton.imageView?.contentMode = .scaleAspectFit;
+        topBarBackButton.contentVerticalAlignment = .fill;
+        topBarBackButton.contentHorizontalAlignment = .fill;
+        topBarBackButton.imageEdgeInsets = topBarButtonEdgeInsets;
+        topBarBackButton.tintColor = BackgroundGrayColor;
+        
+        topBarBackButton.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
+        
+        topBarView.addSubview(topBarBackButton);
+                
+        //topBarCategoryButtonLabel.titleLabel?.textAlignment = .left;
+        topBarCategoryButtonLabel.contentHorizontalAlignment = .left;
+        topBarCategoryButtonLabel.setTitleColor(UIColor.init(hex: "cc5454"), for: .normal);
+        topBarCategoryButtonLabel.setAttributedTitle(self.generateTopBarTitleText("Opportunities"), for: .normal);
+        
+        topBarCategoryButtonLabel.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
+        
+        topBarView.addSubview(topBarCategoryButtonLabel);
+        
+        //
+        
+        mainScrollView.frame = CGRect(x: 0, y: topBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - topBarView.frame.maxY);
+        self.view.addSubview(mainScrollView);
+        
+        //scrollView.backgroundColor = InverseBackgroundColor;
+        mainScrollView.alwaysBounceVertical = true;
+        mainScrollView.showsVerticalScrollIndicator = true;
+        
+        mainScrollView.delegate = self;
+        
+        refreshControl.addTarget(self, action: #selector(self.handleRefresh), for: .valueChanged)
+        mainScrollView.addSubview(refreshControl);
+        
+        //
+        
+        self.view.addSubview(topBarView);
+        //
         
         setupPanGesture();
         
@@ -49,7 +109,7 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
-        let topMainScrollViewGradientColor = secondaryPageAccentColor;
+        let topMainScrollViewGradientColor = pageAccentColor;
         let bottomMainScrollViewGradientColor = pageAccentColor;
         let mainScrollViewGradientLayer = CAGradientLayer();
         
@@ -65,7 +125,9 @@ class spotlightPageViewController : presentableViewController{
     }
     
     internal func renderContent(){
+    
         
+        //
         for subview in mainScrollView.subviews{
             if (subview.tag == 1){
                 subview.removeFromSuperview();
@@ -73,7 +135,6 @@ class spotlightPageViewController : presentableViewController{
         }
         
         //
-        
         nextContentY = 0;
         hasRenderedLargeArticle = false;
         subArticleRenderRowCount = 2;
@@ -81,43 +142,22 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
-        let dismissButtonFrameWidth = mainScrollView.frame.width - contentHorizontalPadding;
-        let dismissButtonFrame = CGRect(x: contentHorizontalPadding / 2, y: nextContentY, width: dismissButtonFrameWidth, height: dismissButtonFrameWidth * 0.08);
-        let dismissButton = UIButton(frame: dismissButtonFrame);
-        
-        let dismissButtonContentHorizontalPadding : CGFloat = 5;
-        
-        //
-        
-        let dismissImageViewSize = dismissButton.frame.height;
-        let dismissImageViewFrame = CGRect(x: 0, y: 0, width: dismissImageViewSize, height: dismissImageViewSize);
-        let dismissImageView = UIImageView(frame: dismissImageViewFrame);
-        
-        dismissImageView.contentMode = .scaleAspectFit;
-        dismissImageView.image = UIImage(systemName: "chevron.left");
-        dismissImageView.backgroundColor = .clear;
-        dismissImageView.tintColor = .white;
-        
-        dismissButton.addSubview(dismissImageView);
-        
-        //
-        
-        let categoryLabelFrame = CGRect(x: dismissImageView.frame.width + dismissButtonContentHorizontalPadding, y: 0, width: dismissButton.frame.width - dismissImageView.frame.width - 2*dismissButtonContentHorizontalPadding, height: dismissButton.frame.height);
-        let categoryLabel = UILabel(frame: categoryLabelFrame);
-        
-        categoryLabel.textAlignment = .left;
-        categoryLabel.textColor = pageAccentColor;
-        categoryLabel.isUserInteractionEnabled = false;
-        
-        dismissButton.addSubview(categoryLabel);
-        
-        //
-        
-        dismissButton.addTarget(self, action: #selector(self.dismissHandler), for: .touchUpInside);
-        
-        dismissButton.tag = 1;
-        nextContentY += dismissButton.frame.height + headerVerticalPadding;
-        mainScrollView.addSubview(dismissButton);
+//        let categoryLabelFrame = CGRect(x: dismissImageView.frame.width + dismissButtonContentHorizontalPadding, y: 0, width: dismissButton.frame.width - dismissImageView.frame.width - 2*dismissButtonContentHorizontalPadding, height: dismissButton.frame.height);
+//        let categoryLabel = UILabel(frame: categoryLabelFrame);
+//
+//        categoryLabel.textAlignment = .left;
+//        categoryLabel.textColor = secondaryPageAccentColor;
+//        categoryLabel.isUserInteractionEnabled = false;
+//
+//        dismissButton.addSubview(categoryLabel);
+//
+//        //
+//
+//        dismissButton.addTarget(self, action: #selector(self.dismissHandler), for: .touchUpInside);
+//
+//        dismissButton.tag = 1;
+//        nextContentY += dismissButton.frame.height + headerVerticalPadding;
+//        mainScrollView.addSubview(dismissButton);
         
         //
         
@@ -141,10 +181,9 @@ class spotlightPageViewController : presentableViewController{
         dataManager.getCategoryData(categoryID, completion: { (categorydata) in
             self.refreshControl.endRefreshing();
             
-            let categoryLabelFontSize = categoryLabel.frame.height * 0.7;
-            let categoryLabelAttributedText = NSMutableAttributedString(string: categorydata.title, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryLabelFontSize)!]);
-            categoryLabelAttributedText.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: categoryLabelFontSize)!]));
-            categoryLabel.attributedText = categoryLabelAttributedText;
+//            let categoryLabelFontSize = categoryLabel.frame.height * 0.7;
+//            let categoryLabelAttributedText = NSMutableAttributedString(string: "Opportunities", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryLabelFontSize)!]);
+//            categoryLabel.attributedText = categoryLabelAttributedText;
             
             //
             
@@ -266,27 +305,24 @@ class spotlightPageViewController : presentableViewController{
             
             //
             
-            let topView = UIButton();
             let topViewWidth = articleView.frame.width - 2*horizontalPadding;
             let topViewFont = UIFont(name: SFProDisplay_Semibold, size: topViewWidth * 0.1)!;
-            let topViewHeight = min(topView.frame.height, articleView.frame.height * 0.3);
+            let topViewHeight = min(articleView.frame.height, articleView.frame.height * 0.3);
             let topViewFrame = CGRect(x: horizontalPadding, y: articleTimestampLabel.frame.minY - verticalPadding - topViewHeight, width: topViewWidth, height: topViewHeight);
-            let topViewLabel = UILabel(frame: topViewFrame);
+            let topViewLabel = UIButton(frame: topViewFrame);
             
-            topViewLabel.text = "Opportunities";
-            topViewLabel.textAlignment = .left;
-            topViewLabel.textColor = self.inversePageAccentColor;
-            topViewLabel.font = topViewFont;
-            topViewLabel.numberOfLines = 0;
+            topViewLabel.setTitle("Opportunities", for: .normal);
+            topViewLabel.setTitleColor(self.pageAccentColor, for: .normal);
+            topViewLabel.titleLabel?.font = topViewFont;
             
             articleView.addSubview(topViewLabel);
             
             //
             
-            let articleImageViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width, height: articleView.frame.height - 3*verticalPadding - topView.frame.height - articleTimestampLabel.frame.height);
+            let articleImageViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width, height: articleView.frame.height - 3*verticalPadding - topViewLabel.frame.height - articleTimestampLabel.frame.height);
             let articleImageView = UIImageView(frame: articleImageViewFrame);
             
-            articleImageView.backgroundColor = self.secondaryPageAccentColor;
+            articleImageView.backgroundColor = self.pageAccentColor;
             articleImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner];
             articleImageView.layer.cornerRadius = articleViewCornerRadius;
             articleImageView.layer.masksToBounds = true;
