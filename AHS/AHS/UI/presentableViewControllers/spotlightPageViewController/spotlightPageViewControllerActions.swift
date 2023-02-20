@@ -36,14 +36,4 @@ extension spotlightPageViewController{
     @objc internal func handleBackButton(_ button: UIButton){
         self.dismiss(animated: true);
     }
-    
-    internal func generateTopBarTitleText(_ categoryTitle: String) -> NSAttributedString{
-        
-        let topBarCategoryLabelFontSize = self.topBarCategoryButtonLabel.frame.height * 0.7;
-        let topBarCategoryLabelAttributedText = NSMutableAttributedString(string: categoryTitle, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarCategoryLabelFontSize)!]);
-        topBarCategoryLabelAttributedText.append(NSAttributedString(string: " Section", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarCategoryLabelFontSize)!]));
-        
-        return topBarCategoryLabelAttributedText;
-    }
-    
 }

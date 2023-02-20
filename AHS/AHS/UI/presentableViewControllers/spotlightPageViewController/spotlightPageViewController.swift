@@ -1,28 +1,26 @@
 //
-//  spotlightPageViewController.swift
+//  opportunitiesPageViewController.swift
 //  AHS
 //
-//  Created by Richard Wei on 6/4/21.
+//  Created by Kaitlyn Kwan on 2/5/2023
 //
 
 import Foundation
 import UIKit
 
 
-class spotlightPageViewController : presentableViewController, UIScrollViewDelegate {
+class spotlightPageViewController : presentableViewController{
     
     public var categoryID : String = "";
     
     internal let mainScrollView = UIButtonScrollView();
     internal let refreshControl = UIRefreshControl();
+    internal let topView = UIButton();
     
     internal let contentHorizontalPadding : CGFloat = AppUtility.getCurrentScreenSize().width / 20;
     internal let headerVerticalPadding : CGFloat = 8;
     internal let contentVerticalPadding : CGFloat = 14;
     internal var nextContentY : CGFloat = 0;
-    
-    internal let topBarCategoryButtonLabel = UIButton();
-    internal let topBarView : UIView = UIView();
     
     internal let pageAccentColor : UIColor = .white;
     internal let secondaryPageAccentColor : UIColor = UIColor.init(hex: "5fa4a9");
@@ -30,69 +28,17 @@ class spotlightPageViewController : presentableViewController, UIScrollViewDeleg
     
     internal var hasRenderedLargeArticle : Bool = false;
     internal var subArticleRenderRowCount : Int = 2;
-    internal var subArticleSecondaryRenderY : CGFloat = -1;
     
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        //
-        
-        let topBarViewFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: self.view.frame.width, height: self.view.frame.width * 0.11);
-        let topBarView = UIView(frame: topBarViewFrame);
-        topBarView.frame = topBarViewFrame;
-                
-        let topBarVerticalPadding : CGFloat = topBarView.frame.height / 8;
-        
-        let topBarButtonSize = topBarView.frame.height - 2*topBarVerticalPadding;
-        let topBarButtonInset = topBarButtonSize / 8;
-        let topBarButtonEdgeInsets = UIEdgeInsets(top: topBarButtonInset, left: topBarButtonInset, bottom: topBarButtonInset, right: topBarButtonInset);
-        
-        
-        //
-    
-        let topBarBackButtonFrame = CGRect(x: 0, y: topBarVerticalPadding, width: topBarButtonSize, height: topBarButtonSize);
-        let topBarBackButton = UIButton(frame: topBarBackButtonFrame);
-        
-        topBarBackButton.setImage(UIImage(systemName: "chevron.left"), for: .normal);
-        topBarBackButton.imageView?.contentMode = .scaleAspectFit;
-        topBarBackButton.contentVerticalAlignment = .fill;
-        topBarBackButton.contentHorizontalAlignment = .fill;
-        topBarBackButton.imageEdgeInsets = topBarButtonEdgeInsets;
-        topBarBackButton.tintColor = BackgroundGrayColor;
-        
-        topBarBackButton.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
-        
-        topBarView.addSubview(topBarBackButton);
-                
-        //topBarCategoryButtonLabel.titleLabel?.textAlignment = .left;
-        topBarCategoryButtonLabel.contentHorizontalAlignment = .left;
-        topBarCategoryButtonLabel.setTitleColor(UIColor.init(hex: "cc5454"), for: .normal);
-        topBarCategoryButtonLabel.setAttributedTitle(self.generateTopBarTitleText("Opportunities"), for: .normal);
-        
-        topBarCategoryButtonLabel.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
-        
-        topBarView.addSubview(topBarCategoryButtonLabel);
-        
-        //
-        
-        mainScrollView.frame = CGRect(x: 0, y: topBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - topBarView.frame.maxY);
-        self.view.addSubview(mainScrollView);
-        
-        //scrollView.backgroundColor = InverseBackgroundColor;
-        mainScrollView.alwaysBounceVertical = true;
-        mainScrollView.showsVerticalScrollIndicator = true;
-        
-        mainScrollView.delegate = self;
-        
-        refreshControl.addTarget(self, action: #selector(self.handleRefresh), for: .valueChanged)
-        mainScrollView.addSubview(refreshControl);
-        
-        //
-        
-        self.view.addSubview(topBarView);
-        //
-        
         setupPanGesture();
+        
+        let image = UIImage(named: "chevron.left")
+        topView.setBackgroundImage(image, for: UIControl.State.normal);
+        topView.addTarget(self, action: #selector(self.topViewTapped), for: .touchUpInside);
+        self.view.addSubview(topView);
+        
         
         mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);
         
@@ -123,11 +69,11 @@ class spotlightPageViewController : presentableViewController, UIScrollViewDeleg
         
         renderContent();
     }
-    
+    @objc func topViewTapped(_sender:UIButton!){
+        print("");
+    }
     internal func renderContent(){
-    
         
-        //
         for subview in mainScrollView.subviews{
             if (subview.tag == 1){
                 subview.removeFromSuperview();
@@ -135,45 +81,51 @@ class spotlightPageViewController : presentableViewController, UIScrollViewDeleg
         }
         
         //
+        
         nextContentY = 0;
         hasRenderedLargeArticle = false;
         subArticleRenderRowCount = 2;
-        subArticleSecondaryRenderY = -1;
         
         //
         
-//        let categoryLabelFrame = CGRect(x: dismissImageView.frame.width + dismissButtonContentHorizontalPadding, y: 0, width: dismissButton.frame.width - dismissImageView.frame.width - 2*dismissButtonContentHorizontalPadding, height: dismissButton.frame.height);
-//        let categoryLabel = UILabel(frame: categoryLabelFrame);
-//
-//        categoryLabel.textAlignment = .left;
-//        categoryLabel.textColor = secondaryPageAccentColor;
-//        categoryLabel.isUserInteractionEnabled = false;
-//
-//        dismissButton.addSubview(categoryLabel);
-//
-//        //
-//
-//        dismissButton.addTarget(self, action: #selector(self.dismissHandler), for: .touchUpInside);
-//
-//        dismissButton.tag = 1;
-//        nextContentY += dismissButton.frame.height + headerVerticalPadding;
-//        mainScrollView.addSubview(dismissButton);
+        let topViewButtonFrameWidth = mainScrollView.frame.width - contentHorizontalPadding;
+        let topViewButtonFrame = CGRect(x: contentHorizontalPadding / 2 + 20, y: nextContentY + 50, width: topViewButtonFrameWidth, height: topViewButtonFrameWidth * 0.08);
+        let topViewButton = UIButton(frame: topViewButtonFrame);
+        
+        let topViewButtonContentHorizontalPadding : CGFloat = 5;
         
         //
         
+        let topViewImageViewSize = topViewButton.frame.height;
+        let topViewImageViewFrame = CGRect(x: 0, y: 0, width: topViewImageViewSize, height: topViewImageViewSize);
+        let topViewImageView = UIImageView(frame: topViewImageViewFrame);
         
-        let dateLabelWidth = mainScrollView.frame.width - 2*contentHorizontalPadding;
-        let dateLabelFrame = CGRect(x: contentHorizontalPadding, y: nextContentY, width: dateLabelWidth, height: dateLabelWidth * 0.06);
-        let dateLabel = UILabel(frame: dateLabelFrame);
+        topViewImageView.contentMode = .scaleAspectFit;
+        topViewImageView.image = UIImage(systemName: "chevron.left");
+        topViewImageView.backgroundColor = .clear;
+        topViewImageView.tintColor = .gray;
         
-        dateLabel.font = UIFont(name: SFProDisplay_Regular, size: dateLabel.frame.height * 0.9);
-        dateLabel.text = timeManager.epochToFormattedDateString(timeManager.getCurrentEpoch());
-        dateLabel.textAlignment = .left;
-        dateLabel.textColor = pageAccentColor;
+        topViewButton.addSubview(topViewImageView);
         
-        dateLabel.tag = 1;
-        nextContentY += dateLabel.frame.height + headerVerticalPadding;
-        mainScrollView.addSubview(dateLabel);
+        //
+        
+        let topViewLabelFrame = CGRect(x: topViewImageView.frame.width + topViewButtonContentHorizontalPadding, y: 0, width: topViewButton.frame.width - topViewImageView.frame.width - 2*topViewButtonContentHorizontalPadding, height: topViewButton.frame.height);
+        let topViewLabel = UILabel(frame: topViewLabelFrame);
+        
+        topViewLabel.textAlignment = .left;
+        topViewLabel.textColor = secondaryPageAccentColor;
+        topViewLabel.isUserInteractionEnabled = false;
+        
+        
+        topViewButton.addSubview(topViewLabel);
+        
+        //
+        
+        topViewButton.addTarget(self, action: #selector(self.dismissHandler), for: .touchUpInside);
+        
+        topViewButton.tag = 1;
+        nextContentY += topViewButton.frame.height + headerVerticalPadding;
+        self.view.addSubview(topViewButton);
         
         //
         
@@ -181,70 +133,25 @@ class spotlightPageViewController : presentableViewController, UIScrollViewDeleg
         dataManager.getCategoryData(categoryID, completion: { (categorydata) in
             self.refreshControl.endRefreshing();
             
-//            let categoryLabelFontSize = categoryLabel.frame.height * 0.7;
-//            let categoryLabelAttributedText = NSMutableAttributedString(string: "Opportunities", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: categoryLabelFontSize)!]);
-//            categoryLabel.attributedText = categoryLabelAttributedText;
-            
-            //
-            
-            if (categorydata.layout != .row){
-                self.hasRenderedLargeArticle = true;
-                self.subArticleRenderRowCount = 0;
-            }
+            let topViewLabelFontSize = topViewLabel.frame.height * 1;
+            let topViewLabelAttributedText = NSMutableAttributedString(string: "Opportunities", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topViewLabelFontSize)!]);
+            topViewLabel.attributedText = topViewLabelAttributedText;
             
             //
             
             for articleID in categorydata.articleIDs{
                 
-                if (!self.hasRenderedLargeArticle){
-                    
-                    let articleViewWidth = self.mainScrollView.frame.width - 2*self.contentHorizontalPadding;
-                    let articleViewFrame = CGRect(x: self.contentHorizontalPadding, y: self.nextContentY, width: articleViewWidth, height: articleViewWidth * 0.8);
-                    let articleView = ArticleButton(frame: articleViewFrame);
-                    
-                    self.renderArticle(articleView, articleID, true);
-                    
-                    self.nextContentY += articleView.frame.height + self.contentVerticalPadding;
-                    self.mainScrollView.addSubview(articleView);
-                    
-                    self.hasRenderedLargeArticle = true;
-                }
-                else if (self.subArticleRenderRowCount > 0){
-                    
-                    let subArticleSecondaryRenderFlag = self.subArticleSecondaryRenderY != -1; // if true, render secondary article
-                    
-                    let articleViewWidth = (self.mainScrollView.frame.width - 3*self.contentHorizontalPadding) / 2;
-                    let articleViewFrame = CGRect(x: (subArticleSecondaryRenderFlag ? self.contentHorizontalPadding + articleViewWidth : 0 ) + self.contentHorizontalPadding, y: subArticleSecondaryRenderFlag ? self.subArticleSecondaryRenderY : self.nextContentY, width: articleViewWidth, height: articleViewWidth * 1.4);
-                    let articleView = ArticleButton(frame: articleViewFrame);
-                    
-                    self.renderArticle(articleView, articleID, true);
-                    
-                    self.nextContentY += subArticleSecondaryRenderFlag ? 0 : articleView.frame.height + self.contentVerticalPadding;
-                    self.mainScrollView.addSubview(articleView);
-                    
-                    if (!subArticleSecondaryRenderFlag){
-                        self.subArticleSecondaryRenderY = articleView.frame.minY;
-                    }
-                    else{
-                        self.subArticleRenderRowCount -= 1;
-                        self.subArticleSecondaryRenderY = -1;
-                    }
-                    
-                }
-                else{
-                    
-                    let articleViewWidth = self.mainScrollView.frame.width - 2*self.contentHorizontalPadding;
-                    let articleViewFrame = CGRect(x: self.contentHorizontalPadding, y: self.nextContentY, width: articleViewWidth, height: articleViewWidth * 0.3);
-                    let articleView = ArticleButton(frame: articleViewFrame);
-                    
-                    self.renderArticle(articleView, articleID, false);
-                    
-                    self.nextContentY += articleView.frame.height + self.contentVerticalPadding;
-                    self.mainScrollView.addSubview(articleView);
-                    
+            let articleViewWidth = self.mainScrollView.frame.width - 2*self.contentHorizontalPadding;
+            let articleViewFrame = CGRect(x: self.contentHorizontalPadding, y: self.nextContentY, width: articleViewWidth, height: articleViewWidth * 0.3);
+            let articleView = ArticleButton(frame: articleViewFrame);
+
+            self.renderArticle(articleView, articleID, false);
+
+            self.nextContentY += articleView.frame.height + self.contentVerticalPadding;
+            self.mainScrollView.addSubview(articleView);
+
                 }
                 
-            }
             
             self.mainScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.nextContentY);
             
@@ -305,21 +212,24 @@ class spotlightPageViewController : presentableViewController, UIScrollViewDeleg
             
             //
             
-            let topViewWidth = articleView.frame.width - 2*horizontalPadding;
-            let topViewFont = UIFont(name: SFProDisplay_Semibold, size: topViewWidth * 0.1)!;
-            let topViewHeight = min(articleView.frame.height, articleView.frame.height * 0.3);
-            let topViewFrame = CGRect(x: horizontalPadding, y: articleTimestampLabel.frame.minY - verticalPadding - topViewHeight, width: topViewWidth, height: topViewHeight);
-            let topViewLabel = UIButton(frame: topViewFrame);
+            let articleTitleLabelText = articledata.title;
+            let articleTitleLabelWidth = articleView.frame.width - 2*horizontalPadding;
+            let articleTitleLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabelWidth * 0.1)!;
+            let articleTitleLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleTitleLabelWidth, font: articleTitleLabelFont), articleView.frame.height * 0.3);
+            let articleTitleLabelFrame = CGRect(x: horizontalPadding, y: articleTimestampLabel.frame.minY - verticalPadding - articleTitleLabelHeight, width: articleTitleLabelWidth, height: articleTitleLabelHeight);
+            let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
             
-            topViewLabel.setTitle("Opportunities", for: .normal);
-            topViewLabel.setTitleColor(self.pageAccentColor, for: .normal);
-            topViewLabel.titleLabel?.font = topViewFont;
+            articleTitleLabel.text = articleTitleLabelText;
+            articleTitleLabel.textAlignment = .left;
+            articleTitleLabel.textColor = self.inversePageAccentColor;
+            articleTitleLabel.font = articleTitleLabelFont;
+            articleTitleLabel.numberOfLines = 0;
             
-            articleView.addSubview(topViewLabel);
+            articleView.addSubview(articleTitleLabel);
             
             //
             
-            let articleImageViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width, height: articleView.frame.height - 3*verticalPadding - topViewLabel.frame.height - articleTimestampLabel.frame.height);
+            let articleImageViewFrame = CGRect(x: 0, y: 0, width: articleView.frame.width, height: articleView.frame.height - 3*verticalPadding - articleTitleLabel.frame.height - articleTimestampLabel.frame.height);
             let articleImageView = UIImageView(frame: articleImageViewFrame);
             
             articleImageView.backgroundColor = self.pageAccentColor;
