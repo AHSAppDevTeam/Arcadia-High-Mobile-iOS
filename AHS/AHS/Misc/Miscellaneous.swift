@@ -45,7 +45,7 @@ let SFCompactDisplay_Semibold = "SFCompactDisplay-Semibold";
 //
 
 // Global constants
-let homePageHorizontalPadding = AppUtility.getCurrentScreenSize().width / 20;
+let homePageHorizontalPadding: CGFloat = AppUtility.getCurrentScreenSize().width / 20;
 //
 
 // Notification Center Macros
