@@ -63,7 +63,7 @@ extension navigationViewController{
         
         let vc = spotlightPageViewController();
         
-        vc.categoryID = categoryID;
+        //vc.categoryID = categoryID;
         
         openPresentablePage(vc);
         

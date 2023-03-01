@@ -10,24 +10,18 @@ import UIKit
 
 
 class spotlightPageViewController : presentableViewController{
-    
-    public var categoryID : String = "";
+        
+    internal let categoryID : String = "General_Info"; // placehold until Opportunities category is implemented in Firebase
     
     internal let mainScrollView = UIButtonScrollView();
     internal let refreshControl = UIRefreshControl();
     internal let topViewButton = UIButton();
     
-    internal let contentHorizontalPadding : CGFloat = AppUtility.getCurrentScreenSize().width / 20;
-    internal let headerVerticalPadding : CGFloat = 14;
-    internal let contentVerticalPadding : CGFloat = 14;
+    internal let articleViewCornerRadius : CGFloat = 7;
+    
+    internal let horizontalPadding : CGFloat = AppUtility.getCurrentScreenSize().width / 20;
+    internal let verticalPadding : CGFloat = 14;
     internal var nextContentY : CGFloat = 0;
-    
-    internal let pageAccentColor : UIColor = .white;
-    internal let secondaryPageAccentColor : UIColor = UIColor.init(hex: "5fa4a9");
-    internal let inversePageAccentColor : UIColor = .black;
-    
-    internal var hasRenderedLargeArticle : Bool = false;
-    internal var subArticleRenderRowCount : Int = 2;
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -42,7 +36,7 @@ class spotlightPageViewController : presentableViewController{
         
         //
 
-        let mainScrollViewFrameY = topViewButton.frame.maxY + headerVerticalPadding;
+        let mainScrollViewFrameY = topViewButton.frame.maxY + verticalPadding;
         mainScrollView.frame = CGRect(x: 0, y: mainScrollViewFrameY, width: self.view.frame.width, height: self.view.frame.height - mainScrollViewFrameY);
         
         mainScrollView.alwaysBounceVertical = true;
@@ -52,7 +46,7 @@ class spotlightPageViewController : presentableViewController{
         
         //
         
-        refreshControl.tintColor = pageAccentColor;
+        refreshControl.tintColor = InverseBackgroundColor;
         refreshControl.addTarget(self, action: #selector(self.handleRefresh), for: .valueChanged);
         mainScrollView.addSubview(refreshControl);
     
@@ -90,7 +84,7 @@ class spotlightPageViewController : presentableViewController{
         let topViewLabel = UILabel(frame: topViewLabelFrame);
         
         topViewLabel.textAlignment = .left;
-        topViewLabel.textColor = secondaryPageAccentColor;
+        topViewLabel.textColor = InverseBackgroundColor;
         topViewLabel.isUserInteractionEnabled = false;
         topViewLabel.attributedText = topViewLabelAttributedText;
         
@@ -116,13 +110,16 @@ class spotlightPageViewController : presentableViewController{
         //
         
         nextContentY = 0;
-        hasRenderedLargeArticle = false;
-        subArticleRenderRowCount = 2;
         
         //
         
         refreshControl.beginRefreshing();
         
+        renderArticles();
+        
+    }
+    
+    internal func renderArticles(){
         
         dataManager.getCategoryData(categoryID, completion: { (categorydata) in
             self.refreshControl.endRefreshing();
@@ -131,61 +128,52 @@ class spotlightPageViewController : presentableViewController{
             
             for articleID in categorydata.articleIDs{
                 
-            let articleViewWidth = self.mainScrollView.frame.width - 2*self.contentHorizontalPadding;
-            let articleViewFrame = CGRect(x: self.contentHorizontalPadding, y: self.nextContentY, width: articleViewWidth, height: articleViewWidth * 0.3);
-            let articleView = ArticleButton(frame: articleViewFrame);
+                let articleViewWidth = self.mainScrollView.frame.width - 2*self.horizontalPadding;
+                let articleViewFrame = CGRect(x: self.horizontalPadding, y: self.nextContentY, width: articleViewWidth, height: articleViewWidth * 0.3);
+                let articleView = ArticleButton(frame: articleViewFrame);
 
-            self.renderArticle(articleView, articleID, false);
+                //
+                
+                articleView.backgroundColor = BackgroundColor;
+                articleView.layer.cornerRadius = self.articleViewCornerRadius;
+                
+                articleView.layer.shadowOffset = CGSize(width: 0, height: 2);
+                articleView.layer.shadowColor = InverseBackgroundColor.cgColor;
+                articleView.layer.shadowRadius = 1;
+                articleView.layer.shadowOpacity = 0.3;
+                //articleView.layer.masksToBounds = false;
+                //articleView.clipsToBounds = true;
+                
+                articleView.tag = 1;
+                articleView.articleID = articleID;
+                articleView.addTarget(self, action: #selector(self.openArticle), for: .touchUpInside);
+                
+                //
+                
+                self.renderArticleContent(articleView, articleID);
 
-            self.nextContentY += articleView.frame.height + self.contentVerticalPadding;
-            self.mainScrollView.addSubview(articleView);
+                self.nextContentY += articleView.frame.height + self.verticalPadding;
+                self.mainScrollView.addSubview(articleView);
 
-                }
+            }
                 
             
             self.mainScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.nextContentY);
             
         });
-        
     }
     
-    internal func renderArticle(_ articleView: ArticleButton, _ articleID: String, _ hasImage: Bool){
+    internal func renderArticleContent(_ articleView: ArticleButton, _ articleID: String){
           
-        let articleViewCornerRadius : CGFloat = 7;
-        
-        //
-        
-        articleView.backgroundColor = pageAccentColor;
-        articleView.layer.cornerRadius = articleViewCornerRadius;
-        
-        articleView.layer.shadowOffset = CGSize(width: 0, height: 2);
-        articleView.layer.shadowColor = inversePageAccentColor.cgColor;
-        articleView.layer.shadowRadius = 1;
-        articleView.layer.shadowOpacity = 0.3;
-        //articleView.layer.masksToBounds = false;
-        //articleView.clipsToBounds = true;
-        
-        articleView.tag = 1;
-        articleView.articleID = articleID;
-        articleView.addTarget(self, action: #selector(self.openArticle), for: .touchUpInside);
-        
-        //
-        
-        renderImageArticle(articleView, articleID, articleViewCornerRadius);
-        
-    }
-    
-    internal func renderImageArticle(_ articleView: ArticleButton, _ articleID: String, _ articleViewCornerRadius: CGFloat){
-        
         dataManager.getBaseArticleData(articleID, completion: { (articledata) in
             
-            let horizontalPadding : CGFloat = 10;
-            let verticalPadding : CGFloat = 5;
+            let articleHorizontalPadding : CGFloat = 10;
+            let articleVerticalPadding : CGFloat = 5;
             
             //
             
             let articleTimestampLabelHeight = articleView.frame.height * 0.05;
-            let articleTimestampLabelFrame = CGRect(x: horizontalPadding, y: articleView.frame.height - verticalPadding - articleTimestampLabelHeight, width: articleView.frame.width - 2*horizontalPadding, height: articleTimestampLabelHeight);
+            let articleTimestampLabelFrame = CGRect(x: articleHorizontalPadding, y: articleView.frame.height - articleVerticalPadding - articleTimestampLabelHeight, width: articleView.frame.width - 2*articleHorizontalPadding, height: articleTimestampLabelHeight);
             let articleTimestampLabel = UILabel(frame: articleTimestampLabelFrame);
             
             articleTimestampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
@@ -198,17 +186,17 @@ class spotlightPageViewController : presentableViewController{
             //
             
             let articleTitleLabelText = articledata.title;
-            let articleTitleLabelWidth = articleView.frame.width - 2*horizontalPadding - (2/7)*articleView.frame.width;
+            let articleTitleLabelWidth = articleView.frame.width - 2*articleHorizontalPadding - (2/7)*articleView.frame.width;
             let articleTitleLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabelWidth*0.1)!;
             let articleTitleLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleTitleLabelWidth, font: articleTitleLabelFont), articleView.frame.height * 0.3);
-            let articleTitleLabelFrame = CGRect(x: 2*horizontalPadding + (1/4)*articleView.frame.width, y: articleTimestampLabel.frame.minY - 3*articleTitleLabelHeight + verticalPadding, width: articleTitleLabelWidth, height: articleTitleLabelHeight);
+            let articleTitleLabelFrame = CGRect(x: 2*articleHorizontalPadding + (1/4)*articleView.frame.width, y: articleTimestampLabel.frame.minY - 3*articleTitleLabelHeight + articleVerticalPadding, width: articleTitleLabelWidth, height: articleTitleLabelHeight);
             let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
             
             articleTitleLabel.adjustsFontSizeToFitWidth = true;
             articleTitleLabel.minimumScaleFactor = 0.7;
             articleTitleLabel.text = articleTitleLabelText;
             articleTitleLabel.textAlignment = .left;
-            articleTitleLabel.textColor = self.inversePageAccentColor;
+            articleTitleLabel.textColor = InverseBackgroundColor;
             articleTitleLabel.font = articleTitleLabelFont;
             articleTitleLabel.numberOfLines = 0;
             
@@ -217,28 +205,28 @@ class spotlightPageViewController : presentableViewController{
             //
             
             let articleDescLabelText = "description here";
-            let articleDescLabelWidth = articleView.frame.width - 2*horizontalPadding - (2/7)*articleView.frame.width;
+            let articleDescLabelWidth = articleView.frame.width - 2*articleHorizontalPadding - (2/7)*articleView.frame.width;
             let articleDescLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleDescLabelWidth*0.05)!;
             let articleDescLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleDescLabelWidth, font: articleDescLabelFont), articleView.frame.height * 0.3);
-            let articleDescLabelFrame = CGRect(x: 2*horizontalPadding + (1/4)*articleView.frame.width, y: articleTimestampLabel.frame.minY - 4*articleDescLabelHeight + verticalPadding, width: articleDescLabelWidth, height: articleDescLabelHeight);
+            let articleDescLabelFrame = CGRect(x: 2*articleHorizontalPadding + (1/4)*articleView.frame.width, y: articleTimestampLabel.frame.minY - 4*articleDescLabelHeight + articleVerticalPadding, width: articleDescLabelWidth, height: articleDescLabelHeight);
             let articleDescLabel = UILabel(frame: articleDescLabelFrame);
             
             articleDescLabel.adjustsFontSizeToFitWidth = true;
             articleDescLabel.minimumScaleFactor = 0.5;
             articleDescLabel.text = articleDescLabelText;
             articleDescLabel.textAlignment = .left;
-            articleDescLabel.textColor = self.inversePageAccentColor;
+            articleDescLabel.textColor = InverseBackgroundColor;
             articleDescLabel.font = articleDescLabelFont;
             articleDescLabel.numberOfLines = 0;
             
             articleView.addSubview(articleDescLabel);
             //
             
-            let articleImageViewFrame = CGRect(x: horizontalPadding, y: verticalPadding, width: (1/4)*articleView.frame.width, height: articleView.frame.height - 2*verticalPadding);
+            let articleImageViewFrame = CGRect(x: articleHorizontalPadding, y: articleVerticalPadding, width: articleView.frame.width/4, height: articleView.frame.height - 2*articleVerticalPadding);
             let articleImageView = UIImageView(frame: articleImageViewFrame);
             
-            articleImageView.backgroundColor = self.pageAccentColor;
-            articleImageView.layer.cornerRadius = articleViewCornerRadius;
+            articleImageView.backgroundColor = BackgroundColor;
+            articleImageView.layer.cornerRadius = self.articleViewCornerRadius;
             articleImageView.clipsToBounds = true;
             
             if (articledata.thumbURLs.count > 0){

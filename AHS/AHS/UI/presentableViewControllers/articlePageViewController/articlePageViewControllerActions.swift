@@ -95,7 +95,7 @@ extension articlePageViewController{
         
         let categoryPageVC = spotlightPageViewController();
         
-        categoryPageVC.categoryID = button.categoryID;
+        //categoryPageVC.categoryID = button.categoryID;
         
         openChildPage(categoryPageVC);
         
