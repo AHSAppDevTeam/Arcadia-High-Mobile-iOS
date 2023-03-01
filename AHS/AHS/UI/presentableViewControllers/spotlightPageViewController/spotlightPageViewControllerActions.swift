@@ -14,6 +14,10 @@ extension spotlightPageViewController{
         self.dismiss(animated: true);
     }
     
+    @objc func topViewTapped(_sender:UIButton!){
+        print("ertere");
+    }
+    
     @objc internal func handleRefresh(){
         refreshControl.beginRefreshing();
         renderContent();

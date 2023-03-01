@@ -15,10 +15,10 @@ class spotlightPageViewController : presentableViewController{
     
     internal let mainScrollView = UIButtonScrollView();
     internal let refreshControl = UIRefreshControl();
-    internal let topView = UIButton();
+    internal let topViewButton = UIButton();
     
     internal let contentHorizontalPadding : CGFloat = AppUtility.getCurrentScreenSize().width / 20;
-    internal let headerVerticalPadding : CGFloat = 8;
+    internal let headerVerticalPadding : CGFloat = 14;
     internal let contentVerticalPadding : CGFloat = 14;
     internal var nextContentY : CGFloat = 0;
     
@@ -32,15 +32,18 @@ class spotlightPageViewController : presentableViewController{
     override func viewDidLoad() {
         super.viewDidLoad();
         
+        self.view.backgroundColor = BackgroundColor;
+        
+        //
+        
         setupPanGesture();
         
-        let image = UIImage(named: "chevron.left")
-        topView.setBackgroundImage(image, for: UIControl.State.normal);
-        topView.addTarget(self, action: #selector(self.topViewTapped), for: .touchUpInside);
-        self.view.addSubview(topView);
+        renderTopView();
         
-        
-        mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);
+        //
+
+        let mainScrollViewFrameY = topViewButton.frame.maxY + headerVerticalPadding;
+        mainScrollView.frame = CGRect(x: 0, y: mainScrollViewFrameY, width: self.view.frame.width, height: self.view.frame.height - mainScrollViewFrameY);
         
         mainScrollView.alwaysBounceVertical = true;
         mainScrollView.showsVerticalScrollIndicator = true;
@@ -52,45 +55,17 @@ class spotlightPageViewController : presentableViewController{
         refreshControl.tintColor = pageAccentColor;
         refreshControl.addTarget(self, action: #selector(self.handleRefresh), for: .valueChanged);
         mainScrollView.addSubview(refreshControl);
-        
-        //
-        
-        let topMainScrollViewGradientColor = pageAccentColor;
-        let bottomMainScrollViewGradientColor = pageAccentColor;
-        let mainScrollViewGradientLayer = CAGradientLayer();
-        
-        mainScrollViewGradientLayer.colors = [topMainScrollViewGradientColor.cgColor, bottomMainScrollViewGradientColor.cgColor];
-        mainScrollViewGradientLayer.locations = [0, 1];
-        mainScrollViewGradientLayer.frame = mainScrollView.bounds;
-        mainScrollView.layer.insertSublayer(mainScrollViewGradientLayer, at: 0);
-        self.view.layer.insertSublayer(mainScrollViewGradientLayer, at: 0);
+    
         
         //
         
         renderContent();
     }
-    @objc func topViewTapped(_sender:UIButton!){
-        print("");
-    }
-    internal func renderContent(){
-        
-        for subview in mainScrollView.subviews{
-            if (subview.tag == 1){
-                subview.removeFromSuperview();
-            }
-        }
-        
-        //
-        
-        nextContentY = 0;
-        hasRenderedLargeArticle = false;
-        subArticleRenderRowCount = 2;
-        
-        //
-        
-        let topViewButtonFrameWidth = mainScrollView.frame.width - contentHorizontalPadding;
-        let topViewButtonFrame = CGRect(x: contentHorizontalPadding / 2 + 20, y: nextContentY + 50, width: topViewButtonFrameWidth, height: topViewButtonFrameWidth * 0.08);
-        let topViewButton = UIButton(frame: topViewButtonFrame);
+    
+    internal func renderTopView(){
+        let topViewButtonWidth = self.view.frame.width;
+        let topViewButtonFrame = CGRect(x: 0, y: AppUtility.safeAreaInset.top, width: topViewButtonWidth, height: topViewButtonWidth * 0.08);
+        topViewButton.frame = topViewButtonFrame;
         
         let topViewButtonContentHorizontalPadding : CGFloat = 5;
         
@@ -110,11 +85,14 @@ class spotlightPageViewController : presentableViewController{
         //
         
         let topViewLabelFrame = CGRect(x: topViewImageView.frame.width + topViewButtonContentHorizontalPadding, y: 0, width: topViewButton.frame.width - topViewImageView.frame.width - 2*topViewButtonContentHorizontalPadding, height: topViewButton.frame.height);
+        let topViewLabelFontSize = topViewLabelFrame.height * 1;
+        let topViewLabelAttributedText = NSMutableAttributedString(string: "Opportunities", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topViewLabelFontSize)!]);
         let topViewLabel = UILabel(frame: topViewLabelFrame);
         
         topViewLabel.textAlignment = .left;
         topViewLabel.textColor = secondaryPageAccentColor;
         topViewLabel.isUserInteractionEnabled = false;
+        topViewLabel.attributedText = topViewLabelAttributedText;
         
         
         topViewButton.addSubview(topViewLabel);
@@ -124,18 +102,30 @@ class spotlightPageViewController : presentableViewController{
         topViewButton.addTarget(self, action: #selector(self.dismissHandler), for: .touchUpInside);
         
         topViewButton.tag = 1;
-        nextContentY += topViewButton.frame.height + headerVerticalPadding;
         self.view.addSubview(topViewButton);
+    }
+    
+    internal func renderContent(){
+        
+        for subview in mainScrollView.subviews{
+            if (subview.tag == 1){
+                subview.removeFromSuperview();
+            }
+        }
+        
+        //
+        
+        nextContentY = 0;
+        hasRenderedLargeArticle = false;
+        subArticleRenderRowCount = 2;
         
         //
         
         refreshControl.beginRefreshing();
+        
+        
         dataManager.getCategoryData(categoryID, completion: { (categorydata) in
             self.refreshControl.endRefreshing();
-            
-            let topViewLabelFontSize = topViewLabel.frame.height * 1;
-            let topViewLabelAttributedText = NSMutableAttributedString(string: "Opportunities", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topViewLabelFontSize)!]);
-            topViewLabel.attributedText = topViewLabelAttributedText;
             
             //
             
