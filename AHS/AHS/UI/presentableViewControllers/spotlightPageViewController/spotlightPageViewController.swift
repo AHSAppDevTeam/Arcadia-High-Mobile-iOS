@@ -172,7 +172,7 @@ class spotlightPageViewController : presentableViewController{
             
             //
             
-            let articleTimestampLabelHeight = articleView.frame.height * 0.05;
+            /*let articleTimestampLabelHeight = articleView.frame.height * 0.05;
             let articleTimestampLabelFrame = CGRect(x: articleHorizontalPadding, y: articleView.frame.height - articleVerticalPadding - articleTimestampLabelHeight, width: articleView.frame.width - 2*articleHorizontalPadding, height: articleTimestampLabelHeight);
             let articleTimestampLabel = UILabel(frame: articleTimestampLabelFrame);
             
@@ -181,38 +181,56 @@ class spotlightPageViewController : presentableViewController{
             articleTimestampLabel.textColor = .systemGray;
             articleTimestampLabel.font = UIFont(name: SFProDisplay_Regular, size: articleTimestampLabel.frame.height * 0.8);
             
-            articleView.addSubview(articleTimestampLabel);
+            articleView.addSubview(articleTimestampLabel);*/
+            
+            //
+            
+            let articleImageView = UIImageView();
+            if (articledata.thumbURLs.count > 0){ // there is an image for this article
+                let articleImageViewSize = articleView.frame.height;
+                let articleImageViewFrame = CGRect(x: articleHorizontalPadding, y: 0, width: articleImageViewSize, height: articleImageViewSize);
+                articleImageView.frame = articleImageViewFrame;
+                
+                articleImageView.backgroundColor = BackgroundColor;
+                articleImageView.layer.cornerRadius = self.articleViewCornerRadius;
+                articleImageView.clipsToBounds = true;
+                
+                if (articledata.thumbURLs.count > 0){
+                    
+                    articleImageView.contentMode = .scaleAspectFill;
+                    
+                    articleImageView.setImageURL(articledata.thumbURLs[0]);
+                    
+                }
+                
+                articleView.addSubview(articleImageView);
+            }
             
             //
             
             let articleTitleLabelText = articledata.title;
-            let articleTitleLabelWidth = articleView.frame.width - 2*articleHorizontalPadding - (2/7)*articleView.frame.width;
-            let articleTitleLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleTitleLabelWidth*0.1)!;
-            let articleTitleLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleTitleLabelWidth, font: articleTitleLabelFont), articleView.frame.height * 0.3);
-            let articleTitleLabelFrame = CGRect(x: 2*articleHorizontalPadding + (1/4)*articleView.frame.width, y: articleTimestampLabel.frame.minY - 3*articleTitleLabelHeight + articleVerticalPadding, width: articleTitleLabelWidth, height: articleTitleLabelHeight);
+            let articleTitleLabelWidth = articleView.frame.width - 2*articleHorizontalPadding - articleImageView.frame.width;
+            let articleTitleLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleView.frame.width * 0.065)!;
+            let articleTitleLabelFrame = CGRect(x: articleImageView.frame.maxX + (self.horizontalPadding * 0.65), y: 0, width: articleTitleLabelWidth, height: articleView.frame.height * 0.3);
             let articleTitleLabel = UILabel(frame: articleTitleLabelFrame);
             
-            articleTitleLabel.adjustsFontSizeToFitWidth = true;
-            articleTitleLabel.minimumScaleFactor = 0.7;
             articleTitleLabel.text = articleTitleLabelText;
             articleTitleLabel.textAlignment = .left;
             articleTitleLabel.textColor = InverseBackgroundColor;
             articleTitleLabel.font = articleTitleLabelFont;
-            articleTitleLabel.numberOfLines = 0;
+            articleTitleLabel.numberOfLines = 1;
             
             articleView.addSubview(articleTitleLabel);
             
             //
             
-            let articleDescLabelText = "description here";
-            let articleDescLabelWidth = articleView.frame.width - 2*articleHorizontalPadding - (2/7)*articleView.frame.width;
-            let articleDescLabelFont = UIFont(name: SFProDisplay_Semibold, size: articleDescLabelWidth*0.05)!;
-            let articleDescLabelHeight = min(articleTitleLabelText.height(withConstrainedWidth: articleDescLabelWidth, font: articleDescLabelFont), articleView.frame.height * 0.3);
-            let articleDescLabelFrame = CGRect(x: 2*articleHorizontalPadding + (1/4)*articleView.frame.width, y: articleTimestampLabel.frame.minY - 4*articleDescLabelHeight + articleVerticalPadding, width: articleDescLabelWidth, height: articleDescLabelHeight);
+            let articleDescLabelText = "description here description here description here description here description here description here description here description here description here description here description here description here";
+            let articleDescLabelWidth = articleTitleLabelWidth;
+            let articleDescLabelFont = UIFont(name: SFProDisplay_Regular, size: articleView.frame.width * 0.042)!;
+            let articleDescLabelHeight = articleView.frame.height - 3*articleVerticalPadding - articleTitleLabel.frame.height;
+            let articleDescLabelFrame = CGRect(x: articleImageView.frame.maxX + (self.horizontalPadding * 0.65), y: articleTitleLabel.frame.maxY + articleVerticalPadding, width: articleDescLabelWidth, height: articleDescLabelHeight);
             let articleDescLabel = UILabel(frame: articleDescLabelFrame);
             
-            articleDescLabel.adjustsFontSizeToFitWidth = true;
-            articleDescLabel.minimumScaleFactor = 0.5;
             articleDescLabel.text = articleDescLabelText;
             articleDescLabel.textAlignment = .left;
             articleDescLabel.textColor = InverseBackgroundColor;
@@ -221,23 +239,6 @@ class spotlightPageViewController : presentableViewController{
             
             articleView.addSubview(articleDescLabel);
             //
-            
-            let articleImageViewFrame = CGRect(x: articleHorizontalPadding, y: articleVerticalPadding, width: articleView.frame.width/4, height: articleView.frame.height - 2*articleVerticalPadding);
-            let articleImageView = UIImageView(frame: articleImageViewFrame);
-            
-            articleImageView.backgroundColor = BackgroundColor;
-            articleImageView.layer.cornerRadius = self.articleViewCornerRadius;
-            articleImageView.clipsToBounds = true;
-            
-            if (articledata.thumbURLs.count > 0){
-            
-                articleImageView.contentMode = .scaleAspectFill;
-                
-                articleImageView.setImageURL(articledata.thumbURLs[0]);
-                
-            }
-            
-            articleView.addSubview(articleImageView);
             
         });
         
