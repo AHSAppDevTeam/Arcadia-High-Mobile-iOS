@@ -22,6 +22,8 @@ class spotlightPageViewController : presentableViewController{
     internal let horizontalPadding : CGFloat = AppUtility.getCurrentScreenSize().width / 20;
     internal let verticalPadding : CGFloat = 14;
     internal var nextContentY : CGFloat = 0;
+    internal let accentColor: UIColor = UIColor.init(hex: "5fa4a9");
+    
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -79,12 +81,12 @@ class spotlightPageViewController : presentableViewController{
         //
         
         let topViewLabelFrame = CGRect(x: topViewImageView.frame.width + topViewButtonContentHorizontalPadding, y: 0, width: topViewButton.frame.width - topViewImageView.frame.width - 2*topViewButtonContentHorizontalPadding, height: topViewButton.frame.height);
-        let topViewLabelFontSize = topViewLabelFrame.height * 1;
+        let topViewLabelFontSize = topViewLabelFrame.height * 0.8;
         let topViewLabelAttributedText = NSMutableAttributedString(string: "Opportunities", attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topViewLabelFontSize)!]);
         let topViewLabel = UILabel(frame: topViewLabelFrame);
         
         topViewLabel.textAlignment = .left;
-        topViewLabel.textColor = InverseBackgroundColor;
+        topViewLabel.textColor = accentColor;
         topViewLabel.isUserInteractionEnabled = false;
         topViewLabel.attributedText = topViewLabelAttributedText;
         
