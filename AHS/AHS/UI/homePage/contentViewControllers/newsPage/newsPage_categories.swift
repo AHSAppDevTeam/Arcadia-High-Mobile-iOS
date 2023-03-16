@@ -131,7 +131,7 @@ extension newsPageController{
             articleImageView.widthAnchor.constraint(equalToConstant: categoryViewWidth).isActive = true;
             articleImageView.heightAnchor.constraint(equalToConstant: articleImageViewHeight).isActive = true;
             
-            articleImageView.backgroundColor = mainThemeColor;
+            //articleImageView.backgroundColor = mainThemeColor;
             articleImageView.layer.cornerRadius = articleImageViewHeight / 12;
             articleImageView.contentMode = .scaleAspectFill;
             articleImageView.clipsToBounds = true;
@@ -158,7 +158,15 @@ extension newsPageController{
                 articleTitleLabel.text = articledata.title;
                 articleTimeStampLabel.text = timeManager.epochToDiffString(articledata.timestamp);
                 if (articledata.thumbURLs.count > 0){
-                    articleImageView.setImageURL(articledata.thumbURLs[0]);
+                    /*articleImageView.setImageURL(articledata.thumbURLs[0], completion: {
+                        dataManager.getArticleFullPreviewImageURL(articledata.articleID, completion: { (imageURL) in
+                            articleImageView.setImageURL(imageURL);
+                        });
+                    });*/
+                    articleImageView.setHighQualityArticleImageURL(articledata.thumbURLs[0], articledata.articleID);
+                }
+                else{
+                    articleImageView.image = placeholderImage;
                 }
             });
             

@@ -38,17 +38,23 @@ class featuredCollectionViewCell : UICollectionViewCell{
     }
     //
     
-    public func updateImage(_ previewImageURL: String, _ articleID: String){
+    public func updateCell(_ thumbURLs: [String], _ articleID: String){
         reset();
-        render(previewImageURL, articleID);
+        
+        if (thumbURLs.count > 0){
+            render(thumbURLs[0], articleID);
+        }
+        else{
+            setPlaceholderImage();
+        }
     }
     
-    public func setPlaceholderImage(){
+    private func setPlaceholderImage(){
         imageView.image = placeholderImage;
     }
     
     private func render(_ previewImageURL: String, _ articleID: String){
-        //print("Rendering with preview \(previewImageURL) and \(articleID)");
+        /*//print("Rendering with preview \(previewImageURL) and \(articleID)");
         imageView.setImageURL(previewImageURL, completion: {
             //print("Finished leading preview")
             dataManager.getArticleFullPreviewImageURL(articleID, completion: { (imageURL) in
@@ -56,7 +62,8 @@ class featuredCollectionViewCell : UICollectionViewCell{
                 self.imageView.setImageURL(imageURL);
             })
             //self.imageView.setImageURL(imageURL);
-        });
+        });*/
+        imageView.setHighQualityArticleImageURL(previewImageURL, articleID);
     }
     
     private func reset(){

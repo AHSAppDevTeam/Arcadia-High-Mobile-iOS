@@ -133,7 +133,7 @@ extension dataManager{
          
             dataRef.child("articles").child(id).child("imageURLs").observeSingleEvent(of: .value, with: { (snapshot) in
                 
-                print("found snapshot \(snapshot)")
+                //print("found snapshot \(snapshot)")
                 
                 var imageURL : String = "";
                 

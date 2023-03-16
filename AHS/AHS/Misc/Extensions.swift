@@ -215,6 +215,14 @@ extension UIImageView{
             completion();
         });
     }
+    
+    func setHighQualityArticleImageURL(_ previewImageURL: String, _ articleID: String){
+        self.setImageURL(previewImageURL, completion: {
+            dataManager.getArticleFullPreviewImageURL(articleID, completion: { (imageURL) in
+                self.setImageURL(imageURL);
+            });
+        });
+    }
 }
 
 // https://stackoverflow.com/a/29779319/

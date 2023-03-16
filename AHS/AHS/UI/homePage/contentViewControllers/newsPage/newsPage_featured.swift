@@ -208,13 +208,8 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: featuredCollectionViewCell.identifier, for: indexPath) as! featuredCollectionViewCell;
         let index = indexPath.row;
         if (index < featuredArticleArray.count){
-            let thumbURLs = featuredArticleArray[index].thumbURLs;
-            if (thumbURLs.count > 0){
-                cell.updateImage(thumbURLs[0], featuredArticleArray[index].articleID);
-            }
-            else{
-                cell.setPlaceholderImage();
-            }
+            let currentArticle = featuredArticleArray[index];
+            cell.updateCell(currentArticle.thumbURLs, currentArticle.articleID);
         }
         return cell;
     }
