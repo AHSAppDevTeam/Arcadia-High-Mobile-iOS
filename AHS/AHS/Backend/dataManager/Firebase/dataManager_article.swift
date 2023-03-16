@@ -126,4 +126,34 @@ extension dataManager{
         
     }
     
+    static public func getArticleFullPreviewImageURL(_ id: String, completion: @escaping (String) -> Void){
+        setupConnection();
+        
+        if (internetConnected && checkValidString(id)){
+         
+            dataRef.child("articles").child(id).child("imageURLs").observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                print("found snapshot \(snapshot)")
+                
+                var imageURL : String = "";
+                
+                if (snapshot.exists()){
+                    
+                    let imageURLs : [String] = snapshot.value as? [String] ?? [];
+                    
+                    if (imageURLs.count > 0){
+                        imageURL = imageURLs[0];
+                    }
+                }
+                else{
+                    print("article '\(id)' does not exist");
+                }
+                
+                completion(imageURL);
+                
+            });
+            
+        }
+    }
+    
 }

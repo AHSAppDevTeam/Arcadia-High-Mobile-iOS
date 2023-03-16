@@ -443,7 +443,7 @@ extension newsPageController{
         let imageViewFrame = CGRect(x: 0, y: 0, width: stackView.frame.width * 0.45, height: stackView.frame.height);
         let imageView = UIImageView(frame: imageViewFrame);
         
-        imageView.backgroundColor = mainThemeColor;
+        //imageView.backgroundColor = mainThemeColor;
         imageView.contentMode = .scaleAspectFill;
         imageView.clipsToBounds = true;
         imageView.layer.cornerRadius = imageView.frame.height / 12;

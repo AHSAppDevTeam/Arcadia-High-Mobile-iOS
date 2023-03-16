@@ -25,6 +25,8 @@ let timestampLabelTextPrefix = " ∙ ";
 let testIDEmail = "00000ahsapptest@gmail.com";
 let testIDString = "00000";
 
+let placeholderImage = UIImage(named: "placeholder")!;
+
 // Navigation Bar
 let NavigationBarColor = UIColor(named: "NavigationBarColor")!;
 

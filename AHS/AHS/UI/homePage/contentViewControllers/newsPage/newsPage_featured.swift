@@ -210,7 +210,10 @@ extension newsPageController: UICollectionViewDelegate, UICollectionViewDataSour
         if (index < featuredArticleArray.count){
             let thumbURLs = featuredArticleArray[index].thumbURLs;
             if (thumbURLs.count > 0){
-                cell.updateImage(thumbURLs[0]);
+                cell.updateImage(thumbURLs[0], featuredArticleArray[index].articleID);
+            }
+            else{
+                cell.setPlaceholderImage();
             }
         }
         return cell;

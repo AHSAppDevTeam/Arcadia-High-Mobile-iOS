@@ -38,13 +38,25 @@ class featuredCollectionViewCell : UICollectionViewCell{
     }
     //
     
-    public func updateImage(_ imageURL: String){
+    public func updateImage(_ previewImageURL: String, _ articleID: String){
         reset();
-        render(imageURL);
+        render(previewImageURL, articleID);
     }
     
-    private func render(_ imageURL: String){
-        imageView.setImageURL(imageURL);
+    public func setPlaceholderImage(){
+        imageView.image = placeholderImage;
+    }
+    
+    private func render(_ previewImageURL: String, _ articleID: String){
+        //print("Rendering with preview \(previewImageURL) and \(articleID)");
+        imageView.setImageURL(previewImageURL, completion: {
+            //print("Finished leading preview")
+            dataManager.getArticleFullPreviewImageURL(articleID, completion: { (imageURL) in
+                //print("full image loaded for \(articleID)")
+                self.imageView.setImageURL(imageURL);
+            })
+            //self.imageView.setImageURL(imageURL);
+        });
     }
     
     private func reset(){

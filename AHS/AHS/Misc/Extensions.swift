@@ -193,8 +193,27 @@ extension UIViewController{
 }
 
 extension UIImageView{
-    func setImageURL(_ imageURL: String){
-        self.sd_setImage(with: URL(string: imageURL));
+    func setImageURL(_ imageURL: String, completion: @escaping () -> Void = {  }){
+        
+        self.backgroundColor = .clear;
+        
+        let loadingView = UIActivityIndicatorView();
+        self.addSubview(loadingView);
+        
+        loadingView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        loadingView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true;
+        loadingView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true;
+        
+        loadingView.startAnimating();
+        
+        //
+        
+        self.sd_setImage(with: URL(string: imageURL), placeholderImage: placeholderImage, completed: { (_, _, _, _) in
+            loadingView.stopAnimating();
+            loadingView.removeFromSuperview();
+            completion();
+        });
     }
 }
 

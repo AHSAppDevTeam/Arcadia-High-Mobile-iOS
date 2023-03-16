@@ -19,7 +19,7 @@ class mediaCollectionViewCell : UICollectionViewCell{
         super.init(frame: frame);
         
         imageView.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: self.contentView.frame.height);
-        imageView.backgroundColor = .systemRed;
+        //imageView.backgroundColor = .systemRed;
         imageView.contentMode = .scaleAspectFill;
         
         imageView.isHidden = true;
