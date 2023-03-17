@@ -28,39 +28,37 @@ extension homePageViewController{
     @objc func selectCategoryButton(_ sender: UIButton){
         let tag = sender.tag;
         
-        for i in 0..<topCategoryPickerButtons.count{
+        //print("button \(tag) selected");
+        
+        if (tag != 2){
             
-            let button = topCategoryPickerButtons[i];
-            let buttonColor = topCategoryPickerButtonColors[i];
-            
-            if (i != tag){ // non selected
+            for i in 0..<topCategoryPickerButtons.count{
                 
-                button.backgroundColor = BackgroundColor;
+                let button = topCategoryPickerButtons[i];
+                let buttonColor = topCategoryPickerButtonColors[i];
                 
-                if (i == 2){ // is search button
-                    button.tintColor = buttonColor;
-                }
-                else{
+                if (i != tag){ // non selected
+                    
+                    button.backgroundColor = BackgroundColor;
+                    
                     button.setTitleColor(buttonColor, for: .normal);
+                    
                 }
-                
-            }
-            else{ // selected button
-                button.backgroundColor = buttonColor;
-                
-                if (i == 2){ // is search button
-                    button.tintColor = BackgroundColor;
-                }
-                else{
+                else{ // selected button
+                    button.backgroundColor = buttonColor;
+                    
                     button.setTitleColor(BackgroundColor, for: .normal);
+                    
                 }
                 
             }
+            
+            setContentView(tag);
             
         }
-        
-        
-        setContentView(tag);
+        else{
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: searchPageNotification), object: nil);
+        }
         
     }
     

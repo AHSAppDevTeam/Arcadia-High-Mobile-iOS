@@ -12,7 +12,7 @@ class homePageViewController : mainPageViewController{
     
     init(){
         super.init(nibName: nil, bundle: nil);
-        self.pageName = "Home";
+        //self.pageName = "";
         self.viewControllerIconName = "house.fill";
     }
     
@@ -35,7 +35,7 @@ class homePageViewController : mainPageViewController{
     
     internal var contentView : UIView = UIView();
     public var contentViewHeightAnchor : NSLayoutConstraint = NSLayoutConstraint();
-    internal let contentViewControllers : [homeContentPageViewController] = [newsPageController(), communityPageController(), searchPageController()];
+    internal let contentViewControllers : [homeContentPageViewController] = [newsPageController(), communityPageController()];
     internal var contentViewControllerIndex : Int = -1;
     
     //

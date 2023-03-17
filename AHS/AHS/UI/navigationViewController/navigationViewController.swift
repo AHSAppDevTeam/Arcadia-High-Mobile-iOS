@@ -34,6 +34,9 @@ class navigationViewController : UIViewController{
     internal var contentView : UIView = UIView();
     internal let contentViewControllers : [mainPageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
     
+    internal let searchPageContentViewController = searchPageViewController(); // index is 4
+    internal let searchPageContentViewControllerIndex = 4;
+    
     // Navigation Bar View
     internal let buttonArraySize = 4;
     internal var buttonViewArray : [UIButton] = Array(repeating: UIButton(), count: 4);
@@ -82,12 +85,14 @@ class navigationViewController : UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(self.openArticlePage), name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.openCategoryPage), name: NSNotification.Name(rawValue: categoryPageNotification), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.openProfileContentPage), name: NSNotification.Name(rawValue: profilePageContentNotification), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openSearchPage), name: NSNotification.Name(rawValue: searchPageNotification), object: nil);
     }
     
     deinit{
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: categoryPageNotification), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: profilePageContentNotification), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: searchPageNotification), object: nil);
     }
     
     private func renderNavigationBar(){

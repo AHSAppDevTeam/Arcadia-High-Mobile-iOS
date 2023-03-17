@@ -53,6 +53,7 @@ let homePageHorizontalPadding = AppUtility.getCurrentScreenSize().width / 20;
 // Notification Center Macros
 let articlePageNotification = "articlePageNotification";
 let categoryPageNotification = "categoryPageNotification";
+let searchPageNotification = "searchPageNotification";
 
 let profilePageContentNotification = "profilePageContentNotification";
 

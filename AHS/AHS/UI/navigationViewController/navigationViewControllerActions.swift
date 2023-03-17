@@ -82,6 +82,13 @@ extension navigationViewController{
         openPresentablePage(vc);
     }
     
+    @objc func openSearchPage(_ notification: NSNotification){
+        //let vc = searchPageViewController();
+        //openPresentablePage(vc);
+        presentSearchPage();
+        updateTopBar(searchPageContentViewControllerIndex);
+    }
+    
     internal func openPresentablePage(_ vc: presentableViewController){
         transitionDelegateVar = transitionDelegate();
         vc.transitioningDelegate = transitionDelegateVar;
@@ -123,9 +130,12 @@ extension navigationViewController{
         
         // ignore warnings
         
-        let attributedText = NSMutableAttributedString(string: contentViewControllers[pageIndex].pageName, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarView.frame.height * 0.5)]);
+        let pageNameString = pageIndex < contentViewControllers.count  ? contentViewControllers[pageIndex].pageName : (pageIndex == searchPageContentViewControllerIndex ? searchPageContentViewController.pageName : "ERROR");
+        let secondaryPageNameString = pageIndex < contentViewControllers.count ? contentViewControllers[pageIndex].secondaryPageName : (pageIndex == searchPageContentViewControllerIndex ? searchPageContentViewController.secondaryPageName : "ERROR");
         
-        attributedText.append(NSAttributedString(string: " " + contentViewControllers[pageIndex].secondaryPageName, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarView.frame.height * 0.5)]));
+        let attributedText = NSMutableAttributedString(string: pageNameString, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Bold, size: topBarView.frame.height * 0.5)]);
+        
+        attributedText.append(NSAttributedString(string: " " + secondaryPageNameString, attributes: [NSAttributedString.Key.font : UIFont(name: SFProDisplay_Regular, size: topBarView.frame.height * 0.5)]));
         
         return attributedText;
     }
@@ -147,6 +157,10 @@ extension navigationViewController{
         contentView.addSubview(vc.view);
         vc.didMove(toParent: self);
         
+    }
+    
+    internal func presentSearchPage(){
         
     }
+    
 }

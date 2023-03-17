@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 import SDWebImage
 
-class searchPageCollectionViewCell : UITableViewCell{
-    static let identifier : String = "searchPageCollectionViewCell";
+class searchPageViewControllerCell : UITableViewCell{
+    static let identifier : String = "searchPageViewControllerCell";
     
     //
     

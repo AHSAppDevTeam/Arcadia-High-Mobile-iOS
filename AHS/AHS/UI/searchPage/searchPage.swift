@@ -8,42 +8,86 @@
 import Foundation
 import UIKit
 
-class searchPageController : homeContentPageViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
+class searchPageViewController : mainPageViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
+
+    init(){
+        super.init(nibName: nil, bundle: nil);
+        self.pageName = "Search";
+        self.secondaryPageName = "Page";
+        //self.viewControllerIconName = "house.fill";
+    }
     
-    internal let searchBar = UISearchBar();
+    required init?(coder: NSCoder) { // required uiviewcontroller init
+        super.init(coder: coder);
+    }
+    
+    //
+    
+    internal let topBarView = UIButton();
+    internal let searchBarView = UISearchBar();
     internal let resultsTableView = UITableView();
     
     internal var searchResultsArray : [articleSnippetData] = [];
     internal var articleSnippetsArray : [articleSnippetData] = [];
     
+    internal let verticalPadding : CGFloat = 5;
+    internal let horizontalPadding : CGFloat = homePageHorizontalPadding;
+    
+    //
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        let searchBarWidth = AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding;
-        let searchBarFrame = CGRect(x: homePageHorizontalPadding, y: 0, width: searchBarWidth, height: searchBarWidth * 0.12);
-        searchBar.frame = searchBarFrame;
-        
-        searchBar.delegate = self;
-        searchBar.backgroundColor = BackgroundColor;
-        
-        self.view.addSubview(searchBar);
+        self.view.backgroundColor = BackgroundColor;
         
         //
         
-        let resultsTableViewFrame = CGRect(x: homePageHorizontalPadding, y: searchBar.frame.height, width: AppUtility.getCurrentScreenSize().width - 2*homePageHorizontalPadding, height: 0);
+        var nextY : CGFloat = AppUtility.safeAreaInset.top;
+        
+        //
+        
+        let topBarViewWidth = AppUtility.getCurrentScreenSize().width;
+        let topBarViewFrame = CGRect(x: 0, y: nextY, width: topBarViewWidth, height: topBarViewWidth * 0.11);
+        topBarView.frame = topBarViewFrame;
+        
+        topBarView.backgroundColor = .systemRed;
+        
+        topBarView.addTarget(self, action: #selector(self.exit), for: .touchUpInside);
+        self.view.addSubview(topBarView);
+        nextY += topBarView.frame.height + verticalPadding;
+        
+        //
+        
+        let contentWidth = AppUtility.getCurrentScreenSize().width - 2*horizontalPadding;
+        
+        //
+        
+        let searchBarViewFrame = CGRect(x: horizontalPadding, y: nextY, width: contentWidth, height: contentWidth * 0.12);
+        searchBarView.frame = searchBarViewFrame;
+        
+        searchBarView.delegate = self;
+        searchBarView.backgroundColor = BackgroundColor;
+        //searchBarView.tintColor = BackgroundColor;
+        
+        self.view.addSubview(searchBarView);
+        nextY += searchBarView.frame.height;
+        
+        //
+        
+        let resultsTableViewFrame = CGRect(x: horizontalPadding, y: nextY, width: contentWidth, height: 0);
         resultsTableView.frame = resultsTableViewFrame;
         
         resultsTableView.backgroundColor = BackgroundColor;
         resultsTableView.delegate = self;
         resultsTableView.dataSource = self;
         resultsTableView.isScrollEnabled = false;
-        resultsTableView.register(searchPageCollectionViewCell.self, forCellReuseIdentifier: searchPageCollectionViewCell.identifier);
+        resultsTableView.register(searchPageViewControllerCell.self, forCellReuseIdentifier: searchPageViewControllerCell.identifier);
         
         self.view.addSubview(resultsTableView);
         
         //
-        updateParentHeightConstraint();
         
+        //updateParentHeightConstraint();
         hideKeyboardWhenTappedAround();
         loadArticleSnippetList();
         
@@ -58,20 +102,7 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         super.viewDidDisappear(animated);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
     }
-    
-    @objc internal func loadArticleSnippetList(){
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
-        dataManager.getAllArticleSnippets(completion: { (snippetArray) in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
-            
-            self.filterHiddenSnippets(snippetArray: snippetArray, completion: { (filteredSnippetArray) in
-                self.articleSnippetsArray = filteredSnippetArray;
-                self.searchBarSearchButtonClicked(self.searchBar);
-            });
-            
-        });
-        
-    }
+
     
     internal func filterHiddenSnippets(snippetArray: [articleSnippetData], completion: @escaping ([articleSnippetData]) -> Void){
         
@@ -88,7 +119,7 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
     
     internal func updateSearchResults(){
         
-        let searchBarText = self.searchBar.text ?? "";
+        let searchBarText = self.searchBarView.text ?? "";
         
     
         DispatchQueue(label: "searchQueue", qos: .userInitiated, attributes: .concurrent).async {
@@ -112,9 +143,9 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
     
         self.resultsTableView.frame.size.height = self.resultsTableView.contentSize.height;
         
-        nextContentY = self.resultsTableView.frame.maxY + 10;
+        //nextContentY = self.resultsTableView.frame.maxY + 10;
         
-        updateParentHeightConstraint();
+        //updateParentHeightConstraint();
         //print("finished updating search table - EVENT END");
     }
     
@@ -130,14 +161,14 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: searchPageCollectionViewCell.identifier, for: indexPath) as! searchPageCollectionViewCell;
+        let cell = tableView.dequeueReusableCell(withIdentifier: searchPageViewControllerCell.identifier, for: indexPath) as! searchPageViewControllerCell;
         cell.selectionStyle = .none;
         
         let index = indexPath.row;
         if (index < searchResultsArray.count){
             cell.updateContent(searchResultsArray[index]);
         }
-        //print("cell for \(indexPath.row) done");
+        print("cell for \(indexPath.row) done");
 
         return cell;
     }
@@ -154,7 +185,7 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
     }
         
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.searchBar.showsCancelButton = true;
+        self.searchBarView.showsCancelButton = true;
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -166,16 +197,16 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.searchBar.showsCancelButton = false;
-        self.searchBar.text = "";
-        self.searchBar.resignFirstResponder();
+        self.searchBarView.showsCancelButton = false;
+        self.searchBarView.text = "";
+        self.searchBarView.resignFirstResponder();
         dismissKeyboard();
         
         updateSearchResults();
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.searchBar.showsCancelButton = false;
+        self.searchBarView.showsCancelButton = false;
         dismissKeyboard();
         
         updateSearchResults();
