@@ -209,7 +209,7 @@ extension UIImageView{
         
         //
         
-        self.sd_setImage(with: URL(string: imageURL), placeholderImage: placeholderImage, completed: { (_, _, _, _) in
+        self.sd_setImage(with: URL(string: imageURL), completed: { (_, _, _, _) in
             loadingView.stopAnimating();
             loadingView.removeFromSuperview();
             completion();

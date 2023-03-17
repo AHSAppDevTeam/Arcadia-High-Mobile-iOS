@@ -86,16 +86,28 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         completion(filteredSnippetArray);
     }
     
-    internal func updateSearchResults(_ searchBarText: String){
+    internal func updateSearchResults(){
         
-        searchResultsArray = searchBarText.isEmpty ? articleSnippetsArray : articleSnippetsArray.filter{ (article: articleSnippetData) -> Bool in
-            return article.title.range(of: searchBarText, options: .caseInsensitive, range: nil, locale: nil) != nil || article.author.range(of: searchBarText, options: .caseInsensitive, range: nil, locale: nil) != nil;
+        let searchBarText = self.searchBar.text ?? "";
+        
+    
+        DispatchQueue(label: "searchQueue", qos: .userInitiated, attributes: .concurrent).async {
+            //print("updating search results for \(searchBarText)");
+            self.searchResultsArray = searchBarText.isEmpty ? self.articleSnippetsArray : self.articleSnippetsArray.filter{ (article: articleSnippetData) -> Bool in
+                return article.title.range(of: searchBarText, options: .caseInsensitive, range: nil, locale: nil) != nil || article.author.range(of: searchBarText, options: .caseInsensitive, range: nil, locale: nil) != nil;
+            }
+            //print("finished updating search results for \(searchBarText) with count \(self.searchResultsArray.count)");
+            
+            DispatchQueue.main.async {
+                self.updateSearchTable();
+            }
+
         }
         
     }
     
     internal func updateSearchTable(){ // search results in searchResultsArray
-        
+        //print("updating search table");
         resultsTableView.reloadData();
     
         self.resultsTableView.frame.size.height = self.resultsTableView.contentSize.height;
@@ -103,12 +115,13 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         nextContentY = self.resultsTableView.frame.maxY + 10;
         
         updateParentHeightConstraint();
+        //print("finished updating search table - EVENT END");
     }
     
-    internal func updateAll(){
+    /*internal func updateAll(){
         updateSearchResults(self.searchBar.text ?? "");
-        updateSearchTable();
-    }
+        //updateSearchTable();
+    }*/
     
     // delegate methods
     
@@ -124,7 +137,8 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         if (index < searchResultsArray.count){
             cell.updateContent(searchResultsArray[index]);
         }
-        
+        //print("cell for \(indexPath.row) done");
+
         return cell;
     }
     
@@ -138,15 +152,17 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
             
         }
     }
-    
+        
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.searchBar.showsCancelButton = true;
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if (searchText.isEmpty){
+        /*if (searchText.isEmpty){
             updateAll();
-        }
+        }*/
+        //print("EVENT TRIGGERED")
+        updateSearchResults();
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -155,14 +171,14 @@ class searchPageController : homeContentPageViewController, UITableViewDataSourc
         self.searchBar.resignFirstResponder();
         dismissKeyboard();
         
-        updateAll();
+        updateSearchResults();
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.searchBar.showsCancelButton = false;
         dismissKeyboard();
         
-        updateAll();
+        updateSearchResults();
     }
     
 }
