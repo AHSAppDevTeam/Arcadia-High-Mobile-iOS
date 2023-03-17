@@ -42,27 +42,11 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
         
         //
         
-        var nextY : CGFloat = AppUtility.safeAreaInset.top;
-        
-        //
-        
-        let topBarViewWidth = AppUtility.getCurrentScreenSize().width;
-        let topBarViewFrame = CGRect(x: 0, y: nextY, width: topBarViewWidth, height: topBarViewWidth * 0.11);
-        topBarView.frame = topBarViewFrame;
-        
-        topBarView.backgroundColor = .systemRed;
-        
-        topBarView.addTarget(self, action: #selector(self.exit), for: .touchUpInside);
-        self.view.addSubview(topBarView);
-        nextY += topBarView.frame.height + verticalPadding;
-        
-        //
-        
         let contentWidth = AppUtility.getCurrentScreenSize().width - 2*horizontalPadding;
         
         //
         
-        let searchBarViewFrame = CGRect(x: horizontalPadding, y: nextY, width: contentWidth, height: contentWidth * 0.12);
+        let searchBarViewFrame = CGRect(x: horizontalPadding, y: 0, width: contentWidth, height: contentWidth * 0.12);
         searchBarView.frame = searchBarViewFrame;
         
         searchBarView.delegate = self;
@@ -70,11 +54,10 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
         //searchBarView.tintColor = BackgroundColor;
         
         self.view.addSubview(searchBarView);
-        nextY += searchBarView.frame.height;
         
         //
         
-        let resultsTableViewFrame = CGRect(x: horizontalPadding, y: nextY, width: contentWidth, height: 0);
+        let resultsTableViewFrame = CGRect(x: horizontalPadding, y: searchBarView.frame.height, width: contentWidth, height: 0);
         resultsTableView.frame = resultsTableViewFrame;
         
         resultsTableView.backgroundColor = BackgroundColor;
@@ -103,6 +86,19 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
     }
 
+    @objc internal func loadArticleSnippetList(){
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
+        dataManager.getAllArticleSnippets(completion: { (snippetArray) in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
+            
+            self.filterHiddenSnippets(snippetArray: snippetArray, completion: { (filteredSnippetArray) in
+                self.articleSnippetsArray = filteredSnippetArray;
+                self.searchBarSearchButtonClicked(self.searchBarView);
+            });
+            
+        });
+        
+    }
     
     internal func filterHiddenSnippets(snippetArray: [articleSnippetData], completion: @escaping ([articleSnippetData]) -> Void){
         

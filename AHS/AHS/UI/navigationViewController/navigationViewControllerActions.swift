@@ -160,7 +160,12 @@ extension navigationViewController{
     }
     
     internal func presentSearchPage(){
-        
+        let vc = searchPageContentViewController;
+        vc.willMove(toParent: self);
+        addChild(vc);
+        vc.view.frame = contentView.bounds;
+        contentView.addSubview(vc.view);
+        vc.didMove(toParent: self);
     }
     
 }
