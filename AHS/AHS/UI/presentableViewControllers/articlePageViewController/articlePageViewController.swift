@@ -209,8 +209,31 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         //
         
-        if (articleData.imageURLs.count + articleData.videoIDs.count > 0){
+        if (articleData.imageURLs.count + articleData.videoIDs.count > 1){
             
+            let mediaCollectionViewWidth = self.view.frame.width;
+            let mediaCollectionViewHeight = mediaCollectionViewWidth * 0.65;
+            
+            let mediaCollectionViewFrame = CGRect(x: 0, y: nextContentY, width: self.view.frame.width, height: self.view.frame.width * 0.65);
+            let mediaCollectionViewLayoutItemSizeVerticalPadding = mediaCollectionViewHeight / 12;
+            mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth + 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
+            mediaCollectionViewLayout.scrollDirection = .horizontal;
+            mediaCollectionViewLayout.spacingMode = .overlap(visibleOffset: horizontalPadding / 2);
+            
+            mediaCollectionView = UICollectionView(frame: mediaCollectionViewFrame, collectionViewLayout: mediaCollectionViewLayout);
+            
+            mediaCollectionView.showsVerticalScrollIndicator = false;
+            mediaCollectionView.showsHorizontalScrollIndicator = false;
+            mediaCollectionView.delegate = self;
+            mediaCollectionView.dataSource = self;
+            mediaCollectionView.register(mediaCollectionViewCell.self, forCellWithReuseIdentifier: mediaCollectionViewCell.identifier);
+            mediaCollectionView.backgroundColor = .clear;
+            
+            mediaCollectionView.tag = 1;
+            scrollView.addSubview(mediaCollectionView);
+            nextContentY += mediaCollectionView.frame.height;
+            
+        } else {
             let mediaCollectionViewWidth = self.view.frame.width;
             let mediaCollectionViewHeight = mediaCollectionViewWidth * 0.65;
             
@@ -232,7 +255,6 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
             mediaCollectionView.tag = 1;
             scrollView.addSubview(mediaCollectionView);
             nextContentY += mediaCollectionView.frame.height;
-            
         }
         
         nextContentY += verticalPadding;
