@@ -456,7 +456,10 @@ class schedulePageViewController : presentableViewController{
         // horizontal line connecting time label to the vertical line
         //
         
-        for timestamp in scheduledata.timestamps{
+        let lastTimestamp: Float = Float(scheduledata.timestamps.last ?? 0)
+        
+        
+        for timestamp in 1..<Int(lastTimestamp.rounded(.up)) {
             
             let timeSinceBeginningOfDay : CGFloat = CGFloat(timestamp - scheduledata.timestamps[0]);
             
