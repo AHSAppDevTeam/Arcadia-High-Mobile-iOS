@@ -118,6 +118,14 @@ class timeManager{
         return hourString
     }
     
+    public func getHourFromHourInt(_ hourInt: Int) -> String { // 15 -> 3 PM
+        guard hourInt <= 24 && hourInt >= 0 else{
+            return "";
+        }
+        
+        return getHourFromDate(getDateFromMinSinceMidnight(hourInt * 60));
+    }
+    
     public func getDateFromMinSinceMidnight(_ minutes: Int) -> Date{
         let dateUnixEpoch = calendar.startOfDay(for: Date()).timeIntervalSince1970;
         return Date(timeIntervalSince1970: dateUnixEpoch + Double((minutes * 60)));

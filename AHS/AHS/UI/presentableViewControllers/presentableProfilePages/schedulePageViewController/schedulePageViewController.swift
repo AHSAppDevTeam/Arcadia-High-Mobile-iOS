@@ -319,7 +319,14 @@ class schedulePageViewController : presentableViewController{
         
         if (scheduledata.timestamps.count > 1){
             
-            let scheduleTotalTime : CGFloat = CGFloat((scheduledata.timestamps.last ?? 0) - (scheduledata.timestamps.first ?? 0));
+            //let scheduleTotalTime : CGFloat = CGFloat((scheduledata.timestamps.last ?? 0) - (scheduledata.timestamps.first ?? 0));
+            let lastHourFloat: Float = (Float(scheduledata.timestamps.last ?? 0)/60.0);
+            let lastHour : Int = Int(lastHourFloat.rounded(.up));
+            
+            let firstHourFloat: Float = (Float(scheduledata.timestamps.first ?? 0)/60.0);
+            let firstHour : Int = Int(firstHourFloat.rounded(.down));
+            
+            let scheduleTotalTime : CGFloat = CGFloat((lastHour - firstHour)*60);
             
             guard scheduleTotalTime > 0 else{
                 print("invalid schedule total time");
@@ -331,7 +338,7 @@ class schedulePageViewController : presentableViewController{
             let timestampViewFrame = CGRect(x: horizontalPadding, y: nextY, width: timestampViewWidth, height: timestampViewHeight);
             let timestampView = UIView(frame: timestampViewFrame);
             
-            renderScheduleTimestamp(timestampView, date, scheduledata);
+            renderScheduleTimestamp(timestampView, date, scheduledata, firstHour, lastHour);
             
             timestampView.tag = 1;
             
@@ -340,6 +347,7 @@ class schedulePageViewController : presentableViewController{
             
             //
             
+            nextY += CGFloat((scheduledata.timestamps.first!) - (firstHour * 60)) * self.minuteToHeightRatio;
             
             for i in 1..<scheduledata.timestamps.count{
                 
@@ -348,13 +356,15 @@ class schedulePageViewController : presentableViewController{
                 let periodViewHeight = CGFloat(periodTime) * minuteToHeightRatio;
                 let periodViewFrame = CGRect(x: timestampView.frame.width + 2*horizontalPadding, y: nextY, width: mainScrollView.frame.width - (timestampView.frame.width + 3*horizontalPadding) - minutesViewWidth, height: periodViewHeight);
                 let periodView = UIView(frame: periodViewFrame);
-
-
-                let minutesViewFrame = CGRect(x: periodView.frame.width + 2 * horizontalPadding + minutesViewWidth, y: nextY + periodViewHeight / 4, width: minutesViewWidth, height: periodView.frame.height / 2)
-                let minutesView = UIView(frame: minutesViewFrame)
+                
+                
+                
+//                let testView = UIView(frame: CGRect(x: periodView.frame.width - 10, y: 0, width: 100, height: 100));
+//                testView.backgroundColor = .systemRed;
+//                periodView.addSubview(testView);
 
                 periodView.layer.cornerRadius = 15;
-                periodView.clipsToBounds = true;
+                //periodView.clipsToBounds = true;
                 
                 guard i - 1 < scheduledata.periodIDs.count else{
                     print("index out of bounds when rendering schedule - \(scheduledata.title)")
@@ -363,26 +373,79 @@ class schedulePageViewController : presentableViewController{
                 
                 let periodID = scheduledata.periodIDs[i-1];
                 
-                //
+                let periodLabelFontSize = periodView.frame.width * 0.08;
                 
-                let periodLabelFontSize = periodView.frame.width * 0.07;
+                let middleY: Int = Int(periodView.frame.height / 4) // Y-value for middle of periodView
+                let periodLabelHeight: Int = Int(periodView.frame.height / 2)
                 
-                let periodLabel = UILabel();
-                periodView.addSubview(periodLabel);
                 
-                periodLabel.translatesAutoresizingMaskIntoConstraints = false;
                 
-                periodLabel.centerXAnchor.constraint(equalTo: periodView.centerXAnchor).isActive = true;
-                periodLabel.centerYAnchor.constraint(equalTo: periodView.centerYAnchor).isActive = true;
-                
-                periodLabel.textColor = BackgroundColor;
+                let periodLabelFrame = CGRect(x: Int(horizontalPadding), y: middleY, width: Int(periodView.frame.width) / 3, height: periodLabelHeight)
+                let periodLabel = UILabel(frame: periodLabelFrame);
+                periodLabel.textColor = InverseBackgroundColor;
                 periodLabel.font = UIFont(name: SFProDisplay_Bold, size: periodLabelFontSize);
-                
-                let verticalLineWidth: CGFloat = 1
-                let verticalLine = UIView(frame: CGRect(x: 0, y: 0, width: verticalLineWidth, height: periodView.frame.height / 2))
-                
-                periodView.addSubview(verticalLine)
+                periodView.addSubview(periodLabel);
+                //
+                if (periodID != "passing") {
+                    
+                    
+                    let periodVerticalLineWidth: CGFloat = 1;
+                    let periodVerticalLineFrame = CGRect(x: Int(periodLabel.frame.width) + Int(horizontalPadding), y: middleY, width: Int(periodVerticalLineWidth), height: periodLabelHeight)
+                    let periodVerticalLine = UIView(frame: periodVerticalLineFrame)
+                    periodVerticalLine.backgroundColor = InverseBackgroundColor
+                    periodView.addSubview(periodVerticalLine)
+                    
+                    let periodTimeLabelFrame = CGRect(x: Int(periodLabel.frame.width) + 2*Int(horizontalPadding), y: middleY, width: Int(periodView.frame.width - periodVerticalLine.frame.width), height: periodLabelHeight)
+                    let periodTimeLabel = UILabel(frame: periodTimeLabelFrame)
+                    let periodTimeLabelFontSize = periodView.frame.width * 0.055;
+                    
+                    periodTimeLabel.textColor = InverseBackgroundColor;
+                    periodTimeLabel.font = UIFont(name: SFProDisplay_Bold, size: periodTimeLabelFontSize);
+                    periodTimeLabel.text = "\(timeManager.regular.getFormattedTimeString(timeManager.regular.getDateFromMinSinceMidnight(scheduledata.timestamps[i-1]))) - \(timeManager.regular.getFormattedTimeString(timeManager.regular.getDateFromMinSinceMidnight(scheduledata.timestamps[i])))"
+                    periodView.addSubview(periodTimeLabel)
+                                        
+    //                periodLabel.translatesAutoresizingMaskIntoConstraints = false;
+    //
+    //                periodLabel.centerXAnchor.constraint(equalTo: periodView.centerXAnchor).isActive = true;
+    //                periodLabel.centerYAnchor.constraint(equalTo: periodView.centerYAnchor).isActive = true;
+                    
+                    
+                    
+                    /*let verticalLineWidth: CGFloat = 1
+                    let verticalLine = UIView(frame: CGRect(x: 0, y: 0, width: verticalLineWidth, height: periodView.frame.height / 2))
+                    
+                    verticalLine.backgroundColor = .systemRed;
+                    
+                    periodView.addSubview(verticalLine)*/
 
+                
+                    let minutesViewFrame = CGRect(x: Int(periodView.frame.width) + 2 * Int(horizontalPadding), y: middleY, width: Int(minutesViewWidth), height: periodLabelHeight)
+                    let minutesView = UIView(frame: minutesViewFrame)
+                    
+                    let numberUILabelFontSize = periodView.frame.width * 0.12;
+                    let numberUILabelFrame = CGRect(x: 0, y: 0, width: mainScrollView.frame.width - minutesView.frame.width, height: numberUILabelFontSize)
+                    let numberUILabel = UILabel(frame: numberUILabelFrame)
+                    numberUILabel.text = "\(periodTime)"
+                    numberUILabel.textColor = scheduledata.color;
+                    
+                    
+                    numberUILabel.font = UIFont(name: SFProDisplay_Bold, size: numberUILabelFontSize);
+                    
+                    let minsUILabelFontSize = periodView.frame.width * 0.12;
+                    let minsUILabelFrame = CGRect(x: 0, y: numberUILabelFontSize + 0.5*verticalPadding, width: mainScrollView.frame.width - minutesView.frame.width, height: minsUILabelFontSize)
+                    let minsUILabel = UILabel(frame: minsUILabelFrame)
+                    minsUILabel.text = "mins"
+                    minsUILabel.textColor = scheduledata.color;
+                    
+                    
+                    minsUILabel.font = UIFont(name: SFProDisplay_Regular, size: minsUILabelFontSize);
+                    
+                    minutesView.addSubview(numberUILabel)
+                    minutesView.addSubview(minsUILabel)
+                    periodView.addSubview(minutesView)
+                }
+                
+                
                 
                 if let periodInt = Int(periodID){
                     //print("period - \(periodInt)")
@@ -409,13 +472,13 @@ class schedulePageViewController : presentableViewController{
                 periodView.tag = 1;
                 
                 mainScrollView.addSubview(periodView);
-                mainScrollView.addSubview(minutesView);
                 nextY += periodView.frame.height;
                 
             }
             
-            
+            nextY = max(nextY, timestampView.frame.maxY);
             //
+            
         }
         else{
             
@@ -434,11 +497,13 @@ class schedulePageViewController : presentableViewController{
             nextY += noScheduleLabel.frame.height
         }
         
+        //
+        
         mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY);
         
     }
     
-    private func renderScheduleTimestamp(_ timestampView: UIView, _ date: Date, _ scheduledata: scheduleCalendarData){
+    private func renderScheduleTimestamp(_ timestampView: UIView, _ date: Date, _ scheduledata: scheduleCalendarData, _ firstHour: Int, _ lastHour: Int){
         
         //timestampView.backgroundColor = .systemRed;
         
@@ -446,35 +511,31 @@ class schedulePageViewController : presentableViewController{
         let labelHeight = labelWidth * 0.24;
         let labelFont = UIFont(name: SFProDisplay_Semibold, size: labelHeight * 0.7);
         
-        let verticalLineWidth: CGFloat = 1;
-        let verticalLine = UIView(frame: CGRect(x: timestampView.frame.width - horizontalPadding, y: 0, width: verticalLineWidth, height: timestampView.frame.height))
-        verticalLine.backgroundColor = .lightGray
-        timestampView.addSubview(verticalLine);
-        
-        let horizontalLineHeight: CGFloat = 1;
-        
-        // horizontal line connecting time label to the vertical line
         //
         
-        let lastTimestamp: Float = Float(scheduledata.timestamps.last ?? 0)
+        let verticalLineWidth: CGFloat = 1;
+        let verticalLine = UIView(frame: CGRect(x: timestampView.frame.width - horizontalPadding, y: 0, width: verticalLineWidth, height: CGFloat(lastHour-firstHour)*60*self.minuteToHeightRatio))
+        verticalLine.backgroundColor = .lightGray
+        timestampView.addSubview(verticalLine);
+       
+        //print(firstHour)
         
-        
-        for timestamp in 1..<Int(lastTimestamp.rounded(.up)) {
-            
-            let timeSinceBeginningOfDay : CGFloat = CGFloat(timestamp - scheduledata.timestamps[0]);
-            
-            let timestampLabelFrameY = min(timestampView.frame.height - labelHeight, max((timeSinceBeginningOfDay * self.minuteToHeightRatio) - (labelHeight / 2), 0));
-            let timestampLabelFrame = CGRect(x: 0, y: timestampLabelFrameY, width: labelWidth, height: labelHeight);
+        for timestampHour in firstHour...lastHour{
+                        
+            //let timestampLabelFrameY = min(timestampView.frame.height - labelHeight, max((timeSinceBeginningOfDay * self.minuteToHeightRatio) - (labelHeight / 2), 0));
+            let timestampLabelFrameY = CGFloat((timestampHour - firstHour) * 60) * self.minuteToHeightRatio;
+            let timestampLabelFrame = CGRect(x: 0, y: timestampLabelFrameY - (labelHeight / 2), width: labelWidth, height: labelHeight);
             let timestampLabel = UILabel(frame: timestampLabelFrame);
             
             timestampLabel.textColor = .lightGray;
             timestampLabel.textAlignment = .center;
             timestampLabel.font = labelFont;
-            timestampLabel.text = timeManager.regular.getHourFromDate(timeManager.regular.getDateFromMinSinceMidnight(timestamp));
+            timestampLabel.text = timeManager.regular.getHourFromHourInt(timestampHour);
             
             timestampView.addSubview(timestampLabel);
             
-            let horizontalLineConnector = UIView(frame: CGRect(x: verticalLine.frame.maxX, y: timestampLabelFrameY + verticalPadding, width: verticalLine.frame.maxX - timestampLabel.frame.maxX, height: horizontalLineHeight))
+            let horizontalLineHeight: CGFloat = 1;
+            let horizontalLineConnector = UIView(frame: CGRect(x: verticalLine.frame.maxX, y: timestampLabelFrameY, width: verticalLine.frame.maxX - timestampLabel.frame.maxX, height: horizontalLineHeight))
             horizontalLineConnector.backgroundColor = .lightGray
             
             
