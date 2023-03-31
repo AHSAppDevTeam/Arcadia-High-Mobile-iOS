@@ -397,11 +397,12 @@ class schedulePageViewController : presentableViewController{
                     
                     let periodTimeLabelFrame = CGRect(x: Int(periodLabel.frame.width) + 2*Int(horizontalPadding), y: middleY, width: Int(periodView.frame.width - periodVerticalLine.frame.width), height: periodLabelHeight)
                     let periodTimeLabel = UILabel(frame: periodTimeLabelFrame)
-                    let periodTimeLabelFontSize = periodView.frame.width * 0.055;
+                    let periodTimeLabelFontSize = periodView.frame.width * 0.07;
                     
                     periodTimeLabel.textColor = InverseBackgroundColor;
                     periodTimeLabel.font = UIFont(name: SFProDisplay_Bold, size: periodTimeLabelFontSize);
-                    periodTimeLabel.text = "\(timeManager.regular.getFormattedTimeString(timeManager.regular.getDateFromMinSinceMidnight(scheduledata.timestamps[i-1]))) - \(timeManager.regular.getFormattedTimeString(timeManager.regular.getDateFromMinSinceMidnight(scheduledata.timestamps[i])))"
+                    periodTimeLabel.numberOfLines = 3 // or 0 for infinite lines
+                    periodTimeLabel.text = timeManager.regular.getFormattedTimeString(timeManager.regular.getDateFromMinSinceMidnight(scheduledata.timestamps[i-1])) + "\n\t-\n" + timeManager.regular.getFormattedTimeString(timeManager.regular.getDateFromMinSinceMidnight(scheduledata.timestamps[i]))
                     periodView.addSubview(periodTimeLabel)
                                         
     //                periodLabel.translatesAutoresizingMaskIntoConstraints = false;
