@@ -152,7 +152,6 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         
         //topBarCategoryButtonLabel.titleLabel?.textAlignment = .left;
         topBarCategoryButtonLabel.contentHorizontalAlignment = .left;
-        topBarCategoryButtonLabel.setTitleColor(UIColor.init(hex: "cc5454"), for: .normal);
         topBarCategoryButtonLabel.setAttributedTitle(self.generateTopBarTitleText(articledata?.baseData.categoryID ?? ""), for: .normal);
         
         topBarCategoryButtonLabel.addTarget(self, action: #selector(self.handleBackButton), for: .touchUpInside);
@@ -342,13 +341,18 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         categoryButton.layer.cornerRadius = categoryButton.frame.height / 2;
         categoryButton.titleLabel?.textAlignment = .center;
         categoryButton.titleLabel?.lineBreakMode = .byTruncatingTail;
-        categoryButton.setTitleColor(UIColor.init(hex: "cc5454"), for: .normal);
         categoryButton.setAttributedTitle(self.generateCategoryButtonTitle(articleData.baseData.categoryID, categoryButton.frame.height), for: .normal);
         categoryButton.titleEdgeInsets = UIEdgeInsets(top: categoryButtonInnerButtonEdgeInsets, left: categoryButtonInnerButtonEdgeInsets, bottom: categoryButtonInnerButtonEdgeInsets, right: categoryButtonInnerButtonEdgeInsets);
         
         categoryButton.tag = 1;
         categoryButton.categoryID = articleData.baseData.categoryID;
         categoryButton.addTarget(self, action: #selector(self.openCategoryPage), for: .touchUpInside);
+        
+        dataManager.getCategoryData(articleData.baseData.categoryID, completion: { (articleData) in
+            categoryButton.setTitleColor(articleData.color, for: .normal);
+            self.topBarCategoryButtonLabel.setTitleColor(articleData.color, for: .normal);
+        });
+        
         scrollView.addSubview(categoryButton);
         nextContentY += categoryButton.frame.height + 3*verticalPadding;
         
