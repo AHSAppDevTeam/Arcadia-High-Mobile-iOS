@@ -26,6 +26,7 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     internal let topBarView = UIButton();
     internal let searchBarView = UISearchBar();
     internal let resultsTableView = UITableView();
+    internal var resultsTableViewHeight : CGFloat = 0;
     
     internal let resultsTableViewRefreshControl = UIRefreshControl();
     
@@ -76,8 +77,7 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
             self.view.addSubview(searchBarView);
             
             //
-                    
-            let resultsTableViewHeight = self.view.frame.height - searchBarView.frame.height - verticalPadding;
+            resultsTableViewHeight = self.view.frame.height - searchBarView.frame.height - verticalPadding;
             let resultsTableViewFrame = CGRect(x: horizontalPadding, y: searchBarView.frame.height + verticalPadding, width: contentWidth, height: resultsTableViewHeight);
             resultsTableView.frame = resultsTableViewFrame;
         
@@ -106,11 +106,15 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleKeyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleKeyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil);
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil);
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil);
     }
     
     //
@@ -123,7 +127,6 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     @objc internal func loadArticleSnippetList(){
         dataManager.getAllArticleSnippets(completion: { (snippetArray) in
             self.resultsTableViewRefreshControl.endRefreshing();
-
             
             self.filterHiddenSnippets(snippetArray: snippetArray, completion: { (filteredSnippetArray) in
                 self.articleSnippetsArray = filteredSnippetArray;
@@ -143,6 +146,16 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
                 self.dismiss();
             });
         });
+    }
+    
+    @objc internal func handleKeyboardShow(_ notification: NSNotification){
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue{
+            resultsTableView.frame = CGRect(x: resultsTableView.frame.minX, y: resultsTableView.frame.minY, width: resultsTableView.frame.width, height: resultsTableViewHeight - (keyboardSize.height - navigationViewController.navigationBarViewHeight));
+        }
+    }
+    
+    @objc internal func handleKeyboardHide(_ notification: NSNotification){
+        resultsTableView.frame = CGRect(x: resultsTableView.frame.minX, y: resultsTableView.frame.minY, width: resultsTableView.frame.width, height: resultsTableViewHeight);
     }
     
     //
