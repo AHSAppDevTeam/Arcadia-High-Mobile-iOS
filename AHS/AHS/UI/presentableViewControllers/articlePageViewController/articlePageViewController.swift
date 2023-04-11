@@ -209,13 +209,12 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         //
         
         if (articleData.imageURLs.count + articleData.videoIDs.count > 1){
-            
             let mediaCollectionViewWidth = self.view.frame.width;
             let mediaCollectionViewHeight = mediaCollectionViewWidth * 0.65;
             
             let mediaCollectionViewFrame = CGRect(x: 0, y: nextContentY, width: self.view.frame.width, height: self.view.frame.width * 0.65);
             let mediaCollectionViewLayoutItemSizeVerticalPadding = mediaCollectionViewHeight / 12;
-            mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth + 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
+            mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth - 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
             mediaCollectionViewLayout.scrollDirection = .horizontal;
             mediaCollectionViewLayout.spacingMode = .overlap(visibleOffset: horizontalPadding / 2);
             
@@ -231,14 +230,13 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
             mediaCollectionView.tag = 1;
             scrollView.addSubview(mediaCollectionView);
             nextContentY += mediaCollectionView.frame.height;
-            
         } else {
             let mediaCollectionViewWidth = self.view.frame.width;
             let mediaCollectionViewHeight = mediaCollectionViewWidth * 0.65;
             
             let mediaCollectionViewFrame = CGRect(x: 0, y: nextContentY, width: self.view.frame.width, height: self.view.frame.width * 0.65);
             let mediaCollectionViewLayoutItemSizeVerticalPadding = mediaCollectionViewHeight / 12;
-            mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth - 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
+            mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth + 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
             mediaCollectionViewLayout.scrollDirection = .horizontal;
             mediaCollectionViewLayout.spacingMode = .overlap(visibleOffset: horizontalPadding / 2);
             
