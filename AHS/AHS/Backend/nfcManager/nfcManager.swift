@@ -73,7 +73,7 @@ class nfcManager : NSObject{
         }
                 
         guard let nfcSaltString = Bundle.main.infoDictionary?["nfcsalt"] as? String else{
-            nfcSession?.invalidate(errorMessage: "Invalid nfc configuration");
+            nfcSession?.invalidate(errorMessage: "Invalid NFC configuration");
             return;
         }
         

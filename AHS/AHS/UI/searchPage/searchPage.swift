@@ -41,15 +41,6 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     
     internal var panGestureRecognizer = UIPanGestureRecognizer();
     
-    internal func setupPanGesture(){
-        panGestureRecognizer.addTarget(self, action: #selector(self.handlePan));
-        self.view.addGestureRecognizer(panGestureRecognizer);
-    }
-    
-    @objc private func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer){
-        popTransition.handlePan(panGestureRecognizer, fromViewController: self);
-    }
-    
     //
     
     override func viewDidLoad() {
@@ -141,6 +132,24 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
             
         });
         
+    }
+    
+    @objc private func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer){
+        popTransition.handlePan(panGestureRecognizer, fromViewController: self, dismissCompletionHandler: {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.frame = CGRect(x: self.view.frame.width, y: 0, width: self.view.frame.width, height: self.view.frame.height);
+            }, completion: { _ in
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred();
+                self.dismiss();
+            });
+        });
+    }
+    
+    //
+    
+    internal func setupPanGesture(){
+        panGestureRecognizer.addTarget(self, action: #selector(self.handlePan));
+        self.view.addGestureRecognizer(panGestureRecognizer);
     }
     
     internal func filterHiddenSnippets(snippetArray: [articleSnippetData], completion: @escaping ([articleSnippetData]) -> Void){

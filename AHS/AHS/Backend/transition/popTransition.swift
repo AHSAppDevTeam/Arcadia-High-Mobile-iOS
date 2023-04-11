@@ -40,7 +40,7 @@ open class popTransition: NSObject, UIViewControllerAnimatedTransitioning{
         })
     }
     
-    static public func handlePan(_ gestureRecognizer: UIPanGestureRecognizer, fromViewController: UIViewController){
+    static public func handlePan(_ gestureRecognizer: UIPanGestureRecognizer, fromViewController: UIViewController, dismissCompletionHandler: (() -> Void)? = nil){
         if (gestureRecognizer.state == .began || gestureRecognizer.state == .changed){
             let translation = gestureRecognizer.translation(in: fromViewController.view);
             
@@ -51,7 +51,14 @@ open class popTransition: NSObject, UIViewControllerAnimatedTransitioning{
         else if (gestureRecognizer.state == .ended){
             let thresholdPercent : CGFloat = 0.25; // if minx > thresholdPercent * uiscreen.main.bounds.width
             if (fromViewController.view.frame.minX >= thresholdPercent * AppUtility.getCurrentScreenSize().width){
-                fromViewController.dismiss(animated: true);
+        
+                guard let compHandler = dismissCompletionHandler else{
+                    fromViewController.dismiss(animated: true);
+                    return;
+                }
+                
+                compHandler();
+                
             }
             else{
                 UIView.animate(withDuration: 0.2, animations: {
