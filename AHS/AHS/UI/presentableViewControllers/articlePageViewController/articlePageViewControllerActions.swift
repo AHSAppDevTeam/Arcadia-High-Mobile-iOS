@@ -181,10 +181,6 @@ extension articlePageViewController{
         
     }
     
-    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        fontSliderPopTip.hide();
-    }
-    
     @objc internal func fontSliderValueChanged(_ slider: UISlider){
         //print(slider.value);
         let fontSize = Int(slider.value);
@@ -192,6 +188,30 @@ extension articlePageViewController{
         dataManager.preferencesStruct.fontSize = fontSize;
         
         fontSliderPopTip.tag = 1;
+    }
+    
+    @objc internal func presentImageViewPage(_ image: UIImage){
+        let imageVC = zoomableImageViewController();
+        imageVC.image = image;
+        self.openChildPage(imageVC);
+    }
+    
+    // assumes articleData.imageURLs.count == 1
+    @objc internal func presentImageViewPageWithButton(_ sender: UIButton){
+        guard articledata?.imageURLs.count == 1 else{
+            return;
+        }
+        
+        guard let image = (sender.subviews[0] as? UIImageView)?.image else{
+            print("image not found for mediaView");
+            return;
+        }
+        
+        presentImageViewPage(image);
+    }
+    
+    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        fontSliderPopTip.hide();
     }
     
     internal func generateTopBarTitleText(_ categoryTitle: String) -> NSAttributedString{

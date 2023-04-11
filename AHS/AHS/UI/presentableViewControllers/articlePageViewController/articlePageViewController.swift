@@ -210,31 +210,58 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         let fontSize = CGFloat(dataManager.preferencesStruct.fontSize);
         
         //
-        
-        if (articleData.imageURLs.count + articleData.videoIDs.count > 0){
-            
+        let articleMediaCount = articleData.imageURLs.count + articleData.videoIDs.count;
+        if (articleMediaCount > 0){
             let mediaCollectionViewWidth = self.view.frame.width;
             let mediaCollectionViewHeight = mediaCollectionViewWidth * 0.65;
             
-            let mediaCollectionViewFrame = CGRect(x: 0, y: nextContentY, width: self.view.frame.width, height: self.view.frame.width * 0.65);
+            let mediaViewFrame = CGRect(x: 0, y: nextContentY, width: self.view.frame.width, height: self.view.frame.width * 0.65);
             let mediaCollectionViewLayoutItemSizeVerticalPadding = mediaCollectionViewHeight / 12;
-            mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth - 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
-            mediaCollectionViewLayout.scrollDirection = .horizontal;
-            mediaCollectionViewLayout.spacingMode = .overlap(visibleOffset: horizontalPadding / 2);
+                    
+            let mediaView = UIView(frame: mediaViewFrame);
             
-            mediaCollectionView = UICollectionView(frame: mediaCollectionViewFrame, collectionViewLayout: mediaCollectionViewLayout);
-            
-            mediaCollectionView.showsVerticalScrollIndicator = false;
-            mediaCollectionView.showsHorizontalScrollIndicator = false;
-            mediaCollectionView.delegate = self;
-            mediaCollectionView.dataSource = self;
-            mediaCollectionView.register(mediaCollectionViewCell.self, forCellWithReuseIdentifier: mediaCollectionViewCell.identifier);
-            mediaCollectionView.backgroundColor = .clear;
-            
-            mediaCollectionView.tag = 1;
-            scrollView.addSubview(mediaCollectionView);
-            nextContentY += mediaCollectionView.frame.height;
-            
+            if (articleData.imageURLs.count == 1 && articleData.videoIDs.count == 0){
+                let mediaButton = UIButton(frame: mediaView.frame);
+                
+                //
+                
+                let mediaImageView = UIImageView(frame: mediaButton.frame);
+                mediaImageView.contentMode = .scaleAspectFill;
+                mediaImageView.clipsToBounds = true;
+                mediaImageView.setImageURL(articleData.imageURLs[0]);
+                
+                mediaButton.addSubview(mediaImageView);
+                
+                //
+                
+                mediaButton.addTarget(self, action: #selector(self.presentImageViewPageWithButton), for: .touchUpInside);
+                mediaButton.tag = 0;
+                
+                mediaView.addSubview(mediaButton);
+            }
+            else{
+                mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth - 2*horizontalPadding, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
+                //mediaCollectionViewLayout.itemSize = CGSize(width: mediaCollectionViewWidth, height: mediaCollectionViewHeight - mediaCollectionViewLayoutItemSizeVerticalPadding);
+                
+                mediaCollectionViewLayout.scrollDirection = .horizontal;
+                mediaCollectionViewLayout.spacingMode = .overlap(visibleOffset: horizontalPadding / 2);
+                
+                mediaCollectionView = UICollectionView(frame: mediaView.frame, collectionViewLayout: mediaCollectionViewLayout);
+                
+                mediaCollectionView.showsVerticalScrollIndicator = false;
+                mediaCollectionView.showsHorizontalScrollIndicator = false;
+                mediaCollectionView.delegate = self;
+                mediaCollectionView.dataSource = self;
+                mediaCollectionView.register(mediaCollectionViewCell.self, forCellWithReuseIdentifier: mediaCollectionViewCell.identifier);
+                mediaCollectionView.backgroundColor = .clear;
+                
+                mediaView.addSubview(mediaCollectionView);
+            }
+          
+            mediaView.tag = 1;
+            scrollView.addSubview(mediaView);
+            nextContentY += mediaView.frame.height;
+           
         }
         
         nextContentY += verticalPadding;
@@ -328,6 +355,12 @@ class articlePageViewController : presentableViewController, UIScrollViewDelegat
         categoryButton.tag = 1;
         categoryButton.categoryID = articleData.baseData.categoryID;
         categoryButton.addTarget(self, action: #selector(self.openCategoryPage), for: .touchUpInside);
+        
+        dataManager.getCategoryData(articleData.baseData.categoryID, completion: { (articleData) in
+            categoryButton.setTitleColor(articleData.color, for: .normal);
+            self.topBarCategoryButtonLabel.setTitleColor(articleData.color, for: .normal);
+        });
+        
         scrollView.addSubview(categoryButton);
         nextContentY += categoryButton.frame.height + 3*verticalPadding;
         
@@ -619,13 +652,10 @@ extension articlePageViewController : UICollectionViewDelegate, UICollectionView
         
         if (index < articleData.imageURLs.count + articleData.videoIDs.count && index >= articleData.videoIDs.count){
 
-            let imageVC = zoomableImageViewController();
-            
-            let image : UIImage? = (collectionView.cellForItem(at: indexPath) as! mediaCollectionViewCell).imageView.image;
-            if (image != nil){
-                imageVC.image = image!;
-                self.openChildPage(imageVC);
+            guard let image = (collectionView.cellForItem(at: indexPath) as? mediaCollectionViewCell)?.imageView.image else{
+                return;
             }
+            presentImageViewPage(image);
             
         }
         
