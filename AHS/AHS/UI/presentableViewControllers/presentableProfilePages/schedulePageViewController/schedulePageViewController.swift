@@ -283,7 +283,7 @@ class schedulePageViewController : presentableViewController{
             //
             
             
-            for i in 1..<scheduledata.timestamps.count{
+            /*for i in 1..<scheduledata.timestamps.count{
                 
                 let periodTime : Int = scheduledata.timestamps[i] - scheduledata.timestamps[i-1];
                 
@@ -343,7 +343,7 @@ class schedulePageViewController : presentableViewController{
                 mainScrollView.addSubview(periodView);
                 nextY += periodView.frame.height;
                 
-            }
+            }*/
             
             
             //

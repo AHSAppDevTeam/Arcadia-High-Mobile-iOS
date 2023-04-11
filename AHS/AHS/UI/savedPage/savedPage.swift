@@ -50,6 +50,8 @@ class savedPageViewController : mainPageViewController{
         
         if (!self.hasBeenSetup){
             
+            self.view.backgroundColor = BackgroundColor;
+            
             //
             
             mainScrollView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height);

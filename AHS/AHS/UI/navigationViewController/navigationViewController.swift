@@ -41,6 +41,7 @@ class navigationViewController : UIViewController{
     internal let buttonArraySize = 4;
     internal var buttonViewArray : [UIButton] = Array(repeating: UIButton(), count: 4);
     internal var navigationBarView : UIView = UIView();
+    public static var navigationBarViewHeight : CGFloat = 0.0;
     
     internal var selectedButtonIndex : Int = 0;
     
@@ -64,13 +65,16 @@ class navigationViewController : UIViewController{
         
         // setup content view
         contentView = UIView(frame: CGRect(x: 0, y: topBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - topBarView.frame.maxY - navigationBarView.frame.height));
+        
+        contentView.clipsToBounds = true;
+        contentView.backgroundColor = BackgroundColor;
+        
         self.view.addSubview(contentView);
         
         selectButton(buttonViewArray[selectedButtonIndex]);
        
         // update content view with default page
-        
-        
+
         let vc = contentViewControllers[selectedButtonIndex];
         vc.willMove(toParent: self);
         addChild(vc);
@@ -85,20 +89,22 @@ class navigationViewController : UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(self.openArticlePage), name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.openCategoryPage), name: NSNotification.Name(rawValue: categoryPageNotification), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.openProfileContentPage), name: NSNotification.Name(rawValue: profilePageContentNotification), object: nil);
-        NotificationCenter.default.addObserver(self, selector: #selector(self.openSearchPage), name: NSNotification.Name(rawValue: searchPageNotification), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openSearchPage), name: NSNotification.Name(rawValue: openSearchPageNotification), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.hideSearchPage), name: NSNotification.Name(rawValue: hideSearchPageNotification), object: nil);
     }
     
     deinit{
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: categoryPageNotification), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: profilePageContentNotification), object: nil);
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: searchPageNotification), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: openSearchPageNotification), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: hideSearchPageNotification), object: nil);
     }
     
     private func renderNavigationBar(){
         
-        let navigationBarViewHeight = CGFloat(AppUtility.getCurrentScreenSize().width * (25/207)) + AppUtility.safeAreaInset.bottom;
-        let navigationBarViewFrame = CGRect(x: 0, y: self.view.frame.height - navigationBarViewHeight, width: self.view.frame.width, height: navigationBarViewHeight);
+        navigationViewController.navigationBarViewHeight = CGFloat(AppUtility.getCurrentScreenSize().width * (25/207)) + AppUtility.safeAreaInset.bottom;
+        let navigationBarViewFrame = CGRect(x: 0, y: self.view.frame.height - navigationViewController.navigationBarViewHeight, width: self.view.frame.width, height: navigationViewController.navigationBarViewHeight);
         navigationBarView = UIView(frame: navigationBarViewFrame);
         
         navigationBarView.backgroundColor = NavigationBarColor;

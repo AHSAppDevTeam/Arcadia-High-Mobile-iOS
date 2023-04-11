@@ -57,7 +57,7 @@ extension homePageViewController{
             
         }
         else{
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: searchPageNotification), object: nil);
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: openSearchPageNotification), object: nil);
         }
         
     }

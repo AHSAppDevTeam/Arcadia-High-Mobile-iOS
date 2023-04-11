@@ -21,7 +21,7 @@ extension navigationViewController{
             unselectButton(buttonViewArray[prevIndex]);
             
             updateTopBar(selectedButtonIndex);
-            updateContentView(selectedButtonIndex, prevIndex);
+            updateContentViewWithIndexes(selectedButtonIndex, prevIndex);
         }
         else{ // same button was pressed multiple times so send out notification to viewcontrollers to update scrollviews
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
@@ -140,23 +140,27 @@ extension navigationViewController{
         return attributedText;
     }
     
-    internal func updateContentView(_ pageIndex: Int, _ prevIndex: Int){
-        
-        // remove prev view controller
-        let prevVC = contentViewControllers[prevIndex];
-        prevVC.willMove(toParent: nil);
-        prevVC.view.removeFromSuperview();
-        prevVC.removeFromParent();
+    internal func updateContentViewWithIndexes(_ pageIndex: Int, _ prevIndex: Int){
+        updateContentView(contentViewControllers[prevIndex], contentViewControllers[selectedButtonIndex]);
+    }
+    
+    private func updateContentView(_ prevVC: UIViewController, _ vc: UIViewController){
+        removeContentViewController(prevVC);
         
         // add new view controller
         
-        let vc = contentViewControllers[selectedButtonIndex];
         vc.willMove(toParent: self);
         addChild(vc);
         vc.view.frame = contentView.bounds;
         contentView.addSubview(vc.view);
         vc.didMove(toParent: self);
-        
+    }
+    
+    private func removeContentViewController(_ prevVC: UIViewController){
+        // remove prev view controller
+        prevVC.willMove(toParent: nil);
+        prevVC.view.removeFromSuperview();
+        prevVC.removeFromParent();
     }
     
     internal func presentSearchPage(){
@@ -168,4 +172,7 @@ extension navigationViewController{
         vc.didMove(toParent: self);
     }
     
+    @objc internal func hideSearchPage(){
+        removeContentViewController(searchPageContentViewController);
+    }
 }

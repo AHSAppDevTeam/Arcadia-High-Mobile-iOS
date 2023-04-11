@@ -37,53 +37,68 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad();
-        
-        self.view.backgroundColor = BackgroundColor;
-        
-        //
-        
-        let contentWidth = AppUtility.getCurrentScreenSize().width - 2*horizontalPadding;
-        
-        //
-        
-        let searchBarViewFrame = CGRect(x: horizontalPadding, y: 0, width: contentWidth, height: contentWidth * 0.12);
-        searchBarView.frame = searchBarViewFrame;
-        
-        searchBarView.delegate = self;
-        searchBarView.backgroundColor = BackgroundColor;
-        //searchBarView.tintColor = BackgroundColor;
-        
-        self.view.addSubview(searchBarView);
-        
-        //
-        
-        let resultsTableViewFrame = CGRect(x: horizontalPadding, y: searchBarView.frame.height, width: contentWidth, height: 0);
-        resultsTableView.frame = resultsTableViewFrame;
-        
-        resultsTableView.backgroundColor = BackgroundColor;
-        resultsTableView.delegate = self;
-        resultsTableView.dataSource = self;
-        resultsTableView.isScrollEnabled = false;
-        resultsTableView.register(searchPageViewControllerCell.self, forCellReuseIdentifier: searchPageViewControllerCell.identifier);
-        
-        self.view.addSubview(resultsTableView);
-        
-        //
-        
-        //updateParentHeightConstraint();
-        hideKeyboardWhenTappedAround();
-        loadArticleSnippetList();
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated);
+        
+        if (!self.hasBeenSetup){
+            self.view.backgroundColor = BackgroundColor;
+            
+            //
+            
+            let contentWidth = AppUtility.getCurrentScreenSize().width - 2*horizontalPadding;
+            
+            //
+            
+            let searchBarViewFrame = CGRect(x: horizontalPadding, y: 0, width: contentWidth, height: contentWidth * 0.12);
+            searchBarView.frame = searchBarViewFrame;
+            
+            searchBarView.delegate = self;
+            searchBarView.backgroundColor = BackgroundColor;
+            //searchBarView.tintColor = BackgroundColor;
+            
+            self.searchBarView.showsCancelButton = true;
+            keepSearchBarCancelButtonEnabled();
+            
+            self.view.addSubview(searchBarView);
+            
+            //
+                    
+            let resultsTableViewHeight = self.view.frame.height - searchBarView.frame.height - verticalPadding;
+            let resultsTableViewFrame = CGRect(x: horizontalPadding, y: searchBarView.frame.height + verticalPadding, width: contentWidth, height: resultsTableViewHeight);
+            resultsTableView.frame = resultsTableViewFrame;
+        
+            resultsTableView.backgroundColor = BackgroundColor;
+            resultsTableView.delegate = self;
+            resultsTableView.dataSource = self;
+            resultsTableView.isScrollEnabled = true;
+            resultsTableView.register(searchPageViewControllerCell.self, forCellReuseIdentifier: searchPageViewControllerCell.identifier);
+            
+            self.view.addSubview(resultsTableView);
+            
+            //
+            
+            //updateParentHeightConstraint();
+            hideKeyboardWhenTappedAround();
+            loadArticleSnippetList();
+            
+            self.hasBeenSetup = true;
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.loadArticleSnippetList), name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+    }
+    
+    //
+    
+    @objc override func dismissKeyboard(){
+        self.view.endEditing(true);
+        keepSearchBarCancelButtonEnabled();
     }
 
     @objc internal func loadArticleSnippetList(){
@@ -136,13 +151,22 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     internal func updateSearchTable(){ // search results in searchResultsArray
         //print("updating search table");
         resultsTableView.reloadData();
-    
-        self.resultsTableView.frame.size.height = self.resultsTableView.contentSize.height;
+        
+        //self.resultsTableView.frame.size.height = self.resultsTableView.contentSize.height;
         
         //nextContentY = self.resultsTableView.frame.maxY + 10;
         
         //updateParentHeightConstraint();
         //print("finished updating search table - EVENT END");
+    }
+    
+    internal func keepSearchBarCancelButtonEnabled(){
+        //print("keep cancel")
+        if let cancelBtn = self.searchBarView.value(forKey: "cancelButton") as? UIButton{
+            //print("keep canceled")
+            cancelBtn.isEnabled = true;
+            cancelBtn.tintColor = mainThemeColor;
+        }
     }
     
     /*internal func updateAll(){
@@ -164,7 +188,7 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
         if (index < searchResultsArray.count){
             cell.updateContent(searchResultsArray[index]);
         }
-        print("cell for \(indexPath.row) done");
+        //print("cell for \(indexPath.row) done");
 
         return cell;
     }
@@ -178,10 +202,7 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: articlePageNotification), object: nil, userInfo: articleDataDict);
             
         }
-    }
-        
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.searchBarView.showsCancelButton = true;
+        //keepSearchBarCancelButtonEnabled();
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -193,17 +214,24 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.searchBarView.showsCancelButton = false;
+        /*self.searchBarView.showsCancelButton = false;
         self.searchBarView.text = "";
         self.searchBarView.resignFirstResponder();
         dismissKeyboard();
         
-        updateSearchResults();
+        updateSearchResults();*/
+        dismissKeyboard();
+        keepSearchBarCancelButtonEnabled();
+        //print("dismiss")
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: hideSearchPageNotification), object: nil, userInfo: nil);
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.searchBarView.showsCancelButton = false;
+        //self.searchBarView.showsCancelButton = false;
+        //print("search button clicked")
         dismissKeyboard();
+        keepSearchBarCancelButtonEnabled();
         
         updateSearchResults();
     }

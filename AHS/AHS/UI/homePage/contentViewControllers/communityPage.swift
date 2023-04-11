@@ -201,6 +201,7 @@ class communityPageController : homeContentPageViewController{
             let categoryPrimaryImageView = UIImageView(frame: categoryPrimaryImageViewFrame);
             
             categoryPrimaryImageView.setImageURL(categorydata.thumbURLs[0]);
+            // TODO: Update with full res image
             
             categoryImagesView.addSubview(categoryPrimaryImageView);
             

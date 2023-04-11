@@ -77,7 +77,7 @@ class homePageViewController : mainPageViewController{
             setupLayout();
             setupTopCategory();
             setupFeaturedCategory();
-            
+                    
             self.hasBeenSetup = true;
         }
         
