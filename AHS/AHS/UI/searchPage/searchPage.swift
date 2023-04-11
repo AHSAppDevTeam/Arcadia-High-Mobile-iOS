@@ -37,6 +37,21 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     
     //
     
+    internal var transitionDelegateVar : transitionDelegate!;
+    
+    internal var panGestureRecognizer = UIPanGestureRecognizer();
+    
+    internal func setupPanGesture(){
+        panGestureRecognizer.addTarget(self, action: #selector(self.handlePan));
+        self.view.addGestureRecognizer(panGestureRecognizer);
+    }
+    
+    @objc private func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer){
+        popTransition.handlePan(panGestureRecognizer, fromViewController: self);
+    }
+    
+    //
+    
     override func viewDidLoad() {
         super.viewDidLoad();
     }
@@ -45,6 +60,10 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
         super.viewDidAppear(animated);
         
         if (!self.hasBeenSetup){
+            setupPanGesture();
+            
+            //
+            
             self.view.backgroundColor = BackgroundColor;
             
             //

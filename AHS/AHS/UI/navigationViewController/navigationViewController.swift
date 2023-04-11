@@ -89,7 +89,7 @@ class navigationViewController : UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(self.openArticlePage), name: NSNotification.Name(rawValue: articlePageNotification), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.openCategoryPage), name: NSNotification.Name(rawValue: categoryPageNotification), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.openProfileContentPage), name: NSNotification.Name(rawValue: profilePageContentNotification), object: nil);
-        NotificationCenter.default.addObserver(self, selector: #selector(self.openSearchPage), name: NSNotification.Name(rawValue: openSearchPageNotification), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.presentSearchPage), name: NSNotification.Name(rawValue: openSearchPageNotification), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.hideSearchPage), name: NSNotification.Name(rawValue: hideSearchPageNotification), object: nil);
     }
     

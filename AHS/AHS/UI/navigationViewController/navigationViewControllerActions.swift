@@ -82,12 +82,27 @@ extension navigationViewController{
         openPresentablePage(vc);
     }
     
-    @objc func openSearchPage(_ notification: NSNotification){
-        //let vc = searchPageViewController();
-        //openPresentablePage(vc);
-        presentSearchPage();
+    //
+    
+    @objc internal func presentSearchPage(){
         updateTopBar(searchPageContentViewControllerIndex);
+        
+        //
+        
+        let vc = searchPageContentViewController;
+        vc.willMove(toParent: self);
+        addChild(vc);
+        vc.view.frame = contentView.bounds;
+        contentView.addSubview(vc.view);
+        vc.didMove(toParent: self);
     }
+    
+    @objc internal func hideSearchPage(){
+        removeContentViewController(searchPageContentViewController);
+        updateTopBar(selectedButtonIndex);
+    }
+    
+    //
     
     internal func openPresentablePage(_ vc: presentableViewController){
         transitionDelegateVar = transitionDelegate();
@@ -163,16 +178,4 @@ extension navigationViewController{
         prevVC.removeFromParent();
     }
     
-    internal func presentSearchPage(){
-        let vc = searchPageContentViewController;
-        vc.willMove(toParent: self);
-        addChild(vc);
-        vc.view.frame = contentView.bounds;
-        contentView.addSubview(vc.view);
-        vc.didMove(toParent: self);
-    }
-    
-    @objc internal func hideSearchPage(){
-        removeContentViewController(searchPageContentViewController);
-    }
 }
