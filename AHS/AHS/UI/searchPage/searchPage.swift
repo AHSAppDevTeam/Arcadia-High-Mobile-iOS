@@ -27,6 +27,8 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     internal let searchBarView = UISearchBar();
     internal let resultsTableView = UITableView();
     
+    internal let resultsTableViewRefreshControl = UIRefreshControl();
+    
     internal var searchResultsArray : [articleSnippetData] = [];
     internal var articleSnippetsArray : [articleSnippetData] = [];
     
@@ -79,19 +81,26 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
             
             //
             
+            resultsTableViewRefreshControl.addTarget(self, action: #selector(self.loadArticleSnippetList), for: .valueChanged)
+            resultsTableView.addSubview(resultsTableViewRefreshControl);
+            
+            //
+            
             //updateParentHeightConstraint();
             hideKeyboardWhenTappedAround();
+            
+            resultsTableViewRefreshControl.beginRefreshing();
             loadArticleSnippetList();
             
             self.hasBeenSetup = true;
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.loadArticleSnippetList), name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated);
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: homePageRefreshNotification), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
     }
     
     //
@@ -102,9 +111,9 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     }
 
     @objc internal func loadArticleSnippetList(){
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageBeginRefreshing), object: nil);
         dataManager.getAllArticleSnippets(completion: { (snippetArray) in
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: homePageEndRefreshing), object: nil);
+            self.resultsTableViewRefreshControl.endRefreshing();
+
             
             self.filterHiddenSnippets(snippetArray: snippetArray, completion: { (filteredSnippetArray) in
                 self.articleSnippetsArray = filteredSnippetArray;
@@ -224,7 +233,7 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
         keepSearchBarCancelButtonEnabled();
         //print("dismiss")
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: hideSearchPageNotification), object: nil, userInfo: nil);
+        dismiss();
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -234,6 +243,21 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
         keepSearchBarCancelButtonEnabled();
         
         updateSearchResults();
+    }
+    
+    //
+    
+    internal func dismiss(){
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: hideSearchPageNotification), object: nil, userInfo: nil);
+    }
+    
+    @objc internal func resetContentOffset(){
+        if (resultsTableView.contentOffset != .zero){
+            resultsTableView.setContentOffset(.zero, animated: true);
+        }
+        else{
+            dismiss();
+        }
     }
     
 }
