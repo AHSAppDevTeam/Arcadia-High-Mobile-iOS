@@ -138,6 +138,7 @@ class searchPageViewController : mainPageViewController, UITableViewDataSource, 
     }
     
     @objc private func handlePan(_ panGestureRecognizer: UIPanGestureRecognizer){
+        dismissKeyboard();
         popTransition.handlePan(panGestureRecognizer, fromViewController: self, dismissCompletionHandler: {
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.frame = CGRect(x: self.view.frame.width, y: 0, width: self.view.frame.width, height: self.view.frame.height);
