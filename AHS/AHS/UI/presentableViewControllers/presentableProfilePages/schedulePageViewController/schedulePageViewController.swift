@@ -112,6 +112,7 @@ class schedulePageViewController : presentableViewController{
     }
     
     internal func loadCalendarData(){
+        dataManager.resetCalendarCache();
         self.refreshControl.beginRefreshing();
         dataManager.loadCalendarData(completion: { () in
             

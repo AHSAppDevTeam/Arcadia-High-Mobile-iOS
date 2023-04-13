@@ -1,5 +1,5 @@
 //
-//  dataManager_calendarScheduleCaching.swift
+//  dataManager_calendarCaching.swift
 //  AHS
 //
 //  Created by Richard Wei on 10/13/21.
@@ -32,7 +32,7 @@ extension dataManager{
                     guard let scheduleIDList = snapshot.value as? [String] else{
                         return;
                     }
-                                        
+                    
                     completion(scheduleIDList);
                     
                 }
@@ -43,12 +43,15 @@ extension dataManager{
         
     }
     
-    static internal func getScheduleData(_ scheduleID: String, completion: @escaping (scheduleCalendarData) -> Void){
+    static internal func getScheduleData(_ scheduleID: String, _ shouldGetFreshData: Bool = false, completion: @escaping (scheduleCalendarData) -> Void){
         
         if (checkValidString(scheduleID)){
             
-            guard let cachedData = getCachedScheduleData(scheduleID) else{
-                
+            let cachedData = getCachedScheduleData(scheduleID)
+            if !shouldGetFreshData && cachedData != nil{
+                completion(cachedData!);
+            }
+            else{
                 setupConnection();
                 
                 if (internetConnected){
@@ -80,36 +83,97 @@ extension dataManager{
                     });
                     
                 }
-                
-                return;
             }
-            
-            completion(cachedData);
         }
         
     }
     
     
-    static internal func cacheScheduleData(_ scheduleID: String, completion: @escaping (scheduleCalendarData) -> Void){
+    /*static internal func cacheScheduleData(_ scheduleID: String, completion: @escaping (scheduleCalendarData) -> Void){
         
         getScheduleData(scheduleID, completion: { (scheduleData) in
             
             scheduleCache[scheduleID] = scheduleData;
             
             completion(scheduleData);
-        
+            
         });
         
-    }
+    }*/
     
     static internal func resetScheduleCache(){
         scheduleCache = [:];
     }
     
-    //
-    
     static public func getCachedScheduleData(_ scheduleID: String) -> scheduleCalendarData?{
         return scheduleCache[scheduleID];
+    }
+    
+    ///
+    
+    static internal func getWeekDataForWeekNum(_ weekNum: Int, _ shouldGetFreshData: Bool = false, completion: @escaping (weekCalendarData) -> Void){ // 1 based
+        
+        let cachedData = getCachedWeekData(weekNum);
+        if !shouldGetFreshData && cachedData != nil{
+            completion(cachedData!);
+        }
+        else{
+            
+            setupConnection();
+            
+            if (internetConnected && weekNum >= 1){
+                
+                dataRef.child("weekIDs").child("\(weekNum - 1)").observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    guard let weekID = snapshot.value as? String else{
+                        return;
+                    }
+                    
+                    getWeekData(weekID, nil, completion: { (weekdata, _) in
+                        
+                        weekDataForWeekNumCache[weekNum] = weekdata;
+                        
+                        completion(weekdata);
+                        
+                    });
+                    
+                });
+                
+            }
+        }
+        
+    }
+    
+    static internal func resetWeekDataForWeekNumCache(){
+        weekDataForWeekNumCache = [:];
+    }
+    
+    static public func getCachedWeekData(_ weekNum: Int) -> weekCalendarData?{
+        guard weekNum > -1 && weekNum < weekDataForWeekNumCache.count else{
+            return nil;
+        }
+        return weekDataForWeekNumCache[weekNum];
+    }
+    
+    ///
+    
+    static public func getTodaySchedule(completion: @escaping (scheduleCalendarData) -> Void){ // needs to be cached
+        
+        getWeekDataForWeekNum(timeManager.iso.getWeekInt(), completion: { (weekdata) in
+            
+            let dayOfWeek = timeManager.iso.getDayOfWeekInt();
+            
+            guard dayOfWeek > -1 && dayOfWeek < weekdata.scheduleIDs.count else{
+                return;
+            }
+            
+            getScheduleData(weekdata.scheduleIDs[dayOfWeek], completion: { (scheduledata) in
+                
+                completion(scheduledata);
+                
+            });
+            
+        });
     }
     
 }

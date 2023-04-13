@@ -71,7 +71,7 @@ extension dataManager{
                         
                         dispatchGroup.enter();
                         
-                        cacheScheduleData(scheduleID, completion: { (_) in
+                        getScheduleData(scheduleID, true, completion: { (_) in
                             
                             dispatchGroup.leave();
                             
@@ -98,50 +98,9 @@ extension dataManager{
         
     }
     
-    static public func getWeekScheduleData(_ weekNum: Int, completion: @escaping ([scheduleCalendarData]) -> Void){ // weekNum is 0 based from 0 - (51 or 52)
-        
-        guard weekNum < calendarIDData.count else{
-            
-            if (calendarIDData.count == 0){ // calendarData has not been loaded yet
-                
-                print("Calendar get function called without loading calendarData");
-                
-                loadCalendarData(completion: { () in
-                    
-                    getWeekScheduleData(weekNum, completion: { (weekdata) in
-                        
-                        completion(weekdata);
-                        
-                    });
-                    
-                });
-                
-            }
-            else{
-                print("invalid weeknum - \(weekNum) in week lookup");
-            }
-            
-            return;
-        }
-        
-        var scheduleList : [scheduleCalendarData] = [];
-        
-        for scheduleID in calendarIDData[weekNum]{
-            scheduleList.append(getCachedScheduleData(scheduleID) ?? scheduleCalendarData());
-        }
-        
-        completion(scheduleList);
-        
-        //completion(calendarData[weekNum]);
-        
-    }
-    
-    static public func getWeekScheduleData(_ date: Date, completion: @escaping ([scheduleCalendarData]) -> Void){
-        
-        getWeekScheduleData(timeManager.iso.getWeekInt(date) - 1, completion: { (weekdata) in
-            completion(weekdata);
-        });
-        
+    static public func resetCalendarCache(){
+        resetScheduleCache();
+        resetWeekDataForWeekNumCache();
     }
     
     static public func getDayScheduleData(_ weekNum: Int, _ dayNum: Int, completion: @escaping (scheduleCalendarData) -> Void){ // 0 based for weekNum and dayNum
@@ -178,34 +137,6 @@ extension dataManager{
             completion(scheduledata);
             
         });
-        
-    }
-    
-    //
-    
-    static public func getTodaySchedule(completion: @escaping (scheduleCalendarData) -> Void){ // needs to be cached
-        
-        setupConnection();
-        
-        if (internetConnected){
-            
-            getWeekDataForWeekNum(timeManager.iso.getWeekInt(), completion: { (weekdata) in
-                
-                let dayOfWeek = timeManager.iso.getDayOfWeekInt();
-                
-                guard dayOfWeek > -1 && dayOfWeek < weekdata.scheduleIDs.count else{
-                    return;
-                }
-                
-                getScheduleData(weekdata.scheduleIDs[dayOfWeek], completion: { (scheduledata) in
-                    
-                    completion(scheduledata);
-                    
-                });
-                
-            });
-            
-        }
         
     }
     
@@ -292,31 +223,7 @@ extension dataManager{
         
     }
     
-    static private func getWeekDataForWeekNum(_ weekNum: Int, completion: @escaping (weekCalendarData) -> Void){ // 1 based
-        
-        setupConnection();
-        
-        if (internetConnected && weekNum >= 1){
-            
-            dataRef.child("weekIDs").child("\(weekNum - 1)").observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                guard let weekID = snapshot.value as? String else{
-                    return;
-                }
-                
-                getWeekData(weekID, nil, completion: { (weekdata, _) in
-                    
-                    completion(weekdata);
-                    
-                });
-                
-            });
-            
-        }
-        
-    }
-    
-    static private func getWeekData(_ weekID: String, _ index: Int? = nil, completion: @escaping (weekCalendarData, Int?) -> Void){
+    static internal func getWeekData(_ weekID: String, _ index: Int? = nil, completion: @escaping (weekCalendarData, Int?) -> Void){
         
         setupConnection();
         
@@ -342,6 +249,52 @@ extension dataManager{
             });
             
         }
+        
+    }
+    
+    static public func getWeekScheduleData(_ weekNum: Int, completion: @escaping ([scheduleCalendarData]) -> Void){ // weekNum is 0 based from 0 - (51 or 52)
+        
+        guard weekNum < calendarIDData.count else{
+            
+            if (calendarIDData.count == 0){ // calendarData has not been loaded yet
+                
+                print("Calendar get function called without loading calendarData");
+                
+                loadCalendarData(completion: { () in
+                    
+                    getWeekScheduleData(weekNum, completion: { (weekdata) in
+                        
+                        completion(weekdata);
+                        
+                    });
+                    
+                });
+                
+            }
+            else{
+                print("invalid weeknum - \(weekNum) in week lookup");
+            }
+            
+            return;
+        }
+        
+        var scheduleList : [scheduleCalendarData] = [];
+        
+        for scheduleID in calendarIDData[weekNum]{
+            scheduleList.append(getCachedScheduleData(scheduleID) ?? scheduleCalendarData());
+        }
+        
+        completion(scheduleList);
+        
+        //completion(calendarData[weekNum]);
+        
+    }
+    
+    static public func getWeekScheduleData(_ date: Date, completion: @escaping ([scheduleCalendarData]) -> Void){
+        
+        getWeekScheduleData(timeManager.iso.getWeekInt(date) - 1, completion: { (weekdata) in
+            completion(weekdata);
+        });
         
     }
 

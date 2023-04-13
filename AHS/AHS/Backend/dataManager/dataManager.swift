@@ -39,6 +39,7 @@ class dataManager{
     
     static internal var calendarIDData : [[String]] = [];
     static internal var scheduleCache : [String : scheduleCalendarData] = [:];
+    static internal var weekDataForWeekNumCache : [Int : weekCalendarData] = [:];
     
     //
     
