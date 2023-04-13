@@ -9,9 +9,17 @@ import Foundation
 import UIKit
 import Firebase
 
-struct weekCalendarData{
+struct weekCalendarData : Codable{
     var id : String = "";
     var scheduleIDs : [String] = []; // starts from 1 - first element is empty
+    var title : String = "";
+}
+
+struct scheduleCalendarData : Codable{
+    var id : String = "";
+    var color : Color = Color.convertUIColor(BackgroundGrayColor);
+    var periodIDs : [String] = [];
+    var timestamps : [Int] = [];
     var title : String = "";
 }
 

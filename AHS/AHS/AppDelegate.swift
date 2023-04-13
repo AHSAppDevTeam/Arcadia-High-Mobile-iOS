@@ -28,8 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerFirebaseMessages(application);
         
         dataManager.setupConnection();
-        dataManager.cacheCategoryData();
         dataManager.loadPreferences();
+        dataManager.loadCalendarCachesFromDevice();
+        dataManager.cacheCategoryData();
         
         dataManager.updateEntireMessagingSubscription();
         

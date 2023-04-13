@@ -38,8 +38,11 @@ class dataManager{
     static internal let defaultCategorySubscriptionValue : Bool = true;
     
     static internal var calendarIDData : [[String]] = [];
-    static internal var scheduleCache : [String : scheduleCalendarData] = [:];
-    static internal var weekDataForWeekNumCache : [Int : weekCalendarData] = [:];
+    //static internal var scheduleCache : [String : scheduleCalendarData] = [:];
+    //static internal var weekDataForWeekNumCache : [Int : weekCalendarData] = [:];
+    
+    static internal let calendarCacheKey = "calendarCacheKey";
+    static internal var calendarCache = calendarCacheData();
     
     //
     
@@ -53,6 +56,21 @@ class dataManager{
             internetConnected = false;
             Database.database().goOffline();
             noInternetPopup();
+        }
+    }
+    
+    static public func loadCalendarCachesFromDevice(){
+        //scheduleCache = getUserDefault(scheduleCacheKey) as? [String : scheduleCalendarData] ?? [:];
+        //weekDataForWeekNumCache = getUserDefault(weekDataForWeekNumCacheKey) as? [Int : weekCalendarData] ?? [:];
+        if let rawData = dataManager.getUserDefault(dataManager.calendarCacheKey) as? Data{
+            
+            do{
+                dataManager.calendarCache = try dataManager.jsonDecoder.decode(calendarCacheData.self, from: rawData);
+            }
+            catch{
+                print("error decoding calendar data");
+            }
+            
         }
     }
     

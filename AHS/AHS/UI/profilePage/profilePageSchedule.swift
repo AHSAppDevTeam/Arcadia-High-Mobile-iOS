@@ -48,8 +48,6 @@ extension profilePageViewController{
     
     @objc internal func loadSchedule(){
         
-        print("load schedule called")
-        
         dataManager.getTodaySchedule(completion: { (scheduledata) in
             
             for subview in self.scheduleView.subviews{

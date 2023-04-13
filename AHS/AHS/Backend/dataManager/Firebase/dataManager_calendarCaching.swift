@@ -9,15 +9,26 @@ import Foundation
 import UIKit
 import Firebase
 
-struct scheduleCalendarData{
-    var id : String = "";
-    var color : UIColor = BackgroundGrayColor;
-    var periodIDs : [String] = [];
-    var timestamps : [Int] = [];
-    var title : String = "";
-}
 
 extension dataManager{
+
+    struct calendarCacheData : Codable{
+        
+        internal init(){};
+
+        var scheduleCache : [String : scheduleCalendarData] = [:]{
+            didSet{
+                dataManager.saveCalendarCacheData();
+            }
+        }
+        var weekDataForWeekNumCache : [Int : weekCalendarData] = [:]{
+            didSet{
+                dataManager.saveCalendarCacheData();
+            }
+        }
+    }
+    
+    //
     
     static internal func getScheduleIDList(completion: @escaping ([String]) -> Void){
         
@@ -69,7 +80,7 @@ extension dataManager{
                             data.title = dataDict?["title"] as? String ?? "";
                             data.timestamps = dataDict?["timestamps"] as? [Int] ?? [];
                             data.periodIDs = dataDict?["periodIDs"] as? [String] ?? [];
-                            data.color = UIColor.init(hex: dataDict?["color"] as? String ?? "");
+                            data.color = Color.init(hex: dataDict?["color"] as? String ?? "");
                             
                             updateScheduleCache(scheduleID, data);
                             
@@ -102,15 +113,15 @@ extension dataManager{
     }*/
     
     static internal func updateScheduleCache(_ scheduleID: String, _ scheduleData: scheduleCalendarData){
-        scheduleCache[scheduleID] = scheduleData;
+        dataManager.calendarCache.scheduleCache[scheduleID] = scheduleData;
     }
     
     static internal func resetScheduleCache(){
-        scheduleCache = [:];
+        dataManager.calendarCache.scheduleCache = [:];
     }
     
     static public func getCachedScheduleData(_ scheduleID: String) -> scheduleCalendarData?{
-        return scheduleCache[scheduleID];
+        return dataManager.calendarCache.scheduleCache[scheduleID];
     }
     
     ///
@@ -149,24 +160,34 @@ extension dataManager{
     }
     
     static internal func updateWeekDataForWeekNumCache(_ weekNum: Int, _ weekData: weekCalendarData){
-        weekDataForWeekNumCache[weekNum] = weekData;
+        dataManager.calendarCache.weekDataForWeekNumCache[weekNum] = weekData;
     }
     
     static internal func resetWeekDataForWeekNumCache(){
-        weekDataForWeekNumCache = [:];
+        dataManager.calendarCache.weekDataForWeekNumCache = [:];
     }
     
     static public func getCachedWeekData(_ weekNum: Int) -> weekCalendarData?{
-        guard weekNum > -1 && weekNum < weekDataForWeekNumCache.count else{
-            return nil;
+        return dataManager.calendarCache.weekDataForWeekNumCache[weekNum];
+    }
+    
+    ///
+    
+    static internal func saveCalendarCacheData(){
+        DispatchQueue.global(qos: .background).async {
+            do{
+                dataManager.saveUserDefault(dataManager.calendarCacheKey, try dataManager.jsonEncoder.encode(dataManager.calendarCache));
+            }
+            catch{
+                print("error encoding calendar cache data - no data was saved");
+            }
         }
-        return weekDataForWeekNumCache[weekNum];
     }
     
     ///
     
     static public func getTodaySchedule(completion: @escaping (scheduleCalendarData) -> Void){ // needs to be cached
-        
+                
         getWeekDataForWeekNum(timeManager.iso.getWeekInt(), completion: { (weekdata) in
             
             let dayOfWeek = timeManager.iso.getDayOfWeekInt();
@@ -174,7 +195,7 @@ extension dataManager{
             guard dayOfWeek > -1 && dayOfWeek < weekdata.scheduleIDs.count else{
                 return;
             }
-            
+                        
             getScheduleData(weekdata.scheduleIDs[dayOfWeek], completion: { (scheduledata) in
                 
                 completion(scheduledata);
