@@ -71,7 +71,7 @@ extension dataManager{
                             data.periodIDs = dataDict?["periodIDs"] as? [String] ?? [];
                             data.color = UIColor.init(hex: dataDict?["color"] as? String ?? "");
                             
-                            scheduleCache[scheduleID] = data;
+                            updateScheduleCache(scheduleID, data);
                             
                             completion(data);
                             
@@ -100,6 +100,10 @@ extension dataManager{
         });
         
     }*/
+    
+    static internal func updateScheduleCache(_ scheduleID: String, _ scheduleData: scheduleCalendarData){
+        scheduleCache[scheduleID] = scheduleData;
+    }
     
     static internal func resetScheduleCache(){
         scheduleCache = [:];
@@ -131,7 +135,7 @@ extension dataManager{
                     
                     getWeekData(weekID, nil, completion: { (weekdata, _) in
                         
-                        weekDataForWeekNumCache[weekNum] = weekdata;
+                        updateWeekDataForWeekNumCache(weekNum, weekdata);
                         
                         completion(weekdata);
                         
@@ -142,6 +146,10 @@ extension dataManager{
             }
         }
         
+    }
+    
+    static internal func updateWeekDataForWeekNumCache(_ weekNum: Int, _ weekData: weekCalendarData){
+        weekDataForWeekNumCache[weekNum] = weekData;
     }
     
     static internal func resetWeekDataForWeekNumCache(){

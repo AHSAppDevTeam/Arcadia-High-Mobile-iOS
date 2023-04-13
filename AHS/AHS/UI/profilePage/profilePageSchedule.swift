@@ -27,6 +27,19 @@ extension profilePageViewController{
         
         //
         
+        let loadingView = UIActivityIndicatorView();
+        loadingView.tag = 1;
+        scheduleView.addSubview(loadingView);
+        
+        loadingView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        loadingView.centerXAnchor.constraint(equalTo: scheduleView.centerXAnchor).isActive = true;
+        loadingView.centerYAnchor.constraint(equalTo: scheduleView.centerYAnchor).isActive = true;
+        
+        loadingView.startAnimating();
+        
+        //
+        
         loadSchedule();
         
         //
