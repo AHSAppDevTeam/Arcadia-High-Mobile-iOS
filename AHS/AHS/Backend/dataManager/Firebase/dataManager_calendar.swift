@@ -127,7 +127,7 @@ extension dataManager{
         var scheduleList : [scheduleCalendarData] = [];
         
         for scheduleID in calendarIDData[weekNum]{
-            scheduleList.append(getCachedScheduleData(scheduleID));
+            scheduleList.append(getCachedScheduleData(scheduleID) ?? scheduleCalendarData());
         }
         
         completion(scheduleList);
@@ -167,7 +167,7 @@ extension dataManager{
             return;
         }
         
-        completion(getCachedScheduleData(calendarIDData[weekNum][dayNum]));
+        completion(getCachedScheduleData(calendarIDData[weekNum][dayNum]) ?? scheduleCalendarData());
         
     }
     
@@ -183,7 +183,7 @@ extension dataManager{
     
     //
     
-    static public func getTodaySchedule(completion: @escaping (scheduleCalendarData) -> Void){
+    static public func getTodaySchedule(completion: @escaping (scheduleCalendarData) -> Void){ // needs to be cached
         
         setupConnection();
         

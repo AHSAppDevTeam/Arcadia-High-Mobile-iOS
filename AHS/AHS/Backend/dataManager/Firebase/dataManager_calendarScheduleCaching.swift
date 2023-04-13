@@ -45,34 +45,46 @@ extension dataManager{
     
     static internal func getScheduleData(_ scheduleID: String, completion: @escaping (scheduleCalendarData) -> Void){
         
-        setupConnection();
-        
-        if (internetConnected && checkValidString(scheduleID)){
-                        
-            dataRef.child("schedules").child(scheduleID).observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                var data : scheduleCalendarData = scheduleCalendarData();
-                
-                if (snapshot.exists()){
-                    
-                    let dataDict = snapshot.value as? NSDictionary;
-                    
-                    data.id = scheduleID;
-                    
-                    data.title = dataDict?["title"] as? String ?? "";
-                    data.timestamps = dataDict?["timestamps"] as? [Int] ?? [];
-                    data.periodIDs = dataDict?["periodIDs"] as? [String] ?? [];
-                    data.color = UIColor.init(hex: dataDict?["color"] as? String ?? "");
-                    
-                    completion(data);
-                    
-                }
-                else{
-                    print("scheduleID \(scheduleID) does not exist");
-                }
-                
-            });
+        if (checkValidString(scheduleID)){
             
+            guard let cachedData = getCachedScheduleData(scheduleID) else{
+                
+                setupConnection();
+                
+                if (internetConnected){
+                    
+                    dataRef.child("schedules").child(scheduleID).observeSingleEvent(of: .value, with: { (snapshot) in
+                        
+                        var data : scheduleCalendarData = scheduleCalendarData();
+                        
+                        if (snapshot.exists()){
+                            
+                            let dataDict = snapshot.value as? NSDictionary;
+                            
+                            data.id = scheduleID;
+                            
+                            data.title = dataDict?["title"] as? String ?? "";
+                            data.timestamps = dataDict?["timestamps"] as? [Int] ?? [];
+                            data.periodIDs = dataDict?["periodIDs"] as? [String] ?? [];
+                            data.color = UIColor.init(hex: dataDict?["color"] as? String ?? "");
+                            
+                            scheduleCache[scheduleID] = data;
+                            
+                            completion(data);
+                            
+                        }
+                        else{
+                            print("scheduleID \(scheduleID) does not exist");
+                        }
+                        
+                    });
+                    
+                }
+                
+                return;
+            }
+            
+            completion(cachedData);
         }
         
     }
@@ -94,9 +106,10 @@ extension dataManager{
         scheduleCache = [:];
     }
     
-    static public func getCachedScheduleData(_ scheduleID: String) -> scheduleCalendarData{
-        //print("schedule cache lookup for - \(scheduleID) has \(scheduleCache[scheduleID])");
-        return scheduleCache[scheduleID] ?? scheduleCalendarData();
+    //
+    
+    static public func getCachedScheduleData(_ scheduleID: String) -> scheduleCalendarData?{
+        return scheduleCache[scheduleID];
     }
     
 }
