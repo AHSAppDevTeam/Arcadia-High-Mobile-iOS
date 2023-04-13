@@ -33,6 +33,7 @@ class profilePageViewController : mainPageViewController{
     internal let scheduleView : UIView = UIView();
     internal var scheduleViewWidth : CGFloat = 0; // set on runtime
     internal var scheduleViewHeight : CGFloat = 0;
+    internal var scheduleUpdaterTimer : Timer = Timer(); // set on viewDidAppear
     
     //static internal let optionsCellTitles = ["Notifications", "ID Card"]; -- with id card
     static internal let optionsCellTitles = ["Notifications"];
@@ -66,10 +67,6 @@ class profilePageViewController : mainPageViewController{
     //
     
     internal var transitionDelegateVar : transitionDelegate!;
-    
-    //
-    
-    internal var timer : Timer? = nil;
     
     //
     
@@ -126,7 +123,7 @@ class profilePageViewController : mainPageViewController{
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
         
-        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.updateSchedule), userInfo: nil, repeats: true);
+        scheduleUpdaterTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.loadSchedule), userInfo: nil, repeats: true);
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -134,11 +131,7 @@ class profilePageViewController : mainPageViewController{
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
         
-        if let t = timer{
-            t.invalidate();
-            timer = nil;
-        }
-        
+        scheduleUpdaterTimer.invalidate();
     }
     
     override func viewDidLayoutSubviews() {
