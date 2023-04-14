@@ -13,14 +13,17 @@ import UIKit
 extension dataManager{
     
     static public func getSignedInUserData() -> GIDGoogleUser?{
+        print("[polling whether or not we're signed in]");
         return GIDSignIn.sharedInstance.currentUser;
     }
     
     static public func recoverPreviousSignInSession(){
+        print("[restore previous session called]");
         GIDSignIn.sharedInstance.restorePreviousSignIn(completion: { (user, error) in
             //signInFirebase(user, error: error, completion: { _ in });
             if (user != nil && error == nil){
                 // TODO: refresh id card to show signed in state
+                print("[previous session signed in]")
             }
         });
     }

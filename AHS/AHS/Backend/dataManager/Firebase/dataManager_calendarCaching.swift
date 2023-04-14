@@ -189,7 +189,7 @@ extension dataManager{
     static public func getTodaySchedule(completion: @escaping (scheduleCalendarData) -> Void){ // needs to be cached
                 
         getWeekDataForWeekNum(timeManager.iso.getWeekInt(), completion: { (weekdata) in
-            
+                        
             let dayOfWeek = timeManager.iso.getDayOfWeekInt();
             
             guard dayOfWeek > -1 && dayOfWeek < weekdata.scheduleIDs.count else{
@@ -197,7 +197,7 @@ extension dataManager{
             }
                         
             getScheduleData(weekdata.scheduleIDs[dayOfWeek], completion: { (scheduledata) in
-                
+                                
                 completion(scheduledata);
                 
             });
