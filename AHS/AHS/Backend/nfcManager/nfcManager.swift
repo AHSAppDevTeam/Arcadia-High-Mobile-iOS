@@ -114,6 +114,7 @@ class nfcManager : NSObject{
         if (dataManager.getIsStudentSignedIn() && isNFCAvailable()){
             generatePayload();
             beginNFCSession();
+            
         }
     }
     

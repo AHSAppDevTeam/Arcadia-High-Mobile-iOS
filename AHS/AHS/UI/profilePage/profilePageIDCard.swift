@@ -13,44 +13,94 @@ import GoogleSignIn
 extension profilePageViewController{
     
     @objc internal func handleNFCBuffering(){
-        
+        DispatchQueue.main.sync {
+            showIDBuffering();
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                self.initNFC();
+            }
+        }
+    }
+    
+    @objc internal func showIDBuffering(){
+        self.idCardButton.idState = .isBuffering;
+        for subview in self.idCardButton.subviews{
+            if (subview.tag == 1){
+                subview.isHidden = true;
+            }
+            else if (subview.tag == 2){
+                if let loadingView = subview as? UIActivityIndicatorView{
+                    loadingView.isHidden = false;
+                    loadingView.startAnimating();
+                }
+            }
+        }
+    }
+    
+    @objc internal func hideIDBuffering(){
+        self.idCardButton.idState = .isUnlocked;
+        for subview in self.idCardButton.subviews{
+            if (subview.tag == 1){
+                subview.isHidden = false;
+            }
+            else if (subview.tag == 2){
+                if let loadingView = subview as? UIActivityIndicatorView{
+                    loadingView.stopAnimating();
+                    loadingView.isHidden = true;
+                }
+            }
+        }
+    }
+    
+    //
+    
+    @objc internal func initNFC(){
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred();
+        showIDBuffering();
+        nfcmgr.initNFC();
     }
     
     @objc internal func handleIDCardPress(){
         
-        if (idCardButton.idState != .isUnlocked || !dataManager.getIsStudentSignedIn()){
-            handleIDCardLongPress();
-        }
-        else{
-            //print("nfc triggered \(idstr)");
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred();
-            nfcmgr.initNFC();
+        //handleNFCBuffering();
+        if (idCardButton.idState != .isBuffering){
+            if (idCardButton.idState != .isUnlocked || !dataManager.getIsStudentSignedIn()){
+                handleIDCardLongPress();
+            }
+            else{
+                //print("nfc triggered \(idstr)");
+                initNFC();
+            }
         }
         
     }
     
     @objc internal func handleIDCardLongPress(){
-        switch idCardButton.idState {
-        case .isLocked:
-            //print("auth");
-            idCardButton.idState = .isUnlocked; // need to implement auth
-        case .isUnlocked:
-            createIDActionPrompt();
-        case .requiresSignIn:
-            dataManager.signInUser(self, completion: { (error) in
-                
-                if let err = error{
-                    print("Error while signing in - \(err.localizedDescription)");
-                    return;
-                }
-                
-                self.idCardButton.idState = .isUnlocked;
-                self.renderIDCard();
-                
-            });
+        if (idCardButton.idState != .isBuffering){
+            switch idCardButton.idState {
+            case .isLocked:
+                //print("auth");
+                idCardButton.idState = .isUnlocked; // need to implement auth
+            case .isUnlocked:
+                createIDActionPrompt();
+            case .requiresSignIn:
+                dataManager.signInUser(self, completion: { (error) in
+                    
+                    if let err = error{
+                        print("Error while signing in - \(err.localizedDescription)");
+                        return;
+                    }
+                    
+                    self.idCardButton.idState = .isUnlocked;
+                    self.renderIDCard();
+                    
+                });
+            case .isBuffering:
+                print("invalid call to handleIDCardLongPress");
+                break;
+            }
+            
+            renderIDCard();
         }
-        
-        renderIDCard();
     }
     
     @objc internal func renderIDCard(){
@@ -66,6 +116,9 @@ extension profilePageViewController{
             renderID_Content();
         case .requiresSignIn:
             renderID_SignIn();
+        case .isBuffering:
+            print("invalid call to renderIDCard");
+            break;
         }
     }
     
@@ -160,7 +213,7 @@ extension profilePageViewController{
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
             
             //print("valid id = " + idString);
-            
+           
             let nfcLabel = UILabel();
             let nfcLabelText = "Tap for NFC"
             let nfcLabelFont = UIFont(name: SFProDisplay_Bold, size: idCardButtonHeight * 0.075)!;
@@ -222,6 +275,20 @@ extension profilePageViewController{
             idLabel.textAlignment = .left;
             idLabel.textColor = .white;
             idLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.1);
+            
+            //
+            
+            let loadingView = UIActivityIndicatorView();
+            loadingView.tag = 2;
+            loadingView.isHidden = true;
+            idCardButton.addSubview(loadingView);
+            
+            loadingView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            loadingView.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
+            loadingView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -35).isActive = true;
+        
+           // loadingView.startAnimating();
             
         }
         else{

@@ -49,7 +49,9 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
     //
     
     internal func readerSessionDidBecomeActive(_ session: NFCNDEFReaderSession) {
-        //generatePayload();
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: profilePageIDNFCSuccessNotification), object: nil, userInfo: nil);
+        }
     }
     
     internal func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
