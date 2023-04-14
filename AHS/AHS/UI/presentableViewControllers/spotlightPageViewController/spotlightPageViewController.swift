@@ -335,7 +335,7 @@ class spotlightPageViewController : presentableViewController{
             
                 articleImageView.contentMode = .scaleAspectFill;
                 
-                articleImageView.setImageURL(articledata.thumbURLs[0]);
+                articleImageView.setHighQualityArticleImageURL(articledata.thumbURLs[0], articledata.articleID);
                 
             }
             
