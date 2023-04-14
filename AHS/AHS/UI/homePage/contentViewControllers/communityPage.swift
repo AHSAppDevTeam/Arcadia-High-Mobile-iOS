@@ -179,7 +179,11 @@ class communityPageController : homeContentPageViewController{
                     let gridCellIndex = (i * categoryImageViewGridSize) + j;
                     
                     let categoryGridCellImageView = UIImageView();
-                    categoryGridCellImageView.setImageURL(categorydata.thumbURLs[gridCellIndex]);
+                    categoryGridCellImageView.setImageURL(categorydata.thumbURLs[gridCellIndex], completion: {
+                        if (gridCellIndex < categorydata.imageURLs.count){
+                            categoryGridCellImageView.setImageURL(categorydata.imageURLs[gridCellIndex]);
+                        }
+                    });
                     categoryGridCellImageView.contentMode = .scaleAspectFill;
                     categoryGridCellImageView.backgroundColor = categorydata.color;
                     categoryGridCellImageView.clipsToBounds = true;
@@ -200,8 +204,11 @@ class communityPageController : homeContentPageViewController{
             let categoryPrimaryImageViewFrame = CGRect(x: 0, y: 0, width: categoryImagesView.frame.width, height: categoryImagesView.frame.height);
             let categoryPrimaryImageView = UIImageView(frame: categoryPrimaryImageViewFrame);
             
-            categoryPrimaryImageView.setImageURL(categorydata.thumbURLs[0]);
-            // TODO: Update with full res image
+            categoryPrimaryImageView.setImageURL(categorydata.thumbURLs[0], completion: {
+                if (categorydata.imageURLs.count > 0){
+                    categoryPrimaryImageView.setImageURL(categorydata.imageURLs[0]);
+                }
+            });
             
             categoryImagesView.addSubview(categoryPrimaryImageView);
             
