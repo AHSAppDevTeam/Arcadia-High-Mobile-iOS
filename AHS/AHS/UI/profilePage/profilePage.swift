@@ -123,6 +123,7 @@ class profilePageViewController : mainPageViewController{
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.resetContentOffset), name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(self.renderIDCard), name: NSNotification.Name(rawValue: profilePageIDSignedInNotification), object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleNFCBuffering), name: NSNotification.Name(rawValue: profilePageIDNFCBufferingNotification), object: nil);
 
         
         scheduleUpdaterTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.loadSchedule), userInfo: nil, repeats: true);
@@ -133,6 +134,7 @@ class profilePageViewController : mainPageViewController{
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: setScrollViewZeroContentOffset), object: nil);
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: profilePageIDSignedInNotification), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: profilePageIDNFCBufferingNotification), object: nil);
         
         scheduleUpdaterTimer.invalidate();
     }

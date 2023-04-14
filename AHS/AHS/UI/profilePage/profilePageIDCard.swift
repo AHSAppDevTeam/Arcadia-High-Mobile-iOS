@@ -12,6 +12,10 @@ import GoogleSignIn
 
 extension profilePageViewController{
     
+    @objc internal func handleNFCBuffering(){
+        
+    }
+    
     @objc internal func handleIDCardPress(){
         
         if (idCardButton.idState != .isUnlocked || !dataManager.getIsStudentSignedIn()){
@@ -19,6 +23,7 @@ extension profilePageViewController{
         }
         else{
             //print("nfc triggered \(idstr)");
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred();
             nfcmgr.initNFC();
         }
         
@@ -161,6 +166,8 @@ extension profilePageViewController{
             let nfcLabelFont = UIFont(name: SFProDisplay_Bold, size: idCardButtonHeight * 0.075)!;
             let nfcLabelHeight = nfcLabelText.height(withConstrainedWidth: idCardButtonWidth, font: nfcLabelFont);
             
+            nfcLabel.tag = 1;
+            
             idCardButton.addSubview(nfcLabel);
             
             nfcLabel.translatesAutoresizingMaskIntoConstraints = false;
@@ -180,6 +187,8 @@ extension profilePageViewController{
             
             let nfcImageView = UIImageView();
             let nfcImageViewSize = idCardButtonWidth * 0.16;
+            
+            nfcImageView.tag = 1;
             
             idCardButton.addSubview(nfcImageView);
             
