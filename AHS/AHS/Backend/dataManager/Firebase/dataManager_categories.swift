@@ -25,6 +25,7 @@ struct categoryData{
     var iconURL: String = "";
     var layout : categoryLayout = .none;
     var thumbURLs : [String] = [];
+    var imageURLs : [String] = [];
     var title : String = "";
     var visible : Bool = false;
 }
@@ -124,6 +125,7 @@ extension dataManager{
                     data.featured = categoryDict?["featured"] as? Bool ?? false;
                     data.iconURL = categoryDict?["iconURL"] as? String ?? "";
                     data.thumbURLs = categoryDict?["thumbURLs"] as? [String] ?? [];
+                    data.imageURLs = categoryDict?["imageURLs"] as? [String] ?? [];
                     data.title = categoryDict?["title"] as? String ?? "";
                     data.visible = categoryDict?["visible"] as? Bool ?? false;
                     
