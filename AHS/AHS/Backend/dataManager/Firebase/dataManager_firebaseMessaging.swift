@@ -26,6 +26,11 @@ extension dataManager{
                         updateCategorySubscription(categorydata.categoryID);
                         
                     }
+                    else{
+                        
+                        unsubscribeFromCategory(categorydata.categoryID);
+                        
+                    }
                     
                 });
                 
