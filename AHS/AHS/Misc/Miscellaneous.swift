@@ -57,6 +57,7 @@ let openSearchPageNotification = "openSearchPageNotification";
 let hideSearchPageNotification = "hideSearchPageNotification";
 
 let profilePageContentNotification = "profilePageContentNotification";
+let profilePageIDSignedInNotification = "profilePageIDSignedInNotification";
 
 let setScrollViewZeroContentOffset = "setScrollViewZeroContentOffset";
 

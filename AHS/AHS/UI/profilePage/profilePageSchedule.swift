@@ -27,13 +27,26 @@ extension profilePageViewController{
         
         //
         
+        let loadingView = UIActivityIndicatorView();
+        loadingView.tag = 1;
+        scheduleView.addSubview(loadingView);
+        
+        loadingView.translatesAutoresizingMaskIntoConstraints = false;
+        
+        loadingView.centerXAnchor.constraint(equalTo: scheduleView.centerXAnchor).isActive = true;
+        loadingView.centerYAnchor.constraint(equalTo: scheduleView.centerYAnchor).isActive = true;
+        
+        loadingView.startAnimating();
+        
+        //
+        
         loadSchedule();
         
         //
         
     }
     
-    internal func loadSchedule(){
+    @objc internal func loadSchedule(){
         
         dataManager.getTodaySchedule(completion: { (scheduledata) in
             
@@ -50,12 +63,10 @@ extension profilePageViewController{
     }
     
     private func renderInnerSchedule(_ scheduledata: scheduleCalendarData){
-        
-        //print("current time - \(timeManager.regular.getMinSinceMidnightFromDate())")
-        
+                
         var periodID : String = ""; // if empty, no period (out of school time)
         var nextTimestamp : Int = 0;
-        
+                
         if (scheduledata.timestamps.count > 0){
             for i in 1..<scheduledata.timestamps.count{
                 
@@ -79,9 +90,9 @@ extension profilePageViewController{
         let scheduleSecondaryFontSize : CGFloat = scheduleViewSize.height * 0.15;
         let scheduleInnerPrimaryPadding : CGFloat = scheduleViewSize.height * 0.2;
         let scheduleInnerSecondaryPadding : CGFloat = scheduleViewSize.height * 0.02;
-        
+                
         if (!periodID.isEmpty){
-            
+                        
             //let scheduleViewHorizontalPadding : CGFloat = 5;
             let scheduleViewVerticalPadding : CGFloat = scheduleViewSize.height * 0.15;
             
@@ -245,7 +256,7 @@ extension profilePageViewController{
             ///
         }
         else{
-            
+                                    
             let scheduleLabel = UILabel();
             
             scheduleView.addSubview(scheduleLabel);
@@ -258,7 +269,7 @@ extension profilePageViewController{
             
             scheduleLabel.text = "\(scheduledata.title)" + "\n" + "(Out of school)";
             scheduleLabel.textColor = InverseBackgroundColor;
-            scheduleLabel.font = UIFont(name: SFProDisplay_Semibold, size: scheduleView.frame.width * 0.06);
+            scheduleLabel.font = UIFont(name: SFProDisplay_Semibold, size: scheduleViewSize.width * 0.06);
             scheduleLabel.numberOfLines = 0;
             scheduleLabel.textAlignment = .center;
             
@@ -282,7 +293,7 @@ extension profilePageViewController{
             //chevronImageView.backgroundColor = .systemRed;
             
         }
-        
+                
     }
     
 }

@@ -162,5 +162,9 @@ final class Color: UIColor, Codable { // https://stackoverflow.com/a/53712187
         var container = encoder.singleValueContainer();
         try container.encode(self.getHex());
     }
+    
+    static public func convertUIColor(_ color: UIColor) -> Color{
+        return Color.init(hex: color.getHex());
+    }
 }
 

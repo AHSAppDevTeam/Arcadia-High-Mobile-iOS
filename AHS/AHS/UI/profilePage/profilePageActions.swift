@@ -23,12 +23,7 @@ extension profilePageViewController{
     @objc internal func openSchedulePage(){
         self.openPresentablePage(schedulePageViewController());
     }
-    
-    @objc internal func updateSchedule(){
-        //print("update schedule");
-        self.loadSchedule();
-    }
-    
+
     internal func openTableViewPage(_ indexPath: IndexPath){
         switch indexPath.section {
         case 1:
