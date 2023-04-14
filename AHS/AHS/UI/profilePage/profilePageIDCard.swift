@@ -27,6 +27,7 @@ extension profilePageViewController{
     @objc internal func handleIDCardLongPress(){
         switch idCardButton.idState {
         case .isLocked:
+            //print("auth");
             idCardButton.idState = .isUnlocked; // need to implement auth
         case .isUnlocked:
             createIDActionPrompt();
@@ -47,8 +48,8 @@ extension profilePageViewController{
         renderIDCard();
     }
     
-    internal func renderIDCard(){
-        
+    @objc internal func renderIDCard(){
+                
         for view in idCardButton.subviews{
             view.removeFromSuperview();
         }
