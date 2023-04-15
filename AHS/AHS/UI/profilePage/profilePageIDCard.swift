@@ -12,47 +12,117 @@ import GoogleSignIn
 
 extension profilePageViewController{
     
+    @objc internal func handleNFCBuffering(){
+        DispatchQueue.main.sync {
+            showIDBuffering();
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                self.initNFC();
+            }
+        }
+    }
+    
+    @objc internal func showIDBuffering(){
+        self.idCardButton.idState = .isBuffering;
+        for subview in self.idCardButton.subviews{
+            if (subview.tag == 1){
+                subview.isHidden = true;
+            }
+            else if (subview.tag == 2){
+                if let loadingView = subview as? UIActivityIndicatorView{
+                    loadingView.isHidden = false;
+                    loadingView.startAnimating();
+                }
+            }
+        }
+    }
+    
+    @objc internal func hideIDBuffering(){
+        self.idCardButton.idState = .isUnlocked;
+        for subview in self.idCardButton.subviews{
+            if (subview.tag == 1){
+                subview.isHidden = false;
+            }
+            else if (subview.tag == 2){
+                if let loadingView = subview as? UIActivityIndicatorView{
+                    loadingView.stopAnimating();
+                    loadingView.isHidden = true;
+                }
+            }
+        }
+    }
+    
+    //
+    
+    @objc internal func initNFC(){
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred();
+        showIDBuffering();
+        nfcmgr.initNFC();
+    }
+    
     @objc internal func handleIDCardPress(){
         
-        if (idCardButton.idState != .isUnlocked || !dataManager.getIsStudentSignedIn()){
-            handleIDCardLongPress();
-        }
-        else{
-            //print("nfc triggered \(idstr)");
-            nfcmgr.initNFC();
+        //handleNFCBuffering();
+        if (idCardButton.idState != .isBuffering){
+            if (idCardButton.idState != .isUnlocked || !dataManager.getIsStudentSignedIn()){
+                if (idCardButton.idState == .isLocked){
+                    authmgr.authenticate(self, completion: { err in
+                        if (err == nil){
+                            self.idCardButton.idState = .isUnlocked;
+                            DispatchQueue.main.async {
+                                self.renderIDCard();
+                            }
+                        }
+                    });
+                }
+                else{
+                    handleIDCardLongPress();
+                }
+            }
+            else{
+                //print("nfc triggered \(idstr)");
+                initNFC();
+            }
         }
         
     }
     
     @objc internal func handleIDCardLongPress(){
-        switch idCardButton.idState {
-        case .isLocked:
-            //print("auth");
-            idCardButton.idState = .isUnlocked; // need to implement auth
-        case .isUnlocked:
-            createIDActionPrompt();
-        case .requiresSignIn:
-            dataManager.signInUser(self, completion: { (error) in
-                
-                if let err = error{
-                    print("Error while signing in - \(err.localizedDescription)");
-                    return;
-                }
-                
-                self.idCardButton.idState = .isUnlocked;
-                self.renderIDCard();
-                
-            });
+        if (idCardButton.idState != .isBuffering){
+            switch idCardButton.idState {
+            case .isLocked:
+                createRestrictedIDActionPrompt();
+            case .isUnlocked:
+                createIDActionPrompt();
+            case .requiresSignIn:
+                dataManager.signInUser(self, completion: { (error) in
+                    
+                    if let err = error{
+                        print("Error while signing in - \(err.localizedDescription)");
+                        return;
+                    }
+                    
+                    self.idCardButton.idState = .isUnlocked;
+                    self.renderIDCard();
+                    
+                });
+            case .isBuffering:
+                print("invalid call to handleIDCardLongPress");
+                break;
+            }
+            
+            renderIDCard();
         }
-        
-        renderIDCard();
     }
     
+    //
+    
     @objc internal func renderIDCard(){
-                
+                        
         for view in idCardButton.subviews{
             view.removeFromSuperview();
         }
+        
+        dataManager.saveIDLockedState(self.idCardButton);
         
         switch idCardButton.idState{
         case .isLocked:
@@ -61,6 +131,9 @@ extension profilePageViewController{
             renderID_Content();
         case .requiresSignIn:
             renderID_SignIn();
+        case .isBuffering:
+            print("invalid call to renderIDCard");
+            break;
         }
     }
     
@@ -155,11 +228,13 @@ extension profilePageViewController{
         if let idString = dataManager.getIDFromStudentEmail(signedInUserData.profile?.email ?? ""){
             
             //print("valid id = " + idString);
-            
+           
             let nfcLabel = UILabel();
             let nfcLabelText = "Tap for NFC"
             let nfcLabelFont = UIFont(name: SFProDisplay_Bold, size: idCardButtonHeight * 0.075)!;
             let nfcLabelHeight = nfcLabelText.height(withConstrainedWidth: idCardButtonWidth, font: nfcLabelFont);
+            
+            nfcLabel.tag = 1;
             
             idCardButton.addSubview(nfcLabel);
             
@@ -180,6 +255,8 @@ extension profilePageViewController{
             
             let nfcImageView = UIImageView();
             let nfcImageViewSize = idCardButtonWidth * 0.16;
+            
+            nfcImageView.tag = 1;
             
             idCardButton.addSubview(nfcImageView);
             
@@ -214,12 +291,26 @@ extension profilePageViewController{
             idLabel.textColor = .white;
             idLabel.font = UIFont(name: SFCompactDisplay_Semibold, size: idCardButtonHeight * 0.1);
             
+            //
+            
+            let loadingView = UIActivityIndicatorView();
+            loadingView.tag = 2;
+            loadingView.isHidden = true;
+            idCardButton.addSubview(loadingView);
+            
+            loadingView.translatesAutoresizingMaskIntoConstraints = false;
+            
+            loadingView.centerXAnchor.constraint(equalTo: idCardButton.centerXAnchor).isActive = true;
+            loadingView.bottomAnchor.constraint(equalTo: idCardButton.bottomAnchor, constant: -35).isActive = true;
+        
+           // loadingView.startAnimating();
+            
         }
         else{
             //print("Invalid student email when attempting to render ID card");
             
             let invalidLabel = UILabel();
-            let invalidLabelText = "Not a Student";
+            let invalidLabelText = "Not a student";
             let invalidLabelFont = UIFont(name: SFProDisplay_Bold, size: idCardButtonHeight * 0.11)!;
             let invalidLabelHeight = invalidLabelText.height(withConstrainedWidth: idCardButtonWidth, font: invalidLabelFont);
             
@@ -330,8 +421,29 @@ extension profilePageViewController{
         
         confirmPopUp.addAction(UIAlertAction(title: "Lock", style: .default, handler: { (_) in
             self.idCardButton.idState = .isLocked;
+            dataManager.saveIDLockedState(self.idCardButton);
             self.renderIDCard();
         }));
+        
+        confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
+            self.idCardButton.idState = .requiresSignIn;
+            
+            dataManager.signOutUser();
+            
+            self.renderIDCard();
+        }));
+        
+        self.present(confirmPopUp, animated: true);
+        
+    }
+    
+    //
+    
+    private func createRestrictedIDActionPrompt(){
+        
+        let confirmPopUp = UIAlertController(title: title, message: "ID Card", preferredStyle: .actionSheet);
+        
+        confirmPopUp.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in }));
         
         confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
             self.idCardButton.idState = .requiresSignIn;

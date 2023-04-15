@@ -21,6 +21,7 @@ target 'AHS' do
   pod 'RSBarcodes_Swift'
   pod 'JTAppleCalendar'
   pod 'SwiftMsgPack'
+  pod 'KeychainSwift', '~> 20.0'
 
   target 'AHSTests' do
     inherit! :search_paths

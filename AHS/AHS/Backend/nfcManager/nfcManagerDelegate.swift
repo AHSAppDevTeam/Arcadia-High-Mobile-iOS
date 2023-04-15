@@ -49,7 +49,9 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
     //
     
     internal func readerSessionDidBecomeActive(_ session: NFCNDEFReaderSession) {
-        //generatePayload();
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: profilePageIDNFCSuccessNotification), object: nil, userInfo: nil);
+        }
     }
     
     internal func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
@@ -60,8 +62,10 @@ extension nfcManager : NFCNDEFReaderSessionDelegate{
             return;
         }
         if (err.errorCode != 200){ // error code 200 is "Session invalidated by user"
-            print("NFC Session invalidated with error \(err)");
+            print("NFC session invalid BY USER \(err)");
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: profilePageIDNFCBufferingNotification), object: nil, userInfo: nil);
         }
+        session.invalidate();
     }
     
     internal func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {

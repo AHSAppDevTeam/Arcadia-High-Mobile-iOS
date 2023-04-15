@@ -109,6 +109,7 @@ class IDButton : UIButton{
         case isLocked
         case isUnlocked
         case requiresSignIn
+        case isBuffering
     }
     
     var idState : IDState = .defaultValue;

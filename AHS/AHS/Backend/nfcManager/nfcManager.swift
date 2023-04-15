@@ -115,6 +115,9 @@ class nfcManager : NSObject{
             generatePayload();
             beginNFCSession();
         }
+        else{
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: profilePageIDNFCSuccessNotification), object: nil, userInfo: nil);
+        }
     }
     
 }

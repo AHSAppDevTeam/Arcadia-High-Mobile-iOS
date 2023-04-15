@@ -48,4 +48,11 @@ extension dataManager{
         return s;
     }
     
+    static public func saveIDLockedState(_ id: IDButton){ // will commit id card locked state to keychain
+        saveKeychainBool(idLockedStateKey, id.idState == .isLocked);
+    }
+    
+    static public func getIsIDLocked() -> Bool{
+        return getKeychainBool(idLockedStateKey) ?? false;
+    }
 }
