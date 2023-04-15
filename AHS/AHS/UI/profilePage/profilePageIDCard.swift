@@ -90,7 +90,7 @@ extension profilePageViewController{
         if (idCardButton.idState != .isBuffering){
             switch idCardButton.idState {
             case .isLocked:
-                createRestrictedIDActionPrompt();
+                createIDActionPrompt();
             case .isUnlocked:
                 createIDActionPrompt();
             case .requiresSignIn:
@@ -419,11 +419,15 @@ extension profilePageViewController{
         
         confirmPopUp.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in }));
         
-        confirmPopUp.addAction(UIAlertAction(title: "Lock", style: .default, handler: { (_) in
-            self.idCardButton.idState = .isLocked;
-            dataManager.saveIDLockedState(self.idCardButton);
-            self.renderIDCard();
-        }));
+        if (idCardButton.idState == .isUnlocked){
+            
+            confirmPopUp.addAction(UIAlertAction(title: "Lock", style: .default, handler: { (_) in
+                self.idCardButton.idState = .isLocked;
+                dataManager.saveIDLockedState(self.idCardButton);
+                self.renderIDCard();
+            }));
+            
+        }
         
         confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
             self.idCardButton.idState = .requiresSignIn;
@@ -436,25 +440,4 @@ extension profilePageViewController{
         self.present(confirmPopUp, animated: true);
         
     }
-    
-    //
-    
-    private func createRestrictedIDActionPrompt(){
-        
-        let confirmPopUp = UIAlertController(title: title, message: "ID Card", preferredStyle: .actionSheet);
-        
-        confirmPopUp.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in }));
-        
-        confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
-            self.idCardButton.idState = .requiresSignIn;
-            
-            dataManager.signOutUser();
-            
-            self.renderIDCard();
-        }));
-        
-        self.present(confirmPopUp, animated: true);
-        
-    }
-    
 }
