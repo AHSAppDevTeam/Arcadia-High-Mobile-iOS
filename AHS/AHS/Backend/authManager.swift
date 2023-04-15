@@ -14,7 +14,7 @@ class authManager : NSObject{
     
     //
     
-    internal let ctx = LAContext();
+    internal var context : LAContext? = nil;
     
     //
     
@@ -24,22 +24,32 @@ class authManager : NSObject{
     
     //
     
-    public func authenticate(_ vc: UIViewController, completion: @escaping (Error?) -> Void){
-        var err: NSError?;
-        if (ctx.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &err)){
-            ctx.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: touchIDAuthenticationReason){ success, authenticationError in // face id auth reason is in info.plist
-                if (success){
-                    completion(nil);
-                }
-                else{
-                    completion(authenticationError);
-                    createAlertPrompt(vc, "Authentication Failed", "Please try again.");
+    public func authenticate(_ vc: UIViewController = AppUtility.getTopMostViewController() ?? UIViewController(), completion: @escaping (Error?) -> Void){
+        context = LAContext();
+        if let ctx = context{
+            var err: NSError?;
+            if (ctx.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &err)){
+                ctx.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: touchIDAuthenticationReason){ success, authenticationError in // face id auth reason is in info.plist
+                    if (success){
+                        self.context?.invalidate();
+                        completion(nil);
+                    }
+                    else{
+                        self.context?.invalidate();
+                        DispatchQueue.main.async{
+                            createAlertPrompt(vc, "Authentication Failed", "Please try again.");
+                        }
+                        completion(authenticationError);
+                    }
                 }
             }
-        }
-        else{
-            completion(err);
-            createAlertPrompt(vc, "Face ID/Touch ID not supported", "Your device is not configured for biometric authentication.");
+            else{
+                self.context?.invalidate();
+                DispatchQueue.main.async{
+                    createAlertPrompt(vc, "Face ID/Touch ID not supported", "Your device is not configured for biometric authentication.");
+                }
+                completion(err);
+            }
         }
     }
     

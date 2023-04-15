@@ -79,7 +79,16 @@ extension profilePageViewController{
             switch idCardButton.idState {
             case .isLocked:
                 //print("auth");
-                idCardButton.idState = .isUnlocked; // need to implement auth
+                //idCardButton.idState = .isUnlocked; // need to implement auth
+                authmgr.authenticate(self, completion: { err in
+                    if (err == nil){
+                        self.idCardButton.idState = .isUnlocked;
+                        DispatchQueue.main.async {
+                            self.renderIDCard();
+                        }
+                    }
+                });
+                return;
             case .isUnlocked:
                 createIDActionPrompt();
             case .requiresSignIn:
