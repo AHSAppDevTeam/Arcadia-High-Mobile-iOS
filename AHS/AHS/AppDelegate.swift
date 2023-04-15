@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure();
         registerFirebaseMessages(application);
         
+        dataManager.firstTimeKeychainCheck();
+        
         dataManager.setupConnection();
         dataManager.loadPreferences();
         dataManager.loadCalendarCachesFromDevice();

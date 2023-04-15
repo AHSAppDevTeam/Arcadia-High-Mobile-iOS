@@ -15,6 +15,10 @@ class dataManager{
     static internal var dataRef : DatabaseReference!;
     static internal var dataFunc = Functions.functions();
     
+    //
+    
+    static internal let firstTimeKeychainKey = "firstTimeKeychainKey";
+    
     static public var internetConnected = false;
     
     static internal var categoryLookupMap : [String : categoryData] = [:];

@@ -10,6 +10,16 @@ import UIKit
 import KeychainSwift
 
 extension dataManager{
+    
+    static func firstTimeKeychainCheck(){
+        if (getUserDefault(firstTimeKeychainKey) == nil){
+            keychain.clear();
+            saveUserDefault(firstTimeKeychainKey, true);
+        }
+    }
+    
+    //
+    
     internal static func saveKeychainString(_ key: String, _ value: String){
         keychain.set(value, forKey: key);
     }
