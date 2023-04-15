@@ -73,6 +73,7 @@ let endDataManagerRefreshing = "endDataManagerRefreshing";
 
 // Singleton Macros
 let nfcmgr = nfcManager.obj;
+let authmgr = authManager.obj;
 //
 
 // Misc functions
@@ -108,6 +109,10 @@ func createAlertPrompt(_ vc: UIViewController, _ title: String, _ message: Strin
     vc.present(alertPopUp, animated: true);
     
 }
+
+//
+
+let touchIDAuthenticationReason = "Arcadia High Mobile requires access to Touch ID in order to unlock the virtual Student ID";
 
 //
 
