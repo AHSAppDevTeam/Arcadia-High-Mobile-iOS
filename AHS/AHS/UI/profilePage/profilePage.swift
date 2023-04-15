@@ -184,7 +184,7 @@ class profilePageViewController : mainPageViewController{
         
         idCardButton.backgroundColor = .systemOrange;
         
-        idCardButton.idState = .isUnlocked;
+        idCardButton.idState = dataManager.getIsIDLocked() ? .isLocked : .isUnlocked;
         
         renderIDCard();
         

@@ -64,7 +64,19 @@ extension profilePageViewController{
         //handleNFCBuffering();
         if (idCardButton.idState != .isBuffering){
             if (idCardButton.idState != .isUnlocked || !dataManager.getIsStudentSignedIn()){
-                handleIDCardLongPress();
+                if (idCardButton.idState == .isLocked){
+                    authmgr.authenticate(self, completion: { err in
+                        if (err == nil){
+                            self.idCardButton.idState = .isUnlocked;
+                            DispatchQueue.main.async {
+                                self.renderIDCard();
+                            }
+                        }
+                    });
+                }
+                else{
+                    handleIDCardLongPress();
+                }
             }
             else{
                 //print("nfc triggered \(idstr)");
@@ -78,17 +90,7 @@ extension profilePageViewController{
         if (idCardButton.idState != .isBuffering){
             switch idCardButton.idState {
             case .isLocked:
-                //print("auth");
-                //idCardButton.idState = .isUnlocked; // need to implement auth
-                authmgr.authenticate(self, completion: { err in
-                    if (err == nil){
-                        self.idCardButton.idState = .isUnlocked;
-                        DispatchQueue.main.async {
-                            self.renderIDCard();
-                        }
-                    }
-                });
-                return;
+                createRestrictedIDActionPrompt();
             case .isUnlocked:
                 createIDActionPrompt();
             case .requiresSignIn:
@@ -112,11 +114,15 @@ extension profilePageViewController{
         }
     }
     
+    //
+    
     @objc internal func renderIDCard(){
-                
+                        
         for view in idCardButton.subviews{
             view.removeFromSuperview();
         }
+        
+        dataManager.saveIDLockedState(self.idCardButton);
         
         switch idCardButton.idState{
         case .isLocked:
@@ -304,7 +310,7 @@ extension profilePageViewController{
             //print("Invalid student email when attempting to render ID card");
             
             let invalidLabel = UILabel();
-            let invalidLabelText = "Not a Student";
+            let invalidLabelText = "Not a student";
             let invalidLabelFont = UIFont(name: SFProDisplay_Bold, size: idCardButtonHeight * 0.11)!;
             let invalidLabelHeight = invalidLabelText.height(withConstrainedWidth: idCardButtonWidth, font: invalidLabelFont);
             
@@ -415,8 +421,29 @@ extension profilePageViewController{
         
         confirmPopUp.addAction(UIAlertAction(title: "Lock", style: .default, handler: { (_) in
             self.idCardButton.idState = .isLocked;
+            dataManager.saveIDLockedState(self.idCardButton);
             self.renderIDCard();
         }));
+        
+        confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
+            self.idCardButton.idState = .requiresSignIn;
+            
+            dataManager.signOutUser();
+            
+            self.renderIDCard();
+        }));
+        
+        self.present(confirmPopUp, animated: true);
+        
+    }
+    
+    //
+    
+    private func createRestrictedIDActionPrompt(){
+        
+        let confirmPopUp = UIAlertController(title: title, message: "ID Card", preferredStyle: .actionSheet);
+        
+        confirmPopUp.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in }));
         
         confirmPopUp.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
             self.idCardButton.idState = .requiresSignIn;

@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import FirebaseDatabase
 import FirebaseFunctions
+import KeychainSwift
 
 class dataManager{
     static internal var dataRef : DatabaseReference!;
@@ -28,6 +29,10 @@ class dataManager{
     
     static internal let jsonEncoder = JSONEncoder();
     static internal let jsonDecoder = JSONDecoder();
+    
+    static internal let keychain = KeychainSwift();
+    
+    static internal let idLockedStateKey = "idLockedStateKey";
     
     static internal var bulletinArticleCache : [String : baseArticleData] = [:];
     

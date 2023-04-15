@@ -114,7 +114,9 @@ class nfcManager : NSObject{
         if (dataManager.getIsStudentSignedIn() && isNFCAvailable()){
             generatePayload();
             beginNFCSession();
-            
+        }
+        else{
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: profilePageIDNFCSuccessNotification), object: nil, userInfo: nil);
         }
     }
     
