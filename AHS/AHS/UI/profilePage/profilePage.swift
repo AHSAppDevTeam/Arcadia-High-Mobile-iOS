@@ -35,13 +35,13 @@ class profilePageViewController : mainPageViewController{
     internal var scheduleViewHeight : CGFloat = 0;
     
     //static internal let optionsCellTitles = ["Notifications", "ID Card"]; -- with id card
-    static internal let optionsCellTitles = ["Dark mode", "Notifications", "About Us", "Terms & Agreements", "App Version", "Sign out"];
+    static internal let optionsCellTitles = ["Notifications"];
     static internal let infoCellTitles = ["About Us", "Terms and Agreements", "App Version"];
     
     //internal let tableViewContentViewControllers = [[notificationSettingsPageViewController(), idCardSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]]; -- with id card
-    internal let tableViewContentViewControllers = [[notificationSettingsPageViewController(), aboutUsPageViewController(), termsAndConditionsPageViewController()]];
+    internal let tableViewContentViewControllers = [[notificationSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]];
     
-    internal var contentTableViewCellTitles : [String] = []; // gets populated with cellTitles
+    internal var contentTableViewCellTitles : [[String]] = []; // gets populated with optionsCellTitles and infoCellTitles
     internal var contentTableViewCellValues : [[String?]] = [];
     
     //
@@ -149,7 +149,7 @@ class profilePageViewController : mainPageViewController{
     }
     
     private func setupTableViewContent(){
-        contentTableViewCellTitles = [profilePageViewController.optionsCellTitles];
+        contentTableViewCellTitles = [profilePageViewController.optionsCellTitles, profilePageViewController.infoCellTitles];
         
         contentTableViewCellValues = [Array(repeating: nil, count: profilePageViewController.optionsCellTitles.count), Array(repeating: nil, count: profilePageViewController.infoCellTitles.count)];
         contentTableViewCellValues[1][profilePageViewController.infoCellTitles.count - 1] = AppUtility.getAppVersionString(); // set app build number
