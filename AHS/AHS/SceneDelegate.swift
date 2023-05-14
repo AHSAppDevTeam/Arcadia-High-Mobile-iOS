@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene);
         
-        window.rootViewController = navigationViewController(); // set default view controller
+        window.rootViewController = lunchPageViewController(); // set default view controller
         
         SceneDelegate.window = window;
         window.makeKeyAndVisible();
