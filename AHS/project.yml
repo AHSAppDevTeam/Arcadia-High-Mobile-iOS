@@ -3,7 +3,7 @@ targets:
     AHS:
         type: application
         platform: iOS
-        deploymentTarget: 14.0
+        deploymentTarget: 15.0
         sources: [AHS]
         settings:
             PRODUCT_BUNDLE_IDENTIFIER: com.ArcadiaApaches.ArcadiaHighSchoolApp
