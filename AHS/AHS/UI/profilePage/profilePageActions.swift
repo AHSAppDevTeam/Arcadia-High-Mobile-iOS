@@ -32,9 +32,9 @@ extension profilePageViewController{
     internal func openTableViewPage(_ indexPath: IndexPath){
         switch indexPath.section {
         case 1:
-            self.openPresentablePage(self.tableViewContentViewControllers[0][indexPath.row]);
+            self.openPresentablePage(self.tableViewContentViewControllers[0][indexPath.row] as! presentableViewController);
         case 2:
-            if indexPath.row  < self.tableViewContentViewControllers[1].count{ self.openPresentablePage(self.tableViewContentViewControllers[1][indexPath.row]);
+            if indexPath.row  < self.tableViewContentViewControllers[1].count{ self.openPresentablePage(self.tableViewContentViewControllers[1][indexPath.row] as! presentableViewController);
             }
         default:
             print("invalid indexPath section in profilePage");
