@@ -86,11 +86,7 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         var s : String = "";
         switch section {
         case 0:
-            s += "Schedule";
-        case 1:
-            s += "Options";
-        case 2:
-            s += "Info";
+            s += "Settings";
         default:
             s = "";
         }
@@ -114,11 +110,7 @@ extension profilePageViewController: UITableViewDelegate, UITableViewDataSource 
         
         cell.selectionStyle = .none;
         
-        if (indexPath.section == 0){
-            cell.updateWithView(indexPath.section, scheduleView);
-            renderSchedule();
-        }
-        else{
+        if (indexPath.section != 0){
             cell.updateWithButton(indexPath.section, title: contentTableViewCellTitles[indexPath.section - 1][indexPath.row], value: contentTableViewCellValues[indexPath.section - 1][indexPath.row]);
         }
         

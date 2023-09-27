@@ -36,11 +36,11 @@ class profilePageViewController : mainPageViewController{
     internal var scheduleUpdaterTimer : Timer = Timer(); // set on viewDidAppear
     
     //static internal let optionsCellTitles = ["Notifications", "ID Card"]; -- with id card
-    static internal let optionsCellTitles = ["Notifications"];
-    static internal let infoCellTitles = ["About Us", "Terms and Agreements", "App Version"];
+    static internal let optionsCellTitles = [""];
+    static internal let infoCellTitles = ["Dark Mode", "Notifications", "About Us", "Terms and Agreements", "App Version", "Sign out"];
     
     //internal let tableViewContentViewControllers = [[notificationSettingsPageViewController(), idCardSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]]; -- with id card
-    internal let tableViewContentViewControllers = [[notificationSettingsPageViewController()], [aboutUsPageViewController(), termsAndConditionsPageViewController()]];
+    internal let tableViewContentViewControllers = [[], [articlePageViewController.toggleUserInterface, notificationSettingsPageViewController(), aboutUsPageViewController(), termsAndConditionsPageViewController()]];
     
     internal var contentTableViewCellTitles : [[String]] = []; // gets populated with optionsCellTitles and infoCellTitles
     internal var contentTableViewCellValues : [[String?]] = [];
@@ -151,7 +151,7 @@ class profilePageViewController : mainPageViewController{
         contentTableViewCellTitles = [profilePageViewController.optionsCellTitles, profilePageViewController.infoCellTitles];
         
         contentTableViewCellValues = [Array(repeating: nil, count: profilePageViewController.optionsCellTitles.count), Array(repeating: nil, count: profilePageViewController.infoCellTitles.count)];
-        contentTableViewCellValues[1][profilePageViewController.infoCellTitles.count - 1] = AppUtility.getAppVersionString(); // set app build number
+        contentTableViewCellValues[1][profilePageViewController.infoCellTitles.count - 2] = AppUtility.getAppVersionString(); // set app build number
     }
     
     internal func renderContent(){
