@@ -32,7 +32,7 @@ class navigationViewController : UIViewController{
     
     // Content View
     internal var contentView : UIView = UIView();
-    internal let contentViewControllers : [mainPageViewController] = [homePageViewController(), bulletinPageViewController(), savedPageViewController(), profilePageViewController()];
+    internal let contentViewControllers : [mainPageViewController] = [homePageViewController(), bulletinPageViewController(), menuPageViewController(), profilePageViewController()];
     
     internal let searchPageContentViewController = searchPageViewController(); // index is 4
     internal let searchPageContentViewControllerIndex = 4;
