@@ -238,7 +238,7 @@ class menuPageViewController: mainPageViewController {
             nextY = addMenuSection(title: "Milk", items: menuData.milk, startY: nextY);
             nextY = addMenuSection(title: "Condiments", items: menuData.condiments, startY: nextY);
             
-            mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY + verticalPadding + 300);
+            mainScrollView.contentSize = CGSize(width: mainScrollView.frame.width, height: nextY + verticalPadding + 250);
         }
         else {
             let titleLabel = UILabel();
